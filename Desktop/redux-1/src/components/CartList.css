@@ -1,0 +1,11 @@
+.cart-list{
+    width: 960px;
+    margin: auto;
+}
+
+.cart-list-title{
+    padding: 5px 0;
+    border-bottom: 2px solid rgb(122, 17, 17);
+    margin-bottom: 40px;
+    text-align: center;
+}

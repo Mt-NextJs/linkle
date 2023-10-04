@@ -1,0 +1,49 @@
+redux 자바스크립트 라이브러리  
+react-redux  
+
+Redux Toolkit 
+
+리덕스
+https://ko.redux.js.org/introduction/getting-started/
+전역상태를 관리하는 라이브러리  
+
+스토어 :  전역으로 관리할 스테이트 값이 저장 되는 곳 
+액션(action)  상태에 변화가 필요할 때 발생시키는 객체 {type;'increment' , payload:'2'}
+
+액션 생성함수 : action creator 
+컴포넌트에서 더 쉽게 액션 발생시키기 위한 함수 , 필수는 아님 
+increment = () => {type:'increment'} 
+
+디스패치 (dispatch) 액션을 리듀서에 집어넣는 행위  / 변화를 요청하는 행위 
+useDispatch Hook 을 사용해서 디스패치 한다. 
+
+리듀서 (Reducer) 상태변화를 일으키는 함수 
+현재상태와 액션을 참조해서 새로운 상태를 반환 (리턴)
+
+스토어 (Store) 하나의 프로젝트에 하나의 스토어를 사용한다. 
+전역 state가 저장되어 있다. 
+
+구독 (subscribe)
+useSelector Hook 을 사용하여
+ 컴포넌트에서 구독해 온다. (컴포넌트는 store 에서 값을 가져 오려면 useSelector Hook)
+
+
+ redux 리덕스의 3가지 원칙 
+ 1. single source of truth  신뢰 가능한 단일 출처 
+ 데이타는 신뢰 가능한 단일 출처를 가져야 한다.  
+ 데이타를 여러곳에 두지 말고 하나의 스토어에 두고 관리한다. 
+ => 중복데이터의 오류를 줄이고 디버깅을 쉽게 하려고 
+
+ 2. state is read-only
+ 상태는 항상 읽기 전용 
+ 데이타의 흐름은 단방향이다 
+ 액션이라는 객체를 통해서 변경요청이 되고 리듀서를 통해서 데이타(state)가 변경되야한다. 
+ 이렇게 하면 데이타가 무엇에 의해 변경 되었는지 명확하게 알 수 있다. 
+
+3.changes are made with pure functions 
+리듀서는 순수 함수 
+입력값이 정해져 있을 때 결과값이 예측 할 수 있는 함수 
+상태를 변경하는 리듀서가  입력값이 있을때(액션이 정해졌을때) 랜덤하지 않은 결과 일관된 결과를 리턴해야 한다. 
+
+
+

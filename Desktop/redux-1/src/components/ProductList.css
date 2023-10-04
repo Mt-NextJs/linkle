@@ -1,0 +1,12 @@
+.product-item-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 960px;
+    margin: auto;
+    text-align: left;
+}
+
+.product-list-title{
+    text-align: center;
+    margin-bottom: 24px;
+}

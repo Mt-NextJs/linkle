@@ -1,0 +1,15 @@
+.watchBox iframe{
+    width: 98%;
+    border: none;
+    min-height: 400px;
+    margin: 8px;
+}
+
+.textContainer p{
+    font-size: 14px;
+    display: -webkit-box;
+    overflow: hidden;
+    word-break:break-all;
+    -webkit-line-clamp: 3;
+    -webkit-line-orient: vertical;
+}

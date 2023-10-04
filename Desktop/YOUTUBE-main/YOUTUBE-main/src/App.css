@@ -1,0 +1,37 @@
+*{
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+body{background-color: #000; color: #fff;}
+ul,li{
+  list-style: none;
+}
+a{
+  text-decoration: none;
+  color: inherit;
+}
+.contents-wrap{
+  display: flex;
+}
+
+.contents-wrap .sidebar-box{
+  flex: 0 0 70px;
+}
+.sideBar{
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;;
+}
+.sideBar button{
+  width: 60px;
+  height: 60px;
+  display:block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  background-color: #000000;
+  color: #999;
+}
+.sideBar  button:hover{
+  color: #ddd;
+  text-decoration: underline;
+}

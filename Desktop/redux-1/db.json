@@ -1,0 +1,60 @@
+{
+    "productList": [
+      {
+        "id": 1,
+        "product_name": "검정칼라 스웨터",
+        "price": 35000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      },
+      {
+        "id": 2,
+        "product_name": "줄무늬 티셔츠",
+        "price": 58000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      },
+      {
+        "id": 3,
+        "product_name": "v넥 스웨터",
+        "price": 28000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      },
+      {
+        "id": 4,
+        "product_name": "롱가디건",
+        "price": 40000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      },
+      {
+        "id": 5,
+        "product_name": "v넥 검정스웨터",
+        "price": 19000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      },
+      {
+        "id": 6,
+        "product_name": "검정슬랙스",
+        "price": 99000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      },
+      {
+        "id": 7,
+        "product_name": "체크셔츠",
+        "price": 48000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      },
+      {
+        "id": 8,
+        "product_name": "롱 패딩",
+        "price": 37000,
+        "product_img": "https://picsum.photos/200",
+        "is_checked": "false"
+      }
+    ]
+  }

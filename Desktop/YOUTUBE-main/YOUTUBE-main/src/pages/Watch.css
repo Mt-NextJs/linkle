@@ -1,0 +1,15 @@
+.watch-content{display:flex;}
+.view{
+    flex: 1 1 60%;
+    justify-content: center;
+    display: flex;
+}
+.list{
+    flex: 1 1 40%;
+}
+
+@media screen and (max-width:960px) {
+    .watch-content{
+        flex-direction: column;
+    }
+}

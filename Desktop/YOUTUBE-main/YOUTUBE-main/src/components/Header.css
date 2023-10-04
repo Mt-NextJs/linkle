@@ -1,0 +1,44 @@
+.header{
+    display: flex;
+    position:sticky;
+    top:0;
+    height:64px;
+    padding:12px 30px;
+
+    background-color: #000000;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10000;
+    color: #fff;
+}
+.header h1{color: rgb(255, 0, 0); font-size: 24px;}
+.searchInputArea{
+    display: flex;
+    align-items: center;
+}
+
+.searchInput{
+    width:35vw;
+    height: 40px;
+    padding-left: 10px;
+    border:1px solid #dfdfdf;
+    font-size: 14px;
+    outline: none;
+}
+.searchbtn{
+    background-color:#434343; color: #999;
+    width:60px;height: 42px;
+    margin-left: 4px;
+}
+.topMenuarea button{
+    padding: 4px 8px;
+    margin: 0 2px;
+    background-color: #000;
+    color: #ddd
+}
+
+.topMenuarea button:hover{
+    background-color: #434343; color: #f0f0f0;
+    border-radius: 12px;
+    transition: all .5s;
+}

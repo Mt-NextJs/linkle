@@ -1,0 +1,30 @@
+.product-item{
+    margin:0 10px 30px;
+    flex:0 0 220px;
+}
+.item-image {
+    width: 100%;
+  }
+  .item-name {
+    margin: 5px 0;
+    font-weight:500;
+    color:#606060;
+  }
+  .item-price {
+    margin-bottom: 3px;
+    font-size: 15px;
+    font-weight:400;
+    color: rgb(221, 16, 16);
+  }
+  .add-cart-btn{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    border: none;
+    border-radius: 3px;
+    background-color: rgb(122, 17, 17);
+    color: #fff;
+    font-weight: 600;
+}
+
