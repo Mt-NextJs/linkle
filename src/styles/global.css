@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /*
+     * TODO: Remove after upgrading to Tailwind CSS 4.0+
+     * Context: https://github.com/tailwindlabs/tailwindcss/issues/8961
+     */
+    button,
+    [role='button'] {
+        cursor: default;
+    }
+}
+
+:root {
+    --background: #ffffff;
+    --foreground: #333333;
+    --primary: #ff5b1a;
+    --primary-100: #fff3ef;
+    --primary-200: #ffb99d;
+    --primary-250: #ffad8d;
+    --primary-300: #ff9d76;
+    --primary-350: #ff8c5f;
+    --primary-400: #ff7c48;
+    --primary-450: #ff6b31;
+    --input-color-line: #ffcab5;
+    --input-color-bg: #fef1e5;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+
+    @apply tracking-tight
+}
+
+input {
+    @apply
+    w-full h-12
+    border-1 border-gray-200
+    rounded-lg
+}
+
+input:focus {
+    @apply
+    outline-none border-primary-200
+}
+
+a {
+    cursor: pointer;
+}
+
+
