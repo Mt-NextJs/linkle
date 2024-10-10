@@ -5,6 +5,9 @@ import TextInputBox from "@app/admin/(block)/components/text-input-box";
 import Image from "next/image";
 import AddButton from "@app/admin/(block)/components/add-button";
 import ButtonBox from "@app/admin/(block)/components/button-box";
+import ErrorBoundary from "@app/(intro)/components/error-boundary";
+import ImageBox from "@app/admin/(block)/(image)/components/image-box";
+import BoundaryImageBox from "@app/admin/(block)/(image)/components/image-box";
 
 const ImageBlock = () => {
   const inputImageRef = useRef<HTMLInputElement>(null);
@@ -34,7 +37,16 @@ const ImageBlock = () => {
     reader.readAsDataURL(file);
   };
 
+  const checkImageUrl = (strUrl: string) => {
+    const expUrl = /^http[s]?\:\/\//i;
+    return expUrl.test(strUrl);
+  };
+
   const handleAddButtonClick = () => {
+    if (!checkImageUrl(imageUrl)) {
+      alert("이미지 URL을 확인해주세요.");
+      return;
+    }
     setSelectedImageUrl(imageUrl || previewImageUrl);
   };
 
@@ -47,37 +59,18 @@ const ImageBlock = () => {
         placeholder="원하는 이미지 URL을 입력하세요"
         required={true}
       />
-      <div className="relative overflow-hidden rounded">
-        <button
-          onClick={handeInputImageClick}
-          className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2"
-        >
-          <Image
-            src="/assets/icons/icon_pencil.png"
-            alt="연필 아이콘"
-            width={24}
-            height={24}
-          />
-        </button>
-        <input
-          id="file"
-          ref={inputImageRef}
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={selectFile}
-        />
-        <Image
-          src={
-            selectedImageUrl
-              ? selectedImageUrl
-              : "/assets/images/image_block_default.png"
-          }
-          alt="기본이미지 혹은 선택한 이미지"
-          width={610}
-          height={610}
-        />
-      </div>
+      <input
+        id="file"
+        ref={inputImageRef}
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={selectFile}
+      />
+      <ImageBox
+        selectedImageUrl={selectedImageUrl}
+        handeInputImageClick={handeInputImageClick}
+      />
       <TextInputBox
         title="타이틀"
         text={title}
