@@ -10,8 +10,8 @@ npm run dev
 
 [http://localhost:3000](http://localhost:3000)
 
-
 ## Structure
+
 ```
 /project
 ├── README.md
