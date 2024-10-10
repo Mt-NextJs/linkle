@@ -80,5 +80,3 @@ directory: 1844 file: 18362
 
 ignored: directory (21)
 ```
-
-testing
