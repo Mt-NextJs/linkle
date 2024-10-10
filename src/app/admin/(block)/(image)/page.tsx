@@ -1,13 +1,38 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import BlockModal from '@app/admin/(block)/components/block-modal';
 import TextInputBox from '@app/admin/(block)/components/text-input-box';
 import Image from 'next/image';
 
 const ImageBlock = () => {
+  const inputImageRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [connectingUrl, setConnectingUrl] = useState<string>('');
+
+  const selectedImageUrl = imageUrl || previewImageUrl;
+
+  const handeInputImageClick = () => {
+    inputImageRef.current?.click();
+  };
+
+  const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result;
+      if (typeof dataUrl !== 'string') {
+        return;
+      }
+      setPreviewImageUrl(dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <BlockModal title="이미지 블록">
       <TextInputBox
@@ -18,7 +43,10 @@ const ImageBlock = () => {
         required={true}
       />
       <div className="relative overflow-hidden rounded">
-        <button className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2">
+        <button
+          onClick={handeInputImageClick}
+          className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2"
+        >
           <Image
             src="/assets/icons/icon_pencil.png"
             alt="연필 아이콘"
@@ -26,8 +54,20 @@ const ImageBlock = () => {
             height={24}
           />
         </button>
+        <input
+          id="file"
+          ref={inputImageRef}
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={selectFile}
+        />
         <Image
-          src="/assets/images/image_block_default.png"
+          src={
+            selectedImageUrl
+              ? selectedImageUrl
+              : '/assets/images/image_block_default.png'
+          }
           alt="이미지 블록 기본 이미지"
           width={610}
           height={610}
