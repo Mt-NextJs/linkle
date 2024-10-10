@@ -1,15 +1,15 @@
-'use client';
-import React, { useRef, useState } from 'react';
-import BlockModal from '@app/admin/(block)/components/block-modal';
-import TextInputBox from '@app/admin/(block)/components/text-input-box';
-import Image from 'next/image';
+"use client";
+import React, { useRef, useState } from "react";
+import BlockModal from "@app/admin/(block)/components/block-modal";
+import TextInputBox from "@app/admin/(block)/components/text-input-box";
+import Image from "next/image";
 
 const ImageBlock = () => {
   const inputImageRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [connectingUrl, setConnectingUrl] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [previewImageUrl, setPreviewImageUrl] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [connectingUrl, setConnectingUrl] = useState<string>("");
 
   const selectedImageUrl = imageUrl || previewImageUrl;
 
@@ -25,7 +25,7 @@ const ImageBlock = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target?.result;
-      if (typeof dataUrl !== 'string') {
+      if (typeof dataUrl !== "string") {
         return;
       }
       setPreviewImageUrl(dataUrl);
@@ -59,14 +59,14 @@ const ImageBlock = () => {
           ref={inputImageRef}
           type="file"
           accept="image/*"
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           onChange={selectFile}
         />
         <Image
           src={
             selectedImageUrl
               ? selectedImageUrl
-              : '/assets/images/image_block_default.png'
+              : "/assets/images/image_block_default.png"
           }
           alt="기본이미지 혹은 선택한 이미지"
           width={610}
