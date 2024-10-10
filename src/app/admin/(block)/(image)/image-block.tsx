@@ -94,7 +94,7 @@ const ImageBlock = () => {
         <AddButton
           text="추가 완료"
           onClick={handleAddButtonClick}
-          disabled={true}
+          disabled={!imageUrl}
         />
       </ButtonBox>
     </BlockModal>
