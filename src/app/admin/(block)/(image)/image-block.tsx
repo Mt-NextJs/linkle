@@ -68,7 +68,7 @@ const ImageBlock = () => {
               ? selectedImageUrl
               : '/assets/images/image_block_default.png'
           }
-          alt="이미지 블록 기본 이미지"
+          alt="기본이미지 혹은 선택한 이미지"
           width={610}
           height={610}
         />
