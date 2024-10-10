@@ -1,0 +1,1 @@
+node .husky/verifyCommitMessage.js "$@"
