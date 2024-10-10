@@ -1,3 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+    "extends": [
+        "next/core-web-vitals",
+        "next/typescript",
+        "prettier" // Prettier와 통합
+    ],
+    "plugins": ["prettier"], // Prettier 플러그인 추가
+    "rules": {
+        "prettier/prettier": ["error"], // Prettier 규칙을 ESLint로 적용
+        "@typescript-eslint/no-unused-vars": "warn", // 미사용 변수 경고
+        "react/react-in-jsx-scope": "off" // Next.js는 React 불필요
+    }
 }
