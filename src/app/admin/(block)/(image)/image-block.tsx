@@ -3,6 +3,8 @@ import React, { useRef, useState } from "react";
 import BlockModal from "@app/admin/(block)/components/block-modal";
 import TextInputBox from "@app/admin/(block)/components/text-input-box";
 import Image from "next/image";
+import AddButton from "@app/admin/(block)/components/add-button";
+import ButtonBox from "@app/admin/(block)/components/button-box";
 
 const ImageBlock = () => {
   const inputImageRef = useRef<HTMLInputElement>(null);
@@ -32,6 +34,8 @@ const ImageBlock = () => {
     };
     reader.readAsDataURL(file);
   };
+
+  const handleAddButtonClick = () => console.log("hi");
 
   return (
     <BlockModal title="이미지 블록">
@@ -86,6 +90,13 @@ const ImageBlock = () => {
         setText={setConnectingUrl}
         placeholder="이미지를 통해 이동시키고 싶은 링크가 있나요?"
       />
+      <ButtonBox>
+        <AddButton
+          text="추가 완료"
+          onClick={handleAddButtonClick}
+          disabled={true}
+        />
+      </ButtonBox>
     </BlockModal>
   );
 };
