@@ -1,7 +1,11 @@
 {
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tabWidth": 4,
-  "useTabs": false,
-  "singleQuote": true,
-  "wantToGoHome" : true
+    "plugins": ["prettier-plugin-tailwindcss"],
+    "tabWidth": 4,
+    "useTabs": false,
+    "singleQuote": false,
+    "parser": "typescript",
+    "trailingComma": "all",
+    "printWidth": 80,
+    "arrowParens": "always",
+    "bracketSpacing": true
 }
