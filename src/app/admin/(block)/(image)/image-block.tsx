@@ -12,8 +12,7 @@ const ImageBlock = () => {
   const [previewImageUrl, setPreviewImageUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [connectingUrl, setConnectingUrl] = useState<string>("");
-
-  const selectedImageUrl = imageUrl || previewImageUrl;
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
 
   const handeInputImageClick = () => {
     inputImageRef.current?.click();
@@ -35,7 +34,9 @@ const ImageBlock = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleAddButtonClick = () => console.log("hi");
+  const handleAddButtonClick = () => {
+    setSelectedImageUrl(imageUrl || previewImageUrl);
+  };
 
   return (
     <BlockModal title="이미지 블록">
