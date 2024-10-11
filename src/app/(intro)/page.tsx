@@ -16,6 +16,9 @@ export default function Intro() {
       <Link href={ClientRoute.LOGIN as string} className={"button color"}>
         시작하기
       </Link>
+      <Link href={ClientRoute.ADMIN as string} className={"button color"}>
+        관리자
+      </Link>
     </div>
   );
 }
