@@ -3,7 +3,7 @@ export default function LinkPage() {
     <>
       <article className="mx-auto my-14 w-[800px]">
         <header>
-          <h1 className="text-2xl">블록 링크</h1>
+          <h1 className="pageName">블록 링크</h1>
         </header>
 
         {/* 스타일 */}
@@ -26,7 +26,7 @@ export default function LinkPage() {
           </div>
 
           <div className="w-full">
-            <h3 className="text-lg">
+            <h3 className="title">
               스타일 <span className="text-red-500">*</span>
             </h3>
             {/* item * 4 */}
@@ -45,14 +45,14 @@ export default function LinkPage() {
         <section>
           <form action="" className="flex flex-col gap-6">
             <div>
-              <label className="text-lg" htmlFor="linked-url">
+              <label className="title" htmlFor="linked-url">
                 연결할 주소 <span className="text-red-500">*</span>
               </label>
               <input type="text" id="linked-url" />
             </div>
 
             <div className="mt-2">
-              <label className="mb-1 block font-medium text-gray-700">
+              <label className="title mb-1 block">
                 이미지 <span className="text-red-500">*</span>
               </label>
 
@@ -89,7 +89,7 @@ export default function LinkPage() {
 
             <button
               type="submit"
-              className="h-11 w-full rounded bg-[#FFF3EF] text-[#FFB99D]"
+              className="h-11 w-full rounded bg-primary-100 text-primary-200"
             >
               추가 완료
             </button>
