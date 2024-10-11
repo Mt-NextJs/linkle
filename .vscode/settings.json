@@ -1,498 +1,498 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib",
-    // tailwind
-    // "tailwind-fold.unfoldedTextOpacity": 1,
-    // "tailwind-fold.foldStyle": "ALL",
-    // "tailwind-fold.unfoldIfLineSelected": true,
-    // "tailwind-fold.showTailwindImage": true,
-    "tailwindcss-highlight.enabledUtilities": [
-        "padding",
-        "margin",
-        "space",
-        "width",
-        "height",
-        "flex",
-        "grid",
-        "position",
-        "background",
-        "border",
-        "rounded",
-        "gap",
-        "justifyContent",
-        "justifyItems",
-        "justifySelf",
-        "alignContent",
-        "alignItems",
-        "alignSelf",
-        "transition",
-        "transitionDelay",
-        "transitionDuration",
-        "transform",
-        "transformOrigin",
-        "scale",
-        "rotate",
-        "translate",
-        "skew",
-        "text",
-        "textDecoration",
-        "font",
-        "fontStyle",
-        "leading",
-        "tracking",
-        "opacity",
-        "effect",
-        "inset",
-        "all"
-    ],
-    "tailwindcss-highlight.customUtilitiesConfig": {
-        "all": {
-            "regex": "(?<=[:`@'!\"\\s]).[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 0 0",
-                "borderStyle": "solid",
-                "borderColor": "",
-                "backgroundColor": ""
-            }
-        },
-        "opacity": {
-            "regex": "(?<=[:`@'!\"\\s])opacity[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(171, 169, 169, 1)",
-                "color": "rgba(171, 169, 169, 1)"
-            }
-        },
-        "effect": {
-            "regex": "(?<=[:`@'!\"\\s])(shadow|saturate|blur)[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(163, 48, 245,1)",
-                "color": "rgba(163, 48, 245,1)"
-            }
-        },
-        "padding": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)p(|t|b|r|l|x|y)-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(187, 196, 136, 1)",
-                "color": "rgba(187, 196, 136, 1)"
-            }
-        },
-        "margin": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)m(|t|b|r|l|x|y)-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(173, 134, 91, 1)",
-                "color": "rgba(173, 134, 91, 1)"
-            }
-        },
-        "space": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)space-(x|y)-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(173, 134, 91, 1)",
-                "color": "rgba(173, 134, 91, 1)"
-            }
-        },
-        "border": {
-            "regex": "(?<=[:`@'!\"\\s])border(?!-collapse|-separate)(|-)[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(222, 195, 138, 1)",
-                "color": "rgba(222, 195, 138, 1)"
-            }
-        },
-        "rounded": {
-            "regex": "(?<=[:`@'!\"\\s])rounded(|-)[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(163, 48, 245,1)",
-                "color": "rgba(163, 48, 245,1)"
-            }
-        },
-        "width": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)(|max|min)(|-)w-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(0, 255, 255,1)",
-                "color": "rgba(0, 255, 255,1)"
-            }
-        },
-        "height": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)(|max|min)(|-)h-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(0, 255, 255,1)",
-                "color": "rgba(0, 255, 255,1)"
-            }
-        },
-        "flex": {
-            "regex": "(?<=[:`@'!\"\\s])(|inline-)flex(|-)[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "order": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)order-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "gap": {
-            "regex": "(?<=[:`@'!\"\\s])gap-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "justifyContent": {
-            "regex": "(?<=[:`@'!\"\\s])justify-(start|end|center|between|around|evenly)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "justifyItems": {
-            "regex": "(?<=[:`@'!\"\\s])justify-items-(start|end|center|stretch)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "justifySelf": {
-            "regex": "(?<=[:`@'!\"\\s])justify-self-(auto|start|end|center|stretch)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "alignContent": {
-            "regex": "(?<=[:`@'!\"\\s])content-(start|end|center|between|around|evenly)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "alignItems": {
-            "regex": "(?<=[:`@'!\"\\s])items-(start|end|center|baseline|stretch)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "alignSelf": {
-            "regex": "(?<=[:`@'!\"\\s])self-(auto|start|end|center|stretch)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "placeContent": {
-            "regex": "(?<=[:`@'!\"\\s])place-content-(center|start|end|between|around|evenly|stretch)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "placeItems": {
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "placeSelf": {
-            "regex": "(?<=[:`@'!\"\\s])place-self-(auto|start|end|center|stretch)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 105, 180,1)",
-                "color": "rgba(255, 105, 180,1)"
-            }
-        },
-        "table": {
-            "regex": "(?<=[:`@'!\"\\s])(table-fixed|table-auto|table)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 210, 105, 1)",
-                "color": "rgba(255, 210, 105, 1)"
-            }
-        },
-        "borderCollapse": {
-            "regex": "(?<=[:`@'!\"\\s])border-(collapse|separate)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 210, 105, 1)",
-                "color": "rgba(255, 210, 105, 1)"
-            }
-        },
-        "transition": {
-            "regex": "(?<=[:`@'!\"\\s])transition(|-)[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 255, 255, 1)",
-                "color": "rgba(255, 255, 255, 1)"
-            }
-        },
-        "transitionDuration": {
-            "regex": "(?<=[:`@'!\"\\s])duration-[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 255, 255, 1)",
-                "color": "rgba(255, 255, 255, 1)"
-            }
-        },
-        "transitionTimingFunction": {
-            "aregex": "(?<=[:`@'!\"\\s])ease(|-)[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 255, 255, 1)",
-                "color": "rgba(255, 255, 255, 1)"
-            }
-        },
-        "transitionDelay": {
-            "regex": "(?<=[:`@'!\"\\s])delay-[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 255, 255, 1)",
-                "color": "rgba(255, 255, 255, 1)"
-            }
-        },
-        "animation": {
-            "regex": "(?<=[:`@'!\"\\s])animate-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 176, 202, 1)",
-                "color": "rgba(255, 176, 202, 1)"
-            }
-        },
-        "transform": {
-            "regex": "(?<=[:`@'!\"\\s])transform(|-)[^`';\"\\s]*",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 176, 202, 1)",
-                "color": "rgba(255, 176, 202, 1)"
-            }
-        },
-        "transformOrigin": {
-            "regex": "(?<=[:`@'!\"\\s])origin-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 176, 202, 1)",
-                "color": "rgba(255, 176, 202, 1)"
-            }
-        },
-        "scale": {
-            "regex": "(?<=[:`@'!\"\\s])scale-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 176, 202, 1)",
-                "color": "rgba(255, 176, 202, 1)"
-            }
-        },
-        "rotate": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)rotate-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 176, 202, 1)",
-                "color": "rgba(255, 176, 202, 1)"
-            }
-        },
-        "translate": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)translate-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 176, 202, 1)",
-                "color": "rgba(255, 176, 202, 1)"
-            }
-        },
-        "skew": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)skew-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(255, 176, 202, 1)",
-                "color": "rgba(255, 176, 202, 1)"
-            }
-        },
-        "text": {
-            "regex": "(?<=[:`@'!\\]\"\\s])text-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgb(255, 179, 0)",
-                "color": "rgb(255, 179, 0)"
-            }
-        },
-        "textDecoration": {
-            "regex": "(?<=[:`@'!\"\\s])(underline|line-through|no-underline)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgb(255, 179, 0)",
-                "color": "rgb(255, 179, 0)"
-            }
-        },
-        "textTransform": {
-            "regex": "(?<=[:`@'!\"\\s])(uppercase|lowercase|capitalize|normal-case)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(171, 169, 169, 1)",
-                "color": "rgba(171, 169, 169, 1)"
-            }
-        },
-        "textOverflow": {
-            "regex": "(?<=[:`@'!\"\\s])(truncate|overflow-ellipsis|overflow-clip)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(171, 169, 169, 1)",
-                "color": "rgba(171, 169, 169, 1)"
-            }
-        },
-        "verticalAlign": {
-            "regex": "(?<=[:`@'!\"\\s])align-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(171, 169, 169, 1)",
-                "color": "rgba(171, 169, 169, 1)"
-            }
-        },
-        "whitespace": {
-            "regex": "(?<=[:`@'!\"\\s])whitespace-(normal|nowrap|pre(-line|-wrap|))",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(171, 169, 169, 1)",
-                "color": "rgba(171, 169, 169, 1)"
-            }
-        },
-        "wordBreak": {
-            "regex": "(?<=[:`@'!\"\\s])break-(normal|words|all)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(171, 169, 169, 1)",
-                "color": "rgba(171, 169, 169, 1)"
-            }
-        },
-        "font": {
-            "regex": "(?<=[:`@'!\"\\s])font-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgb(255, 179, 0)",
-                "color": "rgb(255, 179, 0)"
-            }
-        },
-        "fontStyle": {
-            "regex": "(?<=[:`@'!\"\\s])(italic|not-italic)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgb(255, 179, 0)",
-                "color": "rgb(255, 179, 0)"
-            }
-        },
-        "leading": {
-            "regex": "(?<=[:`@'!\"\\s])leading-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgb(255, 179, 0)",
-                "color": "rgb(255, 179, 0)"
-            }
-        },
-        "tracking": {
-            "regex": "(?<=[:`@'!\"\\s])tracking-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgb(255, 179, 0)",
-                "color": "rgb(255, 179, 0)"
-            }
-        },
-        "background": {
-            "regex": "(?<=[:`@'!\"\\s])bg-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(117, 224, 165, 1)",
-                "color": "rgba(117, 224, 165, 1)"
-            }
-        },
-        "gradientColorStops": {
-            "regex": "(?<=[:`@'!\"\\s])(from|via|to)-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(117, 224, 165, 1)",
-                "color": "rgba(117, 224, 165, 1)"
-            }
-        },
-        "position": {
-            "regex": "(?<=[:`@'!\"\\s])(static|fixed|absolute|relative|sticky)",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(242, 142, 111, 1)",
-                "color": "rgba(242, 142, 111, 1)"
-            }
-        },
-        "inset": {
-            "regex": "(?<=[:`@'!\"\\s])(|-)(inset|top|bottom|left|right)-[^`';\"\\s]+",
-            "style": {
-                "borderWidth": "0 0 1px 0",
-                "borderStyle": "solid",
-                "borderColor": "rgba(242, 142, 111, 1)",
-                "color": "rgba(242, 142, 111, 1)"
-            }
-        }
+  "typescript.tsdk": "node_modules/typescript/lib",
+  // tailwind
+  // "tailwind-fold.unfoldedTextOpacity": 1,
+  // "tailwind-fold.foldStyle": "ALL",
+  // "tailwind-fold.unfoldIfLineSelected": true,
+  // "tailwind-fold.showTailwindImage": true,
+  "tailwindcss-highlight.enabledUtilities": [
+    "padding",
+    "margin",
+    "space",
+    "width",
+    "height",
+    "flex",
+    "grid",
+    "position",
+    "background",
+    "border",
+    "rounded",
+    "gap",
+    "justifyContent",
+    "justifyItems",
+    "justifySelf",
+    "alignContent",
+    "alignItems",
+    "alignSelf",
+    "transition",
+    "transitionDelay",
+    "transitionDuration",
+    "transform",
+    "transformOrigin",
+    "scale",
+    "rotate",
+    "translate",
+    "skew",
+    "text",
+    "textDecoration",
+    "font",
+    "fontStyle",
+    "leading",
+    "tracking",
+    "opacity",
+    "effect",
+    "inset",
+    "all"
+  ],
+  "tailwindcss-highlight.customUtilitiesConfig": {
+    "all": {
+      "regex": "(?<=[:`@'!\"\\s]).[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 0 0",
+        "borderStyle": "solid",
+        "borderColor": "",
+        "backgroundColor": ""
+      }
+    },
+    "opacity": {
+      "regex": "(?<=[:`@'!\"\\s])opacity[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(171, 169, 169, 1)",
+        "color": "rgba(171, 169, 169, 1)"
+      }
+    },
+    "effect": {
+      "regex": "(?<=[:`@'!\"\\s])(shadow|saturate|blur)[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(163, 48, 245,1)",
+        "color": "rgba(163, 48, 245,1)"
+      }
+    },
+    "padding": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)p(|t|b|r|l|x|y)-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(187, 196, 136, 1)",
+        "color": "rgba(187, 196, 136, 1)"
+      }
+    },
+    "margin": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)m(|t|b|r|l|x|y)-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(173, 134, 91, 1)",
+        "color": "rgba(173, 134, 91, 1)"
+      }
+    },
+    "space": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)space-(x|y)-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(173, 134, 91, 1)",
+        "color": "rgba(173, 134, 91, 1)"
+      }
+    },
+    "border": {
+      "regex": "(?<=[:`@'!\"\\s])border(?!-collapse|-separate)(|-)[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(222, 195, 138, 1)",
+        "color": "rgba(222, 195, 138, 1)"
+      }
+    },
+    "rounded": {
+      "regex": "(?<=[:`@'!\"\\s])rounded(|-)[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(163, 48, 245,1)",
+        "color": "rgba(163, 48, 245,1)"
+      }
+    },
+    "width": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)(|max|min)(|-)w-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(0, 255, 255,1)",
+        "color": "rgba(0, 255, 255,1)"
+      }
+    },
+    "height": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)(|max|min)(|-)h-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(0, 255, 255,1)",
+        "color": "rgba(0, 255, 255,1)"
+      }
+    },
+    "flex": {
+      "regex": "(?<=[:`@'!\"\\s])(|inline-)flex(|-)[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "order": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)order-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "gap": {
+      "regex": "(?<=[:`@'!\"\\s])gap-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "justifyContent": {
+      "regex": "(?<=[:`@'!\"\\s])justify-(start|end|center|between|around|evenly)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "justifyItems": {
+      "regex": "(?<=[:`@'!\"\\s])justify-items-(start|end|center|stretch)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "justifySelf": {
+      "regex": "(?<=[:`@'!\"\\s])justify-self-(auto|start|end|center|stretch)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "alignContent": {
+      "regex": "(?<=[:`@'!\"\\s])content-(start|end|center|between|around|evenly)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "alignItems": {
+      "regex": "(?<=[:`@'!\"\\s])items-(start|end|center|baseline|stretch)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "alignSelf": {
+      "regex": "(?<=[:`@'!\"\\s])self-(auto|start|end|center|stretch)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "placeContent": {
+      "regex": "(?<=[:`@'!\"\\s])place-content-(center|start|end|between|around|evenly|stretch)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "placeItems": {
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "placeSelf": {
+      "regex": "(?<=[:`@'!\"\\s])place-self-(auto|start|end|center|stretch)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 105, 180,1)",
+        "color": "rgba(255, 105, 180,1)"
+      }
+    },
+    "table": {
+      "regex": "(?<=[:`@'!\"\\s])(table-fixed|table-auto|table)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 210, 105, 1)",
+        "color": "rgba(255, 210, 105, 1)"
+      }
+    },
+    "borderCollapse": {
+      "regex": "(?<=[:`@'!\"\\s])border-(collapse|separate)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 210, 105, 1)",
+        "color": "rgba(255, 210, 105, 1)"
+      }
+    },
+    "transition": {
+      "regex": "(?<=[:`@'!\"\\s])transition(|-)[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 255, 255, 1)",
+        "color": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "transitionDuration": {
+      "regex": "(?<=[:`@'!\"\\s])duration-[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 255, 255, 1)",
+        "color": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "transitionTimingFunction": {
+      "aregex": "(?<=[:`@'!\"\\s])ease(|-)[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 255, 255, 1)",
+        "color": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "transitionDelay": {
+      "regex": "(?<=[:`@'!\"\\s])delay-[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 255, 255, 1)",
+        "color": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "animation": {
+      "regex": "(?<=[:`@'!\"\\s])animate-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 176, 202, 1)",
+        "color": "rgba(255, 176, 202, 1)"
+      }
+    },
+    "transform": {
+      "regex": "(?<=[:`@'!\"\\s])transform(|-)[^`';\"\\s]*",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 176, 202, 1)",
+        "color": "rgba(255, 176, 202, 1)"
+      }
+    },
+    "transformOrigin": {
+      "regex": "(?<=[:`@'!\"\\s])origin-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 176, 202, 1)",
+        "color": "rgba(255, 176, 202, 1)"
+      }
+    },
+    "scale": {
+      "regex": "(?<=[:`@'!\"\\s])scale-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 176, 202, 1)",
+        "color": "rgba(255, 176, 202, 1)"
+      }
+    },
+    "rotate": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)rotate-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 176, 202, 1)",
+        "color": "rgba(255, 176, 202, 1)"
+      }
+    },
+    "translate": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)translate-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 176, 202, 1)",
+        "color": "rgba(255, 176, 202, 1)"
+      }
+    },
+    "skew": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)skew-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(255, 176, 202, 1)",
+        "color": "rgba(255, 176, 202, 1)"
+      }
+    },
+    "text": {
+      "regex": "(?<=[:`@'!\\]\"\\s])text-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgb(255, 179, 0)",
+        "color": "rgb(255, 179, 0)"
+      }
+    },
+    "textDecoration": {
+      "regex": "(?<=[:`@'!\"\\s])(underline|line-through|no-underline)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgb(255, 179, 0)",
+        "color": "rgb(255, 179, 0)"
+      }
+    },
+    "textTransform": {
+      "regex": "(?<=[:`@'!\"\\s])(uppercase|lowercase|capitalize|normal-case)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(171, 169, 169, 1)",
+        "color": "rgba(171, 169, 169, 1)"
+      }
+    },
+    "textOverflow": {
+      "regex": "(?<=[:`@'!\"\\s])(truncate|overflow-ellipsis|overflow-clip)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(171, 169, 169, 1)",
+        "color": "rgba(171, 169, 169, 1)"
+      }
+    },
+    "verticalAlign": {
+      "regex": "(?<=[:`@'!\"\\s])align-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(171, 169, 169, 1)",
+        "color": "rgba(171, 169, 169, 1)"
+      }
+    },
+    "whitespace": {
+      "regex": "(?<=[:`@'!\"\\s])whitespace-(normal|nowrap|pre(-line|-wrap|))",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(171, 169, 169, 1)",
+        "color": "rgba(171, 169, 169, 1)"
+      }
+    },
+    "wordBreak": {
+      "regex": "(?<=[:`@'!\"\\s])break-(normal|words|all)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(171, 169, 169, 1)",
+        "color": "rgba(171, 169, 169, 1)"
+      }
+    },
+    "font": {
+      "regex": "(?<=[:`@'!\"\\s])font-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgb(255, 179, 0)",
+        "color": "rgb(255, 179, 0)"
+      }
+    },
+    "fontStyle": {
+      "regex": "(?<=[:`@'!\"\\s])(italic|not-italic)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgb(255, 179, 0)",
+        "color": "rgb(255, 179, 0)"
+      }
+    },
+    "leading": {
+      "regex": "(?<=[:`@'!\"\\s])leading-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgb(255, 179, 0)",
+        "color": "rgb(255, 179, 0)"
+      }
+    },
+    "tracking": {
+      "regex": "(?<=[:`@'!\"\\s])tracking-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgb(255, 179, 0)",
+        "color": "rgb(255, 179, 0)"
+      }
+    },
+    "background": {
+      "regex": "(?<=[:`@'!\"\\s])bg-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(117, 224, 165, 1)",
+        "color": "rgba(117, 224, 165, 1)"
+      }
+    },
+    "gradientColorStops": {
+      "regex": "(?<=[:`@'!\"\\s])(from|via|to)-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(117, 224, 165, 1)",
+        "color": "rgba(117, 224, 165, 1)"
+      }
+    },
+    "position": {
+      "regex": "(?<=[:`@'!\"\\s])(static|fixed|absolute|relative|sticky)",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(242, 142, 111, 1)",
+        "color": "rgba(242, 142, 111, 1)"
+      }
+    },
+    "inset": {
+      "regex": "(?<=[:`@'!\"\\s])(|-)(inset|top|bottom|left|right)-[^`';\"\\s]+",
+      "style": {
+        "borderWidth": "0 0 1px 0",
+        "borderStyle": "solid",
+        "borderColor": "rgba(242, 142, 111, 1)",
+        "color": "rgba(242, 142, 111, 1)"
+      }
     }
+  }
 }

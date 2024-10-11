@@ -10,8 +10,8 @@ npm run dev
 
 [http://localhost:3000](http://localhost:3000)
 
-
 ## Structure
+
 ```
 /project
 ├── README.md
@@ -50,23 +50,23 @@ npm run dev
 |  |  ├── (intro)
 |  |  |  ├── components
 |  |  |  |  └── navigation.tsx
-|  |  |  └── page.tsx
+|  |  |  └── image-block.tsx
 |  |  ├── admin
 |  |  |  ├── layout.tsx
-|  |  |  └── page.tsx
+|  |  |  └── image-block.tsx
 |  |  ├── global-error.tsx
 |  |  ├── join
-|  |  |  └── page.tsx
+|  |  |  └── image-block.tsx
 |  |  ├── layout.tsx
 |  |  ├── login
-|  |  |  └── page.tsx
+|  |  |  └── image-block.tsx
 |  |  ├── not-found.tsx
 |  |  └── profile
 |  |     └── [id]
 |  |        ├── detail
-|  |        |  └── page.tsx
+|  |        |  └── image-block.tsx
 |  |        └── edit
-|  |           └── page.tsx
+|  |           └── image-block.tsx
 |  ├── config
 |  |  ├── route.tsx
 |  |  └── types.tsx
