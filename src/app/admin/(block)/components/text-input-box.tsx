@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   title: string;
@@ -17,8 +17,8 @@ const TextInputBox = ({
   limit,
 }: Props) => {
   return (
-    <div>
-      <div className="flex justify-between gap-1">
+    <div className="flex flex-col gap-1">
+      <div className="flex justify-between gap-2">
         <div>
           {title}
           {required && <span className="text-red-500">*</span>}

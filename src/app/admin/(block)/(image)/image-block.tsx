@@ -1,17 +1,18 @@
-'use client';
-import React, { useRef, useState } from 'react';
-import BlockModal from '@app/admin/(block)/components/block-modal';
-import TextInputBox from '@app/admin/(block)/components/text-input-box';
-import Image from 'next/image';
+"use client";
+import React, { useRef, useState } from "react";
+import BlockModal from "@app/admin/(block)/components/block-modal";
+import TextInputBox from "@app/admin/(block)/components/text-input-box";
+import Image from "next/image";
+import AddButton from "@app/admin/(block)/components/add-button";
+import ButtonBox from "@app/admin/(block)/components/button-box";
 
 const ImageBlock = () => {
   const inputImageRef = useRef<HTMLInputElement>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [connectingUrl, setConnectingUrl] = useState<string>('');
-
-  const selectedImageUrl = imageUrl || previewImageUrl;
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [previewImageUrl, setPreviewImageUrl] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [connectingUrl, setConnectingUrl] = useState<string>("");
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
 
   const handeInputImageClick = () => {
     inputImageRef.current?.click();
@@ -25,12 +26,16 @@ const ImageBlock = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target?.result;
-      if (typeof dataUrl !== 'string') {
+      if (typeof dataUrl !== "string") {
         return;
       }
       setPreviewImageUrl(dataUrl);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleAddButtonClick = () => {
+    setSelectedImageUrl(imageUrl || previewImageUrl);
   };
 
   return (
@@ -59,14 +64,14 @@ const ImageBlock = () => {
           ref={inputImageRef}
           type="file"
           accept="image/*"
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           onChange={selectFile}
         />
         <Image
           src={
             selectedImageUrl
               ? selectedImageUrl
-              : '/assets/images/image_block_default.png'
+              : "/assets/images/image_block_default.png"
           }
           alt="기본이미지 혹은 선택한 이미지"
           width={610}
@@ -86,6 +91,13 @@ const ImageBlock = () => {
         setText={setConnectingUrl}
         placeholder="이미지를 통해 이동시키고 싶은 링크가 있나요?"
       />
+      <ButtonBox>
+        <AddButton
+          text="추가 완료"
+          onClick={handleAddButtonClick}
+          disabled={!imageUrl}
+        />
+      </ButtonBox>
     </BlockModal>
   );
 };
