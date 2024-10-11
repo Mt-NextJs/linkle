@@ -1,15 +1,15 @@
 "use client";
 import React, { useRef, useState } from "react";
-import BlockModal from "@app/admin/(block)/components/block-modal";
-import TextInputBox from "@app/admin/(block)/components/text-input-box";
+import Layout from "@app/admin/block/components/layout";
+import TextInputBox from "@app/admin/block/components/text-input-box";
 import Image from "next/image";
-import AddButton from "@app/admin/(block)/components/add-button";
-import ButtonBox from "@app/admin/(block)/components/button-box";
+import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/admin/block/components/buttons/button-box";
 import ErrorBoundary from "@app/(intro)/components/error-boundary";
-import ImageBox from "@app/admin/(block)/(image)/components/image-box";
-import BoundaryImageBox from "@app/admin/(block)/(image)/components/image-box";
+import ImageBox from "@app/admin/block/image/components/image-box";
+import BoundaryImageBox from "@app/admin/block/image/components/image-box";
 
-const ImageBlock = () => {
+const Page = () => {
   const inputImageRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [previewImageUrl, setPreviewImageUrl] = useState<string>("");
@@ -51,7 +51,7 @@ const ImageBlock = () => {
   };
 
   return (
-    <BlockModal title="이미지 블록">
+    <Layout title="이미지 블록">
       <TextInputBox
         title="이미지"
         text={imageUrl}
@@ -91,8 +91,8 @@ const ImageBlock = () => {
           disabled={!imageUrl}
         />
       </ButtonBox>
-    </BlockModal>
+    </Layout>
   );
 };
 
-export default ImageBlock;
+export default Page;
