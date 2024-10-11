@@ -7,18 +7,18 @@ import Navigation from '@app/(intro)/components/navigation';
 
 //metadata
 export const metadata: Metadata = {
-    title: 'admin',
+  title: 'admin',
 };
 
 export default function AdminLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <div>
-            <Navigation />
-            {children}
-        </div>
-    );
+  return (
+    <div>
+      <Navigation />
+      {children}
+    </div>
+  );
 }
