@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const BlockModal = ({
   title,
@@ -8,14 +10,17 @@ const BlockModal = ({
   title: string;
   children: React.ReactNode;
 }>) => {
+  const router = useRouter();
   return (
     <div className="flex w-full flex-col gap-4 px-20 py-4">
-      <Image
-        src="/assets/icons/icon_close.png"
-        alt="닫기 아이콘"
-        width={24}
-        height={24}
-      />
+      <button onClick={() => router.back()}>
+        <Image
+          src="/assets/icons/icon_back.png"
+          alt="뒤로가기 아이콘"
+          width={34}
+          height={34}
+        />
+      </button>
       <h1>{title}</h1>
       <div className="flex flex-col gap-4">{children}</div>
     </div>
