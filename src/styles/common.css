@@ -2,70 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 @layer components {
-    /* ------------------ BUTTON ------------------*/
-    .button{
-        @apply
-        w-full h-14
-        rounded-lg
-        text-white
-        font-bold
-        flex flex-col items-center justify-center
-        mt-10 mb-10
-        bg-primary
-        cursor-pointer
-    }
+  /* ------------------ BUTTON ------------------*/
+  .button {
+    @apply mb-10 mt-10 flex h-14 w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-primary font-bold text-white;
+  }
 
-    /* 메인색상 버튼 */
-    .button.color {
-        @apply
-        bg-primary
-    }
-    .button.color:hover {
-        @apply
-        bg-primary-450
-    }
-    .button.color.disable {
-        @apply
-        bg-primary-100
-        text-primary-200
-    }
+  /* 메인색상 버튼 */
+  .button.color {
+    @apply bg-primary;
+  }
+  .button.color:hover {
+    @apply bg-primary-450;
+  }
+  .button.color.disable {
+    @apply bg-primary-100 text-primary-200;
+  }
 
-    /* 회색색상 버튼 */
-    .button.gray {
-        @apply
-        bg-neutral-200
-        text-neutral-700
-    }
-    .button.gray:hover {
-        @apply
-        bg-neutral-300
-    }
+  /* 회색색상 버튼 */
+  .button.gray {
+    @apply bg-neutral-200 text-neutral-700;
+  }
+  .button.gray:hover {
+    @apply bg-neutral-300;
+  }
 
+  /* ------------------ INPUT ------------------*/
+  input {
+    @apply p-3;
+  }
 
-    /* ------------------ INPUT ------------------*/
-    input {
-        @apply p-3
-    }
+  input.inserted {
+    @apply border-input-line bg-input-bg;
+  }
 
-    input.inserted {
-        @apply
-        bg-input-bg
-        border-input-line
-    }
+  /* ------------------ TEXT ------------------*/
+  .pageName {
+    @apply text-3xl font-semibold text-gray-700;
+  }
 
-
-    /* ------------------ TEXT ------------------*/
-    .pageName {
-        @apply
-        text-3xl
-        font-semibold
-        text-gray-700
-    }
-
-    .title {
-        @apply
-        font-normal
-        text-base
-        text-gray-600
-    }
+  .title {
+    @apply text-base font-normal text-gray-600;
+  }
 }
