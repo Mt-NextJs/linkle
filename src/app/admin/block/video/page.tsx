@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import BlockModal from "@app/admin/block/components/block-modal";
 import TextInputBox from "@app/admin/block/components/text-input-box";
-import AddButton from "@app/admin/block/components/add-button";
-import ButtonBox from "@app/admin/block/components/button-box";
+import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/admin/block/components/buttons/button-box";
 
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
