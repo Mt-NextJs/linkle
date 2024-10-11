@@ -50,23 +50,23 @@ npm run dev
 |  |  ├── (intro)
 |  |  |  ├── components
 |  |  |  |  └── navigation.tsx
-|  |  |  └── image-block.tsx
+|  |  |  └── page.tsx
 |  |  ├── admin
 |  |  |  ├── layout.tsx
-|  |  |  └── image-block.tsx
+|  |  |  └── page.tsx
 |  |  ├── global-error.tsx
 |  |  ├── join
-|  |  |  └── image-block.tsx
+|  |  |  └── page.tsx
 |  |  ├── layout.tsx
 |  |  ├── login
-|  |  |  └── image-block.tsx
+|  |  |  └── page.tsx
 |  |  ├── not-found.tsx
 |  |  └── profile
 |  |     └── [id]
 |  |        ├── detail
-|  |        |  └── image-block.tsx
+|  |        |  └── page.tsx
 |  |        └── edit
-|  |           └── image-block.tsx
+|  |           └── page.tsx
 |  ├── config
 |  |  ├── route.tsx
 |  |  └── types.tsx

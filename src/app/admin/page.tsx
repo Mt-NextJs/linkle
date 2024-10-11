@@ -1,4 +1,4 @@
-import Block from '@app/admin/(block)/block';
+import Block from "@app/admin/block/block";
 
 export default function Admin() {
   return (

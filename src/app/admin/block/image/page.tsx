@@ -1,15 +1,15 @@
 "use client";
 import React, { useRef, useState } from "react";
-import BlockModal from "@app/admin/(block)/components/block-modal";
-import TextInputBox from "@app/admin/(block)/components/text-input-box";
+import BlockModal from "@app/admin/block/components/block-modal";
+import TextInputBox from "@app/admin/block/components/text-input-box";
 import Image from "next/image";
-import AddButton from "@app/admin/(block)/components/add-button";
-import ButtonBox from "@app/admin/(block)/components/button-box";
+import AddButton from "@app/admin/block/components/add-button";
+import ButtonBox from "@app/admin/block/components/button-box";
 import ErrorBoundary from "@app/(intro)/components/error-boundary";
-import ImageBox from "@app/admin/(block)/(image)/components/image-box";
-import BoundaryImageBox from "@app/admin/(block)/(image)/components/image-box";
+import ImageBox from "@app/admin/block/image/components/image-box";
+import BoundaryImageBox from "@app/admin/block/image/components/image-box";
 
-const ImageBlock = () => {
+const Page = () => {
   const inputImageRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [previewImageUrl, setPreviewImageUrl] = useState<string>("");
@@ -95,4 +95,4 @@ const ImageBlock = () => {
   );
 };
 
-export default ImageBlock;
+export default Page;
