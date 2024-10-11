@@ -13,7 +13,7 @@ if (commitMessage.startsWith("Merge branch")) {
 }
 
 // 이모지를 무시하고 나머지 내용을 검증하기 위한 정규 표현식
-const commitMessagePattern = /^\[([A-Za-z ]+)\] .{1,50} #\d+$/;
+const commitMessagePattern = /^\[([A-Za-z ]+)\] .{1,80} #\d+$/;
 
 // 이모지 제거: 이모지가 있다면 제거하고, 나머지 텍스트만 검증
 const sanitizedCommitMessage = commitMessage.replace(/^[^\[]*/, "").trim(); // 이모지 부분을 제거
