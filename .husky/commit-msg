@@ -1,1 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# 병합 커밋 메시지 검증 제외
+if grep -qE "^Merge branch" "$1"; then
+  exit 0
+fi
+
+# 커밋 메시지 검증 로직 추가
 node .husky/verifyCommitMessage.js "$@"
