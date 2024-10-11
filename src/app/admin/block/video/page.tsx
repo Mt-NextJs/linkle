@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import BlockModal from "@app/admin/block/components/block-modal";
+import Layout from "@app/admin/block/components/layout";
 import TextInputBox from "@app/admin/block/components/text-input-box";
 import AddButton from "@app/admin/block/components/buttons/add-button";
 import ButtonBox from "@app/admin/block/components/buttons/button-box";
@@ -25,7 +25,7 @@ const Page = () => {
     );
   };
   return (
-    <BlockModal title={"비디오 블록"}>
+    <Layout title={"비디오 블록"}>
       <TextInputBox
         title="동영상 URL"
         placeholder="유튜브, 틱톡 등 좋아하는 동영상을 공유하세요"
@@ -41,7 +41,7 @@ const Page = () => {
           disabled={!videoUrl}
         />
       </ButtonBox>
-    </BlockModal>
+    </Layout>
   );
 };
 

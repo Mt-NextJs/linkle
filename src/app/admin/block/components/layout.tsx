@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const BlockModal = ({
+const Layout = ({
   title,
   children,
 }: Readonly<{
@@ -27,4 +27,4 @@ const BlockModal = ({
   );
 };
 
-export default BlockModal;
+export default Layout;

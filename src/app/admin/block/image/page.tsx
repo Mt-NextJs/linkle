@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import BlockModal from "@app/admin/block/components/block-modal";
+import Layout from "@app/admin/block/components/layout";
 import TextInputBox from "@app/admin/block/components/text-input-box";
 import Image from "next/image";
 import AddButton from "@app/admin/block/components/buttons/add-button";
@@ -51,7 +51,7 @@ const Page = () => {
   };
 
   return (
-    <BlockModal title="이미지 블록">
+    <Layout title="이미지 블록">
       <TextInputBox
         title="이미지"
         text={imageUrl}
@@ -91,7 +91,7 @@ const Page = () => {
           disabled={!imageUrl}
         />
       </ButtonBox>
-    </BlockModal>
+    </Layout>
   );
 };
 
