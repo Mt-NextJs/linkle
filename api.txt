@@ -1,0 +1,321 @@
+[
+    {
+        "API": "/api/login",
+        "목적": "로그인",
+        "PARAM": {
+            "userId": "linkle", // id(필수)
+            "password": "1234"  // pw(필수)
+        },
+        "RES": {
+            "code": 200,
+            "data": {
+                "userId": "linkle",
+                "name": "링클",
+                "countryCode": "KR",
+                "dateCreate": "2024-10-08T19:41:26.000Z",
+                "token": "6MSwibmeyJpZCIFtZSI6IsF0IiwidXNlcklkIjoibGlua2xlIiwiam9pblR5cGUiOiIxIiwicGFzc293cmQiOiIxMjM0IiwiZW1haWwiOm51bGwsImNvdW50cnlDb2RlIjoiS1IiLCJwaG9uZU51bWJlciI6bnVsbCwicGxhbiI6Ik4iLCJwbXNMaW5rIjoiWSIsInBtc0J1c2luZXNzIjoiTiIsInBtc01hcmtldCI6Ik4iLCJhbGFybVRhbGsiOiJOIiwiY2F0ZWdvcmllcyI6bnVsbCwiZGF0ZUNyZWF0ZSI6IjIwMjQtMTAtMDhUMTk6NDE6MjYuMDAwWiIsImRhdGVVcGRhdGUiOiIyMDI0LTEwLTExVDA0OjQxOjMzLjAwMFoiLCJhY3RpdmUiOjF9"
+            }
+        }
+    },
+    {
+        "API": "/api/user/add",
+        "목적": "회원가입",
+        "PARAM": {
+            "name": "test",   // 이름(필수)
+            "userId": "test",  // ID(필수)
+            "password": "1234",  // PW(필수)
+            "email": "test@google.com"  // 이메일(필수)
+        },
+        "RES": {
+            "code": 200,
+            "data": {}
+        }
+    },
+    {
+        "API": "/api/user/info",
+        "목적": "회원 정보 조회",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        "PARAM": {},
+        "RES": {
+            "code": 200,
+            "data": {
+                "name": "링클",
+                "userId": "linkle",
+                "email": null,
+                "countryCode": "KR",
+                "dateCreate": "2024-10-08T19:41:26.000Z",
+                "dateUpdate": "2024-10-11T04:41:33.000Z"
+            }
+        },
+    },
+    {
+        "API": "/api/user/update",
+        "목적": "회원 정보 수정",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        "PARAM": {
+            "name": "new_test",  // 이름
+            "userId": "new_test",  // ID(필수)
+            "password": "new_1234", // PW
+            "email": "new_test@google.com"  // 이메일
+        },
+        "RES": {
+            "code": 200,
+            "data": {
+                ...,
+                "userId": "linkle",
+                "name": "new_test",
+                "email": "new_test@google.com",
+                ...
+            }
+        },
+    },
+    {
+        "API": "/api/user/delete",
+        "목적": "회원 정보 삭제",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        "PARAM": {
+            "userId": "new_test" // ID(필수)
+        },
+        "RES": {
+            "code": 200,
+            "data": {}
+        },
+    },
+    {
+        "API": "/api/user/visitor",
+        "목적": "회원 링크페이지 방문자 수",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        "PARAM": {},
+        "RES": {
+            "code": 200,
+            "data": {
+                "today": 0,
+                "realTime": 0,
+                "total": 1
+            }
+        },
+    },
+    {
+        "API": "/api/link/list",
+        "목적": "블록 목록",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        "PARAM": {},
+        "RES": {
+            "code": 200,
+            "data": [
+                {
+                    "type": 2,
+                    "sequence": 0,
+                    "style": null,
+                    "title": null,
+                    "subText01": null,
+                    "subText02": null,
+                    "url": "https://youtu.be/HK4X8ckIJ-4?si=v-wnYRaYb6UbizW7",
+                    "imgUrl": null,
+                    "dateStart": null,
+                    "dateEnd": null,
+                    "openYn": "Y",
+                    "keepYn": "N",
+                    "dateCreate": "2024-10-11T03:26:44.000Z",
+                    "dateUpdate": null
+                },
+                {
+                    "type": 1,
+                    "sequence": 1,
+                    "style": 1,
+                    "title": null,
+                    "subText01": null,
+                    "subText02": null,
+                    "url": null,
+                    "imgUrl": null,
+                    "dateStart": null,
+                    "dateEnd": null,
+                    "openYn": "Y",
+                    "keepYn": "N",
+                    "dateCreate": "2024-10-11T04:21:11.000Z",
+                    "dateUpdate": null
+                }
+            ]
+        },
+    },
+    {
+        "API": "/api/link/add",
+        "목적": "블록 추가",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        // *** 구분선 ***
+        "PARAM": {
+            "type": 1, // 블록 타입(필수)
+            "sequence": 1, // 블록 순서(필수)
+            "style": 1 // 구분선 타입(1~)
+        },
+        // *** 동영상 ***
+        "PARAM": {
+            "type": 2,  // 블록 타입(필수)
+            "sequence": 3,  // 블록 순서(필수)
+            "url": "https://www.naver.com", // 동영상 url
+        },
+        // *** 링크 ***
+        "PARAM": {
+            "type": 3, // 블록 타입(필수)
+            "sequence": 4, // 블록 순서(필수)
+            "style": 1, // 카드 스타일(1~4)
+            "title": "링크 블록", // 타이틀
+            "url": "https://www.naver.com", // 연결 url
+            "imgUrl": "" // 이미지 url
+        },
+        // *** 이미지 ***
+        "PARAM": {
+            "type": 4, // 블록 타입(필수)
+            "sequence": 5, // 블록 순서(필수)
+            "title": "이미지 블록", // 타이틀
+            "url": "https://www.naver.com", // 연결 url
+            "imgUrl": "" // 이미지 url
+        },
+        // *** 이벤트 ***
+        "PARAM": {
+            "type": 5, // 블록 타입(필수)
+            "sequence": 6, // 블록 순서(필수)
+            "title": "이벤트 블록", // 타이틀
+            "subText01": "서브 타이틀", // 서브타이틀
+            "subText02": "가이드라인", // 가이드라인
+            "dateStart": "2024-10-01T12:26:44.000Z", // 시작일자
+            "dateEnd": "2024-10-31T12:26:44.000Z" // 종료일자
+        },
+        // *** 텍스트 ***
+        "PARAM": {
+            "type": 6, // 블록 타입(필수)
+            "sequence": 7, // 블록 순서(필수)
+            "title": "텍스트 블록" // 타이틀
+        },
+        // *** 캘린더 ***
+        "PARMA": {
+            "type": 7, // 블록 타입(필수)
+            "sequence": 8, // 블록 순서(필수)
+            "style": 1, // 캘린더 표기 스타일
+            "schedule": [{ // 일정 목록
+                "title": "일정 1", // 일정 타이틀
+                "url": "https://naver.com", // 일정 url
+                "dateStart": "2024-10-01T12:26:44.000Z", // 일정 시작일자
+                "dateEnd": "2024-10-31T12:26:44.000Z" // 일정 종료일자
+            }]
+        },
+        "RES": {
+            "code": 200,
+            "data": {}
+        },
+    },
+    {
+        "API": "/api/link/update",
+        "목적": "블록 업데이트(단일)",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        // *** 캘린더 블록 ***
+        "PARAM": {
+            "id": 15, // 블록 id(필수)
+            "type": 7, // 블록 타입(필수)
+            "sequence": 8, // 블록 순서(필수)
+            "style": 1, // 캘린더 표기 스타일
+            "schedule": [{ // 일정 목록
+                "id": 1, // 일정 id(필수)
+                "title": "일정 1", // 일정 타이틀
+                "url": "https://naver.com", // 일정 url
+                "dateStart": "2024-10-01T12:26:44.000Z", // 일정 시작일자
+                "dateEnd": "2024-10-31T12:26:44.000Z" // 일정 종료일자
+            }]
+        },
+        // *** 그 외: id, type, sequence 필수, 나머지는 블록 추가 파라미터랑 동일 ***
+        "PARAM": {
+            "id": 5, // 블록 id(필수)
+            "type": 1, // 블록 타입(필수)
+            "sequence": 2, // 블록 순서(필수)
+            "style": 3 // 이하 그 외 블록 추가할때 받았던 파라미터와 동일
+        },
+        "RES": {
+            "code": 200,
+            "data": {
+                "id": 5,
+                "userId": 1,
+                "type": 1,
+                "sequence": 2,
+                "style": 3,
+                "title": null,
+                "subText01": null,
+                "subText02": null,
+                "url": null,
+                "imgUrl": null,
+                "dateStart": null,
+                "dateEnd": null,
+                "openYn": "Y",
+                "keepYn": "N",
+                "dateCreate": "2024-10-11T04:21:11.000Z",
+                "dateUpdate": "2024-10-11T08:09:45.190Z"
+            }
+        }
+    },
+    {
+        "API": "/api/link/order",
+        "목적": "블록 업데이트(정렬)",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        "PARAM": {
+            "order": [ // 블록 목록
+                {
+                    "id": 5, // 블록 id(필수)
+                    "type": 1, // 블록 타입(필수)
+                    "sequence": 2 // 블록 순서(필수)
+                     // 이하 블록 나머지 데이터
+                },
+                {
+                    "id": 6,
+                    "type": 1,
+                    "sequence": 3
+                }
+            ]
+        },
+        "RES": {
+            "code": 200,
+            "data": [
+                {
+                    "id": 5,
+                    "type": 1,
+                    "sequence": 2,
+                    "style": 1
+                },
+                {
+                    "id": 6,
+                    "type": 1,
+                    "sequence": 3,
+                    "style": 2
+                }
+            ]
+        }
+    },
+    {
+        "API": "/api/link/delete",
+        "목적": "블록 삭제",
+        "HEADER": {
+            "Authorization": "Bearer {token}"
+        },
+        "PARAM": {
+            "id": 1 // 블록 id(필수)
+        },
+        "RES": {
+            "code": 200,
+            "data": {}
+        }
+    }
+]
