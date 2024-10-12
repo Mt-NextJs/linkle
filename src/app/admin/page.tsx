@@ -1,6 +1,8 @@
+"use client";
+
 import BasicBlock from "@app/(intro)/components/basicblock";
 import Image from "next/image";
-
+import { useState } from "react";
 import Link from "next/link";
 
 import { ClientRoute } from "@config/route";
@@ -15,6 +17,25 @@ export default function Admin() {
     "텍스트",
     "링크",
   ];
+
+  const [blocks, setBlocks] = useState(DUMMY_BLOCKS);
+
+  function setTop(index: number) {
+    setBlocks((prev) => {
+      const newBlocks = [...prev];
+      const [movedBlock] = newBlocks.splice(index, 1);
+      newBlocks.unshift(movedBlock);
+      return newBlocks;
+    });
+  }
+  function setBottom(index: number) {
+    setBlocks((prev) => {
+      const newBlocks = [...prev];
+      const [movedBlock] = newBlocks.splice(index, 1);
+      newBlocks.push(movedBlock);
+      return newBlocks;
+    });
+  }
 
   return (
     <div>
@@ -54,7 +75,7 @@ export default function Admin() {
             height={20}
           />
           <div className="absolute left-full top-1/2 w-max -translate-y-1/2 translate-x-2 transform rounded bg-slate-400 px-2 py-1 text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            블록을 생성, 혹은 제거하거나 배치 순서를 변경할 수 있습니다
+            블록을 편집하거나 배치 순서를 변경할 수 있습니다
           </div>
         </div>
       </div>
@@ -74,8 +95,14 @@ export default function Admin() {
         <p>새로운 링크가 생기면 알려줌.,..</p>
       </div>
       <br />
-      {DUMMY_BLOCKS.map((index) => (
-        <BasicBlock key={index} title={index} />
+      {blocks.map((block, index) => (
+        <BasicBlock
+          key={index}
+          title={block}
+          index={index}
+          setTop={setTop}
+          setBottom={setBottom}
+        />
       ))}
     </div>
   );
