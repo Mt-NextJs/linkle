@@ -6,9 +6,17 @@ import { useState } from "react";
 
 interface BasicBlockProps {
   title: string;
+  index: number;
+  setTop: (index: number) => void;
+  setBottom: (index: number) => void;
 }
 
-export default function BasicBlock({ title }: BasicBlockProps) {
+export default function BasicBlock({
+  title,
+  index,
+  setTop,
+  setBottom,
+}: BasicBlockProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleMenu() {
@@ -41,13 +49,15 @@ export default function BasicBlock({ title }: BasicBlockProps) {
       <div className="flex h-36 w-full rounded border">
         <div className="relative w-[5%]">
           <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <Image
-              className="ml-[8px] mt-[7px]"
-              src="/assets/icons/icon_arrow_up.png"
-              alt="arrow_up"
-              width={20}
-              height={30}
-            />
+            <button onClick={() => setTop(index)}>
+              <Image
+                className="ml-[8px] mt-[7px]"
+                src="/assets/icons/icon_arrow_up.png"
+                alt="arrow_up"
+                width={20}
+                height={30}
+              />
+            </button>
           </div>
           <div className="h-16 cursor-pointer border bg-slate-100 hover:bg-slate-200">
             <Image
@@ -59,13 +69,15 @@ export default function BasicBlock({ title }: BasicBlockProps) {
             />
           </div>
           <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <Image
-              className="ml-[8px] mt-[7px]"
-              src="/assets/icons/icon_arrow.png"
-              alt="arrow_down"
-              width={20}
-              height={30}
-            />
+            <button onClick={() => setBottom(index)}>
+              <Image
+                className="ml-[8px] mt-[7px]"
+                src="/assets/icons/icon_arrow.png"
+                alt="arrow_down"
+                width={20}
+                height={30}
+              />
+            </button>
           </div>
         </div>
         <div className="grid h-full w-full">
