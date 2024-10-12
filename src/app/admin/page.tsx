@@ -6,6 +6,16 @@ import Link from "next/link";
 import { ClientRoute } from "@config/route";
 
 export default function Admin() {
+  const DUMMY_BLOCKS = [
+    "이벤트",
+    "캘린더",
+    "동영상",
+    "구분선",
+    "이미지",
+    "텍스트",
+    "링크",
+  ];
+
   return (
     <div>
       <div className="h-36 items-center border">
@@ -36,13 +46,16 @@ export default function Admin() {
       <br />
       <div className="flex gap-1">
         <h1 className="font-bold">블록 리스트</h1>
-        <div className="mt-[0.5px] w-5">
+        <div className="group relative inline-block">
           <Image
             src="/assets/icons/icon_question.png"
             alt="question"
             width={20}
             height={20}
           />
+          <div className="absolute left-full top-1/2 w-max -translate-y-1/2 translate-x-2 transform rounded bg-slate-400 px-2 py-1 text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            블록을 생성, 혹은 제거하거나 배치 순서를 변경할 수 있습니다
+          </div>
         </div>
       </div>
       <br />
@@ -61,19 +74,9 @@ export default function Admin() {
         <p>새로운 링크가 생기면 알려줌.,..</p>
       </div>
       <br />
-      <BasicBlock title="이벤트" />
-      <br />
-      <BasicBlock title="캘린더" />
-      <br />
-      <BasicBlock title="링크" />
-      <br />
-      <BasicBlock title="동영상" />
-      <BasicBlock />
-      <BasicBlock />
-      <BasicBlock />
-      <BasicBlock />
-      <BasicBlock />
-      <BasicBlock />
+      {DUMMY_BLOCKS.map((index) => (
+        <BasicBlock key={index} title={index} />
+      ))}
     </div>
   );
 }
