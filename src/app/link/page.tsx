@@ -1,49 +1,49 @@
+import { FormEvent } from "react";
+import StyleType from "./components/style-type";
+
+const styleItemNames = ["썸네일", "심플", "카드", "배경"];
+
 export default function LinkPage() {
   return (
     <>
-      <article className="mx-auto my-14 w-[800px]">
-        <header>
-          <h1 className="pageName">블록 링크</h1>
-        </header>
+      <div className="mx-auto my-14 w-[800px]">
+        <h1 className="pageName">블록 링크</h1>
 
-        {/* 스타일 */}
-        <section className="mt-8 flex flex-col items-center justify-center gap-9">
-          <div className="flex h-32 w-full items-center justify-center rounded-sm bg-[#F6F6F6]">
-            <div className="flex h-[86px] w-[600px] items-center rounded-lg bg-white">
-              <div className="flex w-full items-center">
-                <div className="ml-[6px] flex w-1/5 justify-start">
-                  <img
-                    src="#"
-                    alt="link-icon"
-                    className="h-[75px] w-[75px] rounded-lg bg-gray-300"
-                  />
-                </div>
-                <div className="mr-[37px] flex w-4/5 items-center justify-center">
-                  <p>타이틀을 입력해주세요</p>
-                </div>
+        <div className="flex h-32 w-full items-center justify-center rounded-sm bg-[#F6F6F6]">
+          {/* 타입 미리보기 */}
+          <div className="flex h-[86px] w-[600px] items-center rounded-lg bg-white">
+            <div className="flex w-full items-center">
+              <div className="ml-[6px] flex w-1/5 justify-start">
+                <img
+                  src="#"
+                  alt="link-icon"
+                  className="h-[75px] w-[75px] rounded-lg bg-gray-300"
+                />
+              </div>
+              <div className="mr-[37px] flex w-4/5 items-center justify-center">
+                <p>타이틀을 입력해주세요</p>
               </div>
             </div>
           </div>
+        </div>
 
+        <form>
+          {/* 스타일 */}
           <div className="w-full">
-            <h3 className="title">
+            <h3 className="title mb-3">
               스타일 <span className="text-red-500">*</span>
             </h3>
-            {/* item * 4 */}
-            <div>
-              <div className="boarder rounded border-[#F6F6F6]">
-                {/* style type img */}
-              </div>
-              <p className="mt-2">썸네일</p>
+            <div className="flex gap-5">
+              {styleItemNames.map((name, idx) => (
+                <StyleType key={name} name={name} imgIdx={idx} />
+              ))}
             </div>
           </div>
-        </section>
 
-        <div className="my-6 border-t-2 border-[#F6F6F6]"></div>
+          <div className="my-6 border-t-2 border-[#F6F6F6]"></div>
 
-        {/* Info */}
-        <section>
-          <form action="" className="flex flex-col gap-6">
+          {/* Info */}
+          <section className="flex flex-col gap-6">
             <div>
               <label className="title" htmlFor="linked-url">
                 연결할 주소 <span className="text-red-500">*</span>
@@ -86,16 +86,15 @@ export default function LinkPage() {
             </div>
 
             <div className="my-2 h-3 w-full bg-gray-200"></div>
-
-            <button
-              type="submit"
-              className="h-11 w-full rounded bg-primary-100 text-primary-200"
-            >
-              추가 완료
-            </button>
-          </form>
-        </section>
-      </article>
+          </section>
+          <button
+            type="submit"
+            className="h-11 w-full rounded bg-primary-100 text-primary-200"
+          >
+            추가 완료
+          </button>
+        </form>
+      </div>
     </>
   );
 }
