@@ -6,7 +6,7 @@ const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 export default function LinkPage() {
   return (
     <>
-      <div className="mx-auto my-14 w-[800px]">
+      <div className="mx-auto my-14 w-[780px]">
         <h1 className="pageName">블록 링크</h1>
 
         <div className="flex h-32 w-full items-center justify-center rounded-sm bg-[#F6F6F6]">
@@ -50,6 +50,12 @@ export default function LinkPage() {
               </label>
               <input type="text" id="linked-url" />
             </div>
+            <div>
+              <label className="title" htmlFor="link-title">
+                타이틀 <span className="text-red-500">*</span>
+              </label>
+              <input type="text" id="link-title" />
+            </div>
 
             <div className="mt-2">
               <label className="title mb-1 block">
@@ -70,9 +76,9 @@ export default function LinkPage() {
                     stroke="currentColor"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M12 4v16m8-8H4"
                     />
                   </svg>
