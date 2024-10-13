@@ -10,6 +10,12 @@ const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [iframeUrl, setIframeUrl] = useState<string>("");
 
+  const params = {
+    type: 2,
+    url: videoUrl,
+    // sequence: number
+  };
+
   function extractVideoID(url: string) {
     const regExp =
       /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
