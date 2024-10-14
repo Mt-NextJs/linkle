@@ -266,7 +266,7 @@
         }
     },
     {
-        "API": "/api/link/order",
+        "API": "/api/link/update/order",
         "목적": "블록 업데이트(정렬)",
         "HEADER": {
             "Authorization": "Bearer {token}"
