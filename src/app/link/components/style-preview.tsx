@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function StylePreview({

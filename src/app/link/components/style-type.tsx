@@ -16,11 +16,12 @@ export default function StyleType({
 
   return (
     <label
+      htmlFor={name}
       key={name}
       className="flex w-[185px] cursor-pointer flex-col items-center"
       onClick={() => onSelect(name)}
     >
-      <input type="radio" name="style" value={name} className="hidden" />
+      <input type="radio" value={name} id={name} className="hidden" />
       <div
         className={twMerge(
           "relative flex h-[68px] w-full justify-center rounded-lg border-2 px-6 py-4",

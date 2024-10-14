@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import StylePreview from "./style-preview";
 import StyleType from "./style-type";
+import FormInput from "./form-input";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -63,44 +64,31 @@ export default function LinkForm() {
 
         {/* Info */}
         <section className="flex flex-col gap-8">
-          <div>
-            <label className="title mb-[10px] block" htmlFor="linked-url">
-              연결할 주소 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="url"
-              id="linked-url"
-              placeholder="연결할 주소 url을 입력해주세요"
-              required
-            />
-          </div>
-          <div>
-            <label className="title mb-[10px] block" htmlFor="link-title">
-              타이틀 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="link-title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="타이틀을 입력해주세요"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="title mb-[10px] block" htmlFor="linked-img">
-              이미지 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="url"
-              id="linked-img"
-              value={linkImg}
-              onChange={(e) => setLinkImg(e.target.value)}
-              placeholder="이미지 url을 입력해주세요"
-              required
-            />
-          </div>
+          <FormInput
+            label="연결할 주소"
+            type="url"
+            id="linked-url"
+            placeholder="연결할 주소 url을 입력해주세요"
+            required
+          />
+          <FormInput
+            label="타이틀"
+            type="text"
+            id="link-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="타이틀을 입력해주세요"
+            required
+          />
+          <FormInput
+            label="이미지"
+            type="url"
+            id="linked-img"
+            value={linkImg}
+            onChange={(e) => setLinkImg(e.target.value)}
+            placeholder="이미지 url을 입력해주세요"
+            required
+          />
         </section>
 
         <div className="my-9 h-3 w-full bg-gray-200"></div>
