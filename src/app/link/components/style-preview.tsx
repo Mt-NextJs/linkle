@@ -29,7 +29,7 @@ export default function StylePreview({
                 alt={`${selectedStyle} 미리보기`}
                 width={75}
                 height={75}
-                className="rounded-lg bg-gray-300"
+                className="h-[75px] w-[75px] rounded-lg bg-gray-300 object-cover"
               />
             </div>
             <div className="mr-[37px] flex w-4/5 items-center justify-center">
@@ -47,20 +47,30 @@ export default function StylePreview({
 
       {selectedStyle === "카드" && (
         <div className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-[14px] rounded-xl bg-white drop-shadow-md">
-          <Image
-            src={linkImg || placeholderImage}
-            alt={`${selectedStyle} 미리보기`}
-            width={500}
-            height={450}
-            className="h-[450px] rounded-t-xl bg-gray-300"
-          />
+          <div className="relative h-[450px] w-full overflow-hidden rounded-t-xl bg-gray-300">
+            <Image
+              src={linkImg || placeholderImage}
+              alt={`${selectedStyle} 미리보기`}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-t-xl"
+            />
+          </div>
           <p>{title || "타이틀을 입력해주세요"}</p>
         </div>
       )}
 
       {selectedStyle === "배경" && (
-        <div className="flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-white">
-          <p>{title || "타이틀을 입력해주세요"}</p>
+        <div
+          className={`relative flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-center ${linkImg ? "bg-cover" : "bg-gray-300"}`}
+          style={linkImg ? { backgroundImage: `url(${linkImg})` } : {}}
+        >
+          {linkImg && (
+            <div className="absolute inset-0 rounded-lg bg-black opacity-50"></div>
+          )}
+          <p className={twMerge("relative", linkImg && "text-white")}>
+            {title || "타이틀을 입력해주세요"}
+          </p>
         </div>
       )}
     </div>

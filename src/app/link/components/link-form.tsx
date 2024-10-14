@@ -66,7 +66,11 @@ export default function LinkForm() {
             <label className="title mb-[10px]" htmlFor="linked-url">
               연결할 주소 <span className="text-red-500">*</span>
             </label>
-            <input type="url" id="linked-url" />
+            <input
+              type="url"
+              id="linked-url"
+              placeholder="연결할 주소 url을 입력해주세요"
+            />
           </div>
           <div>
             <label className="title mb-[10px]" htmlFor="link-title">
@@ -77,6 +81,7 @@ export default function LinkForm() {
               id="link-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder="타이틀을 입력해주세요"
             />
           </div>
 
@@ -89,7 +94,7 @@ export default function LinkForm() {
               id="linked-img"
               value={linkImg}
               onChange={(e) => setLinkImg(e.target.value)}
-              placeholder=""
+              placeholder="이미지 url을 입력해주세요"
               required
               pattern="https?://.+"
             />
