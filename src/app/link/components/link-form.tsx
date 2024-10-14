@@ -29,6 +29,7 @@ export default function LinkForm() {
 
     // FormData를 일반 객체로 변환 -> post로 보낼 데이터
     const data = Object.fromEntries(formData.entries());
+    console.log(data);
   };
 
   return (
@@ -39,7 +40,7 @@ export default function LinkForm() {
         linkImg={linkImg}
       />
 
-      <form onSubmit={handleSubmit} className="mt-6">
+      <form onSubmit={handleSubmit} className="mt-8">
         {/* 스타일 */}
         <div className="w-full">
           <h3 className="title mb-[10px]">
@@ -58,22 +59,23 @@ export default function LinkForm() {
           </div>
         </div>
 
-        <div className="my-6 border-t-2 border-[#F6F6F6]"></div>
+        <div className="my-8 border-t-2 border-[#F6F6F6]"></div>
 
         {/* Info */}
-        <section className="flex flex-col gap-6">
+        <section className="flex flex-col gap-8">
           <div>
-            <label className="title mb-[10px]" htmlFor="linked-url">
+            <label className="title mb-[10px] block" htmlFor="linked-url">
               연결할 주소 <span className="text-red-500">*</span>
             </label>
             <input
               type="url"
               id="linked-url"
               placeholder="연결할 주소 url을 입력해주세요"
+              required
             />
           </div>
           <div>
-            <label className="title mb-[10px]" htmlFor="link-title">
+            <label className="title mb-[10px] block" htmlFor="link-title">
               타이틀 <span className="text-red-500">*</span>
             </label>
             <input
@@ -82,10 +84,11 @@ export default function LinkForm() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="타이틀을 입력해주세요"
+              required
             />
           </div>
 
-          <div className="mt-2">
+          <div>
             <label className="title mb-[10px] block" htmlFor="linked-img">
               이미지 <span className="text-red-500">*</span>
             </label>
@@ -96,7 +99,6 @@ export default function LinkForm() {
               onChange={(e) => setLinkImg(e.target.value)}
               placeholder="이미지 url을 입력해주세요"
               required
-              pattern="https?://.+"
             />
           </div>
         </section>

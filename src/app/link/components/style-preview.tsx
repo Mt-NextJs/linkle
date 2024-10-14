@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Dispatch, SetStateAction, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function StylePreview({
@@ -16,7 +17,7 @@ export default function StylePreview({
   return (
     <div
       className={twMerge(
-        "flex h-32 w-full items-center justify-center rounded-sm bg-[#F6F6F6]",
+        "flex h-32 w-full items-center justify-center rounded-sm bg-[#F6F6F6] transition-all duration-700 ease-in-out",
         selectedStyle === "카드" && "h-[580px]",
       )}
     >
