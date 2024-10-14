@@ -6,6 +6,15 @@ import StyleType from "./style-type";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
+// "PARAM": {
+//             "type": 3, // 블록 타입(필수)
+//             "sequence": 4, // 블록 순서(필수)
+//             "style": 1, // 카드 스타일(1~4)
+//             "title": "링크 블록", // 타이틀
+//             "url": "https://www.naver.com", // 연결 url
+//             "imgUrl": "" // 이미지 url
+//         }
+
 export default function LinkForm() {
   const [selectedStyle, setSelectedStyle] = useState("썸네일");
   const [title, setTitle] = useState("");
@@ -57,7 +66,7 @@ export default function LinkForm() {
             <label className="title mb-[10px]" htmlFor="linked-url">
               연결할 주소 <span className="text-red-500">*</span>
             </label>
-            <input type="text" id="linked-url" />
+            <input type="url" id="linked-url" />
           </div>
           <div>
             <label className="title mb-[10px]" htmlFor="link-title">
@@ -72,45 +81,21 @@ export default function LinkForm() {
           </div>
 
           <div className="mt-2">
-            <label className="title mb-[10px] block">
+            <label className="title mb-[10px] block" htmlFor="linked-img">
               이미지 <span className="text-red-500">*</span>
             </label>
-
-            <div className="flex items-center justify-start">
-              <input
-                type="file"
-                id="file-upload"
-                className="hidden"
-                value={linkImg}
-                onChange={(e) => setLinkImg(e.target.value)}
-              />
-              <label
-                htmlFor="file-upload"
-                className="flex h-[94px] w-[94px] cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-gray-200 hover:bg-gray-300"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-              </label>
-
-              <div className="ml-3 text-sm text-gray-500">
-                <p>이미지를 직접 끌어오거나</p>
-                <p>파일을 선택하여 업로드해주세요</p>
-              </div>
-            </div>
+            <input
+              type="url"
+              id="linked-img"
+              value={linkImg}
+              onChange={(e) => setLinkImg(e.target.value)}
+              placeholder=""
+              required
+              pattern="https?://.+"
+            />
           </div>
         </section>
+
         <div className="my-9 h-3 w-full bg-gray-200"></div>
 
         <button
