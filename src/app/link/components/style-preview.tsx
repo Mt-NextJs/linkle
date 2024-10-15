@@ -1,17 +1,64 @@
+"use client";
+
 import Image from "next/image";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function StylePreview({
   selectedStyle,
   title,
   linkImg,
+  setIsImageError,
 }: {
   selectedStyle: string;
   title: string;
   linkImg: string;
+  setIsImageError: Dispatch<SetStateAction<boolean>>;
 }) {
   const placeholderImage =
     "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+
+  const [hasImgError, setHasImgError] = useState(false);
+
+  // 이미지 URL이 변경될 때마다 이미지 로드 상태를 초기화
+  useEffect(() => {
+    if (selectedStyle === "배경" && linkImg && isValidUrl(linkImg)) {
+      setHasImgError(false);
+      setIsImageError(false);
+
+      // 이미지 로드 비동기 처리
+      const img = new window.Image();
+      img.src = linkImg;
+
+      img.onload = () => {
+        setHasImgError(false); // 이미지 로드 성공
+      };
+
+      img.onerror = () => {
+        setHasImgError(true); // 이미지 로드 실패
+        setIsImageError(true);
+      };
+    } else if (!isValidUrl(linkImg)) {
+      // URL이 유효하지 않으면 에러 상태 설정하지 않음
+      setHasImgError(false);
+      setIsImageError(false);
+    }
+  }, [linkImg, selectedStyle]);
+
+  const imgErrorHandler = () => {
+    setHasImgError(true);
+    setIsImageError(true);
+  };
+
+  const isValidUrl = (url: string) => /^https?:\/\/.+\..+/.test(url);
+
+  const imgUrl =
+    !hasImgError && isValidUrl(linkImg) ? linkImg : placeholderImage;
+
+  const backgroundStyle =
+    !hasImgError && isValidUrl(linkImg)
+      ? { backgroundImage: `url(${linkImg}), url(${placeholderImage})` }
+      : { backgroundImage: `url(${placeholderImage})` };
 
   return (
     <div
@@ -25,11 +72,12 @@ export default function StylePreview({
           <div className="flex w-full items-center">
             <div className="ml-[6px] flex w-1/5 justify-start">
               <Image
-                src={linkImg || placeholderImage}
+                src={imgUrl}
                 alt={`${selectedStyle} 미리보기`}
                 width={75}
                 height={75}
                 className="h-[75px] w-[75px] rounded-lg bg-gray-300 object-cover"
+                onError={imgErrorHandler}
               />
             </div>
             <div className="mr-[37px] flex w-4/5 items-center justify-center">
@@ -49,11 +97,12 @@ export default function StylePreview({
         <div className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-[14px] rounded-xl bg-white drop-shadow-md">
           <div className="relative h-[450px] w-full overflow-hidden rounded-t-xl bg-gray-300">
             <Image
-              src={linkImg || placeholderImage}
+              src={imgUrl}
               alt={`${selectedStyle} 미리보기`}
               layout="fill"
               objectFit="cover"
               className="rounded-t-xl"
+              onError={imgErrorHandler}
             />
           </div>
           <p>{title || "타이틀을 입력해주세요"}</p>
@@ -62,13 +111,18 @@ export default function StylePreview({
 
       {selectedStyle === "배경" && (
         <div
-          className={`relative flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-center ${linkImg ? "bg-cover" : "bg-gray-300"}`}
-          style={linkImg ? { backgroundImage: `url(${linkImg})` } : {}}
+          className={`relative flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-gray-300 bg-cover bg-center`}
+          style={backgroundStyle}
         >
-          {linkImg && (
+          {!hasImgError && isValidUrl(linkImg) && (
             <div className="absolute inset-0 rounded-lg bg-black opacity-50"></div>
           )}
-          <p className={twMerge("relative", linkImg && "text-white")}>
+          <p
+            className={twMerge(
+              "relative",
+              !hasImgError && isValidUrl(linkImg) && "text-white",
+            )}
+          >
             {title || "타이틀을 입력해주세요"}
           </p>
         </div>

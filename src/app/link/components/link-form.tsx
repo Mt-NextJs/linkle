@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import StylePreview from "./style-preview";
 import StyleType from "./style-type";
 import FormInput from "./form-input";
@@ -20,6 +20,11 @@ export default function LinkForm() {
   const [selectedStyle, setSelectedStyle] = useState("썸네일");
   const [title, setTitle] = useState("");
   const [linkImg, setLinkImg] = useState("");
+  const [isImageError, setIsImageError] = useState(false);
+
+  useEffect(() => {
+    if (linkImg) setIsImageError(false);
+  }, [linkImg]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,6 +44,7 @@ export default function LinkForm() {
         selectedStyle={selectedStyle}
         title={title}
         linkImg={linkImg}
+        setIsImageError={setIsImageError}
       />
 
       <form onSubmit={handleSubmit} className="mt-8">
@@ -80,15 +86,20 @@ export default function LinkForm() {
             placeholder="타이틀을 입력해주세요"
             required
           />
-          <FormInput
-            label="이미지"
-            type="url"
-            id="linked-img"
-            value={linkImg}
-            onChange={(e) => setLinkImg(e.target.value)}
-            placeholder="이미지 url을 입력해주세요"
-            required
-          />
+          <div className="h-[110px]">
+            <FormInput
+              label="이미지"
+              type="url"
+              id="linked-img"
+              value={linkImg}
+              onChange={(e) => setLinkImg(e.target.value)}
+              placeholder="이미지 url을 입력해주세요"
+              required
+            />
+            {isImageError && (
+              <div className="mt-1 text-red-500">잘못된 이미지 경로입니다</div>
+            )}
+          </div>
         </section>
 
         <div className="my-9 h-3 w-full bg-gray-200"></div>
