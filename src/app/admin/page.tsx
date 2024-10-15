@@ -2,12 +2,43 @@
 
 import BasicBlock from "@app/(intro)/components/basicblock";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { ClientRoute } from "@config/route";
 
 export default function Admin() {
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const setVisitor = async () => {
+      try {
+        const response = await fetch(
+          "http://43.201.21.97:3002/api/user/visitor",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        if (!response.ok) {
+          alert("방문자 조회 실패");
+        } else {
+          const infor = await response.json();
+          setShowToday(infor.data.today);
+          setShowRealTime(infor.data.realTime);
+          setShowTotal(infor.data.total);
+        }
+      } catch (error) {
+        alert("연결 실패");
+      }
+    };
+    setVisitor();
+  }, []);
+  const [showTotal, setShowTotal] = useState("0");
+  const [showToday, setShowToday] = useState("0");
+  const [showRealTime, setShowRealTime] = useState("0");
+
   const DUMMY_BLOCKS = [
     "이벤트",
     "캘린더",
@@ -55,9 +86,14 @@ export default function Admin() {
       </div>
       <br />
       <div className="flex w-full rounded border">
-        <div className="w-8/12 rounded-l border">
+        <div className="grid w-8/12 rounded-l border">
           <h3 className="ml-2 font-bold">방문자</h3>
-          <p className="ml-2">전체 오늘 실시간</p>
+
+          <div className="flex">
+            <p className="ml-2">전체 {showTotal}</p>
+            <p className="ml-2">오늘 {showToday}</p>
+            <p className="ml-2">실시간 {showRealTime}</p>
+          </div>
         </div>
         <div className="w-4/12 rounded-r border">
           <h3 className="ml-2 font-bold">소식받기</h3>
