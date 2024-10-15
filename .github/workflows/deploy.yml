@@ -17,10 +17,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
-        run: npm run build
+      - name: Build and Sync
+        run: chmod +x ./build.sh && sh ./build.sh
 
-      - name: Deploy to Vercel
+      - name: Push to personal repository
+        uses: cpina/github-action-push-to-another-repository@main
+        with:
+          source-directory: "output"
+          destination-github-username: s-ja
+          destination-repository-name: linkle_deploy
+          target-branch: main
         env:
-          VERCEL_TOKEN: ${{ secrets.FOR_DEPLOY }} # FOR_DEPLOY로 등록한 Secrets 사용
-        run: npx vercel --prod --token $VERCEL_TOKEN
+          API_TOKEN_GITHUB: ${{ secrets.FOR_DEPLOY }} # 저장된 토큰 참조
+          user-email: ${{ secrets.EMAIL }} # 이메일 정보 참조
