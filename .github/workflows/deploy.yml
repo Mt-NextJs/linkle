@@ -1,0 +1,26 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+      - develop # 배포를 트리거할 브랜치를 설정 (main과 develop에서 자동 배포).
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.FOR_DEPLOY }} # FOR_DEPLOY로 등록한 Secrets 사용
+        run: npx vercel --prod --token $VERCEL_TOKEN
