@@ -38,13 +38,14 @@ jobs:
           git config --global user.email "${{ secrets.EMAIL }}"
 
       - name: Push to personal repository
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          repository: s-ja/linkle
-          branch: main
-          directory: output
-          github_token: ${{ secrets.FOR_DEPLOY }}
-          force: true
+        run: |
+          cd output
+          git init
+          git add .
+          git commit -m "Deploy from GitHub Actions"
+          git branch -M main
+          git remote add origin https://s-ja:${{ secrets.FOR_DEPLOY }}@github.com/s-ja/linkle.git
+          git push origin main --force
 
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
