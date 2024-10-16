@@ -1,32 +1,6 @@
 {
   "version": 4,
   "routes": {
-    "/admin/block": {
-      "experimentalBypassFor": [
-        { "type": "header", "key": "Next-Action" },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/admin/block",
-      "dataRoute": "/admin/block.rsc"
-    },
-    "/admin/block/image": {
-      "experimentalBypassFor": [
-        { "type": "header", "key": "Next-Action" },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/admin/block/image",
-      "dataRoute": "/admin/block/image.rsc"
-    },
     "/link": {
       "experimentalBypassFor": [
         { "type": "header", "key": "Next-Action" },
@@ -39,19 +13,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/link",
       "dataRoute": "/link.rsc"
-    },
-    "/join": {
-      "experimentalBypassFor": [
-        { "type": "header", "key": "Next-Action" },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/join",
-      "dataRoute": "/join.rsc"
     },
     "/login": {
       "experimentalBypassFor": [
@@ -66,7 +27,7 @@
       "srcRoute": "/login",
       "dataRoute": "/login.rsc"
     },
-    "/admin/block/video": {
+    "/join": {
       "experimentalBypassFor": [
         { "type": "header", "key": "Next-Action" },
         {
@@ -76,8 +37,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/admin/block/video",
-      "dataRoute": "/admin/block/video.rsc"
+      "srcRoute": "/join",
+      "dataRoute": "/join.rsc"
     },
     "/admin": {
       "experimentalBypassFor": [
@@ -92,6 +53,32 @@
       "srcRoute": "/admin",
       "dataRoute": "/admin.rsc"
     },
+    "/admin/block/image": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/admin/block/image",
+      "dataRoute": "/admin/block/image.rsc"
+    },
+    "/admin/block": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/admin/block",
+      "dataRoute": "/admin/block.rsc"
+    },
     "/": {
       "experimentalBypassFor": [
         { "type": "header", "key": "Next-Action" },
@@ -104,13 +91,26 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/",
       "dataRoute": "/index.rsc"
+    },
+    "/admin/block/video": {
+      "experimentalBypassFor": [
+        { "type": "header", "key": "Next-Action" },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/admin/block/video",
+      "dataRoute": "/admin/block/video.rsc"
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "618fe0c62b95204f771fc6702d99ec1d",
-    "previewModeSigningKey": "68df7b791947f32528181835e9483f5ea9f780e69033c89ac9e2d15f7a66d1aa",
-    "previewModeEncryptionKey": "38ac892d2528d087e05e0f4839180ba5a1147ea6159f89338d85888c9a7e1bf3"
+    "previewModeId": "b7426c1a59cfec594413610baaa13585",
+    "previewModeSigningKey": "e4943e3b2fc9e7a94b9774516dbe725cea1f2300679a6423b3cbd162cff09e03",
+    "previewModeEncryptionKey": "252e2e89a0e7440c7e6a10b95a3cae50c8093c1785c9ec827417847cfe1f4944"
   }
 }
