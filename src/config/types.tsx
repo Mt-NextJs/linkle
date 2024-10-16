@@ -1,3 +1,3 @@
 export type ClientRouteType = {
-    [key: string]: string | ClientRouteType;
+  [key: string]: string | ClientRouteType;
 };
