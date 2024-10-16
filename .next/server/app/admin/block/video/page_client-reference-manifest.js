@@ -129,6 +129,8 @@ globalThis.__RSC_MANIFEST["/admin/block/video/page"] = {
       },
     "/Users/seungjian/Documents/development/sniper_project/project/src/app/login/page.tsx":
       { id: 8991, name: "*", chunks: [], async: false },
+    "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/image/page.tsx":
+      { id: 3537, name: "*", chunks: [], async: false },
     "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/page.tsx":
       {
         id: 3531,
@@ -155,8 +157,6 @@ globalThis.__RSC_MANIFEST["/admin/block/video/page"] = {
         ],
         async: false,
       },
-    "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/image/page.tsx":
-      { id: 3537, name: "*", chunks: [], async: false },
   },
   entryCSSFiles: {
     "/Users/seungjian/Documents/development/sniper_project/project/src/": [],

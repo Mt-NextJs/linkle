@@ -134,12 +134,12 @@ globalThis.__RSC_MANIFEST["/login/page"] = {
         chunks: ["626", "static/chunks/app/login/page-cc9d85b9bedd5ab6.js"],
         async: false,
       },
+    "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/image/page.tsx":
+      { id: 3537, name: "*", chunks: [], async: false },
     "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/page.tsx":
       { id: 3531, name: "*", chunks: [], async: false },
     "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/video/page.tsx":
       { id: 7852, name: "*", chunks: [], async: false },
-    "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/image/page.tsx":
-      { id: 3537, name: "*", chunks: [], async: false },
   },
   entryCSSFiles: {
     "/Users/seungjian/Documents/development/sniper_project/project/src/": [],

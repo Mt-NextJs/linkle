@@ -129,6 +129,18 @@ globalThis.__RSC_MANIFEST["/admin/block/image/page"] = {
       },
     "/Users/seungjian/Documents/development/sniper_project/project/src/app/login/page.tsx":
       { id: 8991, name: "*", chunks: [], async: false },
+    "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/image/page.tsx":
+      {
+        id: 3537,
+        name: "*",
+        chunks: [
+          "878",
+          "static/chunks/878-3fc42ed9c2e38cdb.js",
+          "93",
+          "static/chunks/app/admin/block/image/page-2dc9cc951bde50b5.js",
+        ],
+        async: false,
+      },
     "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/page.tsx":
       {
         id: 3531,
@@ -145,18 +157,6 @@ globalThis.__RSC_MANIFEST["/admin/block/image/page"] = {
       },
     "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/video/page.tsx":
       { id: 7852, name: "*", chunks: [], async: false },
-    "/Users/seungjian/Documents/development/sniper_project/project/src/app/admin/block/image/page.tsx":
-      {
-        id: 3537,
-        name: "*",
-        chunks: [
-          "878",
-          "static/chunks/878-3fc42ed9c2e38cdb.js",
-          "93",
-          "static/chunks/app/admin/block/image/page-2dc9cc951bde50b5.js",
-        ],
-        async: false,
-      },
   },
   entryCSSFiles: {
     "/Users/seungjian/Documents/development/sniper_project/project/src/": [],

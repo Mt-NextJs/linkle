@@ -1,13 +1,13 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/(intro)/page": "app/(intro)/page.js",
-  "/link/page": "app/link/page.js",
   "/login/page": "app/login/page.js",
+  "/link/page": "app/link/page.js",
   "/profile/[id]/detail/page": "app/profile/[id]/detail/page.js",
   "/profile/[id]/edit/page": "app/profile/[id]/edit/page.js",
   "/join/page": "app/join/page.js",
   "/admin/block/page": "app/admin/block/page.js",
+  "/admin/block/image/page": "app/admin/block/image/page.js",
   "/admin/page": "app/admin/page.js",
-  "/admin/block/video/page": "app/admin/block/video/page.js",
-  "/admin/block/image/page": "app/admin/block/image/page.js"
+  "/admin/block/video/page": "app/admin/block/video/page.js"
 }
