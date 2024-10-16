@@ -47,7 +47,6 @@
       "prettier --write"
     ],
     "*.css": [
-      "stylelint --fix",
       "prettier --write"
     ],
     "*.{json,md}": [
