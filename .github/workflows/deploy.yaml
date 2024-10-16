@@ -39,6 +39,7 @@ jobs:
           target-branch: "main"
         env:
           API_TOKEN_GITHUB: ${{ secrets.FOR_DEPLOY }} # 저장된 토큰 참조
+          HUSKY: 0 # Husky 훅 비활성화
 
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
