@@ -10,7 +10,7 @@
 /coverage
 
 # next.js
-!.next/
+/.next/
 /out/
 
 # production
@@ -37,3 +37,5 @@ next-env.d.ts
 
 .idea
 package-lock.json
+.env
+api.txt
