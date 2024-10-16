@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write .",
-    "vercel-build": "npm install && next build"
+    "fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --write ."
   },
   "dependencies": {
     "moment": "2.30.1",

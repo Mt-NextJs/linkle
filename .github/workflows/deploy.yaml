@@ -16,12 +16,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # 필요한 Node.js 버전을 지정하세요.
+          node-version: "16" # 필요한 Node.js 버전을 지정.
 
       - name: Install dependencies
         run: npm install
 
-      - name: creates output
+      - name: Build project
+        run: npm run build
+
+      - name: creates output directory
         run: sh ./build.sh
 
       - name: Push to personal repository
