@@ -29,23 +29,14 @@ jobs:
       - name: creates output directory
         run: sh ./build.sh
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "s-ja"
-          git config --global user.email "${{ secrets.EMAIL }}"
+      - name: Push to personal repository
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          repository: s-ja/linkle
+          branch: main
+          directory: output
+          github_token: ${{ secrets.FOR_DEPLOY }}
+          force: true
 
-      - name: Initialize Git in output directory
-        run: |
-          cd output
-          git init
-          git add .
-          git commit -m "${{ github.event.commits[0].message }}"
-          git branch -M main
-          git remote add origin https://$GITHUB_ACTOR:${{ secrets.FOR_DEPLOY }}@github.com/s-ja/linkle.git
-      - name: Push to Personal Repository
-        run: |
-          cd output
-          git push origin main --force
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          FOR_DEPLOY: ${{ secrets.FOR_DEPLOY }}
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
