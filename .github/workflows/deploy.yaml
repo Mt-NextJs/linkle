@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,12 +16,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # 모든 브랜치와 태그의 전체 히스토리 가져오기
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18.17.1" # 필요한 Node.js 버전을 지정.
+          node-version: "^18.18.0"
 
       - name: Install dependencies
         run: npm install
@@ -29,20 +32,20 @@ jobs:
       - name: creates output directory
         run: sh ./build.sh
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ secrets.EMAIL }}"
+
       - name: Push to personal repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.FOR_DEPLOY }} # 저장된 토큰 참조
-          HUSKY: 0 # Husky 훅 비활성화
-        with:
-          source-directory: "output"
-          destination-github-username: "s-ja"
-          destination-repository-name: "linkle"
-          user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: "main"
-          should-force: true # 올바른 옵션 이름으로 변경
+        run: |
+          cd output
+          git init
+          git add .
+          git commit -m "Deploy from GitHub Actions"
+          git branch -M main
+          git remote add origin https://s-ja:${{ secrets.FOR_DEPLOY }}@github.com/s-ja/linkle.git
+          git push origin main --force
 
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
