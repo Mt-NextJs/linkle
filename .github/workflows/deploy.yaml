@@ -37,7 +37,7 @@ jobs:
           HUSKY: 0 # Husky 훅 비활성화
         with:
           source-directory: "output"
-          destination-github-username: "an seungji"
+          destination-github-username: "s-ja"
           destination-repository-name: "linkle"
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
