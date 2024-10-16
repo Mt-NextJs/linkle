@@ -1,6 +1,7 @@
 #!/bin/sh
-cd ./  # 프로젝트의 올바른 경로로 이동
-
-# 빌드 결과물을 output 디렉토리로 복사
+cd ./
 mkdir output
-cp -R .next/* ./output
+cp -R ./linkle/* ./output
+cp -R ./output ./linkle/
+
+같이 참고하여 새로운 분석을 부탁할께
