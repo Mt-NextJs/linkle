@@ -30,11 +30,11 @@ jobs:
         uses: cpina/github-action-push-to-another-repository@main
         with:
           source-directory: "output"
-          destination-github-username: s-ja
-          destination-repository-name: linkle
+          destination-github-username: "s-ja"
+          destination-repository-name: "linkle"
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+          target-branch: "main"
         env:
           API_TOKEN_GITHUB: ${{ secrets.FOR_DEPLOY }} # 저장된 토큰 참조
 
