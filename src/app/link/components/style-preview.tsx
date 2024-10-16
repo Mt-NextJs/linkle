@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -41,7 +43,7 @@ export default function StylePreview({
       setHasImgError(false);
       setIsImageError(false);
     }
-  }, [linkImg, selectedStyle]);
+  }, [linkImg, selectedStyle, setIsImageError]);
 
   const imgErrorHandler = () => {
     setHasImgError(true);
