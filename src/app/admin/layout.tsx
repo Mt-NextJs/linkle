@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
 //components
-import Navigation from '@app/(intro)/components/navigation';
+import Navigation from "@app/(intro)/components/navigation";
 
 //styles
 
 //metadata
 export const metadata: Metadata = {
-  title: 'admin',
+  title: "admin",
 };
 
 export default function AdminLayout({
