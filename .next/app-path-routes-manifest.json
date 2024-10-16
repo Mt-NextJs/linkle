@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/(intro)/page": "/",
+  "/link/page": "/link",
+  "/login/page": "/login",
+  "/profile/[id]/detail/page": "/profile/[id]/detail",
+  "/profile/[id]/edit/page": "/profile/[id]/edit",
+  "/join/page": "/join",
+  "/admin/block/page": "/admin/block",
+  "/admin/page": "/admin",
+  "/admin/block/video/page": "/admin/block/video",
+  "/admin/block/image/page": "/admin/block/image"
+}
