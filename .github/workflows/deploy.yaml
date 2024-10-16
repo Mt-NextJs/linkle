@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # 모든 브랜치와 태그의 전체 히스토리 가져오기
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -30,6 +32,9 @@ jobs:
       - name: Push to personal repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.FOR_DEPLOY }} # 저장된 토큰 참조
+          HUSKY: 0 # Husky 훅 비활성화
         with:
           source-directory: "output"
           destination-github-username: "s-ja"
@@ -37,8 +42,7 @@ jobs:
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: "main"
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.FOR_DEPLOY }} # 저장된 토큰 참조
+          should-force: true # 올바른 옵션 이름으로 변경
 
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
