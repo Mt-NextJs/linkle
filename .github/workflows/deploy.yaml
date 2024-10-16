@@ -42,7 +42,7 @@ jobs:
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: "main"
-          force: true # 강제 푸시로 히스토리 덮어쓰기
+          should-force: true # 올바른 옵션 이름으로 변경
 
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
