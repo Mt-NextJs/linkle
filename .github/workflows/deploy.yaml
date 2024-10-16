@@ -29,16 +29,23 @@ jobs:
       - name: creates output directory
         run: sh ./build.sh
 
-      - name: Push to personal repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
+      - name: Configure Git
+        run: |
+          git config --global user.name "Your Name"
+          git config --global user.email "${{ secrets.EMAIL }}"
+
+      - name: Initialize Git in output directory
+        run: |
+          cd output
+          git init
+          git add .
+          git commit -m "${{ github.event.commits[0].message }}"
+          git branch -M main
+          git remote add origin https://$GITHUB_ACTOR:${{ secrets.FOR_DEPLOY }}@github.com/s-ja/linkle.git
+      - name: Push to Personal Repository
+        run: |
+          cd output
+          git push origin main --force
         env:
-          API_TOKEN_GITHUB: ${{ secrets.FOR_DEPLOY }} # 저장된 토큰 참조
-          HUSKY: 0 # Husky 훅 비활성화
-        with:
-          source-directory: "output"
-          destination-github-username: "s-ja"
-          destination-repository-name: "linkle"
-          user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: "main"
+          GITHUB_ACTOR: ${{ github.actor }}
+          FOR_DEPLOY: ${{ secrets.FOR_DEPLOY }}
