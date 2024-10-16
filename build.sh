@@ -1,7 +1,7 @@
-#!/bin/sh
-cd ./
-mkdir output
-cp -R ./linkle/* ./output
-cp -R ./output ./linkle/
+# 수정된 build.sh
+# 빌드 디렉토리로 이동하여 Next.js 빌드 진행
+npm run build
 
-같이 참고하여 새로운 분석을 부탁할께
+# output 디렉토리 생성 후 .next 폴더 복사
+mkdir -p output
+cp -R .next/* output/
