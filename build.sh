@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Next.js 빌드 실행
-npm run build
-
 # 기존 output 디렉토리 삭제 (있을 경우)
 rm -rf output
 
