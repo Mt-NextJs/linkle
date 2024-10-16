@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -99,8 +97,8 @@ export default function StylePreview({
             <Image
               src={imgUrl}
               alt={`${selectedStyle} 미리보기`}
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: "cover" }}
               className="rounded-t-xl"
               onError={imgErrorHandler}
             />
