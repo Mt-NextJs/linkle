@@ -7,20 +7,84 @@ import FormInput from "./form-input";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
-// "PARAM": {
-//             "type": 3, // 블록 타입(필수)
-//             "sequence": 4, // 블록 순서(필수)
-//             "style": 1, // 카드 스타일(1~4)
-//             "title": "링크 블록", // 타이틀
-//             "url": "https://www.naver.com", // 연결 url
-//             "imgUrl": "" // 이미지 url
-//         }
+async function getToken() {
+  const loginData = {
+    userId: "linkle",
+    password: "1234",
+  };
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Login failed: ${response.status}`);
+    }
+
+    const result = await response.json();
+    if (result.code === 200) {
+      return result.data.token;
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw error;
+  }
+}
 
 export default function LinkForm() {
   const [selectedStyle, setSelectedStyle] = useState("썸네일");
   const [title, setTitle] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
   const [linkImg, setLinkImg] = useState("");
   const [isImageError, setIsImageError] = useState(false);
+
+  async function postLink() {
+    const token = await getToken();
+
+    const postData = {
+      type: 3,
+      sequence: 4,
+      style: styleItemNames.indexOf(selectedStyle) + 1,
+      title,
+      url: linkUrl,
+      imgUrl: linkImg,
+    };
+    // console.log(postData);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(postData),
+        },
+      );
+
+      if (!response.ok) {
+        const errorResponse = await response.json(); // 서버에서 반환한 오류 메시지를 파싱
+        throw new Error(
+          `Error: ${response.status}, Message: ${errorResponse.message || "Unknown error"}`,
+        );
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      throw new Error(
+        error instanceof Error ? error.message : "An error occurred",
+      );
+    }
+  }
 
   useEffect(() => {
     if (linkImg) setIsImageError(false);
@@ -28,14 +92,7 @@ export default function LinkForm() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formElement = e.target as HTMLFormElement;
-
-    // FormData 객체를 통해 폼 데이터를 가져옴
-    const formData = new FormData(formElement);
-
-    // FormData를 일반 객체로 변환 -> post로 보낼 데이터
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    postLink();
   };
 
   return (
@@ -74,6 +131,8 @@ export default function LinkForm() {
             label="연결할 주소"
             type="url"
             id="linked-url"
+            value={linkUrl}
+            onChange={(e) => setLinkUrl(e.target.value)}
             placeholder="연결할 주소 url을 입력해주세요"
             required
           />

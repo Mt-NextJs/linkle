@@ -32,9 +32,9 @@ export default function StyleType({
         <Image
           src={`/assets/icons/item_card_00${imgIdx + 1}.png`}
           alt={name}
-          className="h-auto"
           width={70}
           height={70}
+          style={{ objectFit: "contain" }}
         />
         {isSelected && (
           <Image
