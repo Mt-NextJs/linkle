@@ -7,4 +7,4 @@ rm -rf output
 mkdir output
 
 # 현재 디렉토리의 모든 내용(자신 제외)을 output 디렉토리로 복사
-rsync -av --progress ./ ./output --exclude output
+rsync -av --progress ./ ./output --exclude output --exclude .git
