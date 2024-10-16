@@ -29,17 +29,7 @@ jobs:
       - name: creates output directory
         run: sh ./build.sh
 
-      - name: Check if there are changes to commit
-        run: |
-          if ! git diff --quiet; then
-            echo "Changes detected"
-          else
-            echo "No changes to commit"
-            exit 0
-          fi
-
       - name: Push to personal repository
-        if: success() && steps.checkout.outputs.changes_detected == 'true'
         uses: ad-m/github-push-action@v0.6.0
         with:
           repository: s-ja/linkle
