@@ -37,12 +37,11 @@ jobs:
           HUSKY: 0 # Husky 훅 비활성화
         with:
           source-directory: "output"
-          destination-github-username: "s-ja"
+          destination-github-username: "an seungji"
           destination-repository-name: "linkle"
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: "main"
-          should-force: true # 올바른 옵션 이름으로 변경
 
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
