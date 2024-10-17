@@ -31,8 +31,40 @@ async function getToken() {
       return result.data.token;
     }
   } catch (error) {
-    console.error("Error during login:", error);
-    throw error;
+    throw new Error(
+      error instanceof Error ? error.message : "Login error occurred",
+    );
+  }
+}
+
+async function getSequence(token: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(
+        `Error: ${response.status}, Message: ${errorResponse.message || "Unknown error"}`,
+      );
+    }
+    const result = await response.json();
+    if (result.code === 200) {
+      const blockList = result.data;
+      return blockList[blockList.length - 1].sequence;
+    }
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : "An link list error occurred",
+    );
   }
 }
 
@@ -45,16 +77,16 @@ export default function LinkForm() {
 
   async function postLink() {
     const token = await getToken();
+    const prevSequence = await getSequence(token);
 
     const postData = {
       type: 3,
-      sequence: 4,
+      sequence: prevSequence + 1,
       style: styleItemNames.indexOf(selectedStyle) + 1,
       title,
-      url: linkUrl,
-      imgUrl: linkImg,
+      url: linkUrl.trim(),
+      imgUrl: linkImg.trim(),
     };
-    // console.log(postData);
 
     try {
       const response = await fetch(
@@ -77,8 +109,8 @@ export default function LinkForm() {
         );
       }
 
-      const responseData = await response.json();
-      console.log(responseData);
+      // const responseData = await response.json();
+      // console.log(responseData);
     } catch (error) {
       throw new Error(
         error instanceof Error ? error.message : "An error occurred",
