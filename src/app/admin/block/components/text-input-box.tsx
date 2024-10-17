@@ -16,6 +16,18 @@ const TextInputBox = ({
   required,
   limit,
 }: Props) => {
+  const checkImageUrl = (strUrl: string) => {
+    const expUrl = /^http[s]?\:\/\//i;
+    return expUrl.test(strUrl);
+  };
+  const handeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value && title === "이미지" && !checkImageUrl(value)) {
+      alert("이미지 URL을 확인해주세요.");
+      return;
+    }
+    setText(value);
+  };
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-between gap-2">
@@ -34,7 +46,7 @@ const TextInputBox = ({
         type="text"
         placeholder={placeholder}
         value={text}
-        onChange={(e) => setText(e.currentTarget.value)}
+        onChange={handeChange}
         className="text-slate-600"
         maxLength={limit}
       />
