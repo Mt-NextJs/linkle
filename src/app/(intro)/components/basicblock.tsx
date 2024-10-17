@@ -9,6 +9,9 @@ interface BasicBlockProps {
   index: number;
   setTop: (index: number) => void;
   setBottom: (index: number) => void;
+  dragStart: (e: React.DragEvent<HTMLDivElement>, position: number) => void;
+  dragEnter: (e: React.DragEvent<HTMLDivElement>, position: number) => void;
+  drop: (e: React.DragEvent<HTMLDivElement>) => void;
 }
 
 export default function BasicBlock({
@@ -16,6 +19,9 @@ export default function BasicBlock({
   index,
   setTop,
   setBottom,
+  dragStart,
+  dragEnter,
+  drop,
 }: BasicBlockProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,7 +52,14 @@ export default function BasicBlock({
 
   return (
     <>
-      <div className="flex h-36 w-full rounded border">
+      <div
+        className="flex h-36 w-full rounded border"
+        draggable
+        onDragStart={(e) => dragStart(e, index)}
+        onDragEnter={(e) => dragEnter(e, index)}
+        onDragEnd={drop}
+        onDragOver={(e) => e.preventDefault()}
+      >
         <div className="relative w-[5%]">
           <div className="h-10 border bg-slate-100 hover:bg-slate-200">
             <button onClick={() => setTop(index)}>
