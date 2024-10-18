@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/(intro)/components/UI/empty-block";
+import VideoBlock from "./components/video-block";
 
 interface Block {
   id: number;

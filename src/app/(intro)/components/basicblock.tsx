@@ -3,6 +3,13 @@
 import Image from "next/image";
 import ToggleButton from "./UI/toggle-button";
 import { useState } from "react";
+import DivideBlock from "@app/admin/components/divide-block";
+import VideoBlock from "@app/admin/components/video-block";
+import LinkBlock from "@app/admin/components/link-block";
+import ImageBlock from "@app/admin/components/image-block";
+import EventBlock from "@app/admin/components/event-block";
+import TextBlock from "@app/admin/components/text-block";
+import CalendarBlock from "@app/admin/components/calendar-block";
 
 interface Block {
   id: number;
@@ -90,6 +97,26 @@ export default function BasicBlock({
         return "캘린더";
       default:
         return "해당없음";
+    }
+  }
+  function renderComponent(type: number) {
+    switch (type) {
+      case 1:
+        return <DivideBlock />;
+      case 2:
+        return <VideoBlock />;
+      case 3:
+        return <LinkBlock />;
+      case 4:
+        return <ImageBlock />;
+      case 5:
+        return <EventBlock />;
+      case 6:
+        return <TextBlock />;
+      case 7:
+        return <CalendarBlock />;
+      default:
+        return <></>;
     }
   }
 
@@ -211,8 +238,7 @@ export default function BasicBlock({
               </button>
             </div>
           </div>
-          <div className="h-[80px]"></div>
-          <div className="h-[32px]"></div>
+          {renderComponent(type)}
         </div>
       </div>
       <br></br>
