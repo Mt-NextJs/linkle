@@ -197,7 +197,7 @@ export default function LinkForm() {
 
         <button
           type="submit"
-          className="h-11 w-full rounded bg-primary-100 text-primary-200"
+          className="h-14 w-full rounded bg-primary-100 font-bold text-primary-200 hover:bg-primary-450 hover:text-white"
         >
           추가 완료
         </button>
