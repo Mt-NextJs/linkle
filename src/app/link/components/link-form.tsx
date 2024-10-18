@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import StylePreview from "./style-preview";
 import StyleType from "./style-type";
 import FormInput from "./form-input";
+import { getSequence } from "lib/get-sequence";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -33,37 +34,6 @@ async function getToken() {
   } catch (error) {
     throw new Error(
       error instanceof Error ? error.message : "Login error occurred",
-    );
-  }
-}
-
-async function getSequence(token: string) {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-
-    if (!response.ok) {
-      const errorResponse = await response.json();
-      throw new Error(
-        `Error: ${response.status}, Message: ${errorResponse.message || "Unknown error"}`,
-      );
-    }
-    const result = await response.json();
-    if (result.code === 200) {
-      const blockList = result.data;
-      return blockList[blockList.length - 1].sequence;
-    }
-  } catch (error) {
-    throw new Error(
-      error instanceof Error ? error.message : "An link list error occurred",
     );
   }
 }
@@ -125,6 +95,10 @@ export default function LinkForm() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     postLink();
+    setSelectedStyle("썸네일");
+    setTitle("");
+    setLinkUrl("");
+    setLinkImg("");
   };
 
   return (
