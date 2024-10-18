@@ -159,7 +159,8 @@ export default function LinkForm() {
               value={linkImg}
               onChange={(e) => setLinkImg(e.target.value)}
               placeholder="이미지 url을 입력해주세요"
-              required
+              disabled={selectedStyle === "심플"}
+              required={selectedStyle !== "심플"}
             />
             {isImageError && (
               <div className="mt-1 text-red-500">잘못된 이미지 경로입니다</div>
