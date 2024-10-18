@@ -15,6 +15,7 @@
 
 # production
 /build
+!/build.sh
 
 # misc
 .DS_Store
@@ -37,3 +38,5 @@ next-env.d.ts
 
 .idea
 package-lock.json
+.env
+api.txt

@@ -1,0 +1,51 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "^18.18.0"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: creates output directory
+        run: sh ./build.sh
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ secrets.EMAIL }}"
+
+      - name: Push to personal repository
+        run: |
+          cd output
+          git init
+          git add .
+          git commit -m "Deploy from GitHub Actions"
+          git branch -M main
+          git remote add origin https://s-ja:${{ secrets.FOR_DEPLOY }}@github.com/s-ja/linkle.git
+          git push origin main --force
+
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
