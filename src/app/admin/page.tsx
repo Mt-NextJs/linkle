@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
+import EmptyBlock from "@app/(intro)/components/UI/empty-block";
 
 interface Block {
   id: number;
@@ -157,46 +158,36 @@ export default function Admin() {
           </div>
         </div>
       </div>
+
       <br />
-      <div className="h-64 items-center rounded border bg-slate-100 text-center align-middle">
-        <Image
-          className="mb-[10px] ml-[44%] mt-[17px]"
-          src="/assets/icons/icon_empty.png"
-          alt="arrow_down"
-          width={80}
-          height={40}
-        />
-        <p>지금 공개된 링크가 없다...</p>
-        <p>
-          <strong className="cursor-pointer">소식받기</strong> 버튼을 눌러다오
-        </p>
-        <p>새로운 링크가 생기면 알려줌.,..</p>
-      </div>
-      <br />
-      {blocks.map((block, index) => (
-        <BasicBlock
-          key={block.id}
-          id={block.id}
-          type={block.type}
-          title={block.title || "제목 없음"}
-          sequence={block.sequence}
-          style={block.style}
-          subText01={block.subText01}
-          subText02={block.subText02}
-          url={block.url}
-          imgUrl={block.imgUrl}
-          dateStart={block.dateStart}
-          dateEnd={block.dateEnd}
-          openYn={block.openYn}
-          keepYn={block.keepYn}
-          dateCreate={block.dateCreate}
-          dateUpdate={block.dateUpdate}
-          index={index}
-          dragStart={dragStart}
-          dragEnter={dragEnter}
-          drop={drop}
-        />
-      ))}
+      {blocks.length == 0 ? (
+        <EmptyBlock />
+      ) : (
+        blocks.map((block, index) => (
+          <BasicBlock
+            key={block.id}
+            id={block.id}
+            type={block.type}
+            title={block.title || "제목 없음"}
+            sequence={block.sequence}
+            style={block.style}
+            subText01={block.subText01}
+            subText02={block.subText02}
+            url={block.url}
+            imgUrl={block.imgUrl}
+            dateStart={block.dateStart}
+            dateEnd={block.dateEnd}
+            openYn={block.openYn}
+            keepYn={block.keepYn}
+            dateCreate={block.dateCreate}
+            dateUpdate={block.dateUpdate}
+            index={index}
+            dragStart={dragStart}
+            dragEnter={dragEnter}
+            drop={drop}
+          />
+        ))
+      )}
     </div>
   );
 }
