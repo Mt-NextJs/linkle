@@ -4,43 +4,87 @@ import Image from "next/image";
 import ToggleButton from "./UI/toggle-button";
 import { useState } from "react";
 
-interface BasicBlockProps {
-  title: string;
+interface Block {
+  id: number;
+  type: number;
+  sequence: number;
+  style: number | null;
+  title: string | null;
+  subText01: string | null;
+  subText02: string | null;
+  url: string;
+  imgUrl: string | null;
+  dateStart: string | null;
+  dateEnd: string | null;
+  openYn: "Y" | "N";
+  keepYn: "Y" | "N";
+  dateCreate: string;
+  dateUpdate: string | null;
   index: number;
-  setTop: (index: number) => void;
-  setBottom: (index: number) => void;
 }
-
 export default function BasicBlock({
+  id,
+  type,
+  sequence,
+  style,
   title,
+  subText01,
+  subText02,
+  url,
+  imgUrl,
+  dateStart,
+  dateEnd,
+  openYn,
+  keepYn,
+  dateCreate,
+  dateUpdate,
   index,
-  setTop,
-  setBottom,
-}: BasicBlockProps) {
+}: Block) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleMenu() {
     setIsOpen(!isOpen);
   }
 
-  function setIcon(title: string) {
+  function setIcon(title: string | null) {
     switch (title) {
-      case "이벤트":
+      case "이벤트 블록":
         return "/assets/icons/icon_gift.png";
-      case "캘린더":
+      case "캘린더 블록":
         return "/assets/icons/icon_calendar.png";
-      case "동영상":
+      case "동영상 블록":
         return "/assets/icons/icon_video.png";
-      case "구분선":
+      case "구분선 블록":
         return "/assets/icons/icon_divide.png";
-      case "이미지":
+      case "이미지 블록":
         return "/assets/icons/icon_image.png";
-      case "텍스트":
+      case "텍스트 블록":
         return "/assets/icons/icon_text.png";
-      case "링크":
+      case "링크 블록":
         return "/assets/icons/icon_link.png";
       default:
         return "/assets/icons/icon_gift.png";
+    }
+  }
+  async function deleteHandler() {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await fetch("http://43.201.21.97:3002/api/link/delete", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: 1,
+        }),
+      });
+      if (!response.ok) {
+        alert("삭제 실패");
+      } else {
+        alert("삭제 성공");
+      }
+    } catch (error) {
+      alert("연결 실패");
     }
   }
 
@@ -49,7 +93,7 @@ export default function BasicBlock({
       <div className="flex h-36 w-full rounded border">
         <div className="relative w-[5%]">
           <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <button onClick={() => setTop(index)}>
+            <button>
               <Image
                 className="ml-[8px] mt-[7px]"
                 src="/assets/icons/icon_arrow_up.png"
@@ -69,7 +113,7 @@ export default function BasicBlock({
             />
           </div>
           <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <button onClick={() => setBottom(index)}>
+            <button>
               <Image
                 className="ml-[8px] mt-[7px]"
                 src="/assets/icons/icon_arrow.png"
@@ -111,7 +155,10 @@ export default function BasicBlock({
                       <li className="border-b px-4 py-2 font-bold hover:bg-slate-200">
                         보관
                       </li>
-                      <li className="px-4 py-2 font-bold hover:bg-slate-200">
+                      <li
+                        className="px-4 py-2 font-bold hover:bg-slate-200"
+                        onClick={deleteHandler}
+                      >
                         삭제
                       </li>
                     </ul>

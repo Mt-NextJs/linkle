@@ -4,12 +4,32 @@ import BasicBlock from "@app/(intro)/components/basicblock";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
 import { ClientRoute } from "@config/route";
+
+interface Block {
+  id: number;
+  type: number;
+  sequence: number;
+  style: number | null;
+  title: string | null;
+  subText01: string | null;
+  subText02: string | null;
+  url: string;
+  imgUrl: string | null;
+  dateStart: string | null;
+  dateEnd: string | null;
+  openYn: "Y" | "N";
+  keepYn: "Y" | "N";
+  dateCreate: string;
+  dateUpdate: string | null;
+}
 
 export default function Admin() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
+    if (!token) {
+      window.history.back();
+    }
     const setVisitor = async () => {
       try {
         const response = await fetch(
@@ -34,22 +54,13 @@ export default function Admin() {
       }
     };
     setVisitor();
+    getBlocks();
   }, []);
+
   const [showTotal, setShowTotal] = useState("0");
   const [showToday, setShowToday] = useState("0");
   const [showRealTime, setShowRealTime] = useState("0");
-
-  const DUMMY_BLOCKS = [
-    "이벤트",
-    "캘린더",
-    "동영상",
-    "구분선",
-    "이미지",
-    "텍스트",
-    "링크",
-  ];
-
-  const [blocks, setBlocks] = useState(DUMMY_BLOCKS);
+  const [blocks, setBlocks] = useState<Block[]>([]);
 
   function setTop(index: number) {
     setBlocks((prev) => {
@@ -66,6 +77,26 @@ export default function Admin() {
       newBlocks.push(movedBlock);
       return newBlocks;
     });
+  }
+  async function getBlocks() {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await fetch("http://43.201.21.97:3002/api/link/list", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        alert("블록 조회 실패");
+      } else {
+        const infor = await response.json();
+        console.log(infor.data);
+        setBlocks(infor.data);
+      }
+    } catch (error) {
+      alert("연결 실패");
+    }
   }
 
   return (
@@ -133,11 +164,23 @@ export default function Admin() {
       <br />
       {blocks.map((block, index) => (
         <BasicBlock
-          key={index}
-          title={block}
+          key={block.id}
+          id={block.id}
+          type={block.type}
+          title={block.title || "제목 없음"}
+          sequence={block.sequence}
+          style={block.style}
+          subText01={block.subText01}
+          subText02={block.subText02}
+          url={block.url}
+          imgUrl={block.imgUrl}
+          dateStart={block.dateStart}
+          dateEnd={block.dateEnd}
+          openYn={block.openYn}
+          keepYn={block.keepYn}
+          dateCreate={block.dateCreate}
+          dateUpdate={block.dateUpdate}
           index={index}
-          setTop={setTop}
-          setBottom={setBottom}
         />
       ))}
     </div>
