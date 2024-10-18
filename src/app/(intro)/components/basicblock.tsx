@@ -74,16 +74,24 @@ export default function BasicBlock({
   }
   async function deleteHandler() {
     const token = sessionStorage.getItem("token");
+    if (!token) {
+      alert("인증 토큰이 없습니다.");
+      return;
+    }
     try {
-      const response = await fetch("http://43.201.21.97:3002/api/link/delete", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/delete`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: id,
+          }),
         },
-        body: JSON.stringify({
-          id: 1,
-        }),
-      });
+      );
       if (!response.ok) {
         alert("삭제 실패");
       } else {
