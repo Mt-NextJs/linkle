@@ -20,7 +20,8 @@ export async function getSequence(token: string) {
     const result = await response.json();
     if (result.code === 200) {
       const blockList = result.data;
-      return blockList[blockList.length - 1].sequence;
+      if(blockList.length === 0) return 1;
+      else return blockList[blockList.length - 1].sequence;
     }
   } catch (error) {
     throw new Error(
