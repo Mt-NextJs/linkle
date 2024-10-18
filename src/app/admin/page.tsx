@@ -2,7 +2,7 @@
 
 import BasicBlock from "@app/(intro)/components/basicblock";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 import { ClientRoute } from "@config/route";
@@ -39,6 +39,8 @@ export default function Admin() {
   const [showToday, setShowToday] = useState("0");
   const [showRealTime, setShowRealTime] = useState("0");
 
+  const dragItem = useRef<number | null>(null);
+  const dragOverItem = useRef<number | null>(null);
   const DUMMY_BLOCKS = [
     "이벤트",
     "캘린더",
@@ -67,6 +69,26 @@ export default function Admin() {
       return newBlocks;
     });
   }
+
+  const dragStart = (e: React.DragEvent<HTMLDivElement>, position: number) => {
+    dragItem.current = position;
+    console.log((e.target as HTMLDivElement).innerHTML);
+  };
+
+  const dragEnter = (e: React.DragEvent<HTMLDivElement>, position: number) => {
+    dragOverItem.current = position;
+    console.log((e.target as HTMLDivElement).innerHTML);
+  };
+
+  const drop = (e: React.DragEvent<HTMLDivElement>) => {
+    const copyListItems = [...blocks];
+    const dragItemContent = copyListItems[dragItem.current as number];
+    copyListItems.splice(dragItem.current as number, 1);
+    copyListItems.splice(dragOverItem.current as number, 0, dragItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setBlocks(copyListItems);
+  };
 
   return (
     <div>
@@ -138,6 +160,9 @@ export default function Admin() {
           index={index}
           setTop={setTop}
           setBottom={setBottom}
+          dragStart={dragStart}
+          dragEnter={dragEnter}
+          drop={drop}
         />
       ))}
     </div>
