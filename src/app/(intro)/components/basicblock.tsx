@@ -52,26 +52,47 @@ export default function BasicBlock({
     setIsOpen(!isOpen);
   }
 
-  function setIcon(title: string | null) {
-    switch (title) {
-      case "이벤트 블록":
-        return "/assets/icons/icon_gift.png";
-      case "캘린더 블록":
-        return "/assets/icons/icon_calendar.png";
-      case "동영상 블록":
-        return "/assets/icons/icon_video.png";
-      case "구분선 블록":
+  function setIcon(type: number) {
+    switch (type) {
+      case 1:
         return "/assets/icons/icon_divide.png";
-      case "이미지 블록":
-        return "/assets/icons/icon_image.png";
-      case "텍스트 블록":
-        return "/assets/icons/icon_text.png";
-      case "링크 블록":
+      case 2:
+        return "/assets/icons/icon_video.png";
+      case 3:
         return "/assets/icons/icon_link.png";
+      case 4:
+        return "/assets/icons/icon_image.png";
+      case 5:
+        return "/assets/icons/icon_gift.png";
+      case 6:
+        return "/assets/icons/icon_text.png";
+      case 7:
+        return "/assets/icons/icon_calendar.png";
       default:
         return "/assets/icons/icon_gift.png";
     }
   }
+  function setTitle(type: number) {
+    switch (type) {
+      case 1:
+        return "구분선";
+      case 2:
+        return "동영상";
+      case 3:
+        return "링크";
+      case 4:
+        return "이미지";
+      case 5:
+        return "이벤트";
+      case 6:
+        return "텍스트";
+      case 7:
+        return "캘린더";
+      default:
+        return "해당없음";
+    }
+  }
+
   async function deleteHandler() {
     const token = sessionStorage.getItem("token");
     if (!token) {
@@ -150,12 +171,14 @@ export default function BasicBlock({
             <div className="flex items-center">
               <Image
                 className="ml-2"
-                src={setIcon(title)}
-                alt="title_icon"
+                src={setIcon(type)}
+                alt="type_icon"
                 width={30}
                 height={20}
               />
-              <div className="ml-[4px] font-bold text-orange-600">{title}</div>
+              <div className="ml-[4px] font-bold text-orange-600">
+                {setTitle(type)}
+              </div>
             </div>
             <div className="ml-auto flex items-center space-x-2">
               <ToggleButton />
