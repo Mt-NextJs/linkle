@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "@app/admin/block/components/layout";
 import TextInputBox from "@app/admin/block/components/text-input-box";
 import Image from "next/image";
@@ -16,6 +16,18 @@ const Page = () => {
   const [title, setTitle] = useState<string>("");
   const [connectingUrl, setConnectingUrl] = useState<string>("");
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
+
+  const params = {
+    type: 4,
+    // sequence: number,
+    title,
+    url: connectingUrl,
+    imgUrl: imageUrl,
+  };
+
+  useEffect(() => {
+    setSelectedImageUrl(imageUrl || previewImageUrl);
+  }, [imageUrl, previewImageUrl]);
 
   const handeInputImageClick = () => {
     inputImageRef.current?.click();
