@@ -7,40 +7,17 @@ import DividerSelector from "./components/divider-selector";
 import { DividerType } from "./types";
 import ButtonBox from "@app/admin/block/components/buttons/button-box";
 import AddButton from "@app/admin/block/components/buttons/add-button";
-
-interface Block {
-  sequence: number;
-}
+import { getSequence } from "lib/get-sequence";
 
 export default function DividerPage() {
   const [selectedDivider, setSelectedDivider] = useState<DividerType>("공백");
-
-  const getExistingBlocks = async (token: string): Promise<Block[]> => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    );
-
-    if (!response.ok) throw new Error("블록 목록을 가져오는데 실패했습니다.");
-
-    const data = await response.json();
-    return data.data;
-  };
-
-  const getNextSequence = (blocks: Block[]): number => {
-    if (blocks.length === 0) return 1;
-    return Math.max(...blocks.map((block) => block.sequence)) + 1;
-  };
 
   const handleAddDivider = async () => {
     try {
       const token = sessionStorage.getItem("token");
       if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
 
-      const blocks = await getExistingBlocks(token);
-      const nextSequence = getNextSequence(blocks);
+      const nextSequence = await getSequence(token);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
@@ -52,7 +29,7 @@ export default function DividerPage() {
           },
           body: JSON.stringify({
             type: 1,
-            sequence: nextSequence,
+            sequence: nextSequence + 1,
             style: getDividerStyle(selectedDivider),
           }),
         },
