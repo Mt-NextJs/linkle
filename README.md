@@ -1,6 +1,9 @@
-# Project Linkle - IN MY LINK 1차 고도화 프로젝트
-
-## 'IN MY LINK'의 1차 고도화 프로젝트입니다.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/534ba21d-711d-411c-8b15-6117788e2707" alt="Project Banner" width="100%"/>
+  <h1>Project Linkle</h1>
+  <img src="https://github.com/user-attachments/assets/414957b3-01b0-4ac7-9a0a-b5ff59ce90ff" alt="Project Image" width="200px"/>
+  <h2>IN MY LINK 1차 고도화 프로젝트</h2>
+</div>
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
