@@ -104,6 +104,8 @@ http://localhost:3000
 
 ## 📦 배포
 
+### [배포 링크](https://linkle-nine.vercel.app/)
+
 이 프로젝트는 Vercel을 사용해 배포되며, 자동 CI/CD 파이프라인을 통해 항상 최신 상태로 유지됩니다. main 브랜치는 언제나 배포 가능한 상태로 유지되며, 모든 변경 사항은 Pull Request를 통해 검토됩니다.
 
 ## 🔗 링크
