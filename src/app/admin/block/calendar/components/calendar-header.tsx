@@ -8,7 +8,7 @@ export default function CalendarHeader() {
   const router = useRouter();
 
   const handleAddScheduleClick = () => {
-    router.push("/calendar/add");
+    router.push("calendar/add");
   };
 
   return (
