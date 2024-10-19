@@ -13,7 +13,8 @@ export default function EventFormInput({
   return (
     <div>
       <label className="title mb-[10px] block" htmlFor={id}>
-        {label} <span className="text-red-500">*</span>
+        {label}{" "}
+        {label === "이벤트 명" && <span className="text-red-500">*</span>}
       </label>
       <input id={id} {...inputProps} />
     </div>
