@@ -8,12 +8,14 @@ export default function StylePreview({
   selectedStyle,
   title,
   linkImg,
-  setIsImageError,
+  setIsImgUrlConnectionError,
+  isValidUrl,
 }: {
   selectedStyle: string;
   title: string;
   linkImg: string;
-  setIsImageError: Dispatch<SetStateAction<boolean>>;
+  setIsImgUrlConnectionError: Dispatch<SetStateAction<boolean>>;
+  isValidUrl: (url: string) => boolean;
 }) {
   const placeholderImage =
     "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
@@ -24,7 +26,7 @@ export default function StylePreview({
   useEffect(() => {
     if (selectedStyle === "배경" && linkImg && isValidUrl(linkImg)) {
       setHasImgError(false);
-      setIsImageError(false);
+      setIsImgUrlConnectionError(false);
 
       // 이미지 로드 비동기 처리
       const img = new window.Image();
@@ -36,21 +38,19 @@ export default function StylePreview({
 
       img.onerror = () => {
         setHasImgError(true); // 이미지 로드 실패
-        setIsImageError(true);
+        setIsImgUrlConnectionError(true);
       };
     } else if (!isValidUrl(linkImg)) {
       // URL이 유효하지 않으면 에러 상태 설정하지 않음
       setHasImgError(false);
-      setIsImageError(false);
+      setIsImgUrlConnectionError(false);
     }
-  }, [linkImg, selectedStyle, setIsImageError]);
+  }, [linkImg, selectedStyle, setIsImgUrlConnectionError]);
 
   const imgErrorHandler = () => {
     setHasImgError(true);
-    setIsImageError(true);
+    setIsImgUrlConnectionError(true);
   };
-
-  const isValidUrl = (url: string) => /^https?:\/\/.+\..+/.test(url);
 
   const imgUrl =
     !hasImgError && isValidUrl(linkImg) ? linkImg : placeholderImage;
