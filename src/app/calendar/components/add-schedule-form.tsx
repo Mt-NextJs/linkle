@@ -1,7 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+interface Schedule {
+  id?: number;
+  title: string;
+  url?: string;
+  dateStart: string;
+  dateEnd: string;
+}
+
+interface CalendarBlock {
+  id?: number;
+  type: number;
+  sequence: number;
+  style: number;
+  schedule: Schedule[];
+}
 
 export default function AddScheduleForm() {
   const [startDate, setStartDate] = useState("");
@@ -12,10 +29,155 @@ export default function AddScheduleForm() {
   const [url, setUrl] = useState("");
   const [showStartTime, setShowStartTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [calendarBlock, setCalendarBlock] = useState<CalendarBlock | null>(
+    null,
+  );
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const fetchCalendarBlock = useCallback(async () => {
+    try {
+      if (calendarBlock) {
+        console.log("캘린더 블록이 이미 존재합니다.");
+        return;
+      }
+
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        throw new Error("로그인이 필요합니다.");
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Fetched data:", data);
+
+      const existingCalendarBlock = data.data.find(
+        (item: CalendarBlock) => item.type === 7,
+      );
+
+      if (existingCalendarBlock) {
+        setCalendarBlock(existingCalendarBlock);
+        console.log("Existing calendar block found:", existingCalendarBlock);
+      } else {
+        console.log("캘린더 블록이 없습니다.");
+      }
+    } catch (error) {
+      console.error("Error fetching calendar block:", error);
+      setError("캘린더 블록 정보를 가져오는데 실패했습니다.");
+    }
+  }, [calendarBlock]);
+
+  useEffect(() => {
+    if (!calendarBlock) {
+      fetchCalendarBlock();
+    }
+  }, [calendarBlock, fetchCalendarBlock]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ startDate, startTime, endDate, endTime, title, url });
+    setIsLoading(true);
+    setError(null);
+
+    const schedule: Schedule = {
+      title,
+      url: url || undefined,
+      dateStart: `${startDate}T${startTime}:00.000Z`,
+      dateEnd: `${endDate}T${endTime}:00.000Z`,
+    };
+
+    try {
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        throw new Error("로그인이 필요합니다.");
+      }
+
+      console.log("Sending schedule data:", schedule);
+
+      if (calendarBlock) {
+        console.log("Existing calendar block found:", calendarBlock);
+        const updatedSchedule = [...calendarBlock.schedule, schedule];
+
+        const updateResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              id: calendarBlock.id,
+              type: 7,
+              sequence: calendarBlock.sequence,
+              style: calendarBlock.style,
+              schedule: updatedSchedule,
+            }),
+          },
+        );
+
+        if (!updateResponse.ok) {
+          const errorData = await updateResponse.json();
+          throw new Error(errorData.message || "일정 추가에 실패했습니다.");
+        }
+
+        alert("일정이 성공적으로 추가되었습니다.");
+      } else {
+        console.log("No calendar block found, creating a new one.");
+
+        const newBlock: Omit<CalendarBlock, "id"> = {
+          type: 7,
+          sequence: 8,
+          style: 1,
+          schedule: [schedule],
+        };
+
+        const createResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(newBlock),
+          },
+        );
+
+        if (!createResponse.ok) {
+          const errorData = await createResponse.json();
+          throw new Error(
+            errorData.message || "캘린더 블록 생성에 실패했습니다.",
+          );
+        }
+
+        alert("캘린더 블록과 일정이 성공적으로 추가되었습니다.");
+      }
+
+      await fetchCalendarBlock();
+      router.push("/calendar");
+    } catch (error) {
+      console.error("Error adding schedule:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "알 수 없는 오류가 발생했습니다.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const timeOptions = Array.from(
@@ -36,7 +198,7 @@ export default function AddScheduleForm() {
         <div className="flex space-x-2">
           <input
             type="date"
-            value={startDate.split(". ").join("-")}
+            value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             className={`min-w-[160px] flex-1 rounded-md p-2 ${
               startDate ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
@@ -100,7 +262,7 @@ export default function AddScheduleForm() {
         <div className="flex space-x-2">
           <input
             type="date"
-            value={endDate.split(". ").join("-")}
+            value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             className={`min-w-[120px] flex-1 rounded-md p-2 ${
               endDate ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
@@ -187,10 +349,13 @@ export default function AddScheduleForm() {
           type="submit"
           style={{ backgroundColor: "#FFF1ED", color: "#FFB092" }}
           className="button color w-full rounded-md px-4 py-2 text-white hover:bg-blue-600"
+          disabled={isLoading}
         >
-          추가 완료
+          {isLoading ? "처리 중..." : "추가 완료"}
         </button>
       </div>
+
+      {error && <p className="text-red-500">{error}</p>}
     </form>
   );
 }
