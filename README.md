@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## 🛠️ Getting Started [DEV]
 
-To get started with the development server, please follow these steps:
+개발 서버를 시작하려면 아래 단계를 따라 진행하세요:
 
 1. Clone the repository:
 
@@ -32,7 +32,7 @@ npm install
 npm run dev
 ```
 
-The development server will start, and you can access it via:
+개발 서버가 실행되면, 아래 주소에서 확인할 수 있습니다:
 http://localhost:3000
 
 ## 🗂️ Project Structure
@@ -118,4 +118,4 @@ http://localhost:3000
 
 ## 📝 라이선스
 
-이 프로젝트는 MIT 라이선스에 따라 배포됩니다.
+This project is licensed under the MIT License.
