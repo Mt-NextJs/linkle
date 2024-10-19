@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@app/admin/block/components/layout";
 import TextInputBox from "@app/admin/block/components/text-input-box";
 import AddButton from "@app/admin/block/components/buttons/add-button";
@@ -9,6 +9,51 @@ import ButtonBox from "@app/admin/block/components/buttons/button-box";
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [iframeUrl, setIframeUrl] = useState<string>("");
+
+  // const params = {
+  //   type: 2,
+  //   url: videoUrl,
+  //   // sequence: number
+  // };
+  const params = {
+    name: "test2000",
+    userId: "test2000",
+    password: "1234",
+    email: "test2000@google.com",
+  };
+
+  useEffect(() => {
+    signUp().then();
+  }, []);
+
+  const signUp = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/add`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        },
+      );
+      if (response.ok) {
+        console.log(response);
+        alert("회원가입 완료");
+      } else {
+        const { status } = response;
+        if (status === 400) {
+          alert("존재하는 아이디입니다.");
+        }
+        if (status === 500) {
+          alert("서버 에러");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function extractVideoID(url: string) {
     const regExp =
@@ -33,7 +78,11 @@ const Page = () => {
         setText={setVideoUrl}
         required={true}
       />
-      {iframeUrl && <iframe src={iframeUrl} className="rounded-lg" />}
+      {iframeUrl && (
+        <object data={iframeUrl} width="400" height="300">
+          <div>hi</div>
+        </object>
+      )}
       <ButtonBox>
         <AddButton
           text="추가 완료"

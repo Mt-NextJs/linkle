@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 export default function GlobalError() {
-    return (
-        <div>
-            <h1>GLOBAL ERROR PAGE!!</h1>
-        </div>
-    );
+  return (
+    <div>
+      <h1>GLOBAL ERROR PAGE!!</h1>
+    </div>
+  );
 }
