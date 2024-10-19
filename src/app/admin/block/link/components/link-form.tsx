@@ -1,6 +1,12 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import StylePreview from "./style-preview";
 import StyleType from "./style-type";
 import FormInput from "./form-input";
@@ -47,7 +53,10 @@ export default function LinkForm() {
   const [isImgUrlError, setIsImgUrlError] = useState(false);
   const [isImgUrlConnectionError, setIsImgUrlConnectionError] = useState(false);
 
-  const isValidUrl = (url: string) => /^https?:\/\/.+\..+/.test(url);
+  const isValidUrl = useCallback(
+    (url: string) => /^https?:\/\/.+\..+/.test(url),
+    [],
+  );
 
   async function postLink() {
     const token = await getToken();

@@ -45,7 +45,7 @@ export default function StylePreview({
       setHasImgError(false);
       setIsImgUrlConnectionError(false);
     }
-  }, [linkImg, selectedStyle, setIsImgUrlConnectionError]);
+  }, [linkImg, selectedStyle, setIsImgUrlConnectionError, isValidUrl]);
 
   const imgErrorHandler = () => {
     setHasImgError(true);
