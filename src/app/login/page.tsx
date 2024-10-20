@@ -1,8 +1,6 @@
 "use client";
 
-import { Metadata } from "next";
 import { useState } from "react";
-//metadata
 
 export default function Login() {
   const [userId, setUserId] = useState("");
@@ -11,16 +9,19 @@ export default function Login() {
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      const response = await fetch("http://43.201.21.97:3002/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            password: password,
+          }),
         },
-        body: JSON.stringify({
-          userId: userId,
-          password: password,
-        }),
-      });
+      );
       const infor = await response.json();
       if (response.ok) {
         alert("성공");
