@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function StyleType({
@@ -6,20 +7,32 @@ export default function StyleType({
   imgIdx,
   selectedStyle,
   onSelect,
+  setLinkImg,
+  setIsImgUrlConnectionError,
 }: {
   name: string;
   imgIdx: number;
   selectedStyle: string;
   onSelect: (style: string) => void;
+  setLinkImg: Dispatch<SetStateAction<string>>;
+  setIsImgUrlConnectionError: Dispatch<SetStateAction<boolean>>;
 }) {
   const isSelected = selectedStyle === name;
+
+  function clickHandler() {
+    onSelect(name);
+    if (selectedStyle === "심플") {
+      setLinkImg("");
+      setIsImgUrlConnectionError(false);
+    }
+  }
 
   return (
     <label
       htmlFor={name}
       key={name}
       className="flex w-[185px] cursor-pointer flex-col items-center"
-      onClick={() => onSelect(name)}
+      onClick={clickHandler}
     >
       <input type="radio" value={name} id={name} className="hidden" />
       <div
