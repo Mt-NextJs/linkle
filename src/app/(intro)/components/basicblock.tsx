@@ -106,7 +106,9 @@ export default function BasicBlock({
       case 2:
         return <VideoBlock />;
       case 3:
-        return <LinkBlock />;
+        return (
+          <LinkBlock url={url} style={style} imgUrl={imgUrl} title={title} />
+        );
       case 4:
         return <ImageBlock />;
       case 5:
