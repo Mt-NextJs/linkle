@@ -1,6 +1,12 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import StylePreview from "./style-preview";
 import StyleType from "./style-type";
 import FormInput from "./form-input";
@@ -43,7 +49,14 @@ export default function LinkForm() {
   const [title, setTitle] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
   const [linkImg, setLinkImg] = useState("");
-  const [isImageError, setIsImageError] = useState(false);
+  const [isLinkUrlError, setIsLinkUrlError] = useState(false);
+  const [isImgUrlError, setIsImgUrlError] = useState(false);
+  const [isImgUrlConnectionError, setIsImgUrlConnectionError] = useState(false);
+
+  const isValidUrl = useCallback(
+    (url: string) => /^https?:\/\/.+\..+/.test(url),
+    [],
+  );
 
   async function postLink() {
     const token = await getToken();
@@ -89,7 +102,7 @@ export default function LinkForm() {
   }
 
   useEffect(() => {
-    if (linkImg) setIsImageError(false);
+    if (linkImg) setIsImgUrlConnectionError(false);
   }, [linkImg]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -101,13 +114,33 @@ export default function LinkForm() {
     setLinkImg("");
   };
 
+  const handleLinkUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newUrl = e.target.value;
+    setLinkUrl(newUrl);
+    if (newUrl.trim() === "") {
+      setIsLinkUrlError(false);
+    } else {
+      setIsLinkUrlError(!isValidUrl(newUrl));
+    }
+  };
+  const handleImgUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newUrl = e.target.value;
+    setLinkImg(newUrl);
+    if (newUrl.trim() === "") {
+      setIsImgUrlError(false);
+    } else {
+      setIsImgUrlError(!isValidUrl(newUrl));
+    }
+  };
+
   return (
     <>
       <StylePreview
         selectedStyle={selectedStyle}
         title={title}
         linkImg={linkImg}
-        setIsImageError={setIsImageError}
+        setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+        isValidUrl={isValidUrl}
       />
 
       <form onSubmit={handleSubmit} className="mt-8">
@@ -124,6 +157,8 @@ export default function LinkForm() {
                 imgIdx={idx}
                 selectedStyle={selectedStyle}
                 onSelect={setSelectedStyle}
+                setLinkImg={setLinkImg}
+                setIsImgUrlConnectionError={setIsImgUrlConnectionError}
               />
             ))}
           </div>
@@ -132,38 +167,55 @@ export default function LinkForm() {
         <div className="my-8 border-t-2 border-[#F6F6F6]"></div>
 
         {/* Info */}
-        <section className="flex flex-col gap-8">
-          <FormInput
-            label="연결할 주소"
-            type="url"
-            id="linked-url"
-            value={linkUrl}
-            onChange={(e) => setLinkUrl(e.target.value)}
-            placeholder="연결할 주소 url을 입력해주세요"
-            required
-          />
-          <FormInput
-            label="타이틀"
-            type="text"
-            id="link-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="타이틀을 입력해주세요"
-            required
-          />
-          <div className="h-[110px]">
+        <section className="flex flex-col gap-4">
+          <div className="min-h-[110px]">
+            <FormInput
+              label="연결할 주소"
+              type="url"
+              id="linked-url"
+              value={linkUrl}
+              onChange={handleLinkUrlChange}
+              placeholder="연결할 주소 url을 입력해주세요"
+              required
+            />
+            {isLinkUrlError && (
+              <div className="mt-1 text-sm text-red-500">
+                올바른 URL 형식을 입력해주세요
+              </div>
+            )}
+          </div>
+          <div className="min-h-[110px]">
+            <FormInput
+              label="타이틀"
+              type="text"
+              id="link-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="타이틀을 입력해주세요"
+              required
+            />
+          </div>
+          <div className="min-h-[110px]">
             <FormInput
               label="이미지"
               type="url"
               id="linked-img"
               value={linkImg}
-              onChange={(e) => setLinkImg(e.target.value)}
+              onChange={handleImgUrlChange}
+              selectedStyle={selectedStyle}
               placeholder="이미지 url을 입력해주세요"
               disabled={selectedStyle === "심플"}
               required={selectedStyle !== "심플"}
             />
-            {isImageError && (
-              <div className="mt-1 text-red-500">잘못된 이미지 경로입니다</div>
+            {isImgUrlError && (
+              <div className="mt-1 text-sm text-red-500">
+                올바른 URL 형식을 입력해주세요
+              </div>
+            )}
+            {isImgUrlConnectionError && (
+              <div className="mt-1 text-sm text-red-500">
+                잘못된 이미지 경로입니다
+              </div>
             )}
           </div>
         </section>
