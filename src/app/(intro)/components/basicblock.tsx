@@ -3,53 +3,168 @@
 import Image from "next/image";
 import ToggleButton from "./UI/toggle-button";
 import { useState } from "react";
+import DivideBlock from "@app/admin/components/divide-block";
+import VideoBlock from "@app/admin/components/video-block";
+import LinkBlock from "@app/admin/components/link-block";
+import ImageBlock from "@app/admin/components/image-block";
+import EventBlock from "@app/admin/components/event-block";
+import TextBlock from "@app/admin/components/text-block";
+import CalendarBlock from "@app/admin/components/calendar-block";
 
-interface BasicBlockProps {
-  title: string;
+interface Block {
+  id: number;
+  type: number;
+  sequence: number;
+  style: number | null;
+  title: string | null;
+  subText01: string | null;
+  subText02: string | null;
+  url: string;
+  imgUrl: string | null;
+  dateStart: string | null;
+  dateEnd: string | null;
+  openYn: "Y" | "N";
+  keepYn: "Y" | "N";
+  dateCreate: string;
+  dateUpdate: string | null;
   index: number;
-  setTop: (index: number) => void;
-  setBottom: (index: number) => void;
+  dragStart: (e: React.DragEvent<HTMLDivElement>, position: number) => void;
+  dragEnter: (e: React.DragEvent<HTMLDivElement>, position: number) => void;
+  drop: (e: React.DragEvent<HTMLDivElement>) => void;
 }
-
 export default function BasicBlock({
+  id,
+  type,
+  sequence,
+  style,
   title,
+  subText01,
+  subText02,
+  url,
+  imgUrl,
+  dateStart,
+  dateEnd,
+  openYn,
+  keepYn,
+  dateCreate,
+  dateUpdate,
   index,
-  setTop,
-  setBottom,
-}: BasicBlockProps) {
+  dragStart,
+  dragEnter,
+  drop,
+}: Block) {
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleMenu() {
     setIsOpen(!isOpen);
   }
 
-  function setIcon(title: string) {
-    switch (title) {
-      case "이벤트":
-        return "/assets/icons/icon_gift.png";
-      case "캘린더":
-        return "/assets/icons/icon_calendar.png";
-      case "동영상":
-        return "/assets/icons/icon_video.png";
-      case "구분선":
+  function setIcon(type: number) {
+    switch (type) {
+      case 1:
         return "/assets/icons/icon_divide.png";
-      case "이미지":
-        return "/assets/icons/icon_image.png";
-      case "텍스트":
-        return "/assets/icons/icon_text.png";
-      case "링크":
+      case 2:
+        return "/assets/icons/icon_video.png";
+      case 3:
         return "/assets/icons/icon_link.png";
+      case 4:
+        return "/assets/icons/icon_image.png";
+      case 5:
+        return "/assets/icons/icon_gift.png";
+      case 6:
+        return "/assets/icons/icon_text.png";
+      case 7:
+        return "/assets/icons/icon_calendar.png";
       default:
         return "/assets/icons/icon_gift.png";
+    }
+  }
+  function setTitle(type: number) {
+    switch (type) {
+      case 1:
+        return "구분선";
+      case 2:
+        return "동영상";
+      case 3:
+        return "링크";
+      case 4:
+        return "이미지";
+      case 5:
+        return "이벤트";
+      case 6:
+        return "텍스트";
+      case 7:
+        return "캘린더";
+      default:
+        return "해당없음";
+    }
+  }
+  function renderComponent(type: number) {
+    switch (type) {
+      case 1:
+        return <DivideBlock />;
+      case 2:
+        return <VideoBlock />;
+      case 3:
+        return (
+          <LinkBlock url={url} style={style} imgUrl={imgUrl} title={title} />
+        );
+      case 4:
+        return <ImageBlock />;
+      case 5:
+        return <EventBlock />;
+      case 6:
+        return <TextBlock />;
+      case 7:
+        return <CalendarBlock />;
+      default:
+        return <></>;
+    }
+  }
+
+  async function deleteHandler() {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      alert("인증 토큰이 없습니다.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/delete`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: id,
+          }),
+        },
+      );
+      if (!response.ok) {
+        alert("삭제 실패");
+      } else {
+        alert("삭제 성공");
+      }
+    } catch (error) {
+      alert("연결 실패");
     }
   }
 
   return (
     <>
-      <div className="flex h-36 w-full rounded border">
+      <div
+        className="flex h-36 w-full rounded border"
+        draggable
+        onDragStart={(e) => dragStart(e, index)}
+        onDragEnter={(e) => dragEnter(e, index)}
+        onDragEnd={drop}
+        onDragOver={(e) => e.preventDefault()}
+      >
         <div className="relative w-[5%]">
           <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <button onClick={() => setTop(index)}>
+            <button>
               <Image
                 className="ml-[8px] mt-[7px]"
                 src="/assets/icons/icon_arrow_up.png"
@@ -69,7 +184,7 @@ export default function BasicBlock({
             />
           </div>
           <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <button onClick={() => setBottom(index)}>
+            <button>
               <Image
                 className="ml-[8px] mt-[7px]"
                 src="/assets/icons/icon_arrow.png"
@@ -85,12 +200,14 @@ export default function BasicBlock({
             <div className="flex items-center">
               <Image
                 className="ml-2"
-                src={setIcon(title)}
-                alt="title_icon"
+                src={setIcon(type)}
+                alt="type_icon"
                 width={30}
                 height={20}
               />
-              <div className="ml-[4px] font-bold text-orange-600">{title}</div>
+              <div className="ml-[4px] font-bold text-orange-600">
+                {setTitle(type)}
+              </div>
             </div>
             <div className="ml-auto flex items-center space-x-2">
               <ToggleButton />
@@ -111,7 +228,10 @@ export default function BasicBlock({
                       <li className="border-b px-4 py-2 font-bold hover:bg-slate-200">
                         보관
                       </li>
-                      <li className="px-4 py-2 font-bold hover:bg-slate-200">
+                      <li
+                        className="px-4 py-2 font-bold hover:bg-slate-200"
+                        onClick={deleteHandler}
+                      >
                         삭제
                       </li>
                     </ul>
@@ -120,8 +240,7 @@ export default function BasicBlock({
               </button>
             </div>
           </div>
-          <div className="h-[80px]"></div>
-          <div className="h-[32px]"></div>
+          {renderComponent(type)}
         </div>
       </div>
       <br></br>

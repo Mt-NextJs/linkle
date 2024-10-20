@@ -2,18 +2,40 @@
 
 import BasicBlock from "@app/(intro)/components/basicblock";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-
 import { ClientRoute } from "@config/route";
+import EmptyBlock from "@app/(intro)/components/UI/empty-block";
+import VideoBlock from "./components/video-block";
+
+interface Block {
+  id: number;
+  type: number;
+  sequence: number;
+  style: number | null;
+  title: string | null;
+  subText01: string | null;
+  subText02: string | null;
+  url: string;
+  imgUrl: string | null;
+  dateStart: string | null;
+  dateEnd: string | null;
+  openYn: "Y" | "N";
+  keepYn: "Y" | "N";
+  dateCreate: string;
+  dateUpdate: string | null;
+}
 
 export default function Admin() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
+    if (!token) {
+      window.history.back();
+    }
     const setVisitor = async () => {
       try {
         const response = await fetch(
-          "http://43.201.21.97:3002/api/user/visitor",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/user/visitor`,
           {
             method: "GET",
             headers: {
@@ -34,39 +56,61 @@ export default function Admin() {
       }
     };
     setVisitor();
+    getBlocks();
   }, []);
+
   const [showTotal, setShowTotal] = useState("0");
   const [showToday, setShowToday] = useState("0");
   const [showRealTime, setShowRealTime] = useState("0");
 
-  const DUMMY_BLOCKS = [
-    "이벤트",
-    "캘린더",
-    "동영상",
-    "구분선",
-    "이미지",
-    "텍스트",
-    "링크",
-  ];
+  const [blocks, setBlocks] = useState<Block[]>([]);
 
-  const [blocks, setBlocks] = useState(DUMMY_BLOCKS);
+  const dragItem = useRef<number | null>(null);
+  const dragOverItem = useRef<number | null>(null);
 
-  function setTop(index: number) {
-    setBlocks((prev) => {
-      const newBlocks = [...prev];
-      const [movedBlock] = newBlocks.splice(index, 1);
-      newBlocks.unshift(movedBlock);
-      return newBlocks;
-    });
+  async function getBlocks() {
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!response.ok) {
+        alert("블록 조회 실패");
+      } else {
+        const infor = await response.json();
+        console.log(infor.data);
+        setBlocks(infor.data);
+      }
+    } catch (error) {
+      alert("연결 실패");
+    }
   }
-  function setBottom(index: number) {
-    setBlocks((prev) => {
-      const newBlocks = [...prev];
-      const [movedBlock] = newBlocks.splice(index, 1);
-      newBlocks.push(movedBlock);
-      return newBlocks;
-    });
-  }
+
+  const dragStart = (e: React.DragEvent<HTMLDivElement>, position: number) => {
+    dragItem.current = position;
+    console.log((e.target as HTMLDivElement).innerHTML);
+  };
+
+  const dragEnter = (e: React.DragEvent<HTMLDivElement>, position: number) => {
+    dragOverItem.current = position;
+    console.log((e.target as HTMLDivElement).innerHTML);
+  };
+
+  const drop = (e: React.DragEvent<HTMLDivElement>) => {
+    const copyListItems = [...blocks];
+    const dragItemContent = copyListItems[dragItem.current as number];
+    copyListItems.splice(dragItem.current as number, 1);
+    copyListItems.splice(dragOverItem.current as number, 0, dragItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setBlocks(copyListItems);
+  };
 
   return (
     <div>
@@ -115,31 +159,36 @@ export default function Admin() {
           </div>
         </div>
       </div>
+
       <br />
-      <div className="h-64 items-center rounded border bg-slate-100 text-center align-middle">
-        <Image
-          className="mb-[10px] ml-[44%] mt-[17px]"
-          src="/assets/icons/icon_empty.png"
-          alt="arrow_down"
-          width={80}
-          height={40}
-        />
-        <p>지금 공개된 링크가 없다...</p>
-        <p>
-          <strong className="cursor-pointer">소식받기</strong> 버튼을 눌러다오
-        </p>
-        <p>새로운 링크가 생기면 알려줌.,..</p>
-      </div>
-      <br />
-      {blocks.map((block, index) => (
-        <BasicBlock
-          key={index}
-          title={block}
-          index={index}
-          setTop={setTop}
-          setBottom={setBottom}
-        />
-      ))}
+      {blocks.length == 0 ? (
+        <EmptyBlock />
+      ) : (
+        blocks.map((block, index) => (
+          <BasicBlock
+            key={block.id}
+            id={block.id}
+            type={block.type}
+            title={block.title || "제목 없음"}
+            sequence={block.sequence}
+            style={block.style}
+            subText01={block.subText01}
+            subText02={block.subText02}
+            url={block.url}
+            imgUrl={block.imgUrl}
+            dateStart={block.dateStart}
+            dateEnd={block.dateEnd}
+            openYn={block.openYn}
+            keepYn={block.keepYn}
+            dateCreate={block.dateCreate}
+            dateUpdate={block.dateUpdate}
+            index={index}
+            dragStart={dragStart}
+            dragEnter={dragEnter}
+            drop={drop}
+          />
+        ))
+      )}
     </div>
   );
 }
