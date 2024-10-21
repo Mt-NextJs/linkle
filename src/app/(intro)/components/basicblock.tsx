@@ -28,9 +28,9 @@ interface Block {
   dateCreate: string;
   dateUpdate: string | null;
   index: number;
-  dragStart: (e: React.DragEvent<HTMLDivElement>, position: number) => void;
-  dragEnter: (e: React.DragEvent<HTMLDivElement>, position: number) => void;
-  drop: (e: React.DragEvent<HTMLDivElement>) => void;
+  dragStart: (position: number) => void;
+  dragEnter: (position: number) => void;
+  drop: () => void;
 }
 export default function BasicBlock({
   id,
@@ -157,8 +157,8 @@ export default function BasicBlock({
       <div
         className="flex h-36 w-full rounded border"
         draggable
-        onDragStart={(e) => dragStart(e, index)}
-        onDragEnter={(e) => dragEnter(e, index)}
+        onDragStart={() => dragStart(index)}
+        onDragEnter={() => dragEnter(index)}
         onDragEnd={drop}
         onDragOver={(e) => e.preventDefault()}
       >

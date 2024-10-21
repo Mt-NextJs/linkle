@@ -5,8 +5,8 @@ import Layout from "../components/layout";
 import DividerPreview from "./components/divider-preview";
 import DividerSelector from "./components/divider-selector";
 import { DividerType } from "./types";
-import ButtonBox from "@app/admin/block/components/buttons/button-box";
-import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/components/buttons/button-box";
+import AddButton from "@app/components/buttons/add-button";
 import { getSequence } from "lib/get-sequence";
 
 export default function DividerPage() {

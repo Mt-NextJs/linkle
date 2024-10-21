@@ -4,7 +4,7 @@ interface Props {
   title: string;
   placeholder: string;
   text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
+  setText: (text: string) => void;
   required?: boolean;
   limit?: number;
 }

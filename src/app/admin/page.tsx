@@ -7,6 +7,8 @@ import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/(intro)/components/UI/empty-block";
 import VideoBlock from "./components/video-block";
+import AddButton from "@app/components/buttons/add-button";
+import ButtonBox from "@app/components/buttons/button-box";
 
 interface Block {
   id: number;
@@ -92,21 +94,19 @@ export default function Admin() {
     }
   }
 
-  const dragStart = (e: React.DragEvent<HTMLDivElement>, position: number) => {
-    dragItem.current = position;
-    console.log((e.target as HTMLDivElement).innerHTML);
+  const dragStart = (position: number) => {
+    dragItem.current = position; // position -> index (드래그 선택 아이템의 인덱스)
   };
 
-  const dragEnter = (e: React.DragEvent<HTMLDivElement>, position: number) => {
-    dragOverItem.current = position;
-    console.log((e.target as HTMLDivElement).innerHTML);
+  const dragEnter = (position: number) => {
+    dragOverItem.current = position; // position -> index (드래그 오버 아이템의 인덱스)
   };
 
-  const drop = (e: React.DragEvent<HTMLDivElement>) => {
+  const drop = () => {
     const copyListItems = [...blocks];
-    const dragItemContent = copyListItems[dragItem.current as number];
-    copyListItems.splice(dragItem.current as number, 1);
-    copyListItems.splice(dragOverItem.current as number, 0, dragItemContent);
+    const dragItemContent = copyListItems[dragItem.current as number]; // 리스트에서 드래그 선택 아이템
+    copyListItems.splice(dragItem.current as number, 1); // 리스트에서 드래그 선택 아이템 삭제하여 리스트에서 제거
+    copyListItems.splice(dragOverItem.current as number, 0, dragItemContent); // 리스트에서 드래그 오버 아이템의 위치에 드래그 선택 아이템 추가
     dragItem.current = null;
     dragOverItem.current = null;
     setBlocks(copyListItems);
@@ -189,6 +189,9 @@ export default function Admin() {
           />
         ))
       )}
+      <ButtonBox>
+        <AddButton text="추가 완료" onClick={() => console.log("hi")} />
+      </ButtonBox>
     </div>
   );
 }
