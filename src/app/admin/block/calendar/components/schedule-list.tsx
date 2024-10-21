@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Schedule {
   id: number;
@@ -9,43 +9,13 @@ interface Schedule {
   dateEnd: string;
 }
 
-const scheduleData: Schedule[] = [
-  {
-    id: 1,
-    title: "일정 1",
-    url: "https://naver.com/",
-    dateStart: "2024-10-01T12:26:44.000Z",
-    dateEnd: "2024-10-02T12:26:44.000Z",
-  },
-  {
-    id: 2,
-    title: "일정 2",
-    url: "https://google.com/",
-    dateStart: "2024-10-01T09:00:00.000Z",
-    dateEnd: "2024-11-30T18:00:00.000Z",
-  },
-  {
-    id: 3,
-    title: "일정 3",
-    url: "https://github.com/",
-    dateStart: "2024-12-01T08:00:00.000Z",
-    dateEnd: "2024-12-31T17:00:00.000Z",
-  },
-  {
-    id: 4,
-    title: "일정 4",
-    url: "https://microsoft.com/",
-    dateStart: "2025-01-01T10:00:00.000Z",
-    dateEnd: "2025-01-31T16:00:00.000Z",
-  },
-  {
-    id: 5,
-    title: "일정 5",
-    url: "https://apple.com/",
-    dateStart: "2025-02-01T11:00:00.000Z",
-    dateEnd: "2025-02-28T15:00:00.000Z",
-  },
-];
+interface CalendarBlock {
+  id: number;
+  type: number;
+  sequence: number;
+  style: number;
+  schedule: Schedule[];
+}
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -114,16 +84,79 @@ function ScheduleItem({ schedule }: { schedule: Schedule }) {
 export default function ScheduleList() {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [calendarBlock, setCalendarBlock] = useState<CalendarBlock | null>(
+    null,
+  );
+  const [error, setError] = useState<string | null>(null);
+
   const toggleOpen = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    fetchSchedules();
+  }, []);
+
+  const fetchSchedules = async () => {
+    setError(null);
+    try {
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        throw new Error("로그인이 필요합니다.");
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.code === 200 && Array.isArray(data.data)) {
+        const foundCalendarBlock = data.data.find(
+          (item: CalendarBlock) => item.type === 7,
+        );
+
+        if (foundCalendarBlock) {
+          setCalendarBlock(foundCalendarBlock);
+          if (Array.isArray(foundCalendarBlock.schedule)) {
+            setSchedules(foundCalendarBlock.schedule);
+          } else {
+            setSchedules([]);
+          }
+        } else {
+          setSchedules([]);
+        }
+      } else {
+        throw new Error(`Unexpected data structure: ${JSON.stringify(data)}`);
+      }
+    } catch (error) {
+      console.error("Error fetching schedules:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "알 수 없는 오류가 발생했습니다.",
+      );
+    }
+  };
 
   const currentDate = new Date();
 
-  const filteredSchedules = scheduleData.filter((schedule) => {
+  const filteredSchedules = schedules.filter((schedule) => {
     const endDate = new Date(schedule.dateEnd);
     return activeTab === "current"
       ? endDate >= currentDate
       : endDate < currentDate;
   });
+
+  if (error) return <div>오류 발생: {error}</div>;
 
   return (
     <div className="flex w-full max-w-4xl flex-col px-14 py-0">
@@ -147,7 +180,7 @@ export default function ScheduleList() {
         <div className="p-4">
           <div className="mb-4 flex border-b">
             <button
-              className={`mx-4 ${
+              className={`mx-4 py-2 ${
                 activeTab === "current"
                   ? "border-b-2 border-[var(--primary)] font-semibold text-[var(--primary)]"
                   : "text-gray-500"
