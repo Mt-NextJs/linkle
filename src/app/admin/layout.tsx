@@ -17,7 +17,7 @@ export default function AdminLayout({
 }>) {
   return (
     <div>
-      <Navigation />
+      {/* <Navigation /> */}
       {children}
     </div>
   );
