@@ -22,10 +22,6 @@ const Page = () => {
     email: "test2000@google.com",
   };
 
-  useEffect(() => {
-    signUp().then();
-  }, []);
-
   const signUp = async () => {
     try {
       const response = await fetch(
