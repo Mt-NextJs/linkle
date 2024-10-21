@@ -80,7 +80,7 @@ export default function StylePreview({
                 onError={imgErrorHandler}
               />
             </div>
-            <div className="mr-[37px] flex w-4/5 items-center justify-center">
+            <div className="flex w-4/5 items-center justify-center pr-[27px]">
               <p>{title || "타이틀을 입력해주세요"}</p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function StylePreview({
       )}
 
       {selectedStyle === "카드" && (
-        <div className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-[14px] rounded-xl bg-white drop-shadow-md">
+        <div className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-4 rounded-xl bg-white drop-shadow-md">
           <div className="relative h-[450px] w-full overflow-hidden rounded-t-xl bg-gray-300">
             <Image
               src={imgUrl}

@@ -109,6 +109,10 @@ export default function LinkForm() {
     }
   };
 
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
   return (
     <>
       <StylePreview
@@ -166,7 +170,7 @@ export default function LinkForm() {
               type="text"
               id="link-title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleTitleChange}
               placeholder="타이틀을 입력해주세요"
               required
             />
