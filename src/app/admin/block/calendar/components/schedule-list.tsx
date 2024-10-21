@@ -50,6 +50,21 @@ const getScheduleStatus = (schedule: Schedule) => {
   }
 };
 
+function EmptyState({ message }: { message: React.ReactNode }) {
+  return (
+    <div className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32">
+      <Image
+        src="/assets/icons/icon_calendar_empty.png"
+        alt="빈 캘린더"
+        width={48}
+        height={48}
+        className="mb-4 opacity-50"
+      />
+      <p className="text-center text-gray-500">{message}</p>
+    </div>
+  );
+}
+
 function ScheduleItem({
   schedule,
   onDelete,
@@ -270,13 +285,33 @@ export default function ScheduleList() {
             </button>
           </div>
           <div className="space-y-4">
-            {filteredSchedules.map((schedule) => (
-              <ScheduleItem
-                key={schedule.id}
-                schedule={schedule}
-                onDelete={handleDelete}
+            {filteredSchedules.length > 0 ? (
+              filteredSchedules.map((schedule) => (
+                <ScheduleItem
+                  key={schedule.id}
+                  schedule={schedule}
+                  onDelete={handleDelete}
+                />
+              ))
+            ) : (
+              <EmptyState
+                message={
+                  activeTab === "current" ? (
+                    <>
+                      <strong>진행 중이거나 예정된 일정이 없습니다.</strong>
+                      <br />
+                      일정을 추가하여 많은 방문자에게 알려보세요.
+                    </>
+                  ) : (
+                    <>
+                      <strong>지난 일정이 없습니다.</strong>
+                      <br />
+                      일정을 추가하여 많은 방문자에게 알려보세요.
+                    </>
+                  )
+                }
               />
-            ))}
+            )}
           </div>
         </div>
       )}
