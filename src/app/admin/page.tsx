@@ -7,8 +7,8 @@ import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/(intro)/components/UI/empty-block";
 import VideoBlock from "./components/video-block";
-import AddButton from "@app/components/buttons/add-button";
-import ButtonBox from "@app/components/buttons/button-box";
+import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/admin/block/components/buttons/button-box";
 import { useRouter } from "next/navigation";
 
 interface Block {
@@ -240,7 +240,7 @@ export default function Admin() {
         ))
       )}
       <ButtonBox>
-        <AddButton text="추가 완료" onClick={updateBlockOrder} />
+        <AddButton text="수정 완료" onClick={updateBlockOrder} />
       </ButtonBox>
     </div>
   );

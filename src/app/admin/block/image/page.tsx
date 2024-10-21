@@ -1,15 +1,17 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Layout from "@app/admin/block/components/layout";
-import TextInputBox from "@app/components/text-input-box";
+import TextInputBox from "@app/admin/block/components/text-input-box";
 import Image from "next/image";
-import AddButton from "@app/components/buttons/add-button";
-import ButtonBox from "@app/components/buttons/button-box";
+import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/admin/block/components/buttons/button-box";
 import ErrorBoundary from "@app/(intro)/components/error-boundary";
 import ImageBox from "@app/admin/block/image/components/image-box";
 import BoundaryImageBox from "@app/admin/block/image/components/image-box";
 import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
+import FormInput from "@app/admin/block/components/form-input";
+import { checkUrl } from "../../../../lib/check-url";
 
 const Page = () => {
   const inputImageRef = useRef<HTMLInputElement>(null);
@@ -59,7 +61,8 @@ const Page = () => {
     }
   };
 
-  const handleAddButtonClick = () => {
+  const handleAddButtonClick = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!selectedImageUrl) return;
     addImageBlock().then();
   };
@@ -84,11 +87,6 @@ const Page = () => {
   //   reader.readAsDataURL(file);
   // };
 
-  const checkImageUrl = (strUrl: string) => {
-    const expUrl = /^http[s]?\:\/\//i;
-    return expUrl.test(strUrl);
-  };
-
   // const handleAddButtonClick = () => {
   //   if (!checkImageUrl(imageUrl)) {
   //     alert("이미지 URL을 확인해주세요.");
@@ -98,7 +96,7 @@ const Page = () => {
   // };
 
   const setImageText = (text: string) => {
-    if (!checkImageUrl(text)) {
+    if (!checkUrl(text)) {
       alert("이미지 URL을 확인해주세요.");
       return;
     }
@@ -106,13 +104,15 @@ const Page = () => {
   };
 
   return (
-    <Layout title="이미지 블록">
-      <TextInputBox
-        title="이미지"
-        text={selectedImageUrl}
-        setText={setImageText}
+    <Layout title="이미지 블록" onSubmit={handleAddButtonClick}>
+      <FormInput
+        label="이미지"
+        id="image-url"
+        type="url"
         placeholder="원하는 이미지 URL을 입력하세요"
-        required={true}
+        value={selectedImageUrl}
+        onChange={(e) => setImageText(e.currentTarget.value)}
+        required
       />
       {/*<input*/}
       {/*  id="file"*/}
@@ -126,23 +126,26 @@ const Page = () => {
         selectedImageUrl={selectedImageUrl}
         handeInputImageClick={handeInputImageClick}
       />
-      <TextInputBox
-        title="타이틀"
-        text={title}
-        setText={setTitle}
+      <FormInput
+        label="타이틀"
+        id="image-title"
         placeholder="이미지 하단에 함께 보여줄 수 있어요"
-        limit={30}
+        value={title}
+        onChange={(e) => setTitle(e.currentTarget.value)}
+        maxLength={30}
       />
-      <TextInputBox
-        title="연결할 주소"
-        text={connectingUrl}
-        setText={setConnectingUrl}
+      <FormInput
+        label="연결할 주소"
+        id="image-title"
+        type="url"
         placeholder="이미지를 통해 이동시키고 싶은 링크가 있나요?"
+        value={connectingUrl}
+        onChange={(e) => setConnectingUrl(e.currentTarget.value)}
       />
       <ButtonBox>
         <AddButton
+          type={"submit"}
           text="추가 완료"
-          onClick={handleAddButtonClick}
           disabled={!selectedImageUrl}
         />
       </ButtonBox>

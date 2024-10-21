@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import Layout from "@app/admin/block/components/layout";
-import TextInputBox from "@app/components/text-input-box";
-import AddButton from "@app/components/buttons/add-button";
-import ButtonBox from "@app/components/buttons/button-box";
+import TextInputBox from "@app/admin/block/components/text-input-box";
+import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/admin/block/components/buttons/button-box";
 import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
+import FormInput from "@app/admin/block/components/form-input";
 
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
@@ -60,7 +61,8 @@ const Page = () => {
     else return null;
   }
 
-  const handleAddButtonClick = () => {
+  const handleAddButtonClick = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     addVideoBlock().then();
   };
   const setText = (text: string) => {
@@ -69,13 +71,15 @@ const Page = () => {
     setVideoUrl(videoId ? `https://www.youtube.com/embed/${videoId}` : text);
   };
   return (
-    <Layout title={"비디오 블록"}>
-      <TextInputBox
-        title="동영상 URL"
+    <Layout title={"비디오 블록"} onSubmit={handleAddButtonClick}>
+      <FormInput
+        label="동영상 URL"
+        id="video-url"
+        type="url"
         placeholder="유튜브, 틱톡 등 좋아하는 동영상을 공유하세요"
-        text={videoUrl}
-        setText={setText}
-        required={true}
+        value={videoUrl}
+        onChange={(e) => setText(e.currentTarget.value)}
+        required
       />
       <div className="flex items-center justify-center">
         {iframeUrl && (
@@ -85,11 +89,7 @@ const Page = () => {
         )}
       </div>
       <ButtonBox>
-        <AddButton
-          text="추가 완료"
-          onClick={handleAddButtonClick}
-          disabled={!videoUrl}
-        />
+        <AddButton type={"submit"} text="추가 완료" disabled={!videoUrl} />
       </ButtonBox>
     </Layout>
   );
