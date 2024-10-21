@@ -11,38 +11,9 @@ import StylePreview from "./style-preview";
 import StyleType from "./style-type";
 import FormInput from "./form-input";
 import { getSequence } from "lib/get-sequence";
+import { useRouter } from "next/navigation";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
-
-async function getToken() {
-  const loginData = {
-    userId: "linkle",
-    password: "1234",
-  };
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData),
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`Login failed: ${response.status}`);
-    }
-
-    const result = await response.json();
-    if (result.code === 200) {
-      return result.data.token;
-    }
-  } catch (error) {
-    throw new Error(
-      error instanceof Error ? error.message : "Login error occurred",
-    );
-  }
-}
 
 export default function LinkForm() {
   const [selectedStyle, setSelectedStyle] = useState("썸네일");
@@ -57,9 +28,11 @@ export default function LinkForm() {
     (url: string) => /^https?:\/\/.+\..+/.test(url),
     [],
   );
+  const router = useRouter();
 
   async function postLink() {
-    const token = await getToken();
+    const token = sessionStorage.getItem("token");
+    if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
     const prevSequence = await getSequence(token);
 
     const postData = {
@@ -91,6 +64,9 @@ export default function LinkForm() {
           `Error: ${response.status}, Message: ${errorResponse.message || "Unknown error"}`,
         );
       }
+
+      alert("링크 블록이 성공적으로 추가되었습니다🥰");
+      router.push("/admin");
 
       // const responseData = await response.json();
       // console.log(responseData);
