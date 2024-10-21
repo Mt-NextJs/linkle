@@ -80,7 +80,7 @@ export default function AddScheduleForm() {
     setIsLoading(true);
     setError(null);
 
-    const schedule: Schedule = {
+    const newSchedule: Schedule = {
       title,
       url: url || undefined,
       dateStart: `${startDate}T${startTime}:00.000Z`,
@@ -89,17 +89,22 @@ export default function AddScheduleForm() {
 
     try {
       const token = sessionStorage.getItem("token");
-      if (!token) {
-        throw new Error("로그인이 필요합니다.");
-      }
+      if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
 
-      console.log("Sending schedule data:", schedule);
+      let response;
 
       if (calendarBlock) {
-        console.log("Existing calendar block found:", calendarBlock);
-        const updatedSchedule = [...calendarBlock.schedule, schedule];
+        // 기존 캘린더 블록이 있는 경우
+        const updatedSchedule = [...calendarBlock.schedule, newSchedule];
+        const requestBody = {
+          id: calendarBlock.id,
+          type: 7,
+          sequence: calendarBlock.sequence,
+          style: calendarBlock.style,
+          schedule: updatedSchedule,
+        };
 
-        const updateResponse = await fetch(
+        response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`,
           {
             method: "POST",
@@ -107,33 +112,19 @@ export default function AddScheduleForm() {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({
-              id: calendarBlock.id,
-              type: 7,
-              sequence: calendarBlock.sequence,
-              style: calendarBlock.style,
-              schedule: updatedSchedule,
-            }),
+            body: JSON.stringify(requestBody),
           },
         );
-
-        if (!updateResponse.ok) {
-          const errorData = await updateResponse.json();
-          throw new Error(errorData.message || "일정 추가에 실패했습니다.");
-        }
-
-        alert("일정이 성공적으로 추가되었습니다.");
       } else {
-        console.log("No calendar block found, creating a new one.");
-
-        const newBlock: Omit<CalendarBlock, "id"> = {
+        // 새로운 캘린더 블록 생성 및 일정 추가
+        const requestBody = {
           type: 7,
           sequence: 8,
           style: 1,
-          schedule: [schedule],
+          schedule: [newSchedule],
         };
 
-        const createResponse = await fetch(
+        response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
           {
             method: "POST",
@@ -141,29 +132,16 @@ export default function AddScheduleForm() {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(newBlock),
+            body: JSON.stringify(requestBody),
           },
         );
-
-        if (!createResponse.ok) {
-          const errorData = await createResponse.json();
-          throw new Error(
-            errorData.message || "캘린더 블록 생성에 실패했습니다.",
-          );
-        }
-
-        alert("캘린더 블록과 일정이 성공적으로 추가되었습니다.");
       }
 
-      await fetchCalendarBlock();
-      router.push("/calendar");
+      if (!response.ok) {
+        throw new Error("캘린더 블록 추가에 실패했습니다.");
+      }
     } catch (error) {
-      console.error("Error adding schedule:", error);
-      setError(
-        error instanceof Error
-          ? error.message
-          : "알 수 없는 오류가 발생했습니다.",
-      );
+      setError("일정 추가 중 오류 발생");
     } finally {
       setIsLoading(false);
     }
