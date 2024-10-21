@@ -30,8 +30,6 @@ export default function AddScheduleForm() {
   const [url, setUrl] = useState("");
   const [showStartTime, setShowStartTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [calendarBlock, setCalendarBlock] = useState<CalendarBlock | null>(
     null,
   );
@@ -68,7 +66,6 @@ export default function AddScheduleForm() {
       }
     } catch (error) {
       console.error("Error fetching calendar block:", error);
-      setError("캘린더 블록 정보를 가져오는데 실패했습니다.");
     }
   }, []);
 
@@ -78,8 +75,6 @@ export default function AddScheduleForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError(null);
 
     const newSchedule: Schedule = {
       title,
@@ -145,9 +140,7 @@ export default function AddScheduleForm() {
         throw new Error("서버 응답 오류");
       }
     } catch (error) {
-      setError("일정 추가 중 오류 발생");
-    } finally {
-      setIsLoading(false);
+      console.error("일정 추가 중 오류 발생", error);
     }
   };
 
@@ -320,13 +313,10 @@ export default function AddScheduleForm() {
           type="submit"
           style={{ backgroundColor: "#FFF1ED", color: "#FFB092" }}
           className="button color w-full rounded-md px-4 py-2 text-white hover:bg-blue-600"
-          disabled={isLoading}
         >
-          {isLoading ? "처리 중..." : "추가 완료"}
+          추가 완료
         </button>
       </div>
-
-      {error && <p className="text-red-500">{error}</p>}
     </form>
   );
 }
