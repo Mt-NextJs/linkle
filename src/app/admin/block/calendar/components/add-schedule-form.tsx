@@ -91,54 +91,44 @@ export default function AddScheduleForm() {
       const token = sessionStorage.getItem("token");
       if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
 
-      let response;
+      let requestBody;
 
       if (calendarBlock) {
         // 기존 캘린더 블록이 있는 경우
         const updatedSchedule = [...calendarBlock.schedule, newSchedule];
-        const requestBody = {
+        requestBody = {
           id: calendarBlock.id,
           type: 7,
           sequence: calendarBlock.sequence,
           style: calendarBlock.style,
           schedule: updatedSchedule,
         };
-
-        response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(requestBody),
-          },
-        );
       } else {
         // 새로운 캘린더 블록 생성 및 일정 추가
-        const requestBody = {
+        requestBody = {
           type: 7,
           sequence: 8,
           style: 1,
           schedule: [newSchedule],
         };
-
-        response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(requestBody),
-          },
-        );
       }
 
+      const response = await fetch(
+        calendarBlock
+          ? `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`
+          : `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestBody),
+        },
+      );
+
       if (!response.ok) {
-        throw new Error("캘린더 블록 추가에 실패했습니다.");
+        throw new Error("캘린더 블록 처리에 실패했습니다.");
       }
 
       const data = await response.json();
