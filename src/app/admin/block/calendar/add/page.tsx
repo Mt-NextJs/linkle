@@ -9,7 +9,7 @@ export default function AddSchedulePage() {
   const router = useRouter();
 
   const handleClose = () => {
-    router.push("/calendar");
+    router.push("/admin/block/calendar");
   };
 
   return (
