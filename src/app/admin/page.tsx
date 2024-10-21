@@ -9,6 +9,7 @@ import EmptyBlock from "@app/(intro)/components/UI/empty-block";
 import VideoBlock from "./components/video-block";
 import AddButton from "@app/components/buttons/add-button";
 import ButtonBox from "@app/components/buttons/button-box";
+import { useRouter } from "next/navigation";
 
 interface Block {
   id: number;
@@ -69,6 +70,7 @@ export default function Admin() {
 
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
+  const router = useRouter();
 
   async function getBlocks() {
     const token = sessionStorage.getItem("token");
@@ -107,9 +109,57 @@ export default function Admin() {
     const dragItemContent = copyListItems[dragItem.current as number]; // 리스트에서 드래그 선택 아이템
     copyListItems.splice(dragItem.current as number, 1); // 리스트에서 드래그 선택 아이템 삭제하여 리스트에서 제거
     copyListItems.splice(dragOverItem.current as number, 0, dragItemContent); // 리스트에서 드래그 오버 아이템의 위치에 드래그 선택 아이템 추가
+    const newSequenceItems = copyListItems.map((item, index) => {
+      return { ...item, sequence: index };
+    }); // 시퀀스 변경
+    console.log(newSequenceItems);
     dragItem.current = null;
     dragOverItem.current = null;
-    setBlocks(copyListItems);
+    setBlocks(newSequenceItems);
+  };
+
+  const updateBlockOrder = async () => {
+    const token = sessionStorage.getItem("token");
+    console.log(token);
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+    const block01sequence = blocks[0].sequence;
+    const block02sequence = blocks[1].sequence;
+    // const params = {
+    //   order: [
+    //     { ...blocks[0], sequence: block02sequence },
+    //     { ...blocks[1], sequence: block01sequence },
+    //   ],
+    // };
+    const params = {
+      order: blocks,
+    };
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update/order`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(params),
+        },
+      );
+      if (response.ok) {
+        alert("블록 순서 변경 완료");
+        router.push("/admin");
+      } else {
+        const { status } = response;
+        console.log(status);
+        if (status === 500) {
+          alert("서버 에러");
+        }
+      }
+    } catch (error) {
+      alert("연결 실패");
+    }
   };
 
   return (
@@ -190,7 +240,7 @@ export default function Admin() {
         ))
       )}
       <ButtonBox>
-        <AddButton text="추가 완료" onClick={() => console.log("hi")} />
+        <AddButton text="추가 완료" onClick={updateBlockOrder} />
       </ButtonBox>
     </div>
   );

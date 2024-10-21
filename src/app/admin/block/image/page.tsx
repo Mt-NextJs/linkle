@@ -20,7 +20,6 @@ const Page = () => {
 
   const addImageBlock = async () => {
     const token = sessionStorage.getItem("token");
-    console.log(token);
     if (!token) {
       router.push("/login");
       return;
