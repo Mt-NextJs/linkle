@@ -10,17 +10,17 @@ interface Props {
 const ImageBox = ({ handeInputImageClick, selectedImageUrl }: Props) => {
   return (
     <div className="relative overflow-hidden rounded">
-      <button
-        onClick={handeInputImageClick}
-        className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2"
-      >
-        <Image
-          src="/assets/icons/icon_pencil.png"
-          alt="연필 아이콘"
-          width={24}
-          height={24}
-        />
-      </button>
+      {/*<button*/}
+      {/*  onClick={handeInputImageClick}*/}
+      {/*  className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2"*/}
+      {/*>*/}
+      {/*  <Image*/}
+      {/*    src="/assets/icons/icon_pencil.png"*/}
+      {/*    alt="연필 아이콘"*/}
+      {/*    width={24}*/}
+      {/*    height={24}*/}
+      {/*  />*/}
+      {/*</button>*/}
       <ErrorBoundary
         fallback={
           <Image

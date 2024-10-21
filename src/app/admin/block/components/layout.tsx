@@ -13,15 +13,17 @@ const Layout = ({
   const router = useRouter();
   return (
     <div className="flex w-full flex-col gap-4 px-20 py-4">
-      <button onClick={() => router.back()}>
-        <Image
-          src="/assets/icons/icon_back.png"
-          alt="뒤로가기 아이콘"
-          width={34}
-          height={34}
-        />
-      </button>
-      <h1>{title}</h1>
+      <div>
+        <button onClick={() => router.back()}>
+          <Image
+            src="/assets/icons/icon_back.png"
+            alt="뒤로가기 아이콘"
+            width={34}
+            height={34}
+          />
+        </button>
+      </div>
+      <h1 className="text-2xl font-bold">{title}</h1>
       <div className="flex flex-col gap-4">{children}</div>
     </div>
   );
