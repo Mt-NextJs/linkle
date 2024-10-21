@@ -227,8 +227,6 @@ export default function ScheduleList() {
       : endDate < currentDate;
   });
 
-  if (error) return <div>오류 발생: {error}</div>;
-
   return (
     <div className="flex w-full max-w-4xl flex-col px-14 py-0">
       <div className="mt-4 flex items-center justify-between p-4">
