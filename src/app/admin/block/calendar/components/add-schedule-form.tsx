@@ -38,11 +38,6 @@ export default function AddScheduleForm() {
 
   const fetchCalendarBlock = useCallback(async () => {
     try {
-      if (calendarBlock) {
-        console.log("캘린더 블록이 이미 존재합니다.");
-        return;
-      }
-
       const token = sessionStorage.getItem("token");
       if (!token) {
         throw new Error("로그인이 필요합니다.");
@@ -62,29 +57,23 @@ export default function AddScheduleForm() {
       }
 
       const data = await response.json();
-      console.log("Fetched data:", data);
-
-      const existingCalendarBlock = data.data.find(
-        (item: CalendarBlock) => item.type === 7,
-      );
-
-      if (existingCalendarBlock) {
-        setCalendarBlock(existingCalendarBlock);
-        console.log("Existing calendar block found:", existingCalendarBlock);
-      } else {
-        console.log("캘린더 블록이 없습니다.");
+      if (data.code === 200 && Array.isArray(data.data)) {
+        const existingCalendarBlock = data.data.find(
+          (item: CalendarBlock) => item.type === 7,
+        );
+        if (existingCalendarBlock) {
+          setCalendarBlock(existingCalendarBlock);
+        }
       }
     } catch (error) {
       console.error("Error fetching calendar block:", error);
       setError("캘린더 블록 정보를 가져오는데 실패했습니다.");
     }
-  }, [calendarBlock]);
+  }, []);
 
   useEffect(() => {
-    if (!calendarBlock) {
-      fetchCalendarBlock();
-    }
-  }, [calendarBlock, fetchCalendarBlock]);
+    fetchCalendarBlock();
+  }, [fetchCalendarBlock]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
