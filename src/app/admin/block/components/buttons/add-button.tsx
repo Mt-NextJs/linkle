@@ -1,18 +1,17 @@
 import React from "react";
 
-interface Props {
+type Props = {
   text: string;
-  onClick: () => void;
-  disabled?: boolean;
-}
-const AddButton = ({ text, onClick, disabled }: Props) => {
-  const bgColor = disabled ? "bg-orange-100" : "bg-orange-600";
+} & React.ComponentPropsWithoutRef<"button">;
+const AddButton = ({ text, ...buttonProps }: Props) => {
+  const { disabled } = buttonProps;
+  const bgColor = disabled ? "bg-primary-100" : "bg-primary-450";
   const textColor = disabled ? "text-orange-300" : "text-slate-200";
+
   return (
     <button
-      className={`h-12 w-full rounded-lg ${bgColor} ${textColor} font-bold`}
-      onClick={onClick}
-      disabled={disabled}
+      className={`h-14 w-full rounded ${bgColor} ${textColor} font-bold`}
+      {...buttonProps}
     >
       {text}
     </button>

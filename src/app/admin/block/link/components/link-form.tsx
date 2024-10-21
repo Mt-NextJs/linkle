@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import React, {
   ChangeEvent,
   FormEvent,
   useCallback,
@@ -9,8 +9,11 @@ import {
 } from "react";
 import StylePreview from "./style-preview";
 import StyleType from "./style-type";
-import FormInput from "./form-input";
+import FormInput from "../../components/form-input";
 import { getSequence } from "lib/get-sequence";
+import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/admin/block/components/buttons/button-box";
+import Layout from "@app/admin/block/components/layout";
 import { useRouter } from "next/navigation";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
@@ -113,58 +116,63 @@ export default function LinkForm() {
     setTitle(e.target.value);
   };
 
+  const summitButtonDisabled =
+    selectedStyle === "심플"
+      ? !linkUrl || !title
+      : !linkUrl || !title || !linkImg;
+
   return (
-    <>
-      <StylePreview
-        selectedStyle={selectedStyle}
-        title={title}
-        linkImg={linkImg}
-        setIsImgUrlConnectionError={setIsImgUrlConnectionError}
-        isValidUrl={isValidUrl}
-      />
+    <Layout title="링크 블록" onSubmit={handleSubmit}>
+      <div className="w-[740px]">
+        <StylePreview
+          selectedStyle={selectedStyle}
+          title={title}
+          linkImg={linkImg}
+          setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+          isValidUrl={isValidUrl}
+        />
 
-      <form onSubmit={handleSubmit} className="mt-8">
-        {/* 스타일 */}
-        <div className="w-full">
-          <h3 className="title mb-[10px]">
-            스타일 <span className="text-red-500">*</span>
-          </h3>
-          <div className="flex gap-5">
-            {styleItemNames.map((name, idx) => (
-              <StyleType
-                key={name}
-                name={name}
-                imgIdx={idx}
-                selectedStyle={selectedStyle}
-                onSelect={setSelectedStyle}
-                setLinkImg={setLinkImg}
-                setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+        <div className="mt-8">
+          {/* 스타일 */}
+          <div className="w-full">
+            <h3 className="title mb-[10px]">
+              스타일 <span className="text-red-500">*</span>
+            </h3>
+            <div className="flex gap-5">
+              {styleItemNames.map((name, idx) => (
+                <StyleType
+                  key={name}
+                  name={name}
+                  imgIdx={idx}
+                  selectedStyle={selectedStyle}
+                  onSelect={setSelectedStyle}
+                  setLinkImg={setLinkImg}
+                  setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="my-8 border-t-2 border-[#F6F6F6]"></div>
+
+          {/* Info */}
+          <section className="flex flex-col gap-6">
+            <div>
+              <FormInput
+                label="연결할 주소"
+                type="url"
+                id="linked-url"
+                value={linkUrl}
+                onChange={handleLinkUrlChange}
+                placeholder="연결할 주소 url을 입력해주세요"
+                required
               />
-            ))}
-          </div>
-        </div>
-
-        <div className="my-8 border-t-2 border-[#F6F6F6]"></div>
-
-        {/* Info */}
-        <section className="flex flex-col gap-4">
-          <div className="min-h-[110px]">
-            <FormInput
-              label="연결할 주소"
-              type="url"
-              id="linked-url"
-              value={linkUrl}
-              onChange={handleLinkUrlChange}
-              placeholder="연결할 주소 url을 입력해주세요"
-              required
-            />
-            {isLinkUrlError && (
-              <div className="mt-1 text-sm text-red-500">
-                올바른 URL 형식을 입력해주세요
-              </div>
-            )}
-          </div>
-          <div className="min-h-[110px]">
+              {isLinkUrlError && (
+                <div className="mt-1 text-sm text-red-500">
+                  올바른 URL 형식을 입력해주세요
+                </div>
+              )}
+            </div>
             <FormInput
               label="타이틀"
               type="text"
@@ -174,41 +182,39 @@ export default function LinkForm() {
               placeholder="타이틀을 입력해주세요"
               required
             />
-          </div>
-          <div className="min-h-[110px]">
-            <FormInput
-              label="이미지"
-              type="url"
-              id="linked-img"
-              value={linkImg}
-              onChange={handleImgUrlChange}
-              selectedStyle={selectedStyle}
-              placeholder="이미지 url을 입력해주세요"
-              disabled={selectedStyle === "심플"}
-              required={selectedStyle !== "심플"}
+            <div>
+              <FormInput
+                label="이미지"
+                type="url"
+                id="linked-img"
+                value={linkImg}
+                onChange={handleImgUrlChange}
+                placeholder="이미지 url을 입력해주세요"
+                disabled={selectedStyle === "심플"}
+                required={selectedStyle !== "심플"}
+              />
+              {isImgUrlError && (
+                <div className="mt-1 text-sm text-red-500">
+                  올바른 URL 형식을 입력해주세요
+                </div>
+              )}
+              {isImgUrlConnectionError && (
+                <div className="mt-1 text-sm text-red-500">
+                  잘못된 이미지 경로입니다
+                </div>
+              )}
+            </div>
+          </section>
+          <div className="my-9 h-3 w-full bg-gray-200"></div>
+          <ButtonBox>
+            <AddButton
+              type={"submit"}
+              text="추가 완료"
+              disabled={summitButtonDisabled}
             />
-            {isImgUrlError && (
-              <div className="mt-1 text-sm text-red-500">
-                올바른 URL 형식을 입력해주세요
-              </div>
-            )}
-            {isImgUrlConnectionError && (
-              <div className="mt-1 text-sm text-red-500">
-                잘못된 이미지 경로입니다
-              </div>
-            )}
-          </div>
-        </section>
-
-        <div className="my-9 h-3 w-full bg-gray-200"></div>
-
-        <button
-          type="submit"
-          className="h-14 w-full rounded bg-primary-100 font-bold text-primary-200 hover:bg-primary-450 hover:text-white"
-        >
-          추가 완료
-        </button>
-      </form>
-    </>
+          </ButtonBox>
+        </div>
+      </div>
+    </Layout>
   );
 }
