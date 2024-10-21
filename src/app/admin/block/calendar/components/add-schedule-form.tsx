@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { getSequence } from "lib/get-sequence";
 
 interface Schedule {
   id?: number;
@@ -105,9 +106,10 @@ export default function AddScheduleForm() {
         };
       } else {
         // 새로운 캘린더 블록 생성 및 일정 추가
+        const nextSequence = await getSequence(token);
         requestBody = {
           type: 7,
-          sequence: 8,
+          sequence: nextSequence + 1,
           style: 1,
           schedule: [newSchedule],
         };
