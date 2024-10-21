@@ -50,7 +50,13 @@ const getScheduleStatus = (schedule: Schedule) => {
   }
 };
 
-function ScheduleItem({ schedule }: { schedule: Schedule }) {
+function ScheduleItem({
+  schedule,
+  onDelete,
+}: {
+  schedule: Schedule;
+  onDelete: (id: number) => void;
+}) {
   const status = getScheduleStatus(schedule);
 
   return (
@@ -71,7 +77,10 @@ function ScheduleItem({ schedule }: { schedule: Schedule }) {
           <button className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold">
             수정
           </button>
-          <button className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]">
+          <button
+            className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
+            onClick={() => onDelete(schedule.id)}
+          >
             삭제
           </button>
         </div>
@@ -147,6 +156,68 @@ export default function ScheduleList() {
     }
   };
 
+  const handleDelete = async (scheduleId: number) => {
+    try {
+      if (!calendarBlock) {
+        throw new Error("캘린더 블록을 찾을 수 없습니다.");
+      }
+
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        throw new Error("로그인이 필요합니다.");
+      }
+
+      const updatedSchedules = schedules.filter(
+        (schedule) => schedule.id !== scheduleId,
+      );
+
+      const requestBody = {
+        id: calendarBlock.id,
+        type: 7,
+        sequence: calendarBlock.sequence,
+        style: calendarBlock.style,
+        schedule: updatedSchedules,
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestBody),
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `Failed to delete schedule: ${JSON.stringify(errorData)}`,
+        );
+      }
+
+      const responseData = await response.json();
+
+      if (responseData.code === 200) {
+        setSchedules(updatedSchedules);
+        alert("일정이 성공적으로 삭제되었습니다.");
+      } else {
+        throw new Error(
+          `Failed to delete schedule. Server response: ${JSON.stringify(responseData)}`,
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting schedule:", error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : "일정 삭제 중 오류가 발생했습니다.",
+      );
+    }
+  };
+
   const currentDate = new Date();
 
   const filteredSchedules = schedules.filter((schedule) => {
@@ -202,7 +273,11 @@ export default function ScheduleList() {
           </div>
           <div className="space-y-4">
             {filteredSchedules.map((schedule) => (
-              <ScheduleItem key={schedule.id} schedule={schedule} />
+              <ScheduleItem
+                key={schedule.id}
+                schedule={schedule}
+                onDelete={handleDelete}
+              />
             ))}
           </div>
         </div>
