@@ -140,6 +140,18 @@ export default function AddScheduleForm() {
       if (!response.ok) {
         throw new Error("캘린더 블록 추가에 실패했습니다.");
       }
+
+      const data = await response.json();
+      if (data.code === 200) {
+        alert(
+          calendarBlock
+            ? "일정이 성공적으로 추가되었습니다."
+            : "캘린더 블록이 생성되고 일정이 추가되었습니다.",
+        );
+        router.push("/admin/block/calendar");
+      } else {
+        throw new Error("서버 응답 오류");
+      }
     } catch (error) {
       setError("일정 추가 중 오류 발생");
     } finally {
