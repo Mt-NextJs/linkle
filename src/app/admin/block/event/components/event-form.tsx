@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import EventFormInput from "./event-form-input";
+import { FormEvent, useState } from "react";
 import Calendar from "./calendar";
 import EventPreview from "./event-preview";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Layout from "../../components/layout";
+import ButtonBox from "../../components/buttons/button-box";
+import AddButton from "../../components/buttons/add-button";
+import FormInput from "../../components/form-input";
 
 export default function EventForm() {
   const [title, setTitle] = useState("");
@@ -16,8 +19,22 @@ export default function EventForm() {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setTitle("");
+  };
+
+  const summitButtonDisabled =
+    !title ||
+    !description ||
+    !eventGuide ||
+    !startDate ||
+    !endDate ||
+    !startTime ||
+    !endTime;
+
   return (
-    <>
+    <Layout title="이벤트 블록" onSubmit={handleSubmit}>
       <EventPreview
         title={title}
         description={description}
@@ -29,30 +46,29 @@ export default function EventForm() {
 
       <div className="my-8 border-t-2 border-[#F6F6F6]"></div>
 
-      <form className="flex flex-col gap-8">
-        <EventFormInput
+      <div className="flex flex-col gap-8">
+        <FormInput
           label="이벤트 명"
           id="evnet-title"
           placeholder="이벤트를 잘 나타낼 수 있는 타이틀을 입력해주세요"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          maxLength={30}
         />
-        <EventFormInput
+        <FormInput
           label="이벤트 설명"
           id="evnet-description"
           placeholder="어떤 이벤트인지 설명을 입력해주세요"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          required
         />
-        <EventFormInput
+        <FormInput
           label="가이드 문구"
           id="evnet-guide"
           placeholder="이벤트의 응모 조건이나, 가이드를 작성해주세요"
           value={eventGuide}
           onChange={(e) => setEventGuide(e.target.value)}
-          required
         />
 
         <div>
@@ -108,13 +124,14 @@ export default function EventForm() {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="h-11 w-full rounded bg-primary-100 text-primary-200"
-        >
-          추가 완료
-        </button>
-      </form>
-    </>
+        <ButtonBox>
+          <AddButton
+            type={"submit"}
+            text="추가 완료"
+            disabled={summitButtonDisabled}
+          />
+        </ButtonBox>
+      </div>
+    </Layout>
   );
 }
