@@ -35,14 +35,17 @@ const Page = () => {
     };
     console.log(nowSequence);
     try {
-      const response = await fetch(`/api/api/link/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(params),
         },
-        body: JSON.stringify(params),
-      });
+      );
       if (response.ok) {
         alert("비디오 블록 추가 완료");
         router.push("/admin");
