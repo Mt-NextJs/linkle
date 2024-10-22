@@ -21,7 +21,7 @@ interface CalendarBlock {
   schedule: Schedule[];
 }
 
-export default function AddScheduleForm() {
+export default function ScheduleForm() {
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");

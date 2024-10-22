@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import AddScheduleForm from "../components/add-schedule-form";
+import ScheduleForm from "../components/schedule-form";
 
 export default function AddSchedulePage() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function AddSchedulePage() {
         <br />
         전체 일정이 최근 날짜 순서로 자동 정렬됩니다.
       </p>
-      <AddScheduleForm />
+      <ScheduleForm />
     </div>
   );
 }
