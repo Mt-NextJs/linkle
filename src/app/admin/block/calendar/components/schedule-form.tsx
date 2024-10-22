@@ -21,7 +21,17 @@ interface CalendarBlock {
   schedule: Schedule[];
 }
 
-export default function ScheduleForm() {
+interface ScheduleFormProps {
+  mode: "add" | "edit";
+  initialData?: Schedule | null;
+  calendarBlockId?: number | null;
+}
+
+export default function ScheduleForm({
+  mode,
+  initialData,
+  calendarBlockId,
+}: ScheduleFormProps) {
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
