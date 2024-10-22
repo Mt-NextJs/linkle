@@ -12,91 +12,25 @@ import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/block/components/form-input";
 import { checkUrl } from "../../../../lib/check-url";
+import { postBlock } from "../../../../lib/post-block";
 
 const Page = () => {
-  const inputImageRef = useRef<HTMLInputElement>(null);
+  // const inputImageRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState<string>("");
   const [connectingUrl, setConnectingUrl] = useState<string>("");
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
 
-  const setResponseMessage = async (response: Response) => {
-    if (response.ok) {
-      console.log("성공");
-      return response.json();
-    } else {
-      const errorResponse = await response.json();
-      const { status } = response;
-      const { message } = errorResponse;
-      console.log(status);
-      if (status === 500) {
-        alert("서버 에러");
-      }
-      console.log(`Error: ${status}, Message: ${message || "Unknown error"}`);
-      throw new Error(`Error: ${response.status}`);
-    }
-  };
-  const postBlock = async (
-    path: string,
-    params: { [index: string]: string | number },
-  ) => {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-    const nowSequence = await getSequence(token);
-    params["sequence"] = nowSequence + 1;
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}${path}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      return await setResponseMessage(response);
-    } catch (error) {
-      throw new Error(
-        error instanceof Error ? error.message : "알 수 없는 에러",
-      );
-    }
-  };
-  const newAddImageBlock = async () => {
+  const addImageBlock = () => {
     const params = {
       type: 4,
       title,
       url: connectingUrl,
       imgUrl: selectedImageUrl,
     };
-    postBlock("/api/link/add", params)
-      .then((response) => async () => {
-        if (response.ok) {
-          console.log("성공");
-          return response.json();
-        } else {
-          const errorResponse = await response.json();
-          const { status } = response;
-          const { message } = errorResponse;
-          console.log(status);
-          if (status === 500) {
-            alert("서버 에러");
-          }
-          console.log(
-            `Error: ${status}, Message: ${message || "Unknown error"}`,
-          );
-          throw new Error(`Error: ${response.status}`);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("서버 응답이 실패했습니다.");
-      });
+    postBlock("/api/link/add", params, router).then((res) => {
+      if (res) console.log(res);
+    });
   };
 
   // const addImageBlock = async () => {
@@ -137,12 +71,12 @@ const Page = () => {
   const handleAddButtonClick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedImageUrl) return;
-    newAddImageBlock().then();
+    addImageBlock();
   };
 
-  const handeInputImageClick = () => {
-    inputImageRef.current?.click();
-  };
+  // const handeInputImageClick = () => {
+  //   inputImageRef.current?.click();
+  // };
 
   // const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const file = e.target.files?.[0];
@@ -197,7 +131,7 @@ const Page = () => {
       {/*/>*/}
       <ImageBox
         selectedImageUrl={selectedImageUrl}
-        handeInputImageClick={handeInputImageClick}
+        // handeInputImageClick={handeInputImageClick}
       />
       <FormInput
         label="타이틀"
