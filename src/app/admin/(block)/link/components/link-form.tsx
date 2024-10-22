@@ -11,9 +11,9 @@ import StylePreview from "./style-preview";
 import StyleType from "./style-type";
 import FormInput from "../../components/form-input";
 import { getSequence } from "lib/get-sequence";
-import AddButton from "@app/admin/block/components/buttons/add-button";
-import ButtonBox from "@app/admin/block/components/buttons/button-box";
-import Layout from "@app/admin/block/components/layout";
+import AddButton from "@app/admin/(block)/components/buttons/add-button";
+import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
+import Layout from "@app/admin/(block)/components/layout";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 

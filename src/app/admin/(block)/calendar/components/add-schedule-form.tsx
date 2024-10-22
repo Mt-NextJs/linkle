@@ -70,12 +70,12 @@ export default function AddScheduleForm() {
 
       if (existingCalendarBlock) {
         setCalendarBlock(existingCalendarBlock);
-        console.log("Existing calendar block found:", existingCalendarBlock);
+        console.log("Existing calendar (block) found:", existingCalendarBlock);
       } else {
         console.log("캘린더 블록이 없습니다.");
       }
     } catch (error) {
-      console.error("Error fetching calendar block:", error);
+      console.error("Error fetching calendar (block):", error);
       setError("캘린더 블록 정보를 가져오는데 실패했습니다.");
     }
   }, [calendarBlock]);
@@ -107,7 +107,7 @@ export default function AddScheduleForm() {
       console.log("Sending schedule data:", schedule);
 
       if (calendarBlock) {
-        console.log("Existing calendar block found:", calendarBlock);
+        console.log("Existing calendar (block) found:", calendarBlock);
         const updatedSchedule = [...calendarBlock.schedule, schedule];
 
         const updateResponse = await fetch(
@@ -135,7 +135,7 @@ export default function AddScheduleForm() {
 
         alert("일정이 성공적으로 추가되었습니다.");
       } else {
-        console.log("No calendar block found, creating a new one.");
+        console.log("No calendar (block) found, creating a new one.");
 
         const newBlock: Omit<CalendarBlock, "id"> = {
           type: 7,
