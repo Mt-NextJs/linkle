@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Layout from "@app/admin/block/components/layout";
 import TextInputBox from "@app/admin/block/components/text-input-box";
 import AddButton from "@app/admin/block/components/buttons/add-button";
@@ -8,11 +8,16 @@ import ButtonBox from "@app/admin/block/components/buttons/button-box";
 import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/block/components/form-input";
+import { checkUrl } from "../../../../lib/check-url";
 
 const Page = () => {
+  const object = useRef<HTMLObjectElement>(null);
   const [videoUrl, setVideoUrl] = useState<string>("");
-  const [iframeUrl, setIframeUrl] = useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    console.log(object.current?.validationMessage, "video");
+  }, [videoUrl]);
 
   const addVideoBlock = async () => {
     const token = sessionStorage.getItem("token");
@@ -20,12 +25,15 @@ const Page = () => {
       router.push("/login");
       return;
     }
+
     const nowSequence = await getSequence(token);
+    console.log(nowSequence);
     const params = {
       type: 2,
       url: videoUrl,
       sequence: nowSequence + 1,
     };
+    console.log(nowSequence);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
@@ -63,11 +71,15 @@ const Page = () => {
 
   const handleAddButtonClick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("hi");
     addVideoBlock().then();
   };
   const setText = (text: string) => {
+    if (!checkUrl(text) && text !== "") {
+      alert("이미지 URL을 확인해주세요.");
+      return;
+    }
     const videoId = extractVideoID(text);
-    setIframeUrl(videoId ? `https://www.youtube.com/embed/${videoId}` : text);
     setVideoUrl(videoId ? `https://www.youtube.com/embed/${videoId}` : text);
   };
   return (
@@ -81,9 +93,9 @@ const Page = () => {
         onChange={(e) => setText(e.currentTarget.value)}
         required
       />
-      <div className="flex items-center justify-center">
-        {iframeUrl && (
-          <object data={iframeUrl} width="600" height="320">
+      <div className="flex items-center justify-center shadow-lg">
+        {videoUrl && (
+          <object type="text/html" data={videoUrl} width="600" height="320">
             <div>동영상 주소를 확인해주세요</div>
           </object>
         )}

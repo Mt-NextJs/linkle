@@ -29,4 +29,4 @@ export default function TypeTwo({ url, style, imgUrl, title }: LinkBlockProps) {
     </>
   );
 }
-//섬네일
+//Thumbnail

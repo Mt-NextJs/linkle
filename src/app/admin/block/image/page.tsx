@@ -12,64 +12,71 @@ import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/block/components/form-input";
 import { checkUrl } from "../../../../lib/check-url";
+import { postBlock } from "../../../../lib/post-block";
 
 const Page = () => {
-  const inputImageRef = useRef<HTMLInputElement>(null);
+  // const inputImageRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState<string>("");
   const [connectingUrl, setConnectingUrl] = useState<string>("");
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
 
-  const addImageBlock = async () => {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-    const nowSequence = await getSequence(token);
+  const addImageBlock = () => {
     const params = {
       type: 4,
-      sequence: nowSequence + 1,
       title,
       url: connectingUrl,
       imgUrl: selectedImageUrl,
     };
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      if (response.ok) {
-        alert("이미지 블록 추가 완료");
-        router.push("/admin");
-      } else {
-        const { status } = response;
-        console.log(status);
-        if (status === 500) {
-          alert("서버 에러");
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    postBlock("/api/link/add", params, router).then((res) => {
+      if (res) console.log(res);
+    });
   };
+
+  // const addImageBlock = async () => {
+  //   const token = sessionStorage.getItem("token");
+  //   if (!token) {
+  //     router.push("/login");
+  //     return;
+  //   }
+  //   const nowSequence = await getSequence(token);
+  //
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify(params),
+  //       },
+  //     );
+  //     if (response.ok) {
+  //       alert("이미지 블록 추가 완료");
+  //       router.push("/admin");
+  //     } else {
+  //       const { status } = response;
+  //       console.log(status);
+  //       if (status === 500) {
+  //         alert("서버 에러");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleAddButtonClick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedImageUrl) return;
-    addImageBlock().then();
+    addImageBlock();
   };
 
-  const handeInputImageClick = () => {
-    inputImageRef.current?.click();
-  };
+  // const handeInputImageClick = () => {
+  //   inputImageRef.current?.click();
+  // };
 
   // const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const file = e.target.files?.[0];
@@ -96,7 +103,7 @@ const Page = () => {
   // };
 
   const setImageText = (text: string) => {
-    if (!checkUrl(text)) {
+    if (!checkUrl(text) && text !== "") {
       alert("이미지 URL을 확인해주세요.");
       return;
     }
@@ -124,7 +131,7 @@ const Page = () => {
       {/*/>*/}
       <ImageBox
         selectedImageUrl={selectedImageUrl}
-        handeInputImageClick={handeInputImageClick}
+        // handeInputImageClick={handeInputImageClick}
       />
       <FormInput
         label="타이틀"
