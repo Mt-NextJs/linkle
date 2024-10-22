@@ -1,31 +1,31 @@
 import React from "react";
 import Image from "next/image";
-import ErrorBoundary from "@app/(intro)/components/error-boundary";
+import ErrorBoundary from "@app/intro/components/error-boundary";
 
 interface Props {
-  handeInputImageClick: () => void;
+  // handeInputImageClick: () => void;
   selectedImageUrl: string;
 }
 
-const ImageBox = ({ handeInputImageClick, selectedImageUrl }: Props) => {
+const ImageBox = ({ selectedImageUrl }: Props) => {
   return (
-    <div className="relative overflow-hidden rounded">
-      <button
-        onClick={handeInputImageClick}
-        className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2"
-      >
-        <Image
-          src="/assets/icons/icon_pencil.png"
-          alt="연필 아이콘"
-          width={24}
-          height={24}
-        />
-      </button>
+    <div className="relative overflow-hidden rounded shadow-lg">
+      {/*<button*/}
+      {/*  onClick={handeInputImageClick}*/}
+      {/*  className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2"*/}
+      {/*>*/}
+      {/*  <Image*/}
+      {/*    src="/assets/icons/icon_pencil.png"*/}
+      {/*    alt="연필 아이콘"*/}
+      {/*    width={24}*/}
+      {/*    height={24}*/}
+      {/*  />*/}
+      {/*</button>*/}
       <ErrorBoundary
         fallback={
           <Image
             src={"/assets/images/image_block_default.png"}
-            alt="기본이미지 혹은 선택한 이미지"
+            alt="이미지 URL을 확인해주세요"
             width={610}
             height={610}
           />
@@ -37,7 +37,7 @@ const ImageBox = ({ handeInputImageClick, selectedImageUrl }: Props) => {
               ? selectedImageUrl
               : "/assets/images/image_block_default.png"
           }
-          alt="기본이미지 혹은 선택한 이미지"
+          alt="이미지 URL을 확인해주세요"
           width={610}
           height={610}
         />

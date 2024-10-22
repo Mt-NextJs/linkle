@@ -1,12 +1,15 @@
 "use client";
 
-import BasicBlock from "@app/(intro)/components/basicblock";
+import BasicBlock from "@app/intro/components/basicblock";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
-import EmptyBlock from "@app/(intro)/components/UI/empty-block";
+import EmptyBlock from "@app/intro/components/UI/empty-block";
 import VideoBlock from "./components/video-block";
+import AddButton from "@app/admin/block/components/buttons/add-button";
+import ButtonBox from "@app/admin/block/components/buttons/button-box";
+import { useRouter } from "next/navigation";
 
 interface Block {
   id: number;
@@ -67,6 +70,7 @@ export default function Admin() {
 
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
+  const router = useRouter();
 
   async function getBlocks() {
     const token = sessionStorage.getItem("token");
@@ -92,41 +96,88 @@ export default function Admin() {
     }
   }
 
-  const dragStart = (e: React.DragEvent<HTMLDivElement>, position: number) => {
-    dragItem.current = position;
-    console.log((e.target as HTMLDivElement).innerHTML);
+  const dragStart = (position: number) => {
+    dragItem.current = position; // position -> index (드래그 선택 아이템의 인덱스)
   };
 
-  const dragEnter = (e: React.DragEvent<HTMLDivElement>, position: number) => {
-    dragOverItem.current = position;
-    console.log((e.target as HTMLDivElement).innerHTML);
+  const dragEnter = (position: number) => {
+    dragOverItem.current = position; // position -> index (드래그 오버 아이템의 인덱스)
   };
 
-  const drop = (e: React.DragEvent<HTMLDivElement>) => {
+  const drop = () => {
     const copyListItems = [...blocks];
-    const dragItemContent = copyListItems[dragItem.current as number];
-    copyListItems.splice(dragItem.current as number, 1);
-    copyListItems.splice(dragOverItem.current as number, 0, dragItemContent);
+    const dragItemContent = copyListItems[dragItem.current as number]; // 리스트에서 드래그 선택 아이템
+    copyListItems.splice(dragItem.current as number, 1); // 리스트에서 드래그 선택 아이템 삭제하여 리스트에서 제거
+    copyListItems.splice(dragOverItem.current as number, 0, dragItemContent); // 리스트에서 드래그 오버 아이템의 위치에 드래그 선택 아이템 추가
+    const newSequenceItems = copyListItems.map((item, index) => {
+      return { ...item, sequence: index };
+    }); // 시퀀스 변경
+    console.log(newSequenceItems);
     dragItem.current = null;
     dragOverItem.current = null;
-    setBlocks(copyListItems);
+    setBlocks(newSequenceItems);
+  };
+
+  const updateBlockOrder = async () => {
+    const token = sessionStorage.getItem("token");
+    console.log(token);
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+    const block01sequence = blocks[0].sequence;
+    const block02sequence = blocks[1].sequence;
+    // const params = {
+    //   order: [
+    //     { ...blocks[0], sequence: block02sequence },
+    //     { ...blocks[1], sequence: block01sequence },
+    //   ],
+    // };
+    const params = {
+      order: blocks,
+    };
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update/order`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(params),
+        },
+      );
+      if (response.ok) {
+        alert("블록 순서 변경 완료");
+        router.push("/admin");
+      } else {
+        const { status } = response;
+        console.log(status);
+        if (status === 500) {
+          alert("서버 에러");
+        }
+      }
+    } catch (error) {
+      alert("연결 실패");
+    }
   };
 
   return (
     <div>
-      <div className="h-36 items-center border">
-        <div className="items-center border text-center">
-          <Image
-            src="/assets/icons/icon_profile.png"
-            alt="profile"
-            className="ml-[44%] cursor-pointer"
-            width={80}
-            height={20}
-          />
-          <Link href={ClientRoute.MAIN as string} className="mr-5">
-            momomoc
-          </Link>
-        </div>
+      <div className="mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+        <Image
+          src="/assets/icons/icon_profile.png"
+          alt="profile"
+          className="mt-10 cursor-pointer"
+          width={80}
+          height={20}
+        />
+        <Link
+          href={ClientRoute.MAIN as string}
+          className="mt-2 font-bold underline"
+        >
+          momomoc
+        </Link>
       </div>
       <br />
       <div className="flex w-full rounded border">
@@ -134,14 +185,22 @@ export default function Admin() {
           <h3 className="ml-2 font-bold">방문자</h3>
 
           <div className="flex">
-            <p className="ml-2">전체 {showTotal}</p>
-            <p className="ml-2">오늘 {showToday}</p>
-            <p className="ml-2">실시간 {showRealTime}</p>
+            <p className="ml-2">
+              전체 <span className="text-red-500">{showTotal}</span>
+            </p>
+            <p className="ml-2">
+              오늘 <span className="text-red-500">{showToday}</span>
+            </p>
+            <p className="ml-2">
+              실시간 <span className="text-red-500">{showRealTime}</span>
+            </p>
           </div>
         </div>
         <div className="w-4/12 rounded-r border">
           <h3 className="ml-2 font-bold">소식받기</h3>
-          <p className="ml-2">전체</p>
+          <p className="ml-2">
+            전체 <span className="text-red-500">0</span>
+          </p>
         </div>
       </div>
       <br />
@@ -189,6 +248,16 @@ export default function Admin() {
           />
         ))
       )}
+      <div className="mb-5 mt-9 flex w-full items-center justify-between">
+        <div className="flex flex-grow justify-center">
+          <button className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800">
+            미리보기
+          </button>
+        </div>
+        <button className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600">
+          +
+        </button>
+      </div>
     </div>
   );
 }

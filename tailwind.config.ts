@@ -21,6 +21,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        insideout: {
+          "0%": { opacity: "0%" },
+          "100%": { opacity: "100%" },
+        },
+      },
+      animation: {
+        insideout: "insideout 0.6s ease-in-out",
+      },
       borderWidth: {
         1: "1px",
       },
