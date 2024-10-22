@@ -112,10 +112,6 @@ export default function LinkForm() {
     }
   };
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
   const summitButtonDisabled =
     selectedStyle === "심플"
       ? !linkUrl || !title
@@ -178,9 +174,10 @@ export default function LinkForm() {
               type="text"
               id="link-title"
               value={title}
-              onChange={handleTitleChange}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="타이틀을 입력해주세요"
               required
+              maxLength={30}
             />
           </div>
           <div className="h-[104px]">
