@@ -3,6 +3,7 @@
 import BasicBlock from "@app/intro/components/basicblock";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
