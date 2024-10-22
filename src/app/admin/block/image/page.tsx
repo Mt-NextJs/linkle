@@ -20,23 +20,37 @@ const Page = () => {
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
 
-  const addImageBlock = async () => {
+  const setResponseMessage = async (response: Response) => {
+    if (response.ok) {
+      console.log("성공");
+      return response.json();
+    } else {
+      const errorResponse = await response.json();
+      const { status } = response;
+      const { message } = errorResponse;
+      console.log(status);
+      if (status === 500) {
+        alert("서버 에러");
+      }
+      console.log(`Error: ${status}, Message: ${message || "Unknown error"}`);
+      throw new Error(`Error: ${response.status}`);
+    }
+  };
+  const postBlock = async (
+    path: string,
+    params: { [index: string]: string | number },
+  ) => {
     const token = sessionStorage.getItem("token");
     if (!token) {
       router.push("/login");
       return;
     }
     const nowSequence = await getSequence(token);
-    const params = {
-      type: 4,
-      sequence: nowSequence + 1,
-      title,
-      url: connectingUrl,
-      imgUrl: selectedImageUrl,
-    };
+    params["sequence"] = nowSequence + 1;
+
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+        `${process.env.NEXT_PUBLIC_API_URL}${path}`,
         {
           method: "POST",
           headers: {
@@ -46,25 +60,84 @@ const Page = () => {
           body: JSON.stringify(params),
         },
       );
-      if (response.ok) {
-        alert("이미지 블록 추가 완료");
-        router.push("/admin");
-      } else {
-        const { status } = response;
-        console.log(status);
-        if (status === 500) {
-          alert("서버 에러");
-        }
-      }
+      return await setResponseMessage(response);
     } catch (error) {
-      console.log(error);
+      throw new Error(
+        error instanceof Error ? error.message : "알 수 없는 에러",
+      );
     }
   };
+  const newAddImageBlock = async () => {
+    const params = {
+      type: 4,
+      title,
+      url: connectingUrl,
+      imgUrl: selectedImageUrl,
+    };
+    postBlock("/api/link/add", params)
+      .then((response) => async () => {
+        if (response.ok) {
+          console.log("성공");
+          return response.json();
+        } else {
+          const errorResponse = await response.json();
+          const { status } = response;
+          const { message } = errorResponse;
+          console.log(status);
+          if (status === 500) {
+            alert("서버 에러");
+          }
+          console.log(
+            `Error: ${status}, Message: ${message || "Unknown error"}`,
+          );
+          throw new Error(`Error: ${response.status}`);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("서버 응답이 실패했습니다.");
+      });
+  };
+
+  // const addImageBlock = async () => {
+  //   const token = sessionStorage.getItem("token");
+  //   if (!token) {
+  //     router.push("/login");
+  //     return;
+  //   }
+  //   const nowSequence = await getSequence(token);
+  //
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify(params),
+  //       },
+  //     );
+  //     if (response.ok) {
+  //       alert("이미지 블록 추가 완료");
+  //       router.push("/admin");
+  //     } else {
+  //       const { status } = response;
+  //       console.log(status);
+  //       if (status === 500) {
+  //         alert("서버 에러");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleAddButtonClick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedImageUrl) return;
-    addImageBlock().then();
+    newAddImageBlock().then();
   };
 
   const handeInputImageClick = () => {
@@ -96,7 +169,7 @@ const Page = () => {
   // };
 
   const setImageText = (text: string) => {
-    if (!checkUrl(text)) {
+    if (!checkUrl(text) && text !== "") {
       alert("이미지 URL을 확인해주세요.");
       return;
     }

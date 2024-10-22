@@ -102,7 +102,7 @@ export default function BasicBlock({
   function renderComponent(type: number) {
     switch (type) {
       case 1:
-        return <DivideBlock />;
+        return <DivideBlock type={type} sequence={sequence} style={style} />;
       case 2:
         return <VideoBlock />;
       case 3:
