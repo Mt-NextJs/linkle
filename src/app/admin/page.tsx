@@ -164,19 +164,20 @@ export default function Admin() {
 
   return (
     <div>
-      <div className="h-36 items-center border">
-        <div className="items-center border text-center">
-          <Image
-            src="/assets/icons/icon_profile.png"
-            alt="profile"
-            className="ml-[44%] cursor-pointer"
-            width={80}
-            height={20}
-          />
-          <Link href={ClientRoute.MAIN as string} className="mr-5">
-            momomoc
-          </Link>
-        </div>
+      <div className="mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+        <Image
+          src="/assets/icons/icon_profile.png"
+          alt="profile"
+          className="mt-10 cursor-pointer"
+          width={80}
+          height={20}
+        />
+        <Link
+          href={ClientRoute.MAIN as string}
+          className="mt-2 font-bold underline"
+        >
+          momomoc
+        </Link>
       </div>
       <br />
       <div className="flex w-full rounded border">
@@ -184,14 +185,22 @@ export default function Admin() {
           <h3 className="ml-2 font-bold">방문자</h3>
 
           <div className="flex">
-            <p className="ml-2">전체 {showTotal}</p>
-            <p className="ml-2">오늘 {showToday}</p>
-            <p className="ml-2">실시간 {showRealTime}</p>
+            <p className="ml-2">
+              전체 <span className="text-red-500">{showTotal}</span>
+            </p>
+            <p className="ml-2">
+              오늘 <span className="text-red-500">{showToday}</span>
+            </p>
+            <p className="ml-2">
+              실시간 <span className="text-red-500">{showRealTime}</span>
+            </p>
           </div>
         </div>
         <div className="w-4/12 rounded-r border">
           <h3 className="ml-2 font-bold">소식받기</h3>
-          <p className="ml-2">전체</p>
+          <p className="ml-2">
+            전체 <span className="text-red-500">0</span>
+          </p>
         </div>
       </div>
       <br />
@@ -239,9 +248,16 @@ export default function Admin() {
           />
         ))
       )}
-      <ButtonBox>
-        <AddButton text="수정 완료" onClick={updateBlockOrder} />
-      </ButtonBox>
+      <div className="mb-5 mt-9 flex w-full items-center justify-between">
+        <div className="flex flex-grow justify-center">
+          <button className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800">
+            미리보기
+          </button>
+        </div>
+        <button className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600">
+          +
+        </button>
+      </div>
     </div>
   );
 }
