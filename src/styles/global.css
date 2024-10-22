@@ -28,19 +28,15 @@
   --input-color-bg: #fef1e5;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-
+  -ms-overflow-style: none;
   @apply tracking-tight;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 
 input {

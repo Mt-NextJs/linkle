@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 //components
-import Navigation from "@app/(intro)/components/navigation";
+import Navigation from "@app/intro/components/navigation";
 
 //styles
 
@@ -17,7 +17,7 @@ export default function AdminLayout({
 }>) {
   return (
     <div>
-      <Navigation />
+      {/* <Navigation /> */}
       {children}
     </div>
   );
