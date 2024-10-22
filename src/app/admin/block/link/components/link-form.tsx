@@ -113,9 +113,11 @@ export default function LinkForm() {
   };
 
   const summitButtonDisabled =
-    selectedStyle === "심플"
-      ? !linkUrl || !title
-      : !linkUrl || !title || !linkImg;
+    isLinkUrlError ||
+    isImgUrlError ||
+    isImgUrlConnectionError ||
+    (selectedStyle === "심플" && (!linkUrl || !title)) ||
+    (selectedStyle !== "심플" && (!linkUrl || !title || !linkImg));
 
   return (
     <Layout title="링크 블록" onSubmit={handleSubmit}>
