@@ -10,7 +10,7 @@ const AddButton = ({ text, ...buttonProps }: Props) => {
 
   return (
     <button
-      className={`h-14 w-full rounded ${bgColor} ${textColor} font-bold`}
+      className={`h-14 w-full rounded-lg ${bgColor} ${textColor} font-bold`}
       {...buttonProps}
     >
       {text}
