@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import ErrorBoundary from "@app/(intro)/components/error-boundary";
+import ErrorBoundary from "@app/intro/components/error-boundary";
 
 interface Props {
-  handeInputImageClick: () => void;
+  // handeInputImageClick: () => void;
   selectedImageUrl: string;
 }
 
-const ImageBox = ({ handeInputImageClick, selectedImageUrl }: Props) => {
+const ImageBox = ({ selectedImageUrl }: Props) => {
   return (
     <div className="relative overflow-hidden rounded shadow-lg">
       {/*<button*/}

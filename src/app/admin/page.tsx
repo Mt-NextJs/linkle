@@ -1,11 +1,11 @@
 "use client";
 
-import BasicBlock from "@app/(intro)/components/basicblock";
+import BasicBlock from "@app/intro/components/basicblock";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
-import EmptyBlock from "@app/(intro)/components/UI/empty-block";
+import EmptyBlock from "@app/intro/components/UI/empty-block";
 import VideoBlock from "./components/video-block";
 import AddButton from "@app/admin/block/components/buttons/add-button";
 import ButtonBox from "@app/admin/block/components/buttons/button-box";
