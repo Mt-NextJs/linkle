@@ -22,17 +22,6 @@ export default function StylePreview({
 
   const [hasImgError, setHasImgError] = useState(false);
 
-  const checkImageExists = async (url: string) => {
-    try {
-      const response = await fetch(url, { method: "HEAD" });
-      return (
-        response.ok && response.headers.get("Content-Type")?.startsWith("image/")
-      );
-    } catch {
-      return false;
-    }
-  };
-
   // 이미지 URL이 변경될 때마다 이미지 로드 상태를 초기화
   useEffect(() => {
     if (selectedStyle === "배경" && linkImg && isValidUrl(linkImg)) {
