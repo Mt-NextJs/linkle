@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import ErrorBoundary from "@app/(intro)/components/error-boundary";
+import ErrorBoundary from "@app/intro/components/error-boundary";
 
 interface Props {
   // handeInputImageClick: () => void;

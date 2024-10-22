@@ -5,7 +5,7 @@ import TextInputBox from "@app/admin/block/components/text-input-box";
 import Image from "next/image";
 import AddButton from "@app/admin/block/components/buttons/add-button";
 import ButtonBox from "@app/admin/block/components/buttons/button-box";
-import ErrorBoundary from "@app/(intro)/components/error-boundary";
+import ErrorBoundary from "@app/intro/components/error-boundary";
 import ImageBox from "@app/admin/block/image/components/image-box";
 import BoundaryImageBox from "@app/admin/block/image/components/image-box";
 import { useRouter } from "next/navigation";
