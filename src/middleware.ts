@@ -2,20 +2,20 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("token"); // 쿠키에서 인증 토큰을 가져옴
+  const token = request.cookies.get("token");
 
   if (
     !token &&
     request.nextUrl.pathname !== "/login" &&
-    request.nextUrl.pathname !== "/landing"
+    request.nextUrl.pathname !== "/intro"
   ) {
-    return NextResponse.redirect(new URL("/landing", request.url));
+    return NextResponse.redirect(new URL("/intro", request.url));
   }
 
-  return NextResponse.next(); // 로그인된 사용자에 대한 요청은 통과
+  return NextResponse.next();
 }
 
 // 인증이 필요한 페이지 설정
 export const config = {
-  matcher: ["/main", "/profile/:path*", "/admin"], // 인증이 필요한 경로 지정
+  matcher: ["/", "/profile/:path*", "/admin/:path*"], // 인증이 필요한 경로 지정
 };
