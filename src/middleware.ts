@@ -16,7 +16,8 @@ export function middleware(request: NextRequest) {
   if (
     token &&
     (request.nextUrl.pathname === "/login" ||
-      request.nextUrl.pathname === "/join")
+      request.nextUrl.pathname === "/join" ||
+      request.nextUrl.pathname === "/intro")
   ) {
     return NextResponse.redirect(new URL("/", request.url));
   }
@@ -26,5 +27,12 @@ export function middleware(request: NextRequest) {
 
 // 인증이 필요한 페이지 설정
 export const config = {
-  matcher: ["/", "/profile/:path*", "/admin/:path*", "/login", "/join"], // 인증이 필요한 경로 지정
+  matcher: [
+    "/",
+    "/profile/:path*",
+    "/admin/:path*",
+    "/login",
+    "/join",
+    "/intro",
+  ], // 인증이 필요한 경로 지정
 };
