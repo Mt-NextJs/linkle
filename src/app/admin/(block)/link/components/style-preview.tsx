@@ -28,7 +28,7 @@ export default function StylePreview({
       setHasImgError(false);
       setIsImgUrlConnectionError(false);
 
-      // 이미지 로드 비동기 처리
+      // 이미지 로드 비동기 처리(배경 이미지 일 때)
       const img = new window.Image();
       img.src = linkImg;
 
@@ -37,16 +37,17 @@ export default function StylePreview({
       };
 
       img.onerror = () => {
-        setHasImgError(true); // 이미지 로드 실패
+        setHasImgError(true); // 이미지 로드 실패시 메시지 표시
         setIsImgUrlConnectionError(true);
       };
     } else if (!isValidUrl(linkImg)) {
-      // URL이 유효하지 않으면 에러 상태 설정하지 않음
+      // URL이 유효하지 않으면 메시지 표시x
       setHasImgError(false);
       setIsImgUrlConnectionError(false);
     }
   }, [linkImg, selectedStyle, setIsImgUrlConnectionError, isValidUrl]);
 
+  // Image에서 error 발생시 오류 메시지 출력
   const imgErrorHandler = () => {
     setHasImgError(true);
     setIsImgUrlConnectionError(true);
@@ -80,7 +81,7 @@ export default function StylePreview({
                 onError={imgErrorHandler}
               />
             </div>
-            <div className="mr-[37px] flex w-4/5 items-center justify-center">
+            <div className="flex w-4/5 items-center justify-center pr-[27px]">
               <p>{title || "타이틀을 입력해주세요"}</p>
             </div>
           </div>
@@ -94,7 +95,7 @@ export default function StylePreview({
       )}
 
       {selectedStyle === "카드" && (
-        <div className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-[14px] rounded-xl bg-white drop-shadow-md">
+        <div className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-4 rounded-xl bg-white drop-shadow-md">
           <div className="relative h-[450px] w-full overflow-hidden rounded-t-xl bg-gray-300">
             <Image
               src={imgUrl}
