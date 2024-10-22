@@ -13,7 +13,7 @@ interface Schedule {
   dateEnd: string;
 }
 
-export default function AddSchedulePage() {
+export default function ScheduleManagementPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") || "add";
