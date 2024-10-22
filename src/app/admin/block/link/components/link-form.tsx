@@ -123,56 +123,56 @@ export default function LinkForm() {
 
   return (
     <Layout title="링크 블록" onSubmit={handleSubmit}>
-      <div className="w-[740px]">
-        <StylePreview
-          selectedStyle={selectedStyle}
-          title={title}
-          linkImg={linkImg}
-          setIsImgUrlConnectionError={setIsImgUrlConnectionError}
-          isValidUrl={isValidUrl}
-        />
+      <StylePreview
+        selectedStyle={selectedStyle}
+        title={title}
+        linkImg={linkImg}
+        setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+        isValidUrl={isValidUrl}
+      />
 
-        <div className="mt-8">
-          {/* 스타일 */}
-          <div className="w-full">
-            <h3 className="title mb-[10px]">
-              스타일 <span className="text-red-500">*</span>
-            </h3>
-            <div className="flex gap-5">
-              {styleItemNames.map((name, idx) => (
-                <StyleType
-                  key={name}
-                  name={name}
-                  imgIdx={idx}
-                  selectedStyle={selectedStyle}
-                  onSelect={setSelectedStyle}
-                  setLinkImg={setLinkImg}
-                  setIsImgUrlConnectionError={setIsImgUrlConnectionError}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="my-8 border-t-2 border-[#F6F6F6]"></div>
-
-          {/* Info */}
-          <section className="flex flex-col gap-6">
-            <div>
-              <FormInput
-                label="연결할 주소"
-                type="url"
-                id="linked-url"
-                value={linkUrl}
-                onChange={handleLinkUrlChange}
-                placeholder="연결할 주소 url을 입력해주세요"
-                required
+      <div className="mt-6">
+        {/* 스타일 */}
+        <div className="w-full">
+          <h3 className="title mb-[10px]">
+            스타일 <span className="text-red-500">*</span>
+          </h3>
+          <div className="flex gap-5">
+            {styleItemNames.map((name, idx) => (
+              <StyleType
+                key={name}
+                name={name}
+                imgIdx={idx}
+                selectedStyle={selectedStyle}
+                onSelect={setSelectedStyle}
+                setLinkImg={setLinkImg}
+                setIsImgUrlConnectionError={setIsImgUrlConnectionError}
               />
-              {isLinkUrlError && (
-                <div className="mt-1 text-sm text-red-500">
-                  올바른 URL 형식을 입력해주세요
-                </div>
-              )}
-            </div>
+            ))}
+          </div>
+        </div>
+
+        <hr className="border-gray-105 my-8 border-t-2" />
+
+        {/* Info */}
+        <section className="flex flex-col gap-3">
+          <div className="h-[104px]">
+            <FormInput
+              label="연결할 주소"
+              type="url"
+              id="linked-url"
+              value={linkUrl}
+              onChange={handleLinkUrlChange}
+              placeholder="연결할 주소 url을 입력해주세요"
+              required
+            />
+            {isLinkUrlError && (
+              <div className="mt-1 h-5 text-xs text-red-500">
+                올바른 URL 형식을 입력해주세요
+              </div>
+            )}
+          </div>
+          <div className="h-[104px]">
             <FormInput
               label="타이틀"
               type="text"
@@ -182,38 +182,39 @@ export default function LinkForm() {
               placeholder="타이틀을 입력해주세요"
               required
             />
-            <div>
-              <FormInput
-                label="이미지"
-                type="url"
-                id="linked-img"
-                value={linkImg}
-                onChange={handleImgUrlChange}
-                placeholder="이미지 url을 입력해주세요"
-                disabled={selectedStyle === "심플"}
-                required={selectedStyle !== "심플"}
-              />
-              {isImgUrlError && (
-                <div className="mt-1 text-sm text-red-500">
-                  올바른 URL 형식을 입력해주세요
-                </div>
-              )}
-              {isImgUrlConnectionError && (
-                <div className="mt-1 text-sm text-red-500">
-                  잘못된 이미지 경로입니다
-                </div>
-              )}
-            </div>
-          </section>
-          <div className="my-9 h-3 w-full bg-gray-200"></div>
-          <ButtonBox>
-            <AddButton
-              type={"submit"}
-              text="추가 완료"
-              disabled={summitButtonDisabled}
+          </div>
+          <div className="h-[104px]">
+            <FormInput
+              label="이미지"
+              type="url"
+              id="linked-img"
+              value={linkImg}
+              onChange={handleImgUrlChange}
+              placeholder="이미지 url을 입력해주세요"
+              disabled={selectedStyle === "심플"}
+              required={selectedStyle !== "심플"}
             />
-          </ButtonBox>
-        </div>
+            {isImgUrlError && (
+              <div className="mt-1 h-5 text-xs text-red-500">
+                올바른 URL 형식을 입력해주세요
+              </div>
+            )}
+            {isImgUrlConnectionError && (
+              <div className="mt-1 h-5 text-xs text-red-500">
+                잘못된 이미지 경로입니다
+              </div>
+            )}
+          </div>
+        </section>
+        <hr className="border-gray-105 my-2 border-t-8" />
+
+        <ButtonBox>
+          <AddButton
+            type={"submit"}
+            text="추가 완료"
+            disabled={summitButtonDisabled}
+          />
+        </ButtonBox>
       </div>
     </Layout>
   );
