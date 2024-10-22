@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ClientRoute } from "@config/route";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
@@ -31,7 +32,7 @@ export default function Login() {
         sessionStorage.setItem("token", infor.data.token);
         // 쿠키에 토큰 저장
         document.cookie = `token=${infor.data.token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-        router.push("/"); // 성공 시 메인 페이지로 리다이렉트
+        router.push(ClientRoute.MAIN as string);
       } else {
         alert("실패");
       }
