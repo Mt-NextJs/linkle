@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 interface Schedule {
@@ -72,7 +73,12 @@ function ScheduleItem({
   schedule: Schedule;
   onDelete: (id: number) => void;
 }) {
+  const router = useRouter();
   const status = getScheduleStatus(schedule);
+
+  const handleEdit = () => {
+    router.push(`/admin/block/calendar/manage?mode=edit&id=${schedule.id}`);
+  };
 
   return (
     <div>
@@ -89,7 +95,10 @@ function ScheduleItem({
           <div className="mt-2 font-semibold">{schedule.title}</div>
         </div>
         <div className="flex flex-col space-y-2">
-          <button className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold">
+          <button
+            className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
+            onClick={handleEdit}
+          >
             수정
           </button>
           <button
@@ -161,12 +170,10 @@ export default function ScheduleList() {
       } else {
         throw new Error(`Unexpected data structure: ${JSON.stringify(data)}`);
       }
-    } catch (error) {
-      console.error("Error fetching schedules:", error);
+    } catch (err) {
+      console.error("Error fetching schedules:", err);
       setError(
-        error instanceof Error
-          ? error.message
-          : "알 수 없는 오류가 발생했습니다.",
+        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다.",
       );
     }
   };

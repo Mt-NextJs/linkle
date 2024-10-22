@@ -45,7 +45,23 @@ export default function ScheduleForm({
   );
   const router = useRouter();
 
+  useEffect(() => {
+    if (mode === "edit" && initialData) {
+      const startDateTime = new Date(initialData.dateStart);
+      const endDateTime = new Date(initialData.dateEnd);
+
+      setStartDate(startDateTime.toISOString().split("T")[0]);
+      setStartTime(startDateTime.toTimeString().slice(0, 5));
+      setEndDate(endDateTime.toISOString().split("T")[0]);
+      setEndTime(endDateTime.toTimeString().slice(0, 5));
+      setTitle(initialData.title);
+      setUrl(initialData.url || "");
+    }
+  }, [mode, initialData]);
+
   const fetchCalendarBlock = useCallback(async () => {
+    if (mode === "edit") return;
+
     try {
       const token = sessionStorage.getItem("token");
       if (!token) {
@@ -77,7 +93,7 @@ export default function ScheduleForm({
     } catch (error) {
       console.error("Error fetching calendar block:", error);
     }
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     fetchCalendarBlock();
@@ -87,6 +103,7 @@ export default function ScheduleForm({
     e.preventDefault();
 
     const newSchedule: Schedule = {
+      ...(mode === "edit" && initialData?.id ? { id: initialData.id } : {}),
       title,
       url: url || undefined,
       dateStart: `${startDate}T${startTime}:00.000Z`,
@@ -97,17 +114,46 @@ export default function ScheduleForm({
       const token = sessionStorage.getItem("token");
       if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
 
-      let requestBody;
+      const listResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-      if (calendarBlock) {
-        // 기존 캘린더 블록이 있는 경우
-        const updatedSchedule = [...calendarBlock.schedule, newSchedule];
+      if (!listResponse.ok) {
+        throw new Error("기존 일정을 불러오는데 실패했습니다.");
+      }
+
+      const listData = await listResponse.json();
+      const existingCalendarBlock = listData.data.find(
+        (item: CalendarBlock) => item.type === 7,
+      );
+
+      let requestBody;
+      const blockId = mode === "edit" ? calendarBlockId : calendarBlock?.id;
+
+      if (blockId) {
+        let updatedSchedules;
+        if (mode === "edit" && existingCalendarBlock) {
+          updatedSchedules = existingCalendarBlock.schedule.map(
+            (s: Schedule) => (s.id === initialData?.id ? newSchedule : s),
+          );
+        } else {
+          updatedSchedules = [
+            ...(existingCalendarBlock?.schedule || []),
+            newSchedule,
+          ];
+        }
+
         requestBody = {
-          id: calendarBlock.id,
+          id: blockId,
           type: 7,
-          sequence: calendarBlock.sequence,
-          style: calendarBlock.style,
-          schedule: updatedSchedule,
+          sequence: existingCalendarBlock?.sequence || 1,
+          style: existingCalendarBlock?.style || 1,
+          schedule: updatedSchedules,
         };
       } else {
         // 새로운 캘린더 블록 생성 및 일정 추가
@@ -121,9 +167,7 @@ export default function ScheduleForm({
       }
 
       const response = await fetch(
-        calendarBlock
-          ? `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`
-          : `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/${blockId ? "update" : "add"}`,
         {
           method: "POST",
           headers: {
@@ -135,22 +179,30 @@ export default function ScheduleForm({
       );
 
       if (!response.ok) {
-        throw new Error("캘린더 블록 처리에 실패했습니다.");
+        throw new Error(
+          mode === "edit"
+            ? "일정 수정에 실패했습니다."
+            : "일정 추가에 실패했습니다.",
+        );
       }
 
       const data = await response.json();
       if (data.code === 200) {
         alert(
-          calendarBlock
-            ? "일정이 성공적으로 추가되었습니다."
-            : "캘린더 블록이 생성되고 일정이 추가되었습니다.",
+          mode === "edit"
+            ? "일정이 성공적으로 수정되었습니다."
+            : "일정이 성공적으로 추가되었습니다.",
         );
         router.push("/admin/block/calendar");
       } else {
         throw new Error("서버 응답 오류");
       }
     } catch (error) {
-      console.error("일정 추가 중 오류 발생", error);
+      console.error(
+        mode === "edit" ? "일정 수정 중 오류 발생" : "일정 추가 중 오류 발생",
+        error,
+      );
+      alert(error instanceof Error ? error.message : "오류가 발생했습니다.");
     }
   };
 
@@ -324,7 +376,7 @@ export default function ScheduleForm({
           style={{ backgroundColor: "#FFF1ED", color: "#FFB092" }}
           className="button color w-full rounded-md px-4 py-2 text-white hover:bg-blue-600"
         >
-          추가 완료
+          {mode === "edit" ? "수정 완료" : "추가 완료"}
         </button>
       </div>
     </form>
