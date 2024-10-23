@@ -124,6 +124,7 @@ export default function EventForm() {
           placeholder="어떤 이벤트인지 설명을 입력해주세요"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          maxLength={100}
         />
         <FormInput
           label="가이드 문구"
@@ -131,6 +132,7 @@ export default function EventForm() {
           placeholder="이벤트의 응모 조건이나, 가이드를 작성해주세요"
           value={eventGuide}
           onChange={(e) => setEventGuide(e.target.value)}
+          maxLength={100}
         />
 
         <Calendar
