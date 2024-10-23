@@ -27,8 +27,8 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
   ];
   return (
     <Portal>
-      <div className="flex h-screen w-screen items-center justify-center bg-gray-600">
-        <div className="mx-auto flex w-[700px] flex-col gap-4 rounded-xl bg-white p-6">
+      <div className="flex h-screen w-screen items-center justify-center before:relative before:h-screen before:w-screen before:bg-black before:opacity-25">
+        <div className="absolute flex w-[700px] flex-col gap-4 rounded-xl bg-white p-6">
           <div className="flex w-full items-center justify-between">
             <h1 className="text-2xl font-bold">블록 선택하기</h1>
             <button type="button" onClick={handleClose}>
