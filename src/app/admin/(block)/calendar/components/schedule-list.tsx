@@ -234,6 +234,8 @@ export default function ScheduleList() {
       if (responseData.code === 200) {
         setSchedules(updatedSchedules);
         alert("일정이 성공적으로 삭제되었습니다.");
+
+        window.location.reload();
       } else {
         throw new Error(
           `Failed to delete schedule. Server response: ${JSON.stringify(responseData)}`,
