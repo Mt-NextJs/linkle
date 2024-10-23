@@ -118,6 +118,7 @@ export default function EventPreview({
               className={twMerge(
                 "text-center text-sm text-gray-400 transition-all duration-500",
                 isExpanded ? "px-[52px]" : "w-44 truncate",
+                description ? "" : "w-auto",
               )}
             >
               {description || "이벤트 설명을 입력해주세요"}
