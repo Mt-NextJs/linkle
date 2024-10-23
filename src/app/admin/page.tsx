@@ -34,8 +34,9 @@ interface Block {
 export default function Admin() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
+    console.log(token);
     if (!token) {
-      window.history.back();
+      // window.history.back();
     }
     const setVisitor = async () => {
       try {
@@ -123,20 +124,15 @@ export default function Admin() {
   };
 
   const updateBlockOrder = () => {
-    const block01sequence = blocks[0].sequence;
-    const block02sequence = blocks[1].sequence;
     const params = {
       order: blocks,
     };
-    // const block1 = blocks[0];
-    // const block2 = blocks[1];
-    // block1["sequence"] = block02sequence;
-    // block2["sequence"] = block01sequence;
-    // const params = {
-    //   order: [block1, block2],
-    // };
     postBlock("/api/link/update/order", params, router).then((res) => {
-      if (res) console.log(res);
+      if (res) {
+        console.log(res);
+        const { data } = res;
+        setBlocks(data);
+      }
     });
   };
 
@@ -228,7 +224,10 @@ export default function Admin() {
       )}
       <div className="mb-5 mt-9 flex w-full items-center justify-between">
         <div className="flex flex-grow justify-center">
-          <button className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800">
+          <button
+            onClick={updateBlockOrder}
+            className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800"
+          >
             미리보기
           </button>
         </div>
