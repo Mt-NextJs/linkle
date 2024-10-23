@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 interface Schedule {
   id: number;
@@ -9,43 +10,13 @@ interface Schedule {
   dateEnd: string;
 }
 
-const scheduleData: Schedule[] = [
-  {
-    id: 1,
-    title: "일정 1",
-    url: "https://naver.com/",
-    dateStart: "2024-10-01T12:26:44.000Z",
-    dateEnd: "2024-10-02T12:26:44.000Z",
-  },
-  {
-    id: 2,
-    title: "일정 2",
-    url: "https://google.com/",
-    dateStart: "2024-10-01T09:00:00.000Z",
-    dateEnd: "2024-11-30T18:00:00.000Z",
-  },
-  {
-    id: 3,
-    title: "일정 3",
-    url: "https://github.com/",
-    dateStart: "2024-12-01T08:00:00.000Z",
-    dateEnd: "2024-12-31T17:00:00.000Z",
-  },
-  {
-    id: 4,
-    title: "일정 4",
-    url: "https://microsoft.com/",
-    dateStart: "2025-01-01T10:00:00.000Z",
-    dateEnd: "2025-01-31T16:00:00.000Z",
-  },
-  {
-    id: 5,
-    title: "일정 5",
-    url: "https://apple.com/",
-    dateStart: "2025-02-01T11:00:00.000Z",
-    dateEnd: "2025-02-28T15:00:00.000Z",
-  },
-];
+interface CalendarBlock {
+  id: number;
+  type: number;
+  sequence: number;
+  style: number;
+  schedule: Schedule[];
+}
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -80,8 +51,40 @@ const getScheduleStatus = (schedule: Schedule) => {
   }
 };
 
-function ScheduleItem({ schedule }: { schedule: Schedule }) {
+function EmptyState({ message }: { message: React.ReactNode }) {
+  return (
+    <div className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32">
+      <Image
+        src="/assets/icons/icon_calendar_empty.png"
+        alt="빈 캘린더"
+        width={48}
+        height={48}
+        className="mb-4 opacity-50"
+      />
+      <p className="text-center text-gray-500">{message}</p>
+    </div>
+  );
+}
+
+function ScheduleItem({
+  schedule,
+  onDelete,
+}: {
+  schedule: Schedule;
+  onDelete: (id: number) => void;
+}) {
+  const router = useRouter();
   const status = getScheduleStatus(schedule);
+
+  const handleEdit = () => {
+    router.push(`/admin/calendar/manage?mode=edit&id=${schedule.id}`);
+  };
+
+  const handleClick = (url: string) => {
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
 
   return (
     <div>
@@ -91,17 +94,26 @@ function ScheduleItem({ schedule }: { schedule: Schedule }) {
         >
           {status.text}
         </div>
-        <div className="flex-grow">
+        <div
+          className={`flex-grow ${schedule.url ? "cursor-pointer hover:text-[var(--primary)]" : ""}`}
+          onClick={() => schedule.url && handleClick(schedule.url)}
+        >
           <div className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
           </div>
-          <div className="mt-2 font-semibold">{schedule.title}</div>
+          <div className="group mt-2 font-semibold">{schedule.title}</div>
         </div>
         <div className="flex flex-col space-y-2">
-          <button className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold">
+          <button
+            className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
+            onClick={handleEdit}
+          >
             수정
           </button>
-          <button className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]">
+          <button
+            className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
+            onClick={() => onDelete(schedule.id)}
+          >
             삭제
           </button>
         </div>
@@ -114,11 +126,132 @@ function ScheduleItem({ schedule }: { schedule: Schedule }) {
 export default function ScheduleList() {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [calendarBlock, setCalendarBlock] = useState<CalendarBlock | null>(
+    null,
+  );
+  const [error, setError] = useState<string | null>(null);
+
   const toggleOpen = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    fetchSchedules();
+  }, []);
+
+  const fetchSchedules = async () => {
+    setError(null);
+    try {
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        throw new Error("로그인이 필요합니다.");
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.code === 200 && Array.isArray(data.data)) {
+        const foundCalendarBlock = data.data.find(
+          (item: CalendarBlock) => item.type === 7,
+        );
+
+        if (foundCalendarBlock) {
+          setCalendarBlock(foundCalendarBlock);
+          if (Array.isArray(foundCalendarBlock.schedule)) {
+            setSchedules(foundCalendarBlock.schedule);
+          } else {
+            setSchedules([]);
+          }
+        } else {
+          setSchedules([]);
+        }
+      } else {
+        throw new Error(`Unexpected data structure: ${JSON.stringify(data)}`);
+      }
+    } catch (err) {
+      console.error("Error fetching schedules:", err);
+      setError(
+        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다.",
+      );
+    }
+  };
+
+  const handleDelete = async (scheduleId: number) => {
+    try {
+      if (!calendarBlock) {
+        throw new Error("캘린더 블록을 찾을 수 없습니다.");
+      }
+
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        throw new Error("로그인이 필요합니다.");
+      }
+
+      const updatedSchedules = schedules.filter(
+        (schedule) => schedule.id !== scheduleId,
+      );
+
+      const requestBody = {
+        id: calendarBlock.id,
+        type: 7,
+        sequence: calendarBlock.sequence,
+        style: calendarBlock.style,
+        schedule: updatedSchedules,
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestBody),
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `Failed to delete schedule: ${JSON.stringify(errorData)}`,
+        );
+      }
+
+      const responseData = await response.json();
+
+      if (responseData.code === 200) {
+        setSchedules(updatedSchedules);
+        alert("일정이 성공적으로 삭제되었습니다.");
+      } else {
+        throw new Error(
+          `Failed to delete schedule. Server response: ${JSON.stringify(responseData)}`,
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting schedule:", error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : "일정 삭제 중 오류가 발생했습니다.",
+      );
+    }
+  };
 
   const currentDate = new Date();
 
-  const filteredSchedules = scheduleData.filter((schedule) => {
+  const filteredSchedules = schedules.filter((schedule) => {
     const endDate = new Date(schedule.dateEnd);
     return activeTab === "current"
       ? endDate >= currentDate
@@ -147,7 +280,7 @@ export default function ScheduleList() {
         <div className="p-4">
           <div className="mb-4 flex border-b">
             <button
-              className={`mx-4 ${
+              className={`mx-4 py-2 ${
                 activeTab === "current"
                   ? "border-b-2 border-[var(--primary)] font-semibold text-[var(--primary)]"
                   : "text-gray-500"
@@ -168,9 +301,33 @@ export default function ScheduleList() {
             </button>
           </div>
           <div className="space-y-4">
-            {filteredSchedules.map((schedule) => (
-              <ScheduleItem key={schedule.id} schedule={schedule} />
-            ))}
+            {filteredSchedules.length > 0 ? (
+              filteredSchedules.map((schedule) => (
+                <ScheduleItem
+                  key={schedule.id}
+                  schedule={schedule}
+                  onDelete={handleDelete}
+                />
+              ))
+            ) : (
+              <EmptyState
+                message={
+                  activeTab === "current" ? (
+                    <>
+                      <strong>진행 중이거나 예정된 일정이 없습니다.</strong>
+                      <br />
+                      일정을 추가하여 많은 방문자에게 알려보세요.
+                    </>
+                  ) : (
+                    <>
+                      <strong>지난 일정이 없습니다.</strong>
+                      <br />
+                      일정을 추가하여 많은 방문자에게 알려보세요.
+                    </>
+                  )
+                }
+              />
+            )}
           </div>
         </div>
       )}
