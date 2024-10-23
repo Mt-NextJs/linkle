@@ -80,6 +80,12 @@ function ScheduleItem({
     router.push(`/admin/block/calendar/manage?mode=edit&id=${schedule.id}`);
   };
 
+  const handleClick = (url: string) => {
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center rounded-lg p-4">
@@ -88,11 +94,14 @@ function ScheduleItem({
         >
           {status.text}
         </div>
-        <div className="flex-grow">
+        <div
+          className={`flex-grow ${schedule.url ? "cursor-pointer hover:text-[var(--primary)]" : ""}`}
+          onClick={() => schedule.url && handleClick(schedule.url)}
+        >
           <div className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
           </div>
-          <div className="mt-2 font-semibold">{schedule.title}</div>
+          <div className="group mt-2 font-semibold">{schedule.title}</div>
         </div>
         <div className="flex flex-col space-y-2">
           <button
