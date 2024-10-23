@@ -110,11 +110,11 @@ export default function BasicBlock({
           <LinkBlock url={url} style={style} imgUrl={imgUrl} title={title} />
         );
       case 4:
-        return <ImageBlock />;
+        return <ImageBlock title={title} url={url} imgUrl={imgUrl} />;
       case 5:
         return <EventBlock />;
       case 6:
-        return <TextBlock />;
+        return <TextBlock title={title} />;
       case 7:
         return <CalendarBlock />;
       default:
