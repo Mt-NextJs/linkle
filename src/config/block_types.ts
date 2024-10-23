@@ -39,7 +39,7 @@ export const blockTypes: BlockType[] = [
     title: "구분선",
     text: "블록과 블록 사이를 구분할 수 있어요",
     icon: DIVIDE_ICON,
-    path: "/admin/divide",
+    path: "/admin/divider",
   },
   {
     title: "동영상",
