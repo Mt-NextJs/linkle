@@ -6,9 +6,6 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
-import VideoBlock from "./components/video-block";
-import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import { useRouter } from "next/navigation";
 import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
@@ -117,7 +114,6 @@ export default function Admin() {
     const newSequenceItems = copyListItems.map((item, index) => {
       return { ...item, sequence: index };
     }); // 시퀀스 변경
-    console.log(newSequenceItems);
     dragItem.current = null;
     dragOverItem.current = null;
     setBlocks(newSequenceItems);
