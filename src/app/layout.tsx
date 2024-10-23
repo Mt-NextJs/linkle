@@ -19,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={"mx-auto max-w-screen-md"}>{children}</body>
+      <body>
+        <div id="portal" />
+        <div className={"mx-auto max-w-screen-md"}>{children}</div>
+      </body>
     </html>
   );
 }
