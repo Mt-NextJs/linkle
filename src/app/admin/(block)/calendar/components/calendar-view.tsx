@@ -1,52 +1,78 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { EventContentArg } from "@fullcalendar/core/index.js";
-
-interface Schedule {
-  id: string;
-  title: string;
-  startDate: string;
-  endDate: string;
-}
+import { EventContentArg, EventClickArg } from "@fullcalendar/core";
+import { Schedule } from "./types";
 
 interface CalendarViewProps {
   schedules: Schedule[];
+  hasUserSchedules: boolean;
 }
 
-const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
-  const [currentMonth, setCurrentMonth] = useState<Date>(new Date(2023, 0, 1));
+const CalendarView: React.FC<CalendarViewProps> = ({
+  schedules,
+  hasUserSchedules,
+}) => {
+  const initialDate = hasUserSchedules ? new Date() : new Date(2023, 0, 1);
+  const [currentMonth, setCurrentMonth] = useState<Date>(initialDate);
   const calendarRef = React.useRef<FullCalendar>(null);
 
-  const getBackgroundColor = (start: Date, end: Date) => {
-    const startDay = start.getDate();
-    const endDay = end.getDate();
+  const eventColors = [
+    "#575757",
+    "#707070",
+    "#888888",
+    "#A0A0A0",
+    "#666666",
+    "#999999",
+    "#777777",
+    "#949494",
+    "#555555",
+    "#808080",
+  ];
 
-    if (startDay >= 2 && endDay <= 6) {
-      return "#575757";
-    } else if (startDay >= 5 && endDay <= 10) {
-      return "#707070";
-    } else {
-      return "#A0A0A0";
+  const getBackgroundColor = (schedule: Schedule, index: number) => {
+    if (["1", "2", "3"].includes(String(schedule.id))) {
+      const startDay = new Date(schedule.startDate).getDate();
+      const endDay = new Date(schedule.endDate).getDate();
+
+      if (startDay >= 2 && endDay <= 6) {
+        return "#575757";
+      } else if (startDay >= 5 && endDay <= 10) {
+        return "#707070";
+      } else {
+        return "#A0A0A0";
+      }
     }
+
+    return eventColors[index % eventColors.length];
   };
 
-  const events = schedules.map((schedule) => ({
-    id: schedule.id,
-    title: schedule.title,
-    start: schedule.startDate,
-    end: schedule.endDate,
-    backgroundColor: getBackgroundColor(
-      new Date(schedule.startDate),
-      new Date(schedule.endDate),
-    ),
-    borderColor: "transparent",
-    classNames: ["calendar-event"],
-  }));
+  const getEvents = useCallback(() => {
+    return schedules.map((schedule, index) => ({
+      id: schedule.id,
+      title: schedule.title,
+      start: schedule.startDate,
+      end: schedule.endDate,
+      backgroundColor: getBackgroundColor(schedule, index),
+      borderColor: "transparent",
+      classNames: schedule.url
+        ? ["calendar-event", "cursor-pointer"]
+        : ["calendar-event", "cursor-default"],
+      extendedProps: { url: schedule.url },
+    }));
+  }, [schedules]);
+
+  useEffect(() => {
+    const calendarApi = calendarRef.current?.getApi();
+    if (calendarApi) {
+      calendarApi.removeAllEvents();
+      calendarApi.addEventSource(getEvents());
+    }
+  }, [getEvents]);
 
   const handlePrevMonth = () => {
     const calendarApi = calendarRef.current?.getApi();
@@ -100,19 +126,26 @@ const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
     );
   };
 
+  const handleEventClick = (clickInfo: EventClickArg) => {
+    const url = clickInfo.event.extendedProps.url;
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
+
   return (
     <div className="mt-4 overflow-hidden rounded-lg border border-gray-200">
       <CustomToolbar />
       <div className="calendar-container [&_.calendar-event]:flex [&_.calendar-event]:h-8 [&_.calendar-event]:items-center [&_.fc-col-header-cell]:border-0 [&_.fc-col-header-cell]:border-b [&_.fc-col-header-cell]:border-gray-200 [&_.fc-col-header-cell]:py-2 [&_.fc-col-header-cell]:text-center [&_.fc-col-header-cell]:text-[11px] [&_.fc-col-header-cell]:font-medium [&_.fc-col-header-cell]:text-gray-500 [&_.fc-day-other_.fc-daygrid-day-number]:text-gray-400 [&_.fc-daygrid-day-number]:flex [&_.fc-daygrid-day-number]:h-8 [&_.fc-daygrid-day-number]:w-full [&_.fc-daygrid-day-number]:items-center [&_.fc-daygrid-day-number]:justify-center [&_.fc-daygrid-day-number]:text-[11px] [&_.fc-daygrid-event]:mx-1 [&_.fc-daygrid-event]:rounded-md [&_.fc-event-title]:overflow-hidden [&_.fc-scrollgrid-section>td]:!border-b-0 [&_.fc-scrollgrid-section>td]:!border-r-0 [&_.fc-scrollgrid-section>th]:!border-r-0 [&_.fc-scrollgrid]:border-0 [&_td]:!border-b-0 [&_td]:!border-r-0">
-        {" "}
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
-          initialDate="2023-01-01"
+          initialDate={initialDate}
           headerToolbar={false}
-          events={events}
+          events={getEvents()}
           eventContent={renderEventContent}
+          eventClick={handleEventClick}
           height="auto"
           firstDay={0}
           eventDisplay="block"
