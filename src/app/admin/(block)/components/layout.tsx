@@ -2,7 +2,7 @@
 import React, { FormEvent } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import QuestionIcon from "@app/admin/block/components/question-icon";
+import QuestionIcon from "@app/admin/(block)/components/question-icon";
 
 const Layout = ({
   title,
