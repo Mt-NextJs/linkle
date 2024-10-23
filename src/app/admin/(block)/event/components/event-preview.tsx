@@ -71,7 +71,7 @@ export default function EventPreview({
         titleRef.current.scrollWidth > titleRef.current.clientWidth,
       );
     }
-    if (isExpanded && !isDescriptionOverflowing && !isTitleOverflowing) {
+    if (isExpanded && (isDescriptionOverflowing || isTitleOverflowing)) {
       setIsExpanded(false);
     }
   }, [description, title, isDescriptionOverflowing, isTitleOverflowing]);
