@@ -182,7 +182,7 @@ export default function Admin() {
         <h1 className="font-bold">블록 리스트</h1>
         <div className="group relative inline-block">
           <Image
-            src="/assets/icons/icon_question.png"
+            src="/assets/icons/icon_help.png"
             alt="question"
             width={20}
             height={20}
