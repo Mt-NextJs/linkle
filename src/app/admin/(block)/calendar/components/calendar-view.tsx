@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { EventContentArg } from "@fullcalendar/core/index.js";
+import { EventContentArg, EventClickArg } from "@fullcalendar/core";
 import { Schedule } from "./types";
 
 interface CalendarViewProps {
@@ -51,7 +51,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
     return eventColors[index % eventColors.length];
   };
 
-  const getEvents = () => {
+  const getEvents = useCallback(() => {
     return schedules.map((schedule, index) => ({
       id: schedule.id,
       title: schedule.title,
@@ -59,9 +59,12 @@ const CalendarView: React.FC<CalendarViewProps> = ({
       end: schedule.endDate,
       backgroundColor: getBackgroundColor(schedule, index),
       borderColor: "transparent",
-      classNames: ["calendar-event"],
+      classNames: schedule.url
+        ? ["calendar-event", "cursor-pointer"]
+        : ["calendar-event", "cursor-default"],
+      extendedProps: { url: schedule.url },
     }));
-  };
+  }, [schedules]);
 
   useEffect(() => {
     const calendarApi = calendarRef.current?.getApi();
@@ -69,7 +72,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
       calendarApi.removeAllEvents();
       calendarApi.addEventSource(getEvents());
     }
-  }, [schedules]);
+  }, [getEvents]);
 
   const handlePrevMonth = () => {
     const calendarApi = calendarRef.current?.getApi();
@@ -123,6 +126,13 @@ const CalendarView: React.FC<CalendarViewProps> = ({
     );
   };
 
+  const handleEventClick = (clickInfo: EventClickArg) => {
+    const url = clickInfo.event.extendedProps.url;
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
+
   return (
     <div className="mt-4 overflow-hidden rounded-lg border border-gray-200">
       <CustomToolbar />
@@ -135,6 +145,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
           headerToolbar={false}
           events={getEvents()}
           eventContent={renderEventContent}
+          eventClick={handleEventClick}
           height="auto"
           firstDay={0}
           eventDisplay="block"
