@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import ScheduleForm from "../components/schedule-form";
@@ -20,6 +20,14 @@ interface CalendarBlockData {
 }
 
 export default function ScheduleManagementPage() {
+  return (
+    <Suspense>
+      <ScheduleContent />
+    </Suspense>
+  );
+}
+
+function ScheduleContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") || "add";
