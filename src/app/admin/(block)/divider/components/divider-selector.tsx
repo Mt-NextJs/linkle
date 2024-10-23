@@ -41,7 +41,11 @@ export default function DividerSelector({
               className={`flex h-16 w-16 items-center justify-center rounded-xl border ${
                 selected === divider.name ? "border-black" : "border-gray-300"
               }`}
-              onClick={() => onSelect(divider.name)}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelect(divider.name as DividerType);
+              }}
+              type="button"
             >
               <span className="text-2xl">{divider.icon}</span>
             </button>
