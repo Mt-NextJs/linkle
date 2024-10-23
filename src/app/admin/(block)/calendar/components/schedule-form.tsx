@@ -193,7 +193,7 @@ export default function ScheduleForm({
             ? "일정이 성공적으로 수정되었습니다."
             : "일정이 성공적으로 추가되었습니다.",
         );
-        router.push("/admin/block/calendar");
+        router.push("/admin/calendar");
       } else {
         throw new Error("서버 응답 오류");
       }

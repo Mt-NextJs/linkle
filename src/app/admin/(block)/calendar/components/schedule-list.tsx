@@ -77,7 +77,7 @@ function ScheduleItem({
   const status = getScheduleStatus(schedule);
 
   const handleEdit = () => {
-    router.push(`/admin/block/calendar/manage?mode=edit&id=${schedule.id}`);
+    router.push(`/admin/calendar/manage?mode=edit&id=${schedule.id}`);
   };
 
   const handleClick = (url: string) => {

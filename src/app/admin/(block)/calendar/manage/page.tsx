@@ -27,7 +27,7 @@ export default function ScheduleManagementPage() {
   const [calendarBlockId, setCalendarBlockId] = useState<number | null>(null);
 
   const handleClose = () => {
-    router.push("/admin/block/calendar");
+    router.push("/admin/calendar");
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function ScheduleManagementPage() {
 
         if (!scheduleId) {
           alert("일정 ID가 필요합니다.");
-          router.push("/admin/block/calendar");
+          router.push("/admin/calendar");
           return;
         }
 
@@ -75,7 +75,7 @@ export default function ScheduleManagementPage() {
         } catch (error) {
           console.error("Error fetching schedule:", error);
           alert("일정을 불러오는데 실패했습니다.");
-          router.push("/admin/block/calendar");
+          router.push("/admin/calendar");
         }
       };
 
