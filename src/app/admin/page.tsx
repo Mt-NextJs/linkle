@@ -35,7 +35,7 @@ export default function Admin() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (!token) {
-      window.history.back();
+      // window.history.back();
     }
     const setVisitor = async () => {
       try {
