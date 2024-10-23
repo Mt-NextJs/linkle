@@ -7,9 +7,11 @@ import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
 import VideoBlock from "./components/video-block";
-import AddButton from "@app/admin/block/components/buttons/add-button";
-import ButtonBox from "@app/admin/block/components/buttons/button-box";
+import AddButton from "@app/admin/(block)/components/buttons/add-button";
+import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import { useRouter } from "next/navigation";
+import { postBlock } from "../../lib/post-block";
+import BlockMenu from "@app/admin/(block)/block-menu";
 
 interface Block {
   id: number;
@@ -55,7 +57,7 @@ export default function Admin() {
           setShowTotal(infor.data.total);
         }
       } catch (error) {
-        alert("연결 실패");
+        // alert("연결 실패");
       }
     };
     setVisitor();
@@ -65,6 +67,8 @@ export default function Admin() {
   const [showTotal, setShowTotal] = useState("0");
   const [showToday, setShowToday] = useState("0");
   const [showRealTime, setShowRealTime] = useState("0");
+
+  const [isBlockMenuOn, setIsBlockMenuOn] = useState<boolean>(false);
 
   const [blocks, setBlocks] = useState<Block[]>([]);
 
@@ -118,48 +122,22 @@ export default function Admin() {
     setBlocks(newSequenceItems);
   };
 
-  const updateBlockOrder = async () => {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
-    if (!token) {
-      router.push("/login");
-      return;
-    }
+  const updateBlockOrder = () => {
     const block01sequence = blocks[0].sequence;
     const block02sequence = blocks[1].sequence;
-    // const params = {
-    //   order: [
-    //     { ...blocks[0], sequence: block02sequence },
-    //     { ...blocks[1], sequence: block01sequence },
-    //   ],
-    // };
     const params = {
       order: blocks,
     };
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update/order`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      if (response.ok) {
-        alert("블록 순서 변경 완료");
-        router.push("/admin");
-      } else {
-        const { status } = response;
-        console.log(status);
-        if (status === 500) {
-          alert("서버 에러");
-        }
-      }
-    } catch (error) {
-      alert("연결 실패");
-    }
+    // const block1 = blocks[0];
+    // const block2 = blocks[1];
+    // block1["sequence"] = block02sequence;
+    // block2["sequence"] = block01sequence;
+    // const params = {
+    //   order: [block1, block2],
+    // };
+    postBlock("/api/link/update/order", params, router).then((res) => {
+      if (res) console.log(res);
+    });
   };
 
   return (
@@ -254,10 +232,14 @@ export default function Admin() {
             미리보기
           </button>
         </div>
-        <button className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600">
+        <button
+          onClick={() => setIsBlockMenuOn(true)}
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600"
+        >
           +
         </button>
       </div>
+      <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
     </div>
   );
 }
