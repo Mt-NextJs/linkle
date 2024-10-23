@@ -6,9 +6,6 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
-import VideoBlock from "./components/video-block";
-import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import { useRouter } from "next/navigation";
 import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
@@ -117,7 +114,6 @@ export default function Admin() {
     const newSequenceItems = copyListItems.map((item, index) => {
       return { ...item, sequence: index };
     }); // 시퀀스 변경
-    console.log(newSequenceItems);
     dragItem.current = null;
     dragOverItem.current = null;
     setBlocks(newSequenceItems);
@@ -182,7 +178,7 @@ export default function Admin() {
         <h1 className="font-bold">블록 리스트</h1>
         <div className="group relative inline-block">
           <Image
-            src="/assets/icons/icon_question.png"
+            src="/assets/icons/icon_help.png"
             alt="question"
             width={20}
             height={20}
