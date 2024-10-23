@@ -1,13 +1,13 @@
 "use client";
 
 import React, { FormEvent, useEffect, useRef, useState } from "react";
-import Layout from "@app/admin/block/components/layout";
-import TextInputBox from "@app/admin/block/components/text-input-box";
-import AddButton from "@app/admin/block/components/buttons/add-button";
-import ButtonBox from "@app/admin/block/components/buttons/button-box";
+import Layout from "@app/admin/(block)/components/layout";
+import TextInputBox from "@app/admin/(block)/components/text-input-box";
+import AddButton from "@app/admin/(block)/components/buttons/add-button";
+import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
-import FormInput from "@app/admin/block/components/form-input";
+import FormInput from "@app/admin/(block)/components/form-input";
 import { checkUrl } from "../../../../lib/check-url";
 
 const Page = () => {
