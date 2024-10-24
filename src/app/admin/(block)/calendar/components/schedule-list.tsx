@@ -256,7 +256,7 @@ export default function ScheduleList() {
   });
 
   return (
-    <div className="flex w-full max-w-4xl flex-col px-14 py-0">
+    <>
       <div className="mt-4 flex items-center justify-between p-4">
         <h2 className="text-lg font-semibold">추가한 모든 일정</h2>
         <button onClick={toggleOpen} className="cursor-pointer">
@@ -328,6 +328,6 @@ export default function ScheduleList() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
