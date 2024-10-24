@@ -7,6 +7,7 @@ import { getSequence } from "lib/get-sequence";
 import ButtonBox from "../../components/buttons/button-box";
 import AddButton from "../../components/buttons/add-button";
 import FormInput from "../../components/form-input";
+import DateTimeInput from "./date-time-input";
 
 interface Schedule {
   id?: number;
@@ -221,134 +222,26 @@ export default function ScheduleForm({
 
   return (
     <form onSubmit={handleSubmit} className="mt-4 space-y-8">
-      <div className="flex flex-col space-y-2">
-        <label className="flex items-center">
-          <span>오픈 일시</span>
-          <span className="ml-1 text-red-500">*</span>
-        </label>
-        <div className="flex space-x-2">
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className={`min-w-[160px] flex-1 rounded-md p-2 ${
-              startDate ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
-            }`}
-            required
-          />
-          <div className="relative flex min-w-[120px] flex-1 items-center rounded-md border border-gray-300">
-            <div className="pl-2 pr-1">
-              <Image
-                src="/assets/icons/icon_clock.png"
-                alt="Clock"
-                width={20}
-                height={20}
-              />
-            </div>
-            <input
-              type="text"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              className="w-full appearance-none rounded-md border-0 bg-transparent p-2 focus:outline-none focus:ring-0"
-              placeholder="시간"
-              required
-              readOnly
-            />
-            <div
-              className="absolute right-2 cursor-pointer"
-              onClick={() => setShowStartTime(!showStartTime)}
-            >
-              <Image
-                src="/assets/icons/icon_open.png"
-                alt="Open"
-                width={13}
-                height={13}
-              />
-            </div>
-            {showStartTime && (
-              <div className="absolute left-0 top-full z-10 mt-1 max-h-40 w-full overflow-auto rounded-md bg-white shadow-lg">
-                {timeOptions.map((time, i) => (
-                  <div
-                    key={i}
-                    className="cursor-pointer p-2 hover:bg-gray-100"
-                    onClick={() => {
-                      setStartTime(time);
-                      setShowStartTime(false);
-                    }}
-                  >
-                    {time}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col space-y-2">
-        <label className="flex items-center">
-          <span>종료 일시</span>
-          <span className="ml-1 text-red-500">*</span>
-        </label>
-        <div className="flex space-x-2">
-          <input
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className={`min-w-[120px] flex-1 rounded-md p-2 ${
-              endDate ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
-            }`}
-            required
-          />
-          <div className="relative flex min-w-[120px] flex-1 items-center rounded-md border border-gray-300">
-            <div className="pl-2 pr-1">
-              <Image
-                src="/assets/icons/icon_clock.png"
-                alt="Clock"
-                width={20}
-                height={20}
-              />
-            </div>
-            <input
-              type="text"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              className="w-full appearance-none rounded-md border-0 bg-transparent p-2 focus:outline-none focus:ring-0"
-              placeholder="시간"
-              required
-              readOnly
-            />
-            <div
-              className="absolute right-2 cursor-pointer"
-              onClick={() => setShowEndTime(!showEndTime)}
-            >
-              <Image
-                src="/assets/icons/icon_open.png"
-                alt="Open"
-                width={13}
-                height={13}
-              />
-            </div>
-            {showEndTime && (
-              <div className="absolute left-0 top-full z-10 mt-1 max-h-40 w-full overflow-auto rounded-md bg-white shadow-lg">
-                {timeOptions.map((time, i) => (
-                  <div
-                    key={i}
-                    className="cursor-pointer p-2 hover:bg-gray-100"
-                    onClick={() => {
-                      setEndTime(time);
-                      setShowEndTime(false);
-                    }}
-                  >
-                    {time}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
+      <DateTimeInput
+        label="오픈 일시"
+        dateValue={startDate}
+        timeValue={startTime}
+        onDateChange={setStartDate}
+        onTimeChange={setStartTime}
+        showTimeDropdown={showStartTime}
+        onTimeDropdownToggle={() => setShowStartTime(!showStartTime)}
+        required
+      />
+      <DateTimeInput
+        label="종료 일시"
+        dateValue={endDate}
+        timeValue={endTime}
+        onDateChange={setEndDate}
+        onTimeChange={setEndTime}
+        showTimeDropdown={showEndTime}
+        onTimeDropdownToggle={() => setShowEndTime(!showEndTime)}
+        required
+      />
       <FormInput
         label="일정 이름"
         id="title"
@@ -359,7 +252,6 @@ export default function ScheduleForm({
         placeholder="알리고 싶은 일정 내용이 잘 드러나면 좋아요"
         required
       />
-
       <FormInput
         label="연결할 주소"
         id="url"
@@ -369,7 +261,6 @@ export default function ScheduleForm({
         className="rounded-md border border-gray-300 p-2 text-sm placeholder-gray-300 focus:border-[#FFCAB5] focus:outline-none focus:ring-[#FFCAB5]"
         placeholder="일정에 관심 있을 때 이동시키고 싶은 링크가 있나요?"
       />
-
       <ButtonBox>
         <AddButton
           type="submit"
