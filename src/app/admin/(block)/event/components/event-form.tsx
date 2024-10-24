@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Calendar from "./calendar";
+import EventDatePicker from "./event-date-picker";
 import EventPreview from "./event-preview";
 import Layout from "../../components/layout";
 import ButtonBox from "../../components/buttons/button-box";
@@ -135,7 +135,7 @@ export default function EventForm() {
           maxLength={100}
         />
 
-        <Calendar
+        <EventDatePicker
           startDate={startDate}
           setStartDate={setStartDate}
           endDate={endDate}

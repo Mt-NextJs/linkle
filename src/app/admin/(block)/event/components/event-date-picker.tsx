@@ -1,6 +1,6 @@
 import DatePicker from "react-datepicker";
 
-export default function Calendar({
+export default function EventDatePicker({
   startDate,
   setStartDate,
   endDate,
