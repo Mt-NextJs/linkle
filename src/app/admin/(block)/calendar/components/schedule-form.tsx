@@ -213,6 +213,9 @@ export default function ScheduleForm({
     (_, i) => `${i.toString().padStart(2, "0")}:00`,
   );
 
+  const summitButtonDisabled =
+    !startDate || !startTime || !endDate || !endTime || !title;
+
   return (
     <form onSubmit={handleSubmit} className="mt-4 space-y-8">
       <div className="flex flex-col space-y-2">
@@ -373,6 +376,7 @@ export default function ScheduleForm({
         <AddButton
           type="submit"
           text={mode === "edit" ? "수정 완료" : "추가 완료"}
+          disabled={summitButtonDisabled}
         />
       </ButtonBox>
     </form>
