@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { BsCalendarXFill } from "react-icons/bs";
 
 interface Schedule {
   id: number;
@@ -54,13 +55,7 @@ const getScheduleStatus = (schedule: Schedule) => {
 function EmptyState({ message }: { message: React.ReactNode }) {
   return (
     <div className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32">
-      <Image
-        src="/assets/icons/icon_calendar_empty.png"
-        alt="빈 캘린더"
-        width={48}
-        height={48}
-        className="mb-4 opacity-50"
-      />
+      <BsCalendarXFill className="mb-4 text-4xl text-gray-300" />
       <p className="text-center text-gray-500">{message}</p>
     </div>
   );
