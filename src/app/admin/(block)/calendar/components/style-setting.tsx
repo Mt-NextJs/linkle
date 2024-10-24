@@ -152,10 +152,7 @@ export default function StyleSetting() {
           {activeView === "list" ? (
             <ListView schedules={currentSchedules} />
           ) : (
-            <CalendarView
-              schedules={currentSchedules}
-              hasUserSchedules={hasUserSchedules}
-            />
+            <CalendarView schedules={currentSchedules} />
           )}
         </div>
       )}
