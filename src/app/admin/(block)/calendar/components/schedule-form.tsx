@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import ButtonBox from "../../components/buttons/button-box";
 import AddButton from "../../components/buttons/add-button";
+import FormInput from "../../components/form-input";
 
 interface Schedule {
   id?: number;
@@ -348,31 +349,26 @@ export default function ScheduleForm({
         </div>
       </div>
 
-      <div className="flex flex-col space-y-2">
-        <label className="flex items-center">
-          <span>일정 이름</span>
-          <span className="ml-1 text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="rounded-md border border-gray-300 p-2 text-sm placeholder-gray-300 focus:border-[#FFCAB5] focus:outline-none focus:ring-[#FFCAB5]"
-          placeholder="알리고 싶은 일정 내용이 잘 드러나면 좋아요"
-          required
-        />
-      </div>
+      <FormInput
+        label="일정 이름"
+        id="title"
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className="rounded-md border border-gray-300 p-2 text-sm placeholder-gray-300 focus:border-[#FFCAB5] focus:outline-none focus:ring-[#FFCAB5]"
+        placeholder="알리고 싶은 일정 내용이 잘 드러나면 좋아요"
+        required
+      />
 
-      <div className="flex flex-col space-y-2">
-        <label>연결할 주소</label>
-        <input
-          type="url"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          className="rounded-md border border-gray-300 p-2 text-sm placeholder-gray-300 focus:border-[#FFCAB5] focus:outline-none focus:ring-[#FFCAB5]"
-          placeholder="일정에 관심 있을 때 이동시키고 싶은 링크가 있나요?"
-        />
-      </div>
+      <FormInput
+        label="연결할 주소"
+        id="url"
+        type="url"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        className="rounded-md border border-gray-300 p-2 text-sm placeholder-gray-300 focus:border-[#FFCAB5] focus:outline-none focus:ring-[#FFCAB5]"
+        placeholder="일정에 관심 있을 때 이동시키고 싶은 링크가 있나요?"
+      />
 
       <ButtonBox>
         <AddButton
