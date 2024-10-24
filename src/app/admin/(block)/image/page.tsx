@@ -7,7 +7,7 @@ import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import ImageBox from "@app/admin/(block)/image/components/image-box";
 import { useRouter } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
-import { checkUrl } from "../../../../lib/check-url";
+import { checkImage, checkUrl } from "../../../../lib/check-url";
 import { postBlock } from "../../../../lib/post-block";
 
 const Page = () => {
@@ -100,7 +100,11 @@ const Page = () => {
 
   const setImageText = (text: string) => {
     if (!checkUrl(text) && text !== "") {
-      alert("이미지 URL을 확인해주세요.");
+      alert("URL을 입력해주세요.");
+      return;
+    }
+    if (!checkImage(text) && text !== "") {
+      alert("이미지 URL을 입력해주세요.");
       return;
     }
     setSelectedImageUrl(text);
