@@ -1,7 +1,5 @@
 "use client";
 
-import { ClientRoute } from "@config/route";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Admin from "@app/admin/page";
