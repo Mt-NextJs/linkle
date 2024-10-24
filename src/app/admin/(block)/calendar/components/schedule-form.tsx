@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
+import ButtonBox from "../../components/buttons/button-box";
+import AddButton from "../../components/buttons/add-button";
 
 interface Schedule {
   id?: number;
@@ -367,15 +369,12 @@ export default function ScheduleForm({
         />
       </div>
 
-      <div>
-        <button
+      <ButtonBox>
+        <AddButton
           type="submit"
-          style={{ backgroundColor: "#FFF1ED", color: "#FFB092" }}
-          className="button color w-full rounded-md px-4 py-2 text-white hover:bg-blue-600"
-        >
-          {mode === "edit" ? "수정 완료" : "추가 완료"}
-        </button>
-      </div>
+          text={mode === "edit" ? "수정 완료" : "추가 완료"}
+        />
+      </ButtonBox>
     </form>
   );
 }
