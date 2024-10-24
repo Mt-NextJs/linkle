@@ -23,32 +23,41 @@ const HomeMenu = () => {
   }
 
   return (
-    <div className="absolute right-4 top-4">
-      <button
-        onClick={() => setIsMenuOn((prev) => !prev)}
-        className="rounded-3xl border-2 bg-white p-2"
-      >
-        <Image
-          src="/assets/icons/icon_menu.png"
-          alt="메뉴 아이콘"
-          width={20}
-          height={20}
-        />
-      </button>
+    <>
       {isMenuOn && (
-        <div className="relative right-0 top-1">
-          <ul className="absolute right-0 border-2 bg-white px-2">
-            <li className="p-2">
-              <Link href={ClientRoute.ADMIN as string}>Admin</Link>
-            </li>
-            <Contour />
-            <li className="p-2">
-              <button onClick={handleLogout}>Logout</button>
-            </li>
-          </ul>
-        </div>
+        <button
+          type="button"
+          onClick={() => setIsMenuOn(false)}
+          className="cursor-default before:fixed before:left-0 before:top-0 before:h-screen before:w-screen before:opacity-0"
+        ></button>
       )}
-    </div>
+      <div className="absolute right-4 top-4">
+        <button
+          onClick={() => setIsMenuOn((prev) => !prev)}
+          className="rounded-3xl border-2 bg-white p-2"
+        >
+          <Image
+            src="/assets/icons/icon_menu.png"
+            alt="메뉴 아이콘"
+            width={20}
+            height={20}
+          />
+        </button>
+        {isMenuOn && (
+          <div className="relative right-0 top-1">
+            <ul className="absolute right-0 border-2 bg-white px-2">
+              <li className="p-2">
+                <Link href={ClientRoute.ADMIN as string}>Admin</Link>
+              </li>
+              <Contour />
+              <li className="p-2">
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

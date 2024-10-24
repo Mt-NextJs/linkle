@@ -18,9 +18,5 @@ export default function Page() {
     // return () => sessionStorage.removeItem("token");
   }, []);
 
-  return (
-    <>
-      <Admin />
-    </>
-  );
+  return <Admin />;
 }
