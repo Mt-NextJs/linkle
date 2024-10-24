@@ -47,6 +47,7 @@ export default function ScheduleForm({
   );
   const router = useRouter();
 
+  // 수정 모드에서 폼 초기값 설정
   useEffect(() => {
     if (mode === "edit" && initialData) {
       const startDateTime = new Date(initialData.dateStart);
@@ -61,45 +62,46 @@ export default function ScheduleForm({
     }
   }, [mode, initialData]);
 
-  const fetchCalendarBlock = useCallback(async () => {
-    if (mode === "edit") return;
-
-    try {
-      const token = sessionStorage.getItem("token");
-      if (!token) {
-        throw new Error("로그인이 필요합니다.");
-      }
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      if (data.code === 200 && Array.isArray(data.data)) {
-        const existingCalendarBlock = data.data.find(
-          (item: CalendarBlock) => item.type === 7,
-        );
-        if (existingCalendarBlock) {
-          setCalendarBlock(existingCalendarBlock);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching calendar block:", error);
-    }
-  }, [mode]);
-
+  // API에서 데이터 1회 호출
   useEffect(() => {
+    const fetchCalendarBlock = async () => {
+      if (mode === "edit") return;
+
+      try {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+          throw new Error("로그인이 필요합니다.");
+        }
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.code === 200 && Array.isArray(data.data)) {
+          const existingCalendarBlock = data.data.find(
+            (item: CalendarBlock) => item.type === 7,
+          );
+          if (existingCalendarBlock) {
+            setCalendarBlock(existingCalendarBlock);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching calendar block:", error);
+      }
+    };
+
     fetchCalendarBlock();
-  }, [fetchCalendarBlock]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
