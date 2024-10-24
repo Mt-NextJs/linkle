@@ -212,10 +212,7 @@ export default function ScheduleForm({
   );
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="ml-2 mt-4 flex w-full max-w-2xl flex-col space-y-6 p-8"
-    >
+    <form onSubmit={handleSubmit} className="mt-4 space-y-8">
       <div className="flex flex-col space-y-2">
         <label className="flex items-center">
           <span>오픈 일시</span>
