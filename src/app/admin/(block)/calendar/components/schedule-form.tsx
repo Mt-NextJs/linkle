@@ -228,8 +228,6 @@ export default function ScheduleForm({
         timeValue={startTime}
         onDateChange={setStartDate}
         onTimeChange={setStartTime}
-        showTimeDropdown={showStartTime}
-        onTimeDropdownToggle={() => setShowStartTime(!showStartTime)}
         required
       />
       <DateTimeInput
@@ -238,8 +236,7 @@ export default function ScheduleForm({
         timeValue={endTime}
         onDateChange={setEndDate}
         onTimeChange={setEndTime}
-        showTimeDropdown={showEndTime}
-        onTimeDropdownToggle={() => setShowEndTime(!showEndTime)}
+        minDate={startDate}
         required
       />
       <FormInput

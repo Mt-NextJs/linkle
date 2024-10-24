@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { FaRegCalendar, FaRegClock } from "react-icons/fa6";
 
 interface DateTimeInputProps {
   label: string;
@@ -8,8 +11,7 @@ interface DateTimeInputProps {
   timeValue: string;
   onDateChange: (value: string) => void;
   onTimeChange: (value: string) => void;
-  showTimeDropdown: boolean;
-  onTimeDropdownToggle: () => void;
+  minDate?: string;
   required?: boolean;
 }
 
@@ -19,14 +21,30 @@ export default function DateTimeInput({
   timeValue,
   onDateChange,
   onTimeChange,
-  showTimeDropdown,
-  onTimeDropdownToggle,
+  minDate,
   required = false,
 }: DateTimeInputProps) {
-  const timeOptions = Array.from(
-    { length: 24 },
-    (_, i) => `${i.toString().padStart(2, "0")}:00`,
-  );
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      const formattedDate = date.toISOString().split("T")[0];
+      onDateChange(formattedDate);
+    }
+  };
+
+  const handleTimeChange = (date: Date | null) => {
+    if (date) {
+      const formattedTime = date.toLocaleTimeString("ko-KR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+      onTimeChange(formattedTime);
+    }
+  };
+
+  const selectedDate = dateValue ? new Date(dateValue) : null;
+  const selectedTime = timeValue ? new Date(`1970-01-01T${timeValue}`) : null;
+  const minDateTime = minDate ? new Date(minDate) : undefined;
 
   return (
     <div className="flex flex-col space-y-2">
@@ -34,38 +52,41 @@ export default function DateTimeInput({
         <span>{label}</span>
         {required && <span className="ml-1 text-red-500">*</span>}
       </label>
-      <div className="flex space-x-2">
-        <input
-          type="date"
-          value={dateValue}
-          onChange={(e) => onDateChange(e.target.value)}
-          className={`min-w-[160px] flex-1 rounded-md p-2 ${
-            dateValue ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
-          }`}
-          required={required}
-        />
-        <div className="relative flex min-w-[120px] flex-1 items-center rounded-md border border-gray-300">
-          <div className="pl-2 pr-1">
-            <Image
-              src="/assets/icons/icon_clock.png"
-              alt="Clock"
-              width={20}
-              height={20}
-            />
-          </div>
-          <input
-            type="text"
-            value={timeValue}
-            onChange={(e) => onTimeChange(e.target.value)}
-            className="w-full appearance-none rounded-md border-0 bg-transparent p-2 focus:outline-none focus:ring-0"
-            placeholder="시간"
+      <div className="flex gap-2">
+        <div className="relative flex w-1/2">
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            dateFormat="yyyy-MM-dd"
+            minDate={minDateTime}
             required={required}
-            readOnly
+            className={`w-full rounded-md border p-2 pr-8 ${
+              dateValue ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
+            }`}
+            placeholderText="날짜 선택"
+            wrapperClassName="w-full"
           />
-          <div
-            className="absolute right-2 cursor-pointer"
-            onClick={onTimeDropdownToggle}
-          >
+          <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
+            <FaRegCalendar />
+          </div>
+        </div>
+        <div className="relative flex w-1/2">
+          <DatePicker
+            selected={selectedTime}
+            onChange={handleTimeChange}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={60}
+            timeCaption="시간"
+            dateFormat="HH:mm"
+            required={required}
+            className={`w-full rounded-md border p-2 pr-8 ${
+              timeValue ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
+            }`}
+            placeholderText="시간 선택"
+            wrapperClassName="w-full"
+          />
+          <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
             <Image
               src="/assets/icons/icon_open.png"
               alt="Open"
@@ -73,22 +94,6 @@ export default function DateTimeInput({
               height={13}
             />
           </div>
-          {showTimeDropdown && (
-            <div className="absolute left-0 top-full z-10 mt-1 max-h-40 w-full overflow-auto rounded-md bg-white shadow-lg">
-              {timeOptions.map((time, i) => (
-                <div
-                  key={i}
-                  className="cursor-pointer p-2 hover:bg-gray-100"
-                  onClick={() => {
-                    onTimeChange(time);
-                    onTimeDropdownToggle();
-                  }}
-                >
-                  {time}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>
