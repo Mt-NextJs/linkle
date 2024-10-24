@@ -25,7 +25,10 @@ const Page = () => {
       imgUrl: selectedImageUrl,
     };
     postBlock("/api/link/add", params, router).then((res) => {
-      if (res) console.log(res);
+      if (res) {
+        router.push("/admin");
+        console.log(res);
+      }
     });
   };
 
