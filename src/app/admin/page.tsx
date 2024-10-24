@@ -138,7 +138,7 @@ export default function Admin() {
   return (
     <div>
       <div className="relative mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
-        <HomeMenu />
+        {!isAdmin && <HomeMenu />}
         <Image
           src="/assets/icons/icon_profile.png"
           alt="profile"
