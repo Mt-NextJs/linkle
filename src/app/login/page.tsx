@@ -1,30 +1,38 @@
 "use client";
 
-import { Metadata } from "next";
 import { useState } from "react";
-//metadata
+import { useRouter } from "next/navigation";
+import { ClientRoute } from "@config/route";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      const response = await fetch("http://43.201.21.97:3002/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            password: password,
+          }),
         },
-        body: JSON.stringify({
-          userId: userId,
-          password: password,
-        }),
-      });
+      );
       const infor = await response.json();
       if (response.ok) {
         alert("성공");
+        // 세션 스토리지에 토큰 저장
         sessionStorage.setItem("token", infor.data.token);
+        // 쿠키에 토큰 저장
+        document.cookie = `token=${infor.data.token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+        router.push(ClientRoute.MAIN as string);
       } else {
         alert("실패");
       }

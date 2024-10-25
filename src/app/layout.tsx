@@ -18,8 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={"mx-auto max-w-screen-md"}>{children}</body>
+    <html lang="ko">
+      <body>
+        <div id="portal" />
+        <div className={"mx-auto max-w-screen-md"}>{children}</div>
+      </body>
     </html>
   );
 }
