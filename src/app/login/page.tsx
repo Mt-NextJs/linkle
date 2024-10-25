@@ -59,7 +59,7 @@ export default function Login() {
         <p>아이디와 비밀번호를 입력해 주세요.</p>
         <p>가입하신 적이 없으시다면 회원가입을 진행해 주세요.</p>
       </div>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6">
         <button type="button" onClick={() => router.back()}>
           <Image
             src="/assets/icons/icon_back.png"
