@@ -10,13 +10,18 @@ export default function DividerSelector({
   onSelect,
   selected,
 }: DividerSelectorProps) {
-  const dividers: Divider[] = [
-    { name: "Space", icon: " " },
-    { name: "Dashed", icon: "┈┈" },
-    { name: "Solid", icon: "───" },
-    { name: "Point", icon: "· · ·" },
+  const dividers: {
+    name: DividerType;
+    displayName: string;
+    icon: string | JSX.Element;
+  }[] = [
+    { name: "Space", displayName: "공백", icon: " " },
+    { name: "Dashed", displayName: "점선", icon: "┈┈" },
+    { name: "Solid", displayName: "실선", icon: "───" },
+    { name: "Point", displayName: "포인트", icon: "· · ·" },
     {
       name: "Zigzag",
+      displayName: "지그재그",
       icon: (
         <Image
           src="/assets/icons/item_zigzag.png"
@@ -49,7 +54,7 @@ export default function DividerSelector({
             >
               <span className="text-2xl">{divider.icon}</span>
             </button>
-            <span className="mt-2">{divider.name}</span>
+            <span className="mt-2">{divider.displayName}</span>
           </div>
         ))}
       </div>
