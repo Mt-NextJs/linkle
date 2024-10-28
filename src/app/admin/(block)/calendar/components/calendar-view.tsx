@@ -5,20 +5,15 @@ import Image from "next/image";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { EventContentArg, EventClickArg } from "@fullcalendar/core";
+import { EventContentArg } from "@fullcalendar/core";
 import { Schedule } from "./types";
 
 interface CalendarViewProps {
   schedules: Schedule[];
-  hasUserSchedules: boolean;
 }
 
-const CalendarView: React.FC<CalendarViewProps> = ({
-  schedules,
-  hasUserSchedules,
-}) => {
-  const initialDate = hasUserSchedules ? new Date() : new Date(2023, 0, 1);
-  const [currentMonth, setCurrentMonth] = useState<Date>(initialDate);
+const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const calendarRef = React.useRef<FullCalendar>(null);
 
   const eventColors = [
@@ -59,10 +54,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
       end: schedule.endDate,
       backgroundColor: getBackgroundColor(schedule, index),
       borderColor: "transparent",
-      classNames: schedule.url
-        ? ["calendar-event", "cursor-pointer"]
-        : ["calendar-event", "cursor-default"],
-      extendedProps: { url: schedule.url },
+      classNames: ["calendar-event"],
     }));
   }, [schedules]);
 
@@ -126,13 +118,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({
     );
   };
 
-  const handleEventClick = (clickInfo: EventClickArg) => {
-    const url = clickInfo.event.extendedProps.url;
-    if (url) {
-      window.open(url, "_blank");
-    }
-  };
-
   return (
     <div className="mt-4 overflow-hidden rounded-lg border border-gray-200">
       <CustomToolbar />
@@ -141,11 +126,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({
           ref={calendarRef}
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
-          initialDate={initialDate}
+          initialDate={new Date()}
           headerToolbar={false}
           events={getEvents()}
           eventContent={renderEventContent}
-          eventClick={handleEventClick}
           height="auto"
           firstDay={0}
           eventDisplay="block"

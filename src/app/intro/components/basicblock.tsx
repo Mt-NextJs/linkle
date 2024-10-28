@@ -31,6 +31,7 @@ interface Block {
   dragStart: (position: number) => void;
   dragEnter: (position: number) => void;
   drop: () => void;
+  isAdmin: boolean;
 }
 export default function BasicBlock({
   id,
@@ -52,6 +53,7 @@ export default function BasicBlock({
   dragStart,
   dragEnter,
   drop,
+  isAdmin,
 }: Block) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -104,7 +106,7 @@ export default function BasicBlock({
       case 1:
         return <DivideBlock type={type} sequence={sequence} style={style} />;
       case 2:
-        return <VideoBlock />;
+        return <VideoBlock url={url} title={title} />;
       case 3:
         return (
           <LinkBlock url={url} style={style} imgUrl={imgUrl} title={title} />
@@ -112,11 +114,13 @@ export default function BasicBlock({
       case 4:
         return <ImageBlock title={title} url={url} imgUrl={imgUrl} />;
       case 5:
-        return <EventBlock />;
+        return (
+          <EventBlock title={title} dateStart={dateStart} dateEnd={dateEnd} />
+        );
       case 6:
         return <TextBlock title={title} />;
       case 7:
-        return <CalendarBlock />;
+        return <CalendarBlock dateStart={dateStart} dateEnd={dateEnd} />;
       default:
         return <></>;
     }
@@ -163,38 +167,43 @@ export default function BasicBlock({
         onDragOver={(e) => e.preventDefault()}
       >
         <div className="relative w-[5%]">
-          <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <button>
-              <Image
-                className="ml-[8px] mt-[7px]"
-                src="/assets/icons/icon_arrow_up.png"
-                alt="arrow_up"
-                width={20}
-                height={30}
-              />
-            </button>
-          </div>
-          <div className="h-16 cursor-pointer border bg-slate-100 hover:bg-slate-200">
-            <Image
-              className="ml-[6.5px] mt-[17px]"
-              src="/assets/icons/icon_grabber.png"
-              alt="grabber"
-              width={25}
-              height={40}
-            />
-          </div>
-          <div className="h-10 border bg-slate-100 hover:bg-slate-200">
-            <button>
-              <Image
-                className="ml-[8px] mt-[7px]"
-                src="/assets/icons/icon_arrow.png"
-                alt="arrow_down"
-                width={20}
-                height={30}
-              />
-            </button>
-          </div>
+          {isAdmin && (
+            <>
+              <div className="h-10 border bg-slate-100 hover:bg-slate-200">
+                <button>
+                  <Image
+                    className="ml-[8px] mt-[7px]"
+                    src="/assets/icons/icon_arrow_up.png"
+                    alt="arrow_up"
+                    width={20}
+                    height={30}
+                  />
+                </button>
+              </div>
+              <div className="h-16 cursor-pointer border bg-slate-100 hover:bg-slate-200">
+                <Image
+                  className="ml-[6.5px] mt-[17px]"
+                  src="/assets/icons/icon_grabber.png"
+                  alt="grabber"
+                  width={25}
+                  height={40}
+                />
+              </div>
+              <div className="h-10 border bg-slate-100 hover:bg-slate-200">
+                <button>
+                  <Image
+                    className="ml-[8px] mt-[7px]"
+                    src="/assets/icons/icon_arrow.png"
+                    alt="arrow_down"
+                    width={20}
+                    height={30}
+                  />
+                </button>
+              </div>
+            </>
+          )}
         </div>
+
         <div className="grid h-full w-full">
           <div className="flex h-[32px] items-center justify-between">
             <div className="flex items-center">
@@ -209,36 +218,40 @@ export default function BasicBlock({
                 {setTitle(type)}
               </div>
             </div>
-            <div className="ml-auto flex items-center space-x-2">
-              <ToggleButton />
-              <button onClick={toggleMenu} className="hover:bg-slate-200">
-                <Image
-                  src="/assets/icons/icon_menu_dot.png"
-                  alt="menu_dot"
-                  width={20}
-                  height={20}
-                  className="ml-1 mt-[6px]"
-                />
-                {isOpen && (
-                  <div className="absolute mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg">
-                    <ul className="py-1">
-                      <li className="border-b px-4 py-2 font-bold hover:bg-slate-200">
-                        상단에 고정
-                      </li>
-                      <li className="border-b px-4 py-2 font-bold hover:bg-slate-200">
-                        보관
-                      </li>
-                      <li
-                        className="px-4 py-2 font-bold hover:bg-slate-200"
-                        onClick={deleteHandler}
-                      >
-                        삭제
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </button>
-            </div>
+            {isAdmin ? (
+              <div className="ml-auto flex items-center space-x-2">
+                <ToggleButton />
+                <button onClick={toggleMenu} className="hover:bg-slate-200">
+                  <Image
+                    src="/assets/icons/icon_menu_dot.png"
+                    alt="menu_dot"
+                    width={20}
+                    height={20}
+                    className="ml-1 mt-[6px]"
+                  />
+                  {isOpen && (
+                    <div className="absolute mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg">
+                      <ul className="py-1">
+                        <li className="border-b px-4 py-2 font-bold hover:bg-slate-200">
+                          상단에 고정
+                        </li>
+                        <li className="border-b px-4 py-2 font-bold hover:bg-slate-200">
+                          보관
+                        </li>
+                        <li
+                          className="px-4 py-2 font-bold hover:bg-slate-200"
+                          onClick={deleteHandler}
+                        >
+                          삭제
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </button>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           {renderComponent(type)}
         </div>
