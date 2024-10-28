@@ -120,7 +120,7 @@ export default function BasicBlock({
       case 6:
         return <TextBlock title={title} />;
       case 7:
-        return <CalendarBlock />;
+        return <CalendarBlock dateStart={dateStart} dateEnd={dateEnd} />;
       default:
         return <></>;
     }
