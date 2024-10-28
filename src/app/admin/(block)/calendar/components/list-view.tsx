@@ -61,12 +61,6 @@ const getScheduleStatus = (schedule: Schedule, index: number) => {
 };
 
 const ListView: React.FC<ListViewProps> = ({ schedules }) => {
-  const handleClick = (url: string) => {
-    if (url) {
-      window.open(url, "_blank");
-    }
-  };
-
   return (
     <div className="relative mt-4 space-y-0 rounded-lg bg-white p-4 shadow">
       <div className="relative max-h-[400px] overflow-y-auto">
@@ -74,14 +68,10 @@ const ListView: React.FC<ListViewProps> = ({ schedules }) => {
           <div className="pr-4 [&::-webkit-scrollbar]:hidden">
             {schedules.map((schedule, index) => {
               const status = getScheduleStatus(schedule, index);
-              const hasUrl = Boolean(schedule.url);
               return (
                 <div
                   key={schedule.id}
-                  className={`relative flex items-start pb-6 ${
-                    hasUrl ? "cursor-pointer hover:text-[var(--primary)]" : ""
-                  }`}
-                  onClick={() => hasUrl && handleClick(schedule.url!)}
+                  className="relative flex items-start pb-6"
                 >
                   <div className="z-10 w-24 flex-shrink-0">
                     <span

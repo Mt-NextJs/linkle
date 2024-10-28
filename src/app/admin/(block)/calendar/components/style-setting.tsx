@@ -109,7 +109,7 @@ export default function StyleSetting() {
   const currentSchedules = hasUserSchedules ? schedules : sampleSchedules;
 
   return (
-    <div className="flex w-full max-w-4xl flex-col px-14 py-0">
+    <div className="flex w-full max-w-4xl flex-col">
       <div className="flex items-center justify-between p-4">
         <h2 className="text-lg font-semibold">스타일 설정</h2>
         <button onClick={toggleOpen} className="cursor-pointer">
@@ -152,10 +152,7 @@ export default function StyleSetting() {
           {activeView === "list" ? (
             <ListView schedules={currentSchedules} />
           ) : (
-            <CalendarView
-              schedules={currentSchedules}
-              hasUserSchedules={hasUserSchedules}
-            />
+            <CalendarView schedules={currentSchedules} />
           )}
         </div>
       )}

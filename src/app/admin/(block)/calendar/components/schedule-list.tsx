@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { BsCalendarXFill } from "react-icons/bs";
 
 interface Schedule {
   id: number;
@@ -54,13 +55,7 @@ const getScheduleStatus = (schedule: Schedule) => {
 function EmptyState({ message }: { message: React.ReactNode }) {
   return (
     <div className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32">
-      <Image
-        src="/assets/icons/icon_calendar_empty.png"
-        alt="빈 캘린더"
-        width={48}
-        height={48}
-        className="mb-4 opacity-50"
-      />
+      <BsCalendarXFill className="mb-4 text-4xl text-gray-300" />
       <p className="text-center text-gray-500">{message}</p>
     </div>
   );
@@ -80,12 +75,6 @@ function ScheduleItem({
     router.push(`/admin/calendar/manage?mode=edit&id=${schedule.id}`);
   };
 
-  const handleClick = (url: string) => {
-    if (url) {
-      window.open(url, "_blank");
-    }
-  };
-
   return (
     <div>
       <div className="flex items-center rounded-lg p-4">
@@ -94,10 +83,7 @@ function ScheduleItem({
         >
           {status.text}
         </div>
-        <div
-          className={`flex-grow ${schedule.url ? "cursor-pointer hover:text-[var(--primary)]" : ""}`}
-          onClick={() => schedule.url && handleClick(schedule.url)}
-        >
+        <div className="flex-grow">
           <div className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
           </div>
@@ -261,7 +247,7 @@ export default function ScheduleList() {
   });
 
   return (
-    <div className="flex w-full max-w-4xl flex-col px-14 py-0">
+    <>
       <div className="mt-4 flex items-center justify-between p-4">
         <h2 className="text-lg font-semibold">추가한 모든 일정</h2>
         <button onClick={toggleOpen} className="cursor-pointer">
@@ -333,6 +319,6 @@ export default function ScheduleList() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
