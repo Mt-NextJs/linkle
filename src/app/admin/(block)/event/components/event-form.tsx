@@ -77,8 +77,8 @@ export default function EventForm() {
       alert("이벤트 블록이 성공적으로 추가되었습니다🥰");
       router.push("/admin");
 
-      const responseData = await response.json();
-      console.log(responseData);
+      // const responseData = await response.json();
+      // console.log(responseData);
     } catch (error) {
       throw new Error(
         error instanceof Error ? error.message : "An error occurred",
