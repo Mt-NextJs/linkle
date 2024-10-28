@@ -10,7 +10,7 @@ import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import { getSequence } from "lib/get-sequence";
 
 export default function DividerPage() {
-  const [selectedDivider, setSelectedDivider] = useState<DividerType>("공백");
+  const [selectedDivider, setSelectedDivider] = useState<DividerType>("Space");
 
   const handleAddDivider = async () => {
     try {
@@ -55,11 +55,11 @@ export default function DividerPage() {
 
   const getDividerStyle = (dividerType: DividerType): number => {
     const styles: Record<DividerType, number> = {
-      공백: 1,
-      점선: 2,
-      실선: 3,
-      포인트: 4,
-      지그재그: 5,
+      Space: 1,
+      Dashed: 2,
+      Solid: 3,
+      Point: 4,
+      Zigzag: 5,
     };
     return styles[dividerType] || 1;
   };

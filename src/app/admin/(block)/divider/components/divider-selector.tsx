@@ -11,12 +11,12 @@ export default function DividerSelector({
   selected,
 }: DividerSelectorProps) {
   const dividers: Divider[] = [
-    { name: "공백", icon: " " },
-    { name: "점선", icon: "┈┈" },
-    { name: "실선", icon: "───" },
-    { name: "포인트", icon: "· · ·" },
+    { name: "Space", icon: " " },
+    { name: "Dashed", icon: "┈┈" },
+    { name: "Solid", icon: "───" },
+    { name: "Point", icon: "· · ·" },
     {
-      name: "지그재그",
+      name: "Zigzag",
       icon: (
         <Image
           src="/assets/icons/item_zigzag.png"

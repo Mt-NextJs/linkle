@@ -14,25 +14,25 @@ const DividerContent = ({ type }: DividerContentProps) => {
   const commonClasses = "flex h-12 items-center justify-center";
 
   switch (type) {
-    case "공백":
+    case "Space":
       return <div className={commonClasses} />;
-    case "점선":
-    case "실선":
+    case "Dashed":
+    case "Solid":
       return (
         <div className={commonClasses}>
           <div
-            className={`w-full border-t ${type === "점선" ? "border-dashed" : "border-solid"}`}
+            className={`w-full border-t ${type === "Dashed" ? "border-dashed" : "border-solid"}`}
           />
         </div>
       );
-    case "포인트":
+    case "Point":
       return <div className={commonClasses}>· · ·</div>;
-    case "지그재그":
+    case "Zigzag":
       return (
         <div className={commonClasses}>
           <Image
             src="/assets/icons/item_zigzag.png"
-            alt="지그재그"
+            alt="Zigzag"
             width={70}
             height={5}
           />
