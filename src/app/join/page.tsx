@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import AnimatedText from "./components/animated-text";
 
 export default function Join() {
   const [userId, setUserId] = useState("");
@@ -120,8 +121,8 @@ export default function Join() {
                 width={20}
                 height={20}
               />
-              <div className="hidden border-y-4 border-r-4 border-y-transparent border-r-[#343434] group-hover:flex"></div>
-              <div className="hidden rounded bg-[#343434] px-2 py-1 text-xs text-white group-hover:flex">
+              <div className="hidden animate-insideout border-y-4 border-r-4 border-y-transparent border-r-[#343434] group-hover:flex"></div>
+              <div className="hidden animate-insideout rounded bg-[#343434] px-2 py-1 text-xs text-white group-hover:flex">
                 👈 아이디는 boomco 주소로 사용됩니다 (변경불가)
               </div>
             </div>
@@ -146,9 +147,9 @@ export default function Join() {
               )}
             />
           </div>
-          {isUserIdTouched && !userId && (
-            <p className="text-sm text-red-500">필수 입력 정보입니다</p>
-          )}
+          <AnimatedText isVisible={isUserIdTouched && !userId}>
+            필수 입력 정보입니다
+          </AnimatedText>
         </div>
 
         {/* 이름 필드 */}
@@ -165,9 +166,9 @@ export default function Join() {
           }}
           className={twMerge(isNameFocused ? "inserted" : "")}
         />
-        {isNameTouched && !name && (
-          <p className="text-sm text-red-500">필수 입력 정보입니다</p>
-        )}
+        <AnimatedText isVisible={isNameTouched && !name}>
+          필수 입력 정보입니다
+        </AnimatedText>
 
         {/* 비밀번호 필드 */}
         <FormInput
@@ -184,9 +185,9 @@ export default function Join() {
           }}
           className={twMerge(isPasswordFocused ? "inserted" : "")}
         />
-        {isPasswordTouched && !password && (
-          <p className="text-sm text-red-500">필수 입력 정보입니다</p>
-        )}
+        <AnimatedText isVisible={isPasswordTouched && !password}>
+          필수 입력 정보입니다
+        </AnimatedText>
 
         {/* 비밀번호 확인 필드 */}
         <FormInput
@@ -203,12 +204,14 @@ export default function Join() {
           }}
           className={twMerge(isPasswordConfirmFocused ? "inserted" : "")}
         />
-        {isPasswordConfirmTouched && !passwordConfirm && (
-          <p className="text-sm text-red-500">필수 입력 정보입니다</p>
-        )}
-        {passwordConfirm && password !== passwordConfirm && (
-          <p className="text-sm text-red-500">비밀번호가 일치하지 않습니다</p>
-        )}
+        <AnimatedText isVisible={isPasswordConfirmTouched && !passwordConfirm}>
+          필수 입력 정보입니다
+        </AnimatedText>
+        <AnimatedText
+          isVisible={!!(passwordConfirm && password !== passwordConfirm)}
+        >
+          비밀번호가 일치하지 않습니다
+        </AnimatedText>
 
         {/* 이메일 필드 */}
         <FormInput
@@ -225,15 +228,20 @@ export default function Join() {
           }}
           className={twMerge(isEmailFocused ? "inserted" : "")}
         />
-        {isEmailTouched && !email && (
-          <p className="text-sm text-red-500">필수 입력 정보입니다</p>
-        )}
+        <AnimatedText isVisible={isEmailTouched && !email}>
+          필수 입력 정보입니다
+        </AnimatedText>
 
         {/* 가입 완료 버튼 */}
         <button
           type="submit"
-          className={twMerge("button color mt-4", isDisabled && "disable")}
-          disabled={isDisabled}
+          className={twMerge(
+            "button color mt-4 transition-opacity duration-500",
+            isDisabled
+              ? "pointer-events-none cursor-not-allowed opacity-50"
+              : "animate-insideout opacity-100",
+          )}
+          aria-disabled={isDisabled} // 접근성용 속성
         >
           IN MY LINK 가입완료
         </button>
