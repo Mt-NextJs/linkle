@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
   if (
     !token &&
     request.nextUrl.pathname !== "/login" &&
+    request.nextUrl.pathname !== "/join" &&
     request.nextUrl.pathname !== "/intro"
   ) {
     return NextResponse.redirect(new URL("/intro", request.url));
