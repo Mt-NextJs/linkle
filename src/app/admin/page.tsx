@@ -6,12 +6,10 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
-import VideoBlock from "./components/video-block";
-import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
+import HomeMenu from "@app/admin/components/home-menu";
 
 interface Block {
   id: number;
@@ -76,6 +74,8 @@ export default function Admin() {
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const isAdmin = pathname === "/admin";
 
   async function getBlocks() {
     const token = sessionStorage.getItem("token");
@@ -117,7 +117,6 @@ export default function Admin() {
     const newSequenceItems = copyListItems.map((item, index) => {
       return { ...item, sequence: index };
     }); // 시퀀스 변경
-    console.log(newSequenceItems);
     dragItem.current = null;
     dragOverItem.current = null;
     setBlocks(newSequenceItems);
@@ -138,7 +137,8 @@ export default function Admin() {
 
   return (
     <div>
-      <div className="mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+      <div className="relative mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+        {!isAdmin && <HomeMenu />}
         <Image
           src="/assets/icons/icon_profile.png"
           alt="profile"
@@ -182,7 +182,7 @@ export default function Admin() {
         <h1 className="font-bold">블록 리스트</h1>
         <div className="group relative inline-block">
           <Image
-            src="/assets/icons/icon_question.png"
+            src="/assets/icons/icon_help.png"
             alt="question"
             width={20}
             height={20}
@@ -219,26 +219,31 @@ export default function Admin() {
             dragStart={dragStart}
             dragEnter={dragEnter}
             drop={drop}
+            isAdmin={isAdmin}
           />
         ))
       )}
-      <div className="mb-5 mt-9 flex w-full items-center justify-between">
-        <div className="flex flex-grow justify-center">
-          <button
-            onClick={updateBlockOrder}
-            className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800"
-          >
-            미리보기
-          </button>
-        </div>
-        <button
-          onClick={() => setIsBlockMenuOn(true)}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600"
-        >
-          +
-        </button>
-      </div>
-      <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
+      {isAdmin && (
+        <>
+          <div className="mb-5 mt-9 flex w-full items-center justify-between">
+            <div className="flex flex-grow justify-center">
+              <button
+                onClick={updateBlockOrder}
+                className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800"
+              >
+                미리보기
+              </button>
+            </div>
+            <button
+              onClick={() => setIsBlockMenuOn(true)}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600"
+            >
+              +
+            </button>
+          </div>
+          <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
+        </>
+      )}
     </div>
   );
 }
