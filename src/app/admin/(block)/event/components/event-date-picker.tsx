@@ -1,6 +1,6 @@
 import DatePicker from "react-datepicker";
 import { registerLocale } from "react-datepicker";
-import { ko } from "date-fns/locale/ko";
+import ko from "date-fns/locale/ko";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
