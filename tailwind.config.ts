@@ -26,9 +26,14 @@ const config: Config = {
           "0%": { opacity: "0%" },
           "100%": { opacity: "100%" },
         },
+        fadeOut: {
+          "0%": { opacity: "100%" },
+          "100%": { opacity: "0%" },
+        },
       },
       animation: {
         insideout: "insideout 0.6s ease-in-out",
+        fadeOut: "fadeOut 0.6s ease-in-out",
       },
       borderWidth: {
         1: "1px",
