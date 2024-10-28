@@ -7,51 +7,25 @@ import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/(block)/components/form-input";
-import { checkUrl } from "../../../../lib/check-url";
+import { checkImage, checkUrl } from "../../../../lib/check-url";
+import { blockApiInstance } from "../../../../utils/apis";
 
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const router = useRouter();
 
   const addVideoBlock = async () => {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-
-    const nowSequence = await getSequence(token);
-    console.log(nowSequence);
     const params = {
       type: 2,
       url: videoUrl,
-      sequence: nowSequence + 1,
     };
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      if (response.ok) {
-        alert("비디오 블록 추가 완료");
-        router.push("/admin");
-      } else {
-        const { status } = response;
-        console.log(status);
-        if (status === 500) {
-          alert("서버 에러");
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    const blockApis = await blockApiInstance;
+    const response = await blockApis.addBlock(params);
+    if (!response) return;
+    if (response.ok) {
+      alert("비디오 블록 추가 완료");
+      router.push("/admin");
+    } else await blockApis.handleError(response);
   };
 
   function extractVideoID(url: string) {
@@ -68,12 +42,17 @@ const Page = () => {
   };
   const setText = (text: string) => {
     if (!checkUrl(text) && text !== "") {
-      alert("이미지 URL을 확인해주세요.");
+      alert("URL을 입력해주세요.");
+      return;
+    }
+    if (checkImage(text) && text !== "") {
+      alert("이미지는 이미지 블록에 추가해주세요.");
       return;
     }
     const videoId = extractVideoID(text);
     setVideoUrl(videoId ? `https://www.youtube.com/embed/${videoId}` : text);
   };
+
   return (
     <Layout title={"비디오 블록"} onSubmit={handleAddButtonClick}>
       <FormInput
@@ -87,7 +66,7 @@ const Page = () => {
       />
       <div className="flex items-center justify-center shadow-lg">
         {videoUrl && (
-          <object type="text/html" data={videoUrl} width="600" height="320">
+          <object type="text/html" data={videoUrl} width="600" height="450">
             <div>동영상 주소를 확인해주세요</div>
           </object>
         )}

@@ -7,47 +7,25 @@ import FormInput from "../components/form-input";
 import ButtonBox from "../components/buttons/button-box";
 import AddButton from "../components/buttons/add-button";
 import { useState } from "react";
+import { blockApiInstance } from "../../../../utils/apis";
 export default function TextPage() {
   const [title, setTitle] = useState("");
   const router = useRouter();
+
   const addTextBlock = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-    const nowSequence = await getSequence(token);
     const params = {
       type: 6,
-      sequence: nowSequence + 1,
       title,
     };
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      if (response.ok) {
-        alert("텍스트 블록 추가 완료");
-        router.push("/admin");
-      } else {
-        const { status } = response;
-        console.log(status);
-        if (status === 500) {
-          alert("서버 에러");
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
+
+    const blockApis = await blockApiInstance;
+    const response = await blockApis.addBlock(params);
+    if (!response) return;
+    if (response.ok) {
+      alert("텍스트 블록 추가 완료");
+      router.push("/admin");
+    } else await blockApis.handleError(response);
   };
   return (
     <>

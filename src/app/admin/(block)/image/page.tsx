@@ -8,7 +8,7 @@ import ImageBox from "@app/admin/(block)/image/components/image-box";
 import { useRouter } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
-import { postBlock } from "../../../../lib/post-block";
+import { blockApiInstance } from "../../../../utils/apis";
 
 const Page = () => {
   // const inputImageRef = useRef<HTMLInputElement>(null);
@@ -17,16 +17,21 @@ const Page = () => {
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
 
-  const addImageBlock = () => {
+  const addImageBlock = async () => {
     const params = {
       type: 4,
       title,
       url: connectingUrl,
       imgUrl: selectedImageUrl,
     };
-    postBlock("/api/link/add", params, router).then((res) => {
-      if (res) console.log(res);
-    });
+
+    const blockApis = await blockApiInstance;
+    const response = await blockApis.addBlock(params);
+    if (!response) return;
+    if (response.ok) {
+      alert("이미지 블록 추가 완료");
+      router.push("/admin");
+    } else await blockApis.handleError(response);
   };
 
   // const addImageBlock = async () => {

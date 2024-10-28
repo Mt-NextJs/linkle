@@ -11,7 +11,7 @@ export const postBlock = async (
     if (router) router.push("/login");
     return;
   }
-  params["sequence"] = (await getSequence(token)) + 1;
+  params["sequence"] = ((await getSequence(token)) as number) + 1;
 
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
