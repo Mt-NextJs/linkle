@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ProfileEdit() {
   const [userData, setUserData] = useState({ name: "", userId: "", email: "" });
@@ -25,10 +25,10 @@ export default function ProfileEdit() {
     fetchUserInfo();
   }, []);
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
-    setIsChanged(true); // 데이터가 변경될 때마다 활성화
+    setIsChanged(true);
   }
 
   async function handleUpdate() {

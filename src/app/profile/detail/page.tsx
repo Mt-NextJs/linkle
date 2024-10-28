@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { User } from "@/types/user";
 
 export default function ProfileDetail() {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
