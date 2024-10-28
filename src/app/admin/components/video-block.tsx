@@ -1,11 +1,18 @@
 import Image from "next/image";
-
-export default function VideoBlock() {
+interface VideoBlockProps {
+  title: string | null;
+  url: string | null;
+}
+export default function VideoBlock({ title, url }: VideoBlockProps) {
   return (
     <>
-      <div className="ml-[180px] flex h-[84px] w-[320px] flex-col items-center justify-start gap-[14px] rounded-xl bg-white drop-shadow-md">
-        <div className="relative h-[63px] w-full flex-grow-[3] overflow-hidden rounded-t-xl bg-gray-300"></div>
-        <p className="flex-grow-[1] font-bold"></p>
+      <div className="ml-[85px] flex h-[86px] w-[530px] items-center rounded-lg bg-white shadow-md">
+        <div className="flex w-full items-center">
+          <div className="ml-[6px] flex w-1/5 justify-start"></div>
+          <div className="mr-[37px] flex w-4/5 items-center justify-center">
+            <p className="text-xl font-bold">{title}</p>
+          </div>
+        </div>
       </div>
     </>
   );
