@@ -106,7 +106,7 @@ export default function BasicBlock({
       case 1:
         return <DivideBlock type={type} sequence={sequence} style={style} />;
       case 2:
-        return <VideoBlock />;
+        return <VideoBlock url={url} title={title} />;
       case 3:
         return (
           <LinkBlock url={url} style={style} imgUrl={imgUrl} title={title} />
@@ -114,7 +114,9 @@ export default function BasicBlock({
       case 4:
         return <ImageBlock title={title} url={url} imgUrl={imgUrl} />;
       case 5:
-        return <EventBlock />;
+        return (
+          <EventBlock title={title} dateStart={dateStart} dateEnd={dateEnd} />
+        );
       case 6:
         return <TextBlock title={title} />;
       case 7:
