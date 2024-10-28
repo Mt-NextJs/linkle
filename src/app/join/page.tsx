@@ -104,12 +104,29 @@ export default function Join() {
       <form onSubmit={handleJoin} className="flex w-full flex-col gap-4">
         {/* 아이디 필드 */}
         <div className="flex flex-col gap-2">
-          <label
-            htmlFor="userId"
-            className="text-base font-semibold text-gray-700"
-          >
-            아이디 <span className="text-red-500">*</span>
-          </label>
+          <div className="flex gap-2">
+            <label
+              htmlFor="userId"
+              className="text-base font-semibold text-gray-700"
+            >
+              아이디 <span className="text-red-500">*</span>
+            </label>
+
+            {/* 말풍선 아이콘 */}
+            <div className="group flex items-center">
+              <Image
+                src="/assets/icons/icon_help.png"
+                alt="question"
+                width={20}
+                height={20}
+              />
+              <div className="hidden border-y-4 border-r-4 border-y-transparent border-r-[#343434] group-hover:flex"></div>
+              <div className="hidden rounded bg-[#343434] px-2 py-1 text-xs text-white group-hover:flex">
+                👈 아이디는 boomco 주소로 사용됩니다 (변경불가)
+              </div>
+            </div>
+          </div>
+
           <div className="flex items-center">
             <span className="mr-3 text-gray-500">http://link.boomco.com/</span>
             <input
