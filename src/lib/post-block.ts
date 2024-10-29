@@ -3,7 +3,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 export const postBlock = async (
   path: string,
-  params: { [index: string]: string | number },
+  params: { [index: string]: string | number | object },
   router?: AppRouterInstance,
 ) => {
   const token = sessionStorage.getItem("token");

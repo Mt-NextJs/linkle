@@ -6,10 +6,10 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ClientRoute } from "@config/route";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
-import VideoBlock from "./components/video-block";
-import AddButton from "@app/admin/block/components/buttons/add-button";
-import ButtonBox from "@app/admin/block/components/buttons/button-box";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { postBlock } from "../../lib/post-block";
+import BlockMenu from "@app/admin/(block)/block-menu";
+import HomeMenu from "@app/admin/components/home-menu";
 
 interface Block {
   id: number;
@@ -32,8 +32,9 @@ interface Block {
 export default function Admin() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
+    console.log(token);
     if (!token) {
-      window.history.back();
+      // window.history.back();
     }
     const setVisitor = async () => {
       try {
@@ -55,7 +56,7 @@ export default function Admin() {
           setShowTotal(infor.data.total);
         }
       } catch (error) {
-        alert("연결 실패");
+        // alert("연결 실패");
       }
     };
     setVisitor();
@@ -66,11 +67,15 @@ export default function Admin() {
   const [showToday, setShowToday] = useState("0");
   const [showRealTime, setShowRealTime] = useState("0");
 
+  const [isBlockMenuOn, setIsBlockMenuOn] = useState<boolean>(false);
+
   const [blocks, setBlocks] = useState<Block[]>([]);
 
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const isAdmin = pathname === "/admin";
 
   async function getBlocks() {
     const token = sessionStorage.getItem("token");
@@ -112,59 +117,28 @@ export default function Admin() {
     const newSequenceItems = copyListItems.map((item, index) => {
       return { ...item, sequence: index };
     }); // 시퀀스 변경
-    console.log(newSequenceItems);
     dragItem.current = null;
     dragOverItem.current = null;
     setBlocks(newSequenceItems);
   };
 
-  const updateBlockOrder = async () => {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-    const block01sequence = blocks[0].sequence;
-    const block02sequence = blocks[1].sequence;
-    // const params = {
-    //   order: [
-    //     { ...blocks[0], sequence: block02sequence },
-    //     { ...blocks[1], sequence: block01sequence },
-    //   ],
-    // };
+  const updateBlockOrder = () => {
     const params = {
       order: blocks,
     };
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update/order`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      if (response.ok) {
-        alert("블록 순서 변경 완료");
-        router.push("/admin");
-      } else {
-        const { status } = response;
-        console.log(status);
-        if (status === 500) {
-          alert("서버 에러");
-        }
+    postBlock("/api/link/update/order", params, router).then((res) => {
+      if (res) {
+        console.log(res);
+        const { data } = res;
+        setBlocks(data);
       }
-    } catch (error) {
-      alert("연결 실패");
-    }
+    });
   };
 
   return (
     <div>
-      <div className="mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+      <div className="relative mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+        {!isAdmin && <HomeMenu />}
         <Image
           src="/assets/icons/icon_profile.png"
           alt="profile"
@@ -208,7 +182,7 @@ export default function Admin() {
         <h1 className="font-bold">블록 리스트</h1>
         <div className="group relative inline-block">
           <Image
-            src="/assets/icons/icon_question.png"
+            src="/assets/icons/icon_help.png"
             alt="question"
             width={20}
             height={20}
@@ -245,19 +219,31 @@ export default function Admin() {
             dragStart={dragStart}
             dragEnter={dragEnter}
             drop={drop}
+            isAdmin={isAdmin}
           />
         ))
       )}
-      <div className="mb-5 mt-9 flex w-full items-center justify-between">
-        <div className="flex flex-grow justify-center">
-          <button className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800">
-            미리보기
-          </button>
-        </div>
-        <button className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600">
-          +
-        </button>
-      </div>
+      {isAdmin && (
+        <>
+          <div className="mb-5 mt-9 flex w-full items-center justify-between">
+            <div className="flex flex-grow justify-center">
+              <button
+                onClick={updateBlockOrder}
+                className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800"
+              >
+                미리보기
+              </button>
+            </div>
+            <button
+              onClick={() => setIsBlockMenuOn(true)}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600"
+            >
+              +
+            </button>
+          </div>
+          <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
+        </>
+      )}
     </div>
   );
 }
