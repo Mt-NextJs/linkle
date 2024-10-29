@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import AnimatedText from "./components/animated-text";
+import AnimatedText from "@components/common/ui/animated-text";
 
 export default function Join() {
   const [userId, setUserId] = useState("");
@@ -236,7 +236,7 @@ export default function Join() {
         <button
           type="submit"
           className={twMerge(
-            "button color mt-4 transition-opacity duration-500",
+            "button color mt-16 transition-opacity duration-500",
             isDisabled
               ? "pointer-events-none cursor-not-allowed opacity-50"
               : "animate-insideout opacity-100",
