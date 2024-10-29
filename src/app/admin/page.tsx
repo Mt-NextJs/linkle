@@ -10,6 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
 import HomeMenu from "@app/admin/components/home-menu";
+import { adminApiInstance } from "../../utils/apis";
 
 interface Block {
   id: number;
@@ -36,27 +37,18 @@ export default function Admin() {
     if (!token) {
       // window.history.back();
     }
+
     const setVisitor = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/user/visitor`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        if (!response.ok) {
-          alert("방문자 조회 실패");
-        } else {
-          const infor = await response.json();
-          setShowToday(infor.data.today);
-          setShowRealTime(infor.data.realTime);
-          setShowTotal(infor.data.total);
-        }
-      } catch (error) {
-        // alert("연결 실패");
+      const adminApis = await adminApiInstance;
+      const response = await adminApis.getVisitor();
+      if (!response) return;
+      if (!response.ok) {
+        alert("방문자 조회 실패");
+      } else {
+        const infor = await response.json();
+        setShowToday(infor.data.today);
+        setShowRealTime(infor.data.realTime);
+        setShowTotal(infor.data.total);
       }
     };
     setVisitor();
@@ -78,26 +70,14 @@ export default function Admin() {
   const isAdmin = pathname === "/admin";
 
   async function getBlocks() {
-    const token = sessionStorage.getItem("token");
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!response.ok) {
-        alert("블록 조회 실패");
-      } else {
-        const infor = await response.json();
-        console.log(infor.data);
-        setBlocks(infor.data);
-      }
-    } catch (error) {
-      alert("연결 실패");
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.getBlocks();
+    if (!response) return;
+    if (response.ok) {
+      const { data } = await response.json();
+      setBlocks(data);
+    } else {
+      alert("블록 조회 실패");
     }
   }
 

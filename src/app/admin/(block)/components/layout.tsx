@@ -3,6 +3,7 @@ import React, { FormEvent } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import QuestionIcon from "@app/admin/(block)/components/question-icon";
+import Link from "next/link";
 
 const Layout = ({
   title,
@@ -13,18 +14,17 @@ const Layout = ({
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 }>) => {
-  const router = useRouter();
   return (
     <div className="flex w-full flex-col gap-6 px-20 py-4">
       <div>
-        <button type="button" onClick={() => router.back()}>
+        <Link onClick={window.history.back} href="">
           <Image
             src="/assets/icons/icon_back.png"
             alt="뒤로가기 아이콘"
             width={34}
             height={34}
           />
-        </button>
+        </Link>
       </div>
       <div className="flex items-center gap-1">
         <h1 className="pageName">{title}</h1>
