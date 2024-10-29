@@ -27,11 +27,18 @@ export default function ProfileEdit() {
   const router = useRouter();
 
   // 필수 필드 검증
-  const validateField = useCallback((name: string, value: string) => {
+  const validateField = useCallback((fieldName: string, value: string) => {
+    const fieldNamesInKorean: { [key: string]: string } = {
+      name: "이름",
+      email: "이메일",
+      password: "비밀번호",
+      passwordConfirm: "비밀번호 확인",
+    };
+
     if (!value || value.trim() === "") {
-      return `${name}은(는) 필수 입력 항목입니다`;
+      return `${fieldNamesInKorean[fieldName]}은(는) 필수 입력 항목입니다`;
     }
-    if (name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    if (fieldName === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
       return "유효한 이메일 주소를 입력해주세요";
     }
     return "";
