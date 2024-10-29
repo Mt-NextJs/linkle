@@ -7,6 +7,7 @@ import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import AnimatedText from "@components/common/ui/animated-text";
+import { getCookie } from "lib/get-cookie";
 
 type FormErrors = {
   name?: string;
@@ -70,7 +71,7 @@ export default function ProfileEdit() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const token = sessionStorage.getItem("token");
+        const token = getCookie("token"); // 쿠키에서 토큰 가져오기
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
           {

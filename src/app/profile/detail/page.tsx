@@ -6,6 +6,7 @@ import { User } from "@/types/user";
 import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import { getCookie } from "lib/get-cookie";
 
 export default function ProfileDetail() {
   const [userData, setUserData] = useState<User | null>(null);
@@ -14,7 +15,7 @@ export default function ProfileDetail() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const token = sessionStorage.getItem("token");
+        const token = getCookie("token"); // 쿠키에서 토큰 가져오기
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
           {
