@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Calendar from "./calendar";
+import EventDatePicker from "./event-date-picker";
 import EventPreview from "./event-preview";
 import Layout from "../../components/layout";
 import ButtonBox from "../../components/buttons/button-box";
@@ -77,8 +77,8 @@ export default function EventForm() {
       alert("이벤트 블록이 성공적으로 추가되었습니다🥰");
       router.push("/admin");
 
-      const responseData = await response.json();
-      console.log(responseData);
+      // const responseData = await response.json();
+      // console.log(responseData);
     } catch (error) {
       throw new Error(
         error instanceof Error ? error.message : "An error occurred",
@@ -135,7 +135,7 @@ export default function EventForm() {
           maxLength={100}
         />
 
-        <Calendar
+        <EventDatePicker
           startDate={startDate}
           setStartDate={setStartDate}
           endDate={endDate}
