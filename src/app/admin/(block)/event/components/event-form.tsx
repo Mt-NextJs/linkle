@@ -10,7 +10,7 @@ import FormInput from "../../components/form-input";
 import { useRouter } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import "react-datepicker/dist/react-datepicker.css";
-import { blockApiInstance } from "../../../../../utils/apis";
+import { adminApiInstance } from "../../../../../utils/apis";
 
 export default function EventForm() {
   const [title, setTitle] = useState("");
@@ -49,7 +49,7 @@ export default function EventForm() {
       dateEnd,
     };
 
-    const blockApis = await blockApiInstance;
+    const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(postData);
     if (!response) return;
     if (response.ok) {

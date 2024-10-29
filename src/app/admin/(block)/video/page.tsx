@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
-import { blockApiInstance } from "../../../../utils/apis";
+import { adminApiInstance } from "../../../../utils/apis";
 
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
@@ -19,7 +19,7 @@ const Page = () => {
       type: 2,
       url: videoUrl,
     };
-    const blockApis = await blockApiInstance;
+    const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(params);
     if (!response) return;
     if (response.ok) {

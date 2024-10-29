@@ -15,7 +15,7 @@ import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
 import { useRouter } from "next/navigation";
-import { blockApiInstance } from "../../../../../utils/apis";
+import { adminApiInstance } from "../../../../../utils/apis";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -43,7 +43,7 @@ export default function LinkForm() {
       imgUrl: linkImg.trim(),
     };
 
-    const blockApis = await blockApiInstance;
+    const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(postData);
     if (!response) return;
     if (response.ok) {

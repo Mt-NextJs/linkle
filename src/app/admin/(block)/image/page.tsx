@@ -8,7 +8,7 @@ import ImageBox from "@app/admin/(block)/image/components/image-box";
 import { useRouter } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
-import { blockApiInstance } from "../../../../utils/apis";
+import { adminApiInstance } from "../../../../utils/apis";
 
 const Page = () => {
   // const inputImageRef = useRef<HTMLInputElement>(null);
@@ -25,7 +25,7 @@ const Page = () => {
       imgUrl: selectedImageUrl,
     };
 
-    const blockApis = await blockApiInstance;
+    const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(params);
     if (!response) return;
     if (response.ok) {

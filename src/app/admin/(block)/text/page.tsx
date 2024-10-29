@@ -7,7 +7,7 @@ import FormInput from "../components/form-input";
 import ButtonBox from "../components/buttons/button-box";
 import AddButton from "../components/buttons/add-button";
 import { useState } from "react";
-import { blockApiInstance } from "../../../../utils/apis";
+import { adminApiInstance } from "../../../../utils/apis";
 export default function TextPage() {
   const [title, setTitle] = useState("");
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function TextPage() {
       title,
     };
 
-    const blockApis = await blockApiInstance;
+    const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(params);
     if (!response) return;
     if (response.ok) {

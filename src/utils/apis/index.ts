@@ -14,7 +14,7 @@ class Apis {
   }
 }
 
-class BlockApis extends Apis {
+class adminApis extends Apis {
   token: string | null = null;
   sequence: number = 0;
   constructor(token: string, sequence: number) {
@@ -22,6 +22,23 @@ class BlockApis extends Apis {
     this.token = token;
     this.sequence = sequence;
   }
+
+  async getVisitor() {
+    try {
+      return await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/visitor`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        },
+      );
+    } catch (error) {
+      alert("연결 실패");
+    }
+  }
+
   async addBlock(params: { [index: string]: string | number | object | null }) {
     const { baseUrl, token } = this;
     if (!token) {
@@ -50,6 +67,20 @@ class BlockApis extends Apis {
       throw new Error(
         error instanceof Error ? error.message : "알 수 없는 에러",
       );
+    }
+  }
+
+  async getBlocks() {
+    const { baseUrl, token } = this;
+    try {
+      return await fetch(`${baseUrl}/api/link/list`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      alert("연결 실패");
     }
   }
 }
@@ -89,12 +120,12 @@ const getInstance = async (type?: string) => {
   if (type === "block") {
     const token = `${window.sessionStorage.getItem("token")}`;
     const sequence = (await getSequence(token)) || 0;
-    return new BlockApis(token, sequence);
+    return new adminApis(token, sequence);
   }
   if (type === "auth") return new AuthApis();
 };
 
-const blockApiInstance = getInstance("block") as Promise<BlockApis>;
+const adminApiInstance = getInstance("block") as Promise<adminApis>;
 const authApiInstance = getInstance("auth") as Promise<AuthApis>;
 
-export { blockApiInstance, authApiInstance };
+export { adminApiInstance, authApiInstance };

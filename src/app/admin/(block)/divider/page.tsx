@@ -7,7 +7,7 @@ import DividerSelector from "./components/divider-selector";
 import { DividerType } from "./types";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import { blockApiInstance } from "utils/apis";
+import { adminApiInstance } from "utils/apis";
 import { useRouter } from "next/navigation";
 
 export default function DividerPage() {
@@ -20,7 +20,7 @@ export default function DividerPage() {
       style: getDividerStyle(selectedDivider),
     };
 
-    const blockApis = await blockApiInstance;
+    const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(params);
     if (!response) return;
     if (response.ok) {
