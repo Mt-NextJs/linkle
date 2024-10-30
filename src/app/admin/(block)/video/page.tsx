@@ -70,7 +70,7 @@ const Page = () => {
       />
       <div className="flex items-center justify-center shadow-lg">
         {videoUrl && (
-          <object type="text/html" data={videoUrl} width="600" height="450">
+          <object type="text/html" data={videoUrl} width="600" height="400">
             <div>동영상 주소를 확인해주세요</div>
           </object>
         )}

@@ -62,13 +62,17 @@ const config: Config = {
           line: "var(--input-color-line)",
           bg: "var(--input-color-bg)",
         },
-        text: {
+        slate: {
           333: "var(--foreground)",
           444: "#444444",
           666: "#666666",
           999: "#999999",
           ddd: "#dddddd",
           ccc: "#cccccc",
+          eee: "#eaeaea",
+        },
+        warning: {
+          DEFAULT: "#FF5B1A",
         },
       },
     },
