@@ -7,9 +7,9 @@ interface ListViewProps {
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hour = date.getHours();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const hour = date.getUTCHours();
   const ampm = hour >= 12 ? "오후" : "오전";
   const hour12 = hour % 12 || 12;
   return `${month}.${day} (${ampm} ${hour12}시)`;
