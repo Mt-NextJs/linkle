@@ -50,42 +50,49 @@ export default function DateTimeInput({
   return (
     <>
       <style jsx global>{`
-        .react-datepicker {
+        .calendar-block-datepicker .react-datepicker-popper {
+          transform: none !important;
+          top: 100% !important;
+          left: 0 !important;
+        }
+
+        .calendar-block-datepicker .react-datepicker {
           background-color: var(--background);
-          border: 1px solid #e5e7eb;
+          border: 1px solid #e5e7eb !important;
           border-radius: 0.5rem;
           box-shadow:
             0 10px 15px -3px rgb(0 0 0 / 0.1),
             0 4px 6px -4px rgb(0 0 0 / 0.1);
+          width: 300px;
         }
 
-        .react-datepicker__triangle {
+        .calendar-block-datepicker .react-datepicker__triangle {
           display: none;
         }
 
-        .react-datepicker__header {
+        .calendar-block-datepicker .react-datepicker__header {
           background-color: var(--background);
           border-bottom: 1px solid #f3f4f6;
           padding: 1rem 0 0.5rem;
         }
 
-        .react-datepicker__current-month {
+        .calendar-block-datepicker .react-datepicker__current-month {
           margin-bottom: 0.75rem;
         }
 
-        .react-datepicker__navigation {
+        .calendar-block-datepicker .react-datepicker__navigation {
           top: 1rem;
         }
 
-        .react-datepicker__navigation--previous {
+        .calendar-block-datepicker .react-datepicker__navigation--previous {
           left: 1rem;
         }
 
-        .react-datepicker__navigation--next {
+        .calendar-block-datepicker .react-datepicker__navigation--next {
           right: 1rem;
         }
 
-        .react-datepicker__navigation-icon::before {
+        .calendar-block-datepicker .react-datepicker__navigation-icon::before {
           border: 2px solid #6b7280;
           border-width: 2px 2px 0 0;
           height: 8px;
@@ -94,22 +101,32 @@ export default function DateTimeInput({
           top: 6px;
         }
 
-        .react-datepicker__day-names {
+        .calendar-block-datepicker .react-datepicker__day-names {
           margin-bottom: -0.5rem;
+          display: flex;
+          justify-content: center;
         }
 
-        .react-datepicker__day-name {
+        .calendar-block-datepicker .react-datepicker__day-name {
           color: #6b7280;
           font-size: 0.75rem;
-          width: 2rem;
-          margin: 0.2rem;
+          margin: 0.5rem;
+          display: inline-block;
         }
 
-        .react-datepicker__month {
+        .calendar-block-datepicker .react-datepicker__month {
           margin: 0.4rem;
+          display: block;
+          padding: 0;
         }
 
-        .react-datepicker__day {
+        .calendar-block-datepicker .react-datepicker__week {
+          display: flex;
+          justify-content: center;
+          gap: 0;
+        }
+
+        .calendar-block-datepicker .react-datepicker__day {
           width: 2rem;
           height: 2rem;
           line-height: 2rem;
@@ -118,35 +135,49 @@ export default function DateTimeInput({
           border-radius: 20px;
         }
 
-        .react-datepicker__day:hover,
-        .react-datepicker__time-list-item:hover {
+        .calendar-block-datepicker .react-datepicker__day:hover,
+        .calendar-block-datepicker .react-datepicker__time-list-item:hover {
           background-color: var(--primary-100) !important;
         }
 
-        .react-datepicker__day--selected,
-        .react-datepicker__time-list-item--selected {
+        .calendar-block-datepicker .react-datepicker__day--selected:hover,
+        .calendar-block-datepicker
+          .react-datepicker__time-list-item--selected:hover {
+          background-color: var(--primary) !important;
+        }
+
+        .calendar-block-datepicker .react-datepicker__day--selected,
+        .calendar-block-datepicker .react-datepicker__time-list-item--selected {
           background-color: var(--primary) !important;
           color: white;
           font-weight: 600;
         }
 
-        .same-day {
-          background-color: var(--primary-300);
+        .calendar-block-datepicker .react-datepicker__day--keyboard-selected {
+          background-color: var(--primary-100) !important;
         }
 
-        .react-datepicker__day--outside-month {
+        .calendar-block-datepicker .react-datepicker__day--outside-month {
           color: #9ca3af;
         }
 
-        .react-datepicker__time-container .react-datepicker__time {
-          background: var(--background);
+        .calendar-block-datepicker .react-datepicker--time-only {
+          background-color: var(--background);
+          border: 1px solid #e5e7eb !important;
+          border-radius: 0.5rem;
+          box-shadow:
+            0 10px 15px -3px rgb(0 0 0 / 0.1),
+            0 4px 6px -4px rgb(0 0 0 / 0.1);
+          width: 100% !important;
+          height: 100% !important;
         }
 
-        .react-datepicker__time-list-item {
-          height: 2rem;
-          line-height: 2rem;
+        .calendar-block-datepicker .react-datepicker__time-container {
+          width: 100%;
+        }
+
+        .calendar-block-datepicker .react-datepicker__time-list-item {
           font-size: 0.875rem;
-          padding: 0 !important;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -159,7 +190,7 @@ export default function DateTimeInput({
           {required && <span className="ml-1 text-red-500">*</span>}
         </label>
         <div className="flex gap-2">
-          <div className="relative flex w-1/2">
+          <div className="calendar-block-datepicker relative flex w-1/2">
             <DatePicker
               selected={selectedDate}
               onChange={handleDateChange}
@@ -190,7 +221,7 @@ export default function DateTimeInput({
               <FaRegCalendar />
             </div>
           </div>
-          <div className="relative flex w-1/2">
+          <div className="calendar-block-datepicker relative flex w-1/2">
             <DatePicker
               selected={selectedTime}
               onChange={handleTimeChange}
