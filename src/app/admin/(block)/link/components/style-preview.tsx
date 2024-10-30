@@ -22,30 +22,44 @@ export default function StylePreview({
 
   const [hasImgError, setHasImgError] = useState(false);
 
-  // 이미지 URL이 변경될 때마다 이미지 로드 상태를 초기화
-  useEffect(() => {
-    if (selectedStyle === "배경" && linkImg && isValidUrl(linkImg)) {
-      setHasImgError(false);
-      setIsImgUrlConnectionError(false);
+  async function checkImageExists(url: string) {
+    try {
+      const response = await fetch(url, {
+        method: "HEAD",
+        mode: "no-cors",
+      });
 
-      // 이미지 로드 비동기 처리(배경 이미지 일 때)
-      const img = new window.Image();
-      img.src = linkImg;
-
-      img.onload = () => {
-        setHasImgError(false); // 이미지 로드 성공
-      };
-
-      img.onerror = () => {
-        setHasImgError(true); // 이미지 로드 실패시 메시지 표시
-        setIsImgUrlConnectionError(true);
-      };
-    } else if (!isValidUrl(linkImg)) {
-      // URL이 유효하지 않으면 메시지 표시x
-      setHasImgError(false);
-      setIsImgUrlConnectionError(false);
+      // 상태 코드가 200인 경우, 이미지가 존재하는 것
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      return false;
     }
-  }, [linkImg, selectedStyle, setIsImgUrlConnectionError, isValidUrl]);
+  }
+
+  useEffect(() => {
+    async function validateImageUrl() {
+      if (linkImg && isValidUrl(linkImg)) {
+        const isImageAvailable = await checkImageExists(linkImg);
+        if (isImageAvailable) {
+          setHasImgError(false);
+          setIsImgUrlConnectionError(false);
+        } else {
+          setHasImgError(true);
+          setIsImgUrlConnectionError(true);
+          console.warn("이미지를 찾을 수 없습니다: URL을 확인해주세요.");
+        }
+      } else if (!isValidUrl(linkImg)) {
+        setHasImgError(false);
+        setIsImgUrlConnectionError(false);
+      }
+    }
+
+    validateImageUrl();
+  }, [linkImg, selectedStyle, setIsImgUrlConnectionError]);
 
   // Image에서 error 발생시 오류 메시지 출력
   const imgErrorHandler = () => {

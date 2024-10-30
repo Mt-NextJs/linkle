@@ -195,12 +195,12 @@ export default function LinkForm() {
             />
             {isImgUrlError && (
               <div className="mt-1 h-5 text-xs text-red-500">
-                올바른 URL 형식을 입력해주세요
+                {/* URL 형식이 잘못되었습니다. "http://" 또는 "https://"로 시작하는 유효한 URL을 입력해주세요. */}
               </div>
             )}
             {isImgUrlConnectionError && (
               <div className="mt-1 h-5 text-xs text-red-500">
-                잘못된 이미지 경로입니다
+                이미지를 찾을 수 없습니다: URL을 확인해주세요.
               </div>
             )}
           </div>
