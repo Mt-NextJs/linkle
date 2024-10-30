@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { authApiInstance, blockApiInstance } from "../../utils/apis";
+import { authApiInstance } from "../../utils/apis";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
@@ -28,7 +28,7 @@ export default function Login() {
     if (!response) return;
     if (response.ok) {
       alert("로그인 성공");
-      router.push("/admin");
+      router.push("/");
     } else await authApis.handleError(response);
   }
 
