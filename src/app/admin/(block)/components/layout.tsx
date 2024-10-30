@@ -14,10 +14,12 @@ const Layout = ({
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 }>) => {
+  const router = useRouter();
+
   return (
     <div className="flex w-full flex-col gap-6 px-20 py-4">
       <div>
-        <Link onClick={window.history.back} href="">
+        <Link onClick={() => router.back()} href="">
           <Image
             src="/assets/icons/icon_back.png"
             alt="뒤로가기 아이콘"
