@@ -16,6 +16,7 @@ import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
 import { useRouter } from "next/navigation";
 import { adminApiInstance } from "../../../../../utils/apis";
+import { checkUrl } from "lib/check-url";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -29,10 +30,13 @@ export default function LinkForm() {
   const [isImgUrlConnectionErrorMsg, setIsImgUrlConnectionErrorMsg] =
     useState(false);
 
-  const isValidUrl = useCallback(
-    (url: string) => /^https?:\/\/.+\..+/.test(url),
-    [],
-  );
+  // const isValidUrl = useCallback(
+  //   (url: string) => /^https?:\/\/.+\..+/.test(url),
+  //   [],
+  // );
+
+  const isValidUrl = useCallback((url: string) => checkUrl(url), []);
+
   const router = useRouter();
 
   async function postLink() {
