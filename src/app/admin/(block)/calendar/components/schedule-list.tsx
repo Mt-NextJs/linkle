@@ -78,12 +78,25 @@ function ScheduleItem({
   return (
     <div>
       <div className="flex items-center rounded-lg p-4">
-        <div
-          className={`${status.color} mb-6 mr-4 w-20 rounded-full px-3 py-1 text-center text-xs font-semibold`}
-        >
-          {status.text}
+        <div className="z-10 flex w-28 flex-shrink-0">
+          <div
+            className={`flex h-7 w-16 items-center justify-center rounded-l-md rounded-r-sm ${status.color}`}
+          >
+            <span className="relative z-10 ml-2 text-xs font-semibold">
+              {status.text}
+            </span>
+          </div>
+          <div
+            className={`relative flex h-5 w-5 rounded-sm ${status.color.split(" ")[0]}`}
+            style={{
+              transform: "rotate(45deg)",
+              marginLeft: "-11px",
+              marginTop: "4px",
+              borderTopRightRadius: "4px",
+            }}
+          />
         </div>
-        <div className="flex-grow">
+        <div className="ml-4 flex-grow">
           <div className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
           </div>

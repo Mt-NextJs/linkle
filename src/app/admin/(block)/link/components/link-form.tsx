@@ -14,7 +14,7 @@ import { getSequence } from "lib/get-sequence";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { adminApiInstance } from "../../../../../utils/apis";
 import { checkUrl } from "lib/check-url";
 
@@ -29,6 +29,7 @@ export default function LinkForm() {
   const [isImgUrlErrorMsg, setIsImgUrlErrorMsg] = useState(false);
   const [isImgUrlConnectionErrorMsg, setIsImgUrlConnectionErrorMsg] =
     useState(false);
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   // const isValidUrl = useCallback(
   //   (url: string) => /^https?:\/\/.+\..+/.test(url),
@@ -97,7 +98,7 @@ export default function LinkForm() {
     (selectedStyle !== "심플" && (!linkUrl || !title || !linkImg));
 
   return (
-    <Layout title="링크 블록" onSubmit={handleSubmit}>
+    <Layout title="링크 블록" onSubmit={handleSubmit} prevPath={prevPath}>
       <StylePreview
         selectedStyle={selectedStyle}
         title={title}
