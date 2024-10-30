@@ -20,56 +20,44 @@ export default function StylePreview({
   const placeholderImage =
     "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
-  const [isImgLoadError, setIsImgLoadError] = useState(false);
+  const [hasImgError, setHasImgError] = useState(false);
 
-  async function checkImageExists(url: string) {
-    try {
-      const response = await fetch(url, {
-        method: "HEAD",
-        mode: "no-cors",
-      });
-
-      if (response.ok) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      return false;
-    }
-  }
-
+  // 이미지 URL이 변경될 때마다 이미지 로드 상태를 초기화
   useEffect(() => {
-    async function validateImageUrl() {
-      if (linkImg && isValidUrl(linkImg)) {
-        const isImageAvailable = await checkImageExists(linkImg);
-        if (isImageAvailable) {
-          setIsImgLoadError(false);
-          setIsImgUrlConnectionErrorMsg(false);
-        } else {
-          setIsImgLoadError(true);
-          setIsImgUrlConnectionErrorMsg(true);
-        }
-      } else if (!isValidUrl(linkImg)) {
-        setIsImgLoadError(false);
-        setIsImgUrlConnectionErrorMsg(false);
-      }
-    }
+    if (selectedStyle === "배경" && linkImg && isValidUrl(linkImg)) {
+      setHasImgError(false);
+      setIsImgUrlConnectionErrorMsg(false);
 
-    validateImageUrl();
-  }, [linkImg, selectedStyle, setIsImgUrlConnectionErrorMsg]);
+      // 이미지 로드 비동기 처리(배경 이미지 일 때)
+      const img = new window.Image();
+      img.src = linkImg;
+
+      img.onload = () => {
+        setHasImgError(false); // 이미지 로드 성공
+      };
+
+      img.onerror = () => {
+        setHasImgError(true); // 이미지 로드 실패시 메시지 표시
+        setIsImgUrlConnectionErrorMsg(true);
+      };
+    } else if (!isValidUrl(linkImg)) {
+      // URL이 유효하지 않으면 메시지 표시x
+      setHasImgError(false);
+      setIsImgUrlConnectionErrorMsg(false);
+    }
+  }, [linkImg, selectedStyle, setIsImgUrlConnectionErrorMsg, isValidUrl]);
 
   // Image에서 error 발생시 오류 메시지 출력
   const imgErrorHandler = () => {
-    setIsImgLoadError(true);
+    setHasImgError(true);
     setIsImgUrlConnectionErrorMsg(true);
   };
 
   const imgUrl =
-    !isImgLoadError && isValidUrl(linkImg) ? linkImg : placeholderImage;
+    !hasImgError && isValidUrl(linkImg) ? linkImg : placeholderImage;
 
   const backgroundStyle =
-    !isImgLoadError && isValidUrl(linkImg)
+    !hasImgError && isValidUrl(linkImg)
       ? { backgroundImage: `url(${linkImg}), url(${placeholderImage})` }
       : { backgroundImage: `url(${placeholderImage})` };
 
@@ -127,13 +115,13 @@ export default function StylePreview({
           className={`relative flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-gray-300 bg-cover bg-center`}
           style={backgroundStyle}
         >
-          {!isImgLoadError && isValidUrl(linkImg) && (
+          {!hasImgError && isValidUrl(linkImg) && (
             <div className="absolute inset-0 rounded-lg bg-black opacity-50"></div>
           )}
           <p
             className={twMerge(
               "relative",
-              !isImgLoadError && isValidUrl(linkImg) && "text-white",
+              !hasImgError && isValidUrl(linkImg) && "text-white",
             )}
           >
             {title || "타이틀을 입력해주세요"}
