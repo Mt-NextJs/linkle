@@ -18,8 +18,13 @@ class adminApis extends Apis {
   token: string | undefined = undefined;
   sequence: number | undefined = undefined;
 
-  async getVisitor(token: string) {
-    const { baseUrl } = this;
+  constructor(token: string) {
+    super();
+    this.token = token;
+  }
+
+  async getVisitor() {
+    const { baseUrl, token } = this;
     try {
       return await fetch(`${baseUrl}/api/user/visitor`, {
         method: "GET",
@@ -32,11 +37,8 @@ class adminApis extends Apis {
     }
   }
 
-  async addBlock(
-    token: string,
-    params: { [index: string]: string | number | object | null },
-  ) {
-    const { baseUrl } = this;
+  async addBlock(params: { [index: string]: string | number | object | null }) {
+    const { baseUrl, token } = this;
     if (!token) {
       alert("로그인이 필요합니다.");
       return;
@@ -73,8 +75,8 @@ class adminApis extends Apis {
     }
   }
 
-  async getBlocks(token: string) {
-    const { baseUrl } = this;
+  async getBlocks() {
+    const { baseUrl, token } = this;
     try {
       return await fetch(`${baseUrl}/api/link/list`, {
         method: "GET",
@@ -109,7 +111,14 @@ class AuthApis extends Apis {
 
 const getInstance = async (type?: string) => {
   if (!type) return new Apis();
-  if (type === "block") return new adminApis();
+  if (type === "block") {
+    if (typeof window === "undefined") return;
+    const token = window.sessionStorage.getItem("token");
+    if (!token) {
+      return;
+    }
+    return new adminApis(token);
+  }
   if (type === "auth") return new AuthApis();
 };
 

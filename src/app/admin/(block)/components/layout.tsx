@@ -8,16 +8,18 @@ import Link from "next/link";
 const Layout = ({
   title,
   onSubmit,
+  prevPath,
   children,
 }: Readonly<{
   title: string;
+  prevPath: string;
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 }>) => {
   return (
     <div className="flex w-full flex-col gap-6 px-20 py-4">
       <div>
-        <Link onClick={window.history.back} href="">
+        <Link href={prevPath}>
           <Image
             src="/assets/icons/icon_back.png"
             alt="뒤로가기 아이콘"

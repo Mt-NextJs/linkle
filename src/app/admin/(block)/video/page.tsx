@@ -1,11 +1,10 @@
 "use client";
 
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import Layout from "@app/admin/(block)/components/layout";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
-import { useRouter } from "next/navigation";
-import { getSequence } from "../../../../lib/get-sequence";
+import { useRouter, useSearchParams } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
 import { adminApiInstance } from "../../../../utils/apis";
@@ -13,6 +12,7 @@ import { adminApiInstance } from "../../../../utils/apis";
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const router = useRouter();
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const addVideoBlock = async () => {
     const params = {
@@ -54,7 +54,11 @@ const Page = () => {
   };
 
   return (
-    <Layout title={"비디오 블록"} onSubmit={handleAddButtonClick}>
+    <Layout
+      title={"비디오 블록"}
+      onSubmit={handleAddButtonClick}
+      prevPath={prevPath}
+    >
       <FormInput
         label="동영상 URL"
         id="video-url"
