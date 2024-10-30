@@ -29,7 +29,6 @@ export default function StylePreview({
         mode: "no-cors",
       });
 
-      // 상태 코드가 200인 경우, 이미지가 존재하는 것
       if (response.ok) {
         return true;
       } else {
@@ -50,7 +49,6 @@ export default function StylePreview({
         } else {
           setIsImgLoadError(true);
           setIsImgUrlConnectionErrorMsg(true);
-          console.warn("이미지를 찾을 수 없습니다: URL을 확인해주세요.");
         }
       } else if (!isValidUrl(linkImg)) {
         setIsImgLoadError(false);
