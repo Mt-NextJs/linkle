@@ -9,12 +9,12 @@ import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import { adminApiInstance } from "utils/apis";
 import { useRouter, useSearchParams } from "next/navigation";
-import useToken from "../../../../utils/get-token";
+import { getToken } from "../../../../utils/get-token";
 
 export default function DividerPage() {
   const router = useRouter();
   const [selectedDivider, setSelectedDivider] = useState<DividerType>("Space");
-  const token = useToken();
+  const token = getToken();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const handleAddDivider = async () => {

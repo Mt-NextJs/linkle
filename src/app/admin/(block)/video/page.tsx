@@ -9,13 +9,14 @@ import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
 import { adminApiInstance } from "../../../../utils/apis";
-import useToken from "../../../../utils/get-token";
+import { getToken } from "../../../../utils/get-token";
 
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const router = useRouter();
-  const token = useToken();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
+
+  const token = getToken();
 
   const addVideoBlock = async () => {
     const params = {

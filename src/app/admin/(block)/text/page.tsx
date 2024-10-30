@@ -8,12 +8,12 @@ import ButtonBox from "../components/buttons/button-box";
 import AddButton from "../components/buttons/add-button";
 import { useState } from "react";
 import { adminApiInstance } from "../../../../utils/apis";
-import useToken from "../../../../utils/get-token";
+import { getToken } from "../../../../utils/get-token";
 
 export default function TextPage() {
   const [title, setTitle] = useState("");
   const router = useRouter();
-  const token = useToken();
+  const token = getToken();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const addTextBlock = async (e: React.FormEvent) => {

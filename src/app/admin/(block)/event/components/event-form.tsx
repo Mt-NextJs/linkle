@@ -11,7 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import "react-datepicker/dist/react-datepicker.css";
 import { adminApiInstance } from "../../../../../utils/apis";
-import useToken from "../../../../../utils/get-token";
+import { getToken } from "../../../../../utils/get-token";
 
 export default function EventForm() {
   const [title, setTitle] = useState("");
@@ -22,7 +22,7 @@ export default function EventForm() {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const router = useRouter();
-  const token = useToken();
+  const token = getToken();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   function combineDateAndTime(date: Date | null, time: Date | null) {

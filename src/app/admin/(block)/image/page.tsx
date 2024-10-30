@@ -9,7 +9,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
 import { adminApiInstance } from "../../../../utils/apis";
-import useToken from "../../../../utils/get-token";
+import { getToken } from "../../../../utils/get-token";
 
 const Page = () => {
   // const inputImageRef = useRef<HTMLInputElement>(null);
@@ -17,7 +17,7 @@ const Page = () => {
   const [connectingUrl, setConnectingUrl] = useState<string>("");
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
-  const token = useToken();
+  const token = getToken();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const addImageBlock = async () => {

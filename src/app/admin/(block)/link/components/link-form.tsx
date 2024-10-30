@@ -16,7 +16,7 @@ import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
 import { useRouter, useSearchParams } from "next/navigation";
 import { adminApiInstance } from "../../../../../utils/apis";
-import useToken from "../../../../../utils/get-token";
+import { getToken } from "../../../../../utils/get-token";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -35,7 +35,7 @@ export default function LinkForm() {
     [],
   );
   const router = useRouter();
-  const token = useToken();
+  const token = getToken();
 
   async function postLink() {
     const postData = {
