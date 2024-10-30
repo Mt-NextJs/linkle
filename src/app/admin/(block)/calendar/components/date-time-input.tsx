@@ -170,7 +170,7 @@ export default function DateTimeInput({
               className={`w-full rounded-md border p-2 pr-8 ${
                 dateValue ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
               }`}
-              placeholderText="날짜 선택"
+              placeholderText="날짜"
               wrapperClassName="w-full"
               dayClassName={(date) => {
                 if (!selectedDate) return "";
@@ -204,9 +204,21 @@ export default function DateTimeInput({
               className={`w-full rounded-md border p-2 pr-8 ${
                 timeValue ? "border-[#FFCAB5] bg-[#FEF1E5]" : "border-gray-300"
               }`}
-              placeholderText="시간 선택"
+              placeholderText=""
               wrapperClassName="w-full"
             />
+            {!timeValue && (
+              <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-gray-400">
+                <Image
+                  src="/assets/icons/icon_clock.png"
+                  alt="Clock Icon"
+                  width={16}
+                  height={16}
+                  className="mr-1"
+                />
+                <span>시간</span>
+              </div>
+            )}
             <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
               <Image
                 src="/assets/icons/icon_open.png"
