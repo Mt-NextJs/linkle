@@ -8,11 +8,12 @@ import { DividerType } from "./types";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import { adminApiInstance } from "utils/apis";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function DividerPage() {
   const router = useRouter();
   const [selectedDivider, setSelectedDivider] = useState<DividerType>("Space");
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const handleAddDivider = async () => {
     const params = {
@@ -41,7 +42,7 @@ export default function DividerPage() {
   };
 
   return (
-    <Layout title="구분선 블록">
+    <Layout title="구분선 블록" prevPath={prevPath}>
       <DividerPreview selectedDivider={selectedDivider} />
       <DividerSelector
         onSelect={setSelectedDivider}

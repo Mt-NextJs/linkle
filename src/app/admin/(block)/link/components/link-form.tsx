@@ -14,7 +14,7 @@ import { getSequence } from "lib/get-sequence";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { adminApiInstance } from "../../../../../utils/apis";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
@@ -27,6 +27,7 @@ export default function LinkForm() {
   const [isLinkUrlError, setIsLinkUrlError] = useState(false);
   const [isImgUrlError, setIsImgUrlError] = useState(false);
   const [isImgUrlConnectionError, setIsImgUrlConnectionError] = useState(false);
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const isValidUrl = useCallback(
     (url: string) => /^https?:\/\/.+\..+/.test(url),
@@ -92,7 +93,7 @@ export default function LinkForm() {
     (selectedStyle !== "심플" && (!linkUrl || !title || !linkImg));
 
   return (
-    <Layout title="링크 블록" onSubmit={handleSubmit}>
+    <Layout title="링크 블록" onSubmit={handleSubmit} prevPath={prevPath}>
       <StylePreview
         selectedStyle={selectedStyle}
         title={title}

@@ -30,19 +30,21 @@ interface Block {
   dateUpdate: string | null;
 }
 
-export default function Admin() {
+function Admin() {
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
-    if (!token) {
-      // window.history.back();
-    }
-
     const setVisitor = async () => {
       const adminApis = await adminApiInstance;
+      if (!adminApis) {
+        alert("로그인이 필요합니다");
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+          return;
+        }
+      }
       const response = await adminApis.getVisitor();
       if (!response) return;
       if (!response.ok) {
+        sessionStorage.removeItem("token");
         alert("방문자 조회 실패");
       } else {
         const infor = await response.json();
@@ -51,8 +53,10 @@ export default function Admin() {
         setShowTotal(infor.data.total);
       }
     };
-    setVisitor();
-    getBlocks();
+    setVisitor()
+      .then()
+      .catch((e) => console.log(e));
+    getBlocks().then();
   }, []);
 
   const [showTotal, setShowTotal] = useState("0");
@@ -77,6 +81,7 @@ export default function Admin() {
       const { data } = await response.json();
       setBlocks(data);
     } else {
+      sessionStorage.removeItem("token");
       alert("블록 조회 실패");
     }
   }
@@ -227,3 +232,5 @@ export default function Admin() {
     </div>
   );
 }
+
+export default Admin;

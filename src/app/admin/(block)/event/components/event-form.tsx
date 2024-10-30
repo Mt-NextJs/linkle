@@ -7,7 +7,7 @@ import Layout from "../../components/layout";
 import ButtonBox from "../../components/buttons/button-box";
 import AddButton from "../../components/buttons/add-button";
 import FormInput from "../../components/form-input";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import "react-datepicker/dist/react-datepicker.css";
 import { adminApiInstance } from "../../../../../utils/apis";
@@ -20,8 +20,8 @@ export default function EventForm() {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
-
   const router = useRouter();
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   function combineDateAndTime(date: Date | null, time: Date | null) {
     if (!date || !time) return null;
@@ -68,7 +68,7 @@ export default function EventForm() {
     !title || !startDate || !endDate || !startTime || !endTime;
 
   return (
-    <Layout title="이벤트 블록" onSubmit={handleSubmit}>
+    <Layout title="이벤트 블록" onSubmit={handleSubmit} prevPath={prevPath}>
       <EventPreview
         title={title}
         description={description}
