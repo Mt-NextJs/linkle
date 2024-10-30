@@ -15,37 +15,40 @@ class Apis {
 }
 
 class adminApis extends Apis {
-  token: string | null = null;
-  sequence: number = 0;
-  constructor(token: string, sequence: number) {
-    super();
-    this.token = token;
-    this.sequence = sequence;
-  }
+  token: string | undefined = undefined;
+  sequence: number | undefined = undefined;
 
-  async getVisitor() {
+  async getVisitor(token: string) {
+    const { baseUrl } = this;
     try {
-      return await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/user/visitor`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
+      return await fetch(`${baseUrl}/api/user/visitor`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
     } catch (error) {
-      alert("연결 실패");
+      console.log(error);
     }
   }
 
-  async addBlock(params: { [index: string]: string | number | object | null }) {
-    const { baseUrl, token } = this;
+  async addBlock(
+    token: string,
+    params: { [index: string]: string | number | object | null },
+  ) {
+    const { baseUrl } = this;
     if (!token) {
       alert("로그인이 필요합니다.");
       return;
     }
-    params["sequence"] = this.sequence + 1;
+    if (!this.sequence) {
+      const sequence = await getSequence(token);
+      if (!sequence) {
+        alert("시퀀스 조회 실패");
+        return;
+      }
+      this.sequence = sequence;
+    } else params["sequence"] = this.sequence + 1;
 
     try {
       const response = await fetch(`${baseUrl}/api/link/add`, {
@@ -70,8 +73,8 @@ class adminApis extends Apis {
     }
   }
 
-  async getBlocks() {
-    const { baseUrl, token } = this;
+  async getBlocks(token: string) {
+    const { baseUrl } = this;
     try {
       return await fetch(`${baseUrl}/api/link/list`, {
         method: "GET",
@@ -80,7 +83,7 @@ class adminApis extends Apis {
         },
       });
     } catch (error) {
-      alert("연결 실패");
+      console.log(error);
     }
   }
 }
@@ -88,7 +91,7 @@ class adminApis extends Apis {
 class AuthApis extends Apis {
   async login(userId: string, password: string) {
     try {
-      const response = await fetch(`${this.baseUrl}/api/login`, {
+      return await fetch(`${this.baseUrl}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,17 +101,6 @@ class AuthApis extends Apis {
           password: password,
         }),
       });
-
-      if (response.ok) {
-        const infor = await response.json();
-        // 세션 스토리지에 토큰 저장
-        sessionStorage.setItem("token", infor.data.token);
-        // 쿠키에 토큰 저장
-        document.cookie = `token=${infor.data.token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-        return response;
-      } else {
-        return response;
-      }
     } catch (error) {
       console.log(error);
     }
@@ -117,11 +109,7 @@ class AuthApis extends Apis {
 
 const getInstance = async (type?: string) => {
   if (!type) return new Apis();
-  if (type === "block") {
-    const token = `${window.sessionStorage.getItem("token")}`;
-    const sequence = (await getSequence(token)) || 0;
-    return new adminApis(token, sequence);
-  }
+  if (type === "block") return new adminApis();
   if (type === "auth") return new AuthApis();
 };
 
