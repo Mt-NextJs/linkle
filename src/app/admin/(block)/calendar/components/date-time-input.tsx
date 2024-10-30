@@ -27,7 +27,11 @@ export default function DateTimeInput({
 }: DateTimeInputProps) {
   const handleDateChange = (date: Date | null) => {
     if (date) {
-      const formattedDate = date.toISOString().split("T")[0];
+      const formattedDate = new Date(
+        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+      )
+        .toISOString()
+        .split("T")[0];
       onDateChange(formattedDate);
     }
   };
