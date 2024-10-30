@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { authApiInstance, blockApiInstance } from "../../utils/apis";
 
 export default function Login() {
   const [userId, setUserId] = useState("");
@@ -21,34 +22,14 @@ export default function Login() {
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isDisabled) return;
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: userId,
-            password: password,
-          }),
-        },
-      );
-      const infor = await response.json();
-      if (response.ok) {
-        alert("성공");
-        // 세션 스토리지에 토큰 저장
-        sessionStorage.setItem("token", infor.data.token);
-        // 쿠키에 토큰 저장
-        document.cookie = `token=${infor.data.token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-        router.push(ClientRoute.MAIN as string);
-      } else {
-        alert("실패");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+
+    const authApis = await authApiInstance;
+    const response = await authApis.login(userId, password);
+    if (!response) return;
+    if (response.ok) {
+      alert("로그인 성공");
+      router.push("/admin");
+    } else await authApis.handleError(response);
   }
 
   return (
