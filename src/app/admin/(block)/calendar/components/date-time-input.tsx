@@ -187,7 +187,7 @@ export default function DateTimeInput({
       <div className="flex flex-col space-y-2">
         <label className="flex items-center">
           <span>{label}</span>
-          {required && <span className="ml-1 text-red-500">*</span>}
+          {required && <span className="text-red-500">*</span>}
         </label>
         <div className="flex gap-2">
           <div className="calendar-block-datepicker relative flex w-1/2">
