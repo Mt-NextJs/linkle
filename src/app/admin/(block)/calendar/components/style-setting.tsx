@@ -139,9 +139,14 @@ export default function StyleSetting() {
               >
                 <div
                   className={`aspect-square h-3 w-3 transform rounded-full transition-all duration-200 ease-in-out ${
-                    activeView === "list" ? "scale-100" : "scale-0"
+                    activeView === "list"
+                      ? "animate-scaleIn"
+                      : "animate-scaleOut"
                   }`}
-                  style={{ backgroundColor: "var(--primary)" }}
+                  style={{
+                    backgroundColor: "var(--primary)",
+                    opacity: activeView === "list" ? 1 : 0,
+                  }}
                 />
               </div>
               <span className="text-gray-600">리스트뷰</span>
@@ -159,9 +164,14 @@ export default function StyleSetting() {
               >
                 <div
                   className={`aspect-square h-3 w-3 transform rounded-full transition-all duration-200 ease-in-out ${
-                    activeView === "calendar" ? "scale-100" : "scale-0"
+                    activeView === "calendar"
+                      ? "animate-scaleIn"
+                      : "animate-scaleOut"
                   }`}
-                  style={{ backgroundColor: "var(--primary)" }}
+                  style={{
+                    backgroundColor: "var(--primary)",
+                    opacity: activeView === "calendar" ? 1 : 0,
+                  }}
                 />
               </div>
               <span className="text-gray-600">캘린더뷰</span>
