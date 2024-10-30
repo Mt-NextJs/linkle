@@ -19,6 +19,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/styles/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: ["class", '[data-theme="dark"]'], // 다크모드 변수 활성화
   theme: {
     extend: {
       keyframes: {
