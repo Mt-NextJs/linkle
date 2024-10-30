@@ -7,10 +7,11 @@ import Layout from "../../components/layout";
 import ButtonBox from "../../components/buttons/button-box";
 import AddButton from "../../components/buttons/add-button";
 import FormInput from "../../components/form-input";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import "react-datepicker/dist/react-datepicker.css";
 import { adminApiInstance } from "../../../../../utils/apis";
+import useToken from "../../../../../utils/get-token";
 
 export default function EventForm() {
   const [title, setTitle] = useState("");
@@ -20,8 +21,9 @@ export default function EventForm() {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
-
   const router = useRouter();
+  const token = useToken();
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   function combineDateAndTime(date: Date | null, time: Date | null) {
     if (!date || !time) return null;
@@ -50,7 +52,7 @@ export default function EventForm() {
     };
 
     const blockApis = await adminApiInstance;
-    const response = await blockApis.addBlock(postData);
+    const response = await blockApis.addBlock(token, postData);
     if (!response) return;
     if (response.ok) {
       alert("이벤트 블록이 성공적으로 추가되었습니다🥰");
@@ -68,7 +70,7 @@ export default function EventForm() {
     !title || !startDate || !endDate || !startTime || !endTime;
 
   return (
-    <Layout title="이벤트 블록" onSubmit={handleSubmit}>
+    <Layout title="이벤트 블록" onSubmit={handleSubmit} prevPath={prevPath}>
       <EventPreview
         title={title}
         description={description}

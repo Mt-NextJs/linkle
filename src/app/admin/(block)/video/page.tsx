@@ -4,15 +4,18 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Layout from "@app/admin/(block)/components/layout";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
 import { adminApiInstance } from "../../../../utils/apis";
+import useToken from "../../../../utils/get-token";
 
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const router = useRouter();
+  const token = useToken();
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const addVideoBlock = async () => {
     const params = {
@@ -20,7 +23,7 @@ const Page = () => {
       url: videoUrl,
     };
     const blockApis = await adminApiInstance;
-    const response = await blockApis.addBlock(params);
+    const response = await blockApis.addBlock(token, params);
     if (!response) return;
     if (response.ok) {
       alert("비디오 블록 추가 완료");
@@ -54,7 +57,11 @@ const Page = () => {
   };
 
   return (
-    <Layout title={"비디오 블록"} onSubmit={handleAddButtonClick}>
+    <Layout
+      title={"비디오 블록"}
+      onSubmit={handleAddButtonClick}
+      prevPath={prevPath}
+    >
       <FormInput
         label="동영상 URL"
         id="video-url"

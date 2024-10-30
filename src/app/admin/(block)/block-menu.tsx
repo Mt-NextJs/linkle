@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Portal from "@app/components/Portal";
 import Contour from "@app/admin/(block)/components/contour";
+import { withRouter } from "next/router";
 
 interface Props {
   isOpen: boolean;
@@ -49,7 +50,11 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
           {blockTypes.map((item, index) => {
             return (
               <li key={index}>
-                <Link href={item.path} className="flex items-center gap-4">
+                <Link
+                  href={{ pathname: item.path, query: { prevPath: "/admin" } }}
+                  as={item.path}
+                  className="flex items-center gap-4"
+                >
                   <div
                     className={`overflow-hidden rounded-lg ${colors[index]} p-3`}
                   >

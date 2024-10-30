@@ -26,7 +26,6 @@ export const blockTypes: BlockType[] = [
     title: "텍스트",
     text: "공유하고 싶은 글이 있다면 적어보세요",
     icon: TEXT_ICON,
-
     path: "/admin/text",
   },
   {

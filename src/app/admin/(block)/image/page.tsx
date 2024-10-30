@@ -5,10 +5,11 @@ import Layout from "@app/admin/(block)/components/layout";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import ImageBox from "@app/admin/(block)/image/components/image-box";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
 import { adminApiInstance } from "../../../../utils/apis";
+import useToken from "../../../../utils/get-token";
 
 const Page = () => {
   // const inputImageRef = useRef<HTMLInputElement>(null);
@@ -16,6 +17,8 @@ const Page = () => {
   const [connectingUrl, setConnectingUrl] = useState<string>("");
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
+  const token = useToken();
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const addImageBlock = async () => {
     const params = {
@@ -26,7 +29,7 @@ const Page = () => {
     };
 
     const blockApis = await adminApiInstance;
-    const response = await blockApis.addBlock(params);
+    const response = await blockApis.addBlock(token, params);
     if (!response) return;
     if (response.ok) {
       alert("이미지 블록 추가 완료");
@@ -116,7 +119,11 @@ const Page = () => {
   };
 
   return (
-    <Layout title="이미지 블록" onSubmit={handleAddButtonClick}>
+    <Layout
+      title="이미지 블록"
+      onSubmit={handleAddButtonClick}
+      prevPath={prevPath}
+    >
       <FormInput
         label="이미지"
         id="image-url"

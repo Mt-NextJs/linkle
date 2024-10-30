@@ -1,16 +1,20 @@
 "use client";
 
 import { getSequence } from "../../../../lib/get-sequence";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Layout from "../components/layout";
 import FormInput from "../components/form-input";
 import ButtonBox from "../components/buttons/button-box";
 import AddButton from "../components/buttons/add-button";
 import { useState } from "react";
 import { adminApiInstance } from "../../../../utils/apis";
+import useToken from "../../../../utils/get-token";
+
 export default function TextPage() {
   const [title, setTitle] = useState("");
   const router = useRouter();
+  const token = useToken();
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const addTextBlock = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +24,7 @@ export default function TextPage() {
     };
 
     const blockApis = await adminApiInstance;
-    const response = await blockApis.addBlock(params);
+    const response = await blockApis.addBlock(token, params);
     if (!response) return;
     if (response.ok) {
       alert("텍스트 블록 추가 완료");
@@ -29,7 +33,7 @@ export default function TextPage() {
   };
   return (
     <>
-      <Layout title={"텍스트 블록"} onSubmit={addTextBlock}>
+      <Layout title={"텍스트 블록"} onSubmit={addTextBlock} prevPath={prevPath}>
         <FormInput
           label="내용 입력"
           id="video-url"

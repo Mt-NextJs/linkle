@@ -11,6 +11,7 @@ import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
 import HomeMenu from "@app/admin/components/home-menu";
 import { adminApiInstance } from "../../utils/apis";
+import useToken from "../../utils/get-token";
 
 interface Block {
   id: number;
@@ -30,19 +31,15 @@ interface Block {
   dateUpdate: string | null;
 }
 
-export default function Admin() {
+function Admin() {
+  const token = useToken();
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
-    if (!token) {
-      // window.history.back();
-    }
-
     const setVisitor = async () => {
       const adminApis = await adminApiInstance;
-      const response = await adminApis.getVisitor();
+      const response = await adminApis.getVisitor(token);
       if (!response) return;
       if (!response.ok) {
+        sessionStorage.removeItem("token");
         alert("방문자 조회 실패");
       } else {
         const infor = await response.json();
@@ -51,8 +48,8 @@ export default function Admin() {
         setShowTotal(infor.data.total);
       }
     };
-    setVisitor();
-    getBlocks();
+    setVisitor().then();
+    getBlocks().then();
   }, []);
 
   const [showTotal, setShowTotal] = useState("0");
@@ -71,12 +68,13 @@ export default function Admin() {
 
   async function getBlocks() {
     const blockApis = await adminApiInstance;
-    const response = await blockApis.getBlocks();
+    const response = await blockApis.getBlocks(token);
     if (!response) return;
     if (response.ok) {
       const { data } = await response.json();
       setBlocks(data);
     } else {
+      sessionStorage.removeItem("token");
       alert("블록 조회 실패");
     }
   }
@@ -227,3 +225,5 @@ export default function Admin() {
     </div>
   );
 }
+
+export default Admin;
