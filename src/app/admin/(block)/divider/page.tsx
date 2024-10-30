@@ -9,12 +9,10 @@ import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import { adminApiInstance } from "utils/apis";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getToken } from "../../../../utils/get-token";
 
 export default function DividerPage() {
   const router = useRouter();
   const [selectedDivider, setSelectedDivider] = useState<DividerType>("Space");
-  const token = getToken();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const handleAddDivider = async () => {
@@ -24,7 +22,7 @@ export default function DividerPage() {
     };
 
     const blockApis = await adminApiInstance;
-    const response = await blockApis.addBlock(token, params);
+    const response = await blockApis.addBlock(params);
     if (!response) return;
     if (response.ok) {
       alert("구분선 블록 추가 완료");

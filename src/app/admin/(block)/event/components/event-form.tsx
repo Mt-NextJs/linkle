@@ -11,7 +11,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import "react-datepicker/dist/react-datepicker.css";
 import { adminApiInstance } from "../../../../../utils/apis";
-import { getToken } from "../../../../../utils/get-token";
 
 export default function EventForm() {
   const [title, setTitle] = useState("");
@@ -22,7 +21,6 @@ export default function EventForm() {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const router = useRouter();
-  const token = getToken();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   function combineDateAndTime(date: Date | null, time: Date | null) {
@@ -52,7 +50,7 @@ export default function EventForm() {
     };
 
     const blockApis = await adminApiInstance;
-    const response = await blockApis.addBlock(token, postData);
+    const response = await blockApis.addBlock(postData);
     if (!response) return;
     if (response.ok) {
       alert("이벤트 블록이 성공적으로 추가되었습니다🥰");

@@ -1,22 +1,18 @@
 "use client";
 
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import Layout from "@app/admin/(block)/components/layout";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getSequence } from "../../../../lib/get-sequence";
 import FormInput from "@app/admin/(block)/components/form-input";
 import { checkImage, checkUrl } from "../../../../lib/check-url";
 import { adminApiInstance } from "../../../../utils/apis";
-import { getToken } from "../../../../utils/get-token";
 
 const Page = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const router = useRouter();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
-
-  const token = getToken();
 
   const addVideoBlock = async () => {
     const params = {
@@ -24,7 +20,7 @@ const Page = () => {
       url: videoUrl,
     };
     const blockApis = await adminApiInstance;
-    const response = await blockApis.addBlock(token, params);
+    const response = await blockApis.addBlock(params);
     if (!response) return;
     if (response.ok) {
       alert("비디오 블록 추가 완료");

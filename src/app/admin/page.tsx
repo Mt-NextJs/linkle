@@ -11,7 +11,6 @@ import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
 import HomeMenu from "@app/admin/components/home-menu";
 import { adminApiInstance } from "../../utils/apis";
-import { getToken } from "../../utils/get-token";
 
 interface Block {
   id: number;
@@ -32,11 +31,17 @@ interface Block {
 }
 
 function Admin() {
-  const token = getToken();
   useEffect(() => {
     const setVisitor = async () => {
       const adminApis = await adminApiInstance;
-      const response = await adminApis.getVisitor(token);
+      if (!adminApis) {
+        alert("로그인이 필요합니다");
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+          return;
+        }
+      }
+      const response = await adminApis.getVisitor();
       if (!response) return;
       if (!response.ok) {
         sessionStorage.removeItem("token");
@@ -48,7 +53,9 @@ function Admin() {
         setShowTotal(infor.data.total);
       }
     };
-    setVisitor().then();
+    setVisitor()
+      .then()
+      .catch((e) => console.log(e));
     getBlocks().then();
   }, []);
 
@@ -68,7 +75,7 @@ function Admin() {
 
   async function getBlocks() {
     const blockApis = await adminApiInstance;
-    const response = await blockApis.getBlocks(token);
+    const response = await blockApis.getBlocks();
     if (!response) return;
     if (response.ok) {
       const { data } = await response.json();
