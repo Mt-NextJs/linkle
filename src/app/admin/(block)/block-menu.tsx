@@ -4,13 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import Portal from "@app/components/Portal";
 import Contour from "@app/admin/(block)/components/contour";
-import { withRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 }
 const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
+  const pathname = usePathname();
   if (!isOpen) return null;
 
   const handleClose = () => {
@@ -26,6 +27,7 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
     "bg-block-calendar",
     "bg-block-event",
   ];
+
   return (
     <Portal>
       <button
@@ -51,7 +53,7 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
             return (
               <li key={index}>
                 <Link
-                  href={{ pathname: item.path, query: { prevPath: "/admin" } }}
+                  href={{ pathname: item.path, query: { prevPath: pathname } }}
                   as={item.path}
                   className="flex items-center gap-4"
                 >
