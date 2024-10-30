@@ -1,4 +1,4 @@
-export async function getSequence(token: string) {
+export async function getSequence(token: string): Promise<number | undefined> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
@@ -21,7 +21,7 @@ export async function getSequence(token: string) {
     if (result.code === 200) {
       const blockList = result.data;
       if (blockList.length === 0) return 1;
-      else return blockList[blockList.length - 1].sequence;
+      else return blockList[blockList.length - 1].sequence as number;
     }
   } catch (error) {
     throw new Error(

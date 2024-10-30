@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Calendar from "./calendar";
+import EventDatePicker from "./event-date-picker";
 import EventPreview from "./event-preview";
 import Layout from "../../components/layout";
 import ButtonBox from "../../components/buttons/button-box";
@@ -10,6 +10,7 @@ import FormInput from "../../components/form-input";
 import { useRouter } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import "react-datepicker/dist/react-datepicker.css";
+import { adminApiInstance } from "../../../../../utils/apis";
 
 export default function EventForm() {
   const [title, setTitle] = useState("");
@@ -36,16 +37,11 @@ export default function EventForm() {
   }
 
   async function postEvent() {
-    const token = sessionStorage.getItem("token");
-    if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
-    const prevSequence = await getSequence(token);
-
     const dateStart = combineDateAndTime(startDate, startTime);
     const dateEnd = combineDateAndTime(endDate, endTime);
 
     const postData = {
       type: 5,
-      sequence: prevSequence + 1,
       title, // 타이틀
       subText01: description, // 서브타이틀
       subText02: eventGuide, // 가이드라인
@@ -53,37 +49,13 @@ export default function EventForm() {
       dateEnd,
     };
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(postData),
-        },
-      );
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        throw new Error(
-          `Error: ${response.status}, Message: ${errorResponse.message || "Unknown error"}`,
-        );
-      }
-
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.addBlock(postData);
+    if (!response) return;
+    if (response.ok) {
       alert("이벤트 블록이 성공적으로 추가되었습니다🥰");
       router.push("/admin");
-
-      const responseData = await response.json();
-      console.log(responseData);
-    } catch (error) {
-      throw new Error(
-        error instanceof Error ? error.message : "An error occurred",
-      );
-    }
+    } else await blockApis.handleError(response);
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -135,7 +107,7 @@ export default function EventForm() {
           maxLength={100}
         />
 
-        <Calendar
+        <EventDatePicker
           startDate={startDate}
           setStartDate={setStartDate}
           endDate={endDate}

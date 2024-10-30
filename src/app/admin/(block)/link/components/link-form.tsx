@@ -15,6 +15,7 @@ import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
 import { useRouter } from "next/navigation";
+import { adminApiInstance } from "../../../../../utils/apis";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -34,50 +35,21 @@ export default function LinkForm() {
   const router = useRouter();
 
   async function postLink() {
-    const token = sessionStorage.getItem("token");
-    if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
-    const prevSequence = await getSequence(token);
-
     const postData = {
       type: 3,
-      sequence: prevSequence + 1,
       style: styleItemNames.indexOf(selectedStyle) + 1,
       title,
       url: linkUrl.trim(),
       imgUrl: linkImg.trim(),
     };
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(postData),
-        },
-      );
-
-      if (!response.ok) {
-        const errorResponse = await response.json(); // 서버에서 반환한 오류 메시지를 파싱
-        throw new Error(
-          `Error: ${response.status}, Message: ${errorResponse.message || "Unknown error"}`,
-        );
-      }
-
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.addBlock(postData);
+    if (!response) return;
+    if (response.ok) {
       alert("링크 블록이 성공적으로 추가되었습니다🥰");
       router.push("/admin");
-
-      // const responseData = await response.json();
-      // console.log(responseData);
-    } catch (error) {
-      throw new Error(
-        error instanceof Error ? error.message : "An error occurred",
-      );
-    }
+    } else await blockApis.handleError(response);
   }
 
   useEffect(() => {

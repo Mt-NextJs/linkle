@@ -7,8 +7,8 @@ import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import ImageBox from "@app/admin/(block)/image/components/image-box";
 import { useRouter } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
-import { checkUrl } from "../../../../lib/check-url";
-import { postBlock } from "../../../../lib/post-block";
+import { checkImage, checkUrl } from "../../../../lib/check-url";
+import { adminApiInstance } from "../../../../utils/apis";
 
 const Page = () => {
   // const inputImageRef = useRef<HTMLInputElement>(null);
@@ -17,16 +17,21 @@ const Page = () => {
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
 
-  const addImageBlock = () => {
+  const addImageBlock = async () => {
     const params = {
       type: 4,
       title,
       url: connectingUrl,
       imgUrl: selectedImageUrl,
     };
-    postBlock("/api/link/add", params, router).then((res) => {
-      if (res) console.log(res);
-    });
+
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.addBlock(params);
+    if (!response) return;
+    if (response.ok) {
+      alert("이미지 블록 추가 완료");
+      router.push("/admin");
+    } else await blockApis.handleError(response);
   };
 
   // const addImageBlock = async () => {
@@ -100,7 +105,11 @@ const Page = () => {
 
   const setImageText = (text: string) => {
     if (!checkUrl(text) && text !== "") {
-      alert("이미지 URL을 확인해주세요.");
+      alert("URL을 입력해주세요.");
+      return;
+    }
+    if (!checkImage(text) && text !== "") {
+      alert("이미지 URL을 입력해주세요.");
       return;
     }
     setSelectedImageUrl(text);

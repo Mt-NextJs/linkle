@@ -18,10 +18,10 @@ export default function EventPreview({
   endTime: Date | null;
 }) {
   const [timeLeft, setTimeLeft] = useState<string>("");
-  const [isExpanded, setIsExpanded] = useState<boolean>(false); // 토글 on/off
+  const [isExpanded, setIsExpanded] = useState<boolean>(false); // 카드 확장 여부
   const [isDescriptionOverflowing, setIsDescriptionOverflowing] =
-    useState<boolean>(false); // 입력된 설명 텍스트 너비 판단
-  const [isTitleOverflowing, setIsTitleOverflowing] = useState<boolean>(false); // 입력된 타이틀 텍스트 너비 판단
+    useState<boolean>(false); // 설명 텍스트 넘침 여부
+  const [isTitleOverflowing, setIsTitleOverflowing] = useState<boolean>(false); // 타이틀 텍스트 넘침 여부
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLParagraphElement>(null);
 
@@ -52,6 +52,7 @@ export default function EventPreview({
       setTimeLeft("");
     }
   };
+
   // 남은 시간 업데이트 (종료 시간이 변경될 때마다 재계산)
   useEffect(() => {
     calculateTimeLeft();
