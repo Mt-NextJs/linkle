@@ -8,19 +8,19 @@ export default function StylePreview({
   selectedStyle,
   title,
   linkImg,
-  setIsImgUrlConnectionError,
+  setIsImgUrlConnectionErrorMsg,
   isValidUrl,
 }: {
   selectedStyle: string;
   title: string;
   linkImg: string;
-  setIsImgUrlConnectionError: Dispatch<SetStateAction<boolean>>;
+  setIsImgUrlConnectionErrorMsg: Dispatch<SetStateAction<boolean>>;
   isValidUrl: (url: string) => boolean;
 }) {
   const placeholderImage =
     "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
-  const [hasImgError, setHasImgError] = useState(false);
+  const [isImgLoadError, setIsImgLoadError] = useState(false);
 
   async function checkImageExists(url: string) {
     try {
@@ -45,33 +45,33 @@ export default function StylePreview({
       if (linkImg && isValidUrl(linkImg)) {
         const isImageAvailable = await checkImageExists(linkImg);
         if (isImageAvailable) {
-          setHasImgError(false);
-          setIsImgUrlConnectionError(false);
+          setIsImgLoadError(false);
+          setIsImgUrlConnectionErrorMsg(false);
         } else {
-          setHasImgError(true);
-          setIsImgUrlConnectionError(true);
+          setIsImgLoadError(true);
+          setIsImgUrlConnectionErrorMsg(true);
           console.warn("이미지를 찾을 수 없습니다: URL을 확인해주세요.");
         }
       } else if (!isValidUrl(linkImg)) {
-        setHasImgError(false);
-        setIsImgUrlConnectionError(false);
+        setIsImgLoadError(false);
+        setIsImgUrlConnectionErrorMsg(false);
       }
     }
 
     validateImageUrl();
-  }, [linkImg, selectedStyle, setIsImgUrlConnectionError]);
+  }, [linkImg, selectedStyle, setIsImgUrlConnectionErrorMsg]);
 
   // Image에서 error 발생시 오류 메시지 출력
   const imgErrorHandler = () => {
-    setHasImgError(true);
-    setIsImgUrlConnectionError(true);
+    setIsImgLoadError(true);
+    setIsImgUrlConnectionErrorMsg(true);
   };
 
   const imgUrl =
-    !hasImgError && isValidUrl(linkImg) ? linkImg : placeholderImage;
+    !isImgLoadError && isValidUrl(linkImg) ? linkImg : placeholderImage;
 
   const backgroundStyle =
-    !hasImgError && isValidUrl(linkImg)
+    !isImgLoadError && isValidUrl(linkImg)
       ? { backgroundImage: `url(${linkImg}), url(${placeholderImage})` }
       : { backgroundImage: `url(${placeholderImage})` };
 
@@ -129,13 +129,13 @@ export default function StylePreview({
           className={`relative flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-gray-300 bg-cover bg-center`}
           style={backgroundStyle}
         >
-          {!hasImgError && isValidUrl(linkImg) && (
+          {!isImgLoadError && isValidUrl(linkImg) && (
             <div className="absolute inset-0 rounded-lg bg-black opacity-50"></div>
           )}
           <p
             className={twMerge(
               "relative",
-              !hasImgError && isValidUrl(linkImg) && "text-white",
+              !isImgLoadError && isValidUrl(linkImg) && "text-white",
             )}
           >
             {title || "타이틀을 입력해주세요"}
