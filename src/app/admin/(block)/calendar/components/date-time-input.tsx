@@ -51,7 +51,7 @@ export default function DateTimeInput({
     <>
       <style jsx global>{`
         .react-datepicker {
-          background-color: white;
+          background-color: var(--background);
           border: 1px solid #e5e7eb;
           border-radius: 0.5rem;
           box-shadow:
@@ -64,7 +64,7 @@ export default function DateTimeInput({
         }
 
         .react-datepicker__header {
-          background-color: white;
+          background-color: var(--background);
           border-bottom: 1px solid #f3f4f6;
           padding: 1rem 0 0.5rem;
         }
@@ -120,18 +120,18 @@ export default function DateTimeInput({
 
         .react-datepicker__day:hover,
         .react-datepicker__time-list-item:hover {
-          background-color: #fef1e5 !important;
+          background-color: var(--primary-100) !important;
         }
 
         .react-datepicker__day--selected,
         .react-datepicker__time-list-item--selected {
-          background-color: #ff4e09 !important;
+          background-color: var(--primary) !important;
           color: white;
           font-weight: 600;
         }
 
         .same-day {
-          background-color: #ffe5d9;
+          background-color: var(--primary-300);
         }
 
         .react-datepicker__day--outside-month {
@@ -139,7 +139,7 @@ export default function DateTimeInput({
         }
 
         .react-datepicker__time-container .react-datepicker__time {
-          background: white;
+          background: var(--background);
         }
 
         .react-datepicker__time-list-item {
