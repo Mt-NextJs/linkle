@@ -11,7 +11,7 @@ import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
 import HomeMenu from "@app/admin/components/home-menu";
 import { adminApiInstance } from "../../utils/apis";
-import useToken from "../../utils/get-token";
+import { getToken } from "../../utils/get-token";
 
 interface Block {
   id: number;
@@ -32,7 +32,7 @@ interface Block {
 }
 
 function Admin() {
-  const token = useToken();
+  const token = getToken();
   useEffect(() => {
     const setVisitor = async () => {
       const adminApis = await adminApiInstance;
