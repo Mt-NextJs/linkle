@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, Suspense, useState } from "react";
 import Layout from "@app/admin/(block)/components/layout";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
@@ -54,32 +54,40 @@ const Page = () => {
   };
 
   return (
-    <Layout
-      title={"비디오 블록"}
-      onSubmit={handleAddButtonClick}
-      prevPath={prevPath}
-    >
-      <FormInput
-        label="동영상 URL"
-        id="video-url"
-        type="url"
-        placeholder="유튜브, 틱톡 등 좋아하는 동영상을 공유하세요"
-        value={videoUrl}
-        onChange={(e) => setText(e.currentTarget.value)}
-        required
-      />
-      <div className="flex items-center justify-center shadow-lg">
-        {videoUrl && (
-          <object type="text/html" data={videoUrl} width="600" height="400">
-            <div>동영상 주소를 확인해주세요</div>
-          </object>
-        )}
-      </div>
-      <ButtonBox>
-        <AddButton type={"submit"} text="추가 완료" disabled={!videoUrl} />
-      </ButtonBox>
-    </Layout>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Layout
+        title={"비디오 블록"}
+        onSubmit={handleAddButtonClick}
+        prevPath={prevPath}
+      >
+        <FormInput
+          label="동영상 URL"
+          id="video-url"
+          type="url"
+          placeholder="유튜브, 틱톡 등 좋아하는 동영상을 공유하세요"
+          value={videoUrl}
+          onChange={(e) => setText(e.currentTarget.value)}
+          required
+        />
+        <div className="flex items-center justify-center shadow-lg">
+          {videoUrl && (
+            <object type="text/html" data={videoUrl} width="600" height="400">
+              <div>동영상 주소를 확인해주세요</div>
+            </object>
+          )}
+        </div>
+        <ButtonBox>
+          <AddButton type={"submit"} text="추가 완료" disabled={!videoUrl} />
+        </ButtonBox>
+      </Layout>
+    </Suspense>
   );
 };
 
-export default Page;
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Page />
+    </Suspense>
+  );
+}

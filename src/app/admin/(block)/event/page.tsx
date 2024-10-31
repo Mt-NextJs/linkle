@@ -1,5 +1,14 @@
 import EventForm from "./components/event-form";
+import React, { Suspense } from "react";
 
-export default function page() {
+function Page() {
   return <EventForm />;
+}
+
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Page />
+    </Suspense>
+  );
 }
