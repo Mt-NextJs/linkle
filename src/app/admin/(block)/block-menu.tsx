@@ -35,7 +35,7 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
         onClick={() => setIsOpen(false)}
         className="flex h-screen w-screen cursor-default items-center justify-center before:relative before:h-screen before:w-screen before:bg-slate-333 before:opacity-25"
       ></button>
-      <div className="bg- absolute left-1/2 top-1/2 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl p-6">
+      <div className="absolute left-1/2 top-1/2 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl bg-slate-333 p-6">
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">블록 선택하기</h1>
           <button type="button" onClick={handleClose}>

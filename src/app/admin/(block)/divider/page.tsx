@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Layout from "../components/layout";
 import DividerPreview from "./components/divider-preview";
 import DividerSelector from "./components/divider-selector";
@@ -10,7 +10,7 @@ import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import { adminApiInstance } from "utils/apis";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function DividerPage() {
+function DividerPage() {
   const router = useRouter();
   const [selectedDivider, setSelectedDivider] = useState<DividerType>("Space");
   const prevPath = useSearchParams().get("prevPath") || "/admin";
@@ -52,5 +52,13 @@ export default function DividerPage() {
         <AddButton text="추가 완료" onClick={handleAddDivider} />
       </ButtonBox>
     </Layout>
+  );
+}
+
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DividerPage />
+    </Suspense>
   );
 }
