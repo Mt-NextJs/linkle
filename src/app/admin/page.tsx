@@ -47,7 +47,7 @@ function Admin() {
       if (!response) return;
       if (!response.ok) {
         sessionStorage.removeItem("token");
-        alert("방문자 조회 실패");
+        // alert("방문자 조회 실패");
       } else {
         const infor = await response.json();
         setShowToday(infor.data.today);
@@ -99,7 +99,7 @@ function Admin() {
       setBlocks(data);
     } else {
       sessionStorage.removeItem("token");
-      alert("블록 조회 실패");
+      // alert("블록 조회 실패");
     }
   }
 
@@ -130,7 +130,6 @@ function Admin() {
     };
     postBlock("/api/link/update/order", params, router).then((res) => {
       if (res) {
-        console.log(res);
         const { data } = res;
         setBlocks(data);
       }
@@ -252,7 +251,7 @@ function Admin() {
       {isScrollTopVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-400"
+          className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-300"
         >
           ▲
         </button>
