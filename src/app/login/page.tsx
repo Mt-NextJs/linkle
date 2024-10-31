@@ -33,7 +33,7 @@ export default function Login() {
       window.sessionStorage.setItem("token", infor.data.token);
       // 쿠키에 토큰 저장
       document.cookie = `token=${infor.data.token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-      router.push("/admin");
+      router.push("/");
     } else await authApis.handleError(response);
   }
 

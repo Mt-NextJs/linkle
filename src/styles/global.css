@@ -29,6 +29,41 @@
   --input-color-line: #ffcab5;
   --input-color-bg: #fef1e5;
 }
+/* 다크 모드 컬러 변수들 */
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  /* 다크 모드에 맞춘 primary colors - 접근성 대비를 위한 조정 */
+  --primary: #ff6b31;
+  --primary-100: #331208;
+  --primary-200: #662410;
+  --primary-250: #8c3215;
+  --primary-300: #b33f1b;
+  --primary-350: #d94c20;
+  --primary-400: #ff5b1a;
+  --primary-450: #ff6b31;
+  /* 다크 모드에 맞춘 input colors */
+  --input-color-line: #662410;
+  --input-color-bg: #331208;
+}
+
+/* 시스템 설정에 맞춘 다크 모드 테마 적용 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: #ff6b31;
+    --primary-100: #331208;
+    --primary-200: #662410;
+    --primary-250: #8c3215;
+    --primary-300: #b33f1b;
+    --primary-350: #d94c20;
+    --primary-400: #ff5b1a;
+    --primary-450: #ff6b31;
+    --input-color-line: #662410;
+    --input-color-bg: #331208;
+  }
+}
 
 body {
   color: var(--foreground);
