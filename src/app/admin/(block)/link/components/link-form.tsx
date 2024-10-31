@@ -14,8 +14,9 @@ import { getSequence } from "lib/get-sequence";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { adminApiInstance } from "../../../../../utils/apis";
+import { checkUrl } from "lib/check-url";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -24,14 +25,19 @@ export default function LinkForm() {
   const [title, setTitle] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
   const [linkImg, setLinkImg] = useState("");
-  const [isLinkUrlError, setIsLinkUrlError] = useState(false);
-  const [isImgUrlError, setIsImgUrlError] = useState(false);
-  const [isImgUrlConnectionError, setIsImgUrlConnectionError] = useState(false);
+  const [isLinkUrlErrorMsg, setIsLinkUrlErrorMsg] = useState(false);
+  const [isImgUrlErrorMsg, setIsImgUrlErrorMsg] = useState(false);
+  const [isImgUrlConnectionErrorMsg, setIsImgUrlConnectionErrorMsg] =
+    useState(false);
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
-  const isValidUrl = useCallback(
-    (url: string) => /^https?:\/\/.+\..+/.test(url),
-    [],
-  );
+  // const isValidUrl = useCallback(
+  //   (url: string) => /^https?:\/\/.+\..+/.test(url),
+  //   [],
+  // );
+
+  const isValidUrl = useCallback((url: string) => checkUrl(url), []);
+
   const router = useRouter();
 
   async function postLink() {
@@ -53,7 +59,7 @@ export default function LinkForm() {
   }
 
   useEffect(() => {
-    if (linkImg) setIsImgUrlConnectionError(false);
+    if (linkImg) setIsImgUrlConnectionErrorMsg(false);
   }, [linkImg]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -69,35 +75,35 @@ export default function LinkForm() {
     const newUrl = e.target.value;
     setLinkUrl(newUrl);
     if (newUrl.trim() === "") {
-      setIsLinkUrlError(false);
+      setIsLinkUrlErrorMsg(false);
     } else {
-      setIsLinkUrlError(!isValidUrl(newUrl));
+      setIsLinkUrlErrorMsg(!isValidUrl(newUrl));
     }
   };
   const handleImgUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newUrl = e.target.value;
     setLinkImg(newUrl);
     if (newUrl.trim() === "") {
-      setIsImgUrlError(false);
+      setIsImgUrlErrorMsg(false);
     } else {
-      setIsImgUrlError(!isValidUrl(newUrl));
+      setIsImgUrlErrorMsg(!isValidUrl(newUrl));
     }
   };
 
   const summitButtonDisabled =
-    isLinkUrlError ||
-    isImgUrlError ||
-    isImgUrlConnectionError ||
+    isLinkUrlErrorMsg ||
+    isImgUrlErrorMsg ||
+    isImgUrlConnectionErrorMsg ||
     (selectedStyle === "심플" && (!linkUrl || !title)) ||
     (selectedStyle !== "심플" && (!linkUrl || !title || !linkImg));
 
   return (
-    <Layout title="링크 블록" onSubmit={handleSubmit}>
+    <Layout title="링크 블록" onSubmit={handleSubmit} prevPath={prevPath}>
       <StylePreview
         selectedStyle={selectedStyle}
         title={title}
         linkImg={linkImg}
-        setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+        setIsImgUrlConnectionErrorMsg={setIsImgUrlConnectionErrorMsg}
         isValidUrl={isValidUrl}
       />
 
@@ -116,7 +122,7 @@ export default function LinkForm() {
                 selectedStyle={selectedStyle}
                 onSelect={setSelectedStyle}
                 setLinkImg={setLinkImg}
-                setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+                setIsImgUrlConnectionErrorMsg={setIsImgUrlConnectionErrorMsg}
               />
             ))}
           </div>
@@ -136,7 +142,7 @@ export default function LinkForm() {
               placeholder="연결할 주소 url을 입력해주세요"
               required
             />
-            {isLinkUrlError && (
+            {isLinkUrlErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
                 올바른 URL 형식을 입력해주세요
               </div>
@@ -165,14 +171,14 @@ export default function LinkForm() {
               disabled={selectedStyle === "심플"}
               required={selectedStyle !== "심플"}
             />
-            {isImgUrlError && (
+            {isImgUrlErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
-                올바른 URL 형식을 입력해주세요
+                {/* URL 형식이 잘못되었습니다. "http://" 또는 "https://"로 시작하는 유효한 URL을 입력해주세요. */}
               </div>
             )}
-            {isImgUrlConnectionError && (
+            {isImgUrlConnectionErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
-                잘못된 이미지 경로입니다
+                이미지를 찾을 수 없습니다: URL을 확인해주세요.
               </div>
             )}
           </div>

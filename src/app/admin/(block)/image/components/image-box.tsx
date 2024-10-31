@@ -21,16 +21,7 @@ const ImageBox = ({ selectedImageUrl }: Props) => {
       {/*    height={24}*/}
       {/*  />*/}
       {/*</button>*/}
-      <ErrorBoundary
-        fallback={
-          <Image
-            src={"/assets/images/image_block_default.png"}
-            alt="이미지 URL을 확인해주세요"
-            width={610}
-            height={610}
-          />
-        }
-      >
+      <div className="h-[40rem] w-[30rem]">
         <Image
           src={
             selectedImageUrl
@@ -38,10 +29,9 @@ const ImageBox = ({ selectedImageUrl }: Props) => {
               : "/assets/images/image_block_default.png"
           }
           alt="이미지 URL을 확인해주세요"
-          width={610}
-          height={610}
+          fill
         />
-      </ErrorBoundary>
+      </div>
     </div>
   );
 };

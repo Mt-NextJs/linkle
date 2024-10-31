@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import CalendarView from "./calendar-view";
@@ -127,26 +125,56 @@ export default function StyleSetting() {
       </div>
       {isOpen && (
         <div className="p-4">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex space-x-8">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  checked={activeView === "list"}
-                  onChange={() => setActiveView("list")}
-                  className="form-radio h-5 w-5 border-gray-300 text-gray-400 focus:ring-gray-400"
+          <div className="mb-4 flex gap-8">
+            <div
+              className="flex cursor-pointer items-center"
+              onClick={() => setActiveView("list")}
+            >
+              <div
+                className="relative mr-2 flex h-6 w-6 items-center justify-center rounded-full border-[3px] transition-all duration-200 ease-in-out hover:opacity-80"
+                style={{
+                  borderColor:
+                    activeView === "list" ? "var(--primary)" : "#e5e7eb",
+                }}
+              >
+                <div
+                  className={`aspect-square h-3 w-3 transform rounded-full transition-all duration-200 ease-in-out ${
+                    activeView === "list"
+                      ? "animate-scaleIn"
+                      : "animate-scaleOut"
+                  }`}
+                  style={{
+                    backgroundColor: "var(--primary)",
+                    opacity: activeView === "list" ? 1 : 0,
+                  }}
                 />
-                <span className="ml-2 text-gray-400">리스트뷰</span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  checked={activeView === "calendar"}
-                  onChange={() => setActiveView("calendar")}
-                  className="form-radio h-5 w-5 border-gray-300 text-orange-500 focus:ring-orange-500"
+              </div>
+              <span className="text-gray-600">리스트뷰</span>
+            </div>
+            <div
+              className="flex cursor-pointer items-center"
+              onClick={() => setActiveView("calendar")}
+            >
+              <div
+                className="relative mr-2 flex h-6 w-6 items-center justify-center rounded-full border-[3px] transition-all duration-200 ease-in-out hover:opacity-80"
+                style={{
+                  borderColor:
+                    activeView === "calendar" ? "var(--primary)" : "#e5e7eb",
+                }}
+              >
+                <div
+                  className={`aspect-square h-3 w-3 transform rounded-full transition-all duration-200 ease-in-out ${
+                    activeView === "calendar"
+                      ? "animate-scaleIn"
+                      : "animate-scaleOut"
+                  }`}
+                  style={{
+                    backgroundColor: "var(--primary)",
+                    opacity: activeView === "calendar" ? 1 : 0,
+                  }}
                 />
-                <span className="ml-2 text-gray-400">캘린더뷰</span>
-              </label>
+              </div>
+              <span className="text-gray-600">캘린더뷰</span>
             </div>
           </div>
           {activeView === "list" ? (

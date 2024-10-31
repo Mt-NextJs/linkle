@@ -19,6 +19,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/styles/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: ["class", '[data-theme="dark"]'], // 다크모드 변수 활성화
   theme: {
     extend: {
       keyframes: {
@@ -30,10 +31,20 @@ const config: Config = {
           "0%": { opacity: "100%" },
           "100%": { opacity: "0%" },
         },
+        scaleIn: {
+          "0%": { transform: "scale(0)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        scaleOut: {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "100%": { transform: "scale(0)", opacity: "0" },
+        },
       },
       animation: {
         insideout: "insideout 0.6s ease-in-out",
         fadeOut: "fadeOut 0.6s ease-in-out",
+        scaleIn: "scaleIn 0.3s ease-in-out",
+        scaleOut: "scaleOut 0.3s ease-in-out",
       },
       borderWidth: {
         1: "1px",
@@ -62,13 +73,17 @@ const config: Config = {
           line: "var(--input-color-line)",
           bg: "var(--input-color-bg)",
         },
-        text: {
+        slate: {
           333: "var(--foreground)",
           444: "#444444",
           666: "#666666",
           999: "#999999",
           ddd: "#dddddd",
           ccc: "#cccccc",
+          eee: "#eaeaea",
+        },
+        warning: {
+          DEFAULT: "#FF5B1A",
         },
       },
     },

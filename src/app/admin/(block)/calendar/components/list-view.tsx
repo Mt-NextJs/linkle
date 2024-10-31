@@ -7,9 +7,9 @@ interface ListViewProps {
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hour = date.getHours();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const hour = date.getUTCHours();
   const ampm = hour >= 12 ? "오후" : "오전";
   const hour12 = hour % 12 || 12;
   return `${month}.${day} (${ampm} ${hour12}시)`;
@@ -73,14 +73,26 @@ const ListView: React.FC<ListViewProps> = ({ schedules }) => {
                   key={schedule.id}
                   className="relative flex items-start pb-6"
                 >
-                  <div className="z-10 w-24 flex-shrink-0">
-                    <span
-                      className={`inline-block w-20 rounded-full px-3 py-1 text-center text-xs font-semibold ${status.color}`}
+                  <div className="z-10 flex w-28 flex-shrink-0">
+                    <div
+                      className={`flex h-7 w-16 items-center justify-center rounded-l-md rounded-r-sm ${status.color}`}
                     >
-                      {status.text}
-                    </span>
+                      <span className="relative z-10 ml-2 text-xs font-semibold">
+                        {status.text}
+                      </span>
+                    </div>
+                    <div
+                      className={`relative flex h-5 w-5 rounded-sm ${status.color.split(" ")[0]}`}
+                      style={{
+                        transform: "rotate(45deg)",
+                        marginLeft: "-11px",
+                        marginTop: "4px",
+                        borderTopRightRadius: "4px",
+                      }}
+                    />
                   </div>
-                  <div className="relative ml-4 flex-grow">
+
+                  <div className="relative flex-grow">
                     <div className="absolute -left-[1.2rem] top-[0.8rem] h-16 w-1 bg-gray-200"></div>
                     <div className="absolute -left-[1.25rem] top-2 h-1.5 w-1.5 rounded-full bg-orange-500"></div>
                     <p className="mb-1 text-sm text-gray-500">

@@ -8,14 +8,14 @@ export default function StyleType({
   selectedStyle,
   onSelect,
   setLinkImg,
-  setIsImgUrlConnectionError,
+  setIsImgUrlConnectionErrorMsg,
 }: {
   name: string;
   imgIdx: number;
   selectedStyle: string;
   onSelect: (style: string) => void;
   setLinkImg: Dispatch<SetStateAction<string>>;
-  setIsImgUrlConnectionError: Dispatch<SetStateAction<boolean>>;
+  setIsImgUrlConnectionErrorMsg: Dispatch<SetStateAction<boolean>>;
 }) {
   const isSelected = selectedStyle === name;
 
@@ -23,7 +23,7 @@ export default function StyleType({
     onSelect(name);
     if (selectedStyle === "심플") {
       setLinkImg("");
-      setIsImgUrlConnectionError(false);
+      setIsImgUrlConnectionErrorMsg(false);
     }
   }
 

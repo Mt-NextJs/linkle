@@ -64,7 +64,7 @@ export default function Join() {
       const infor = await response.json();
       if (response.ok) {
         alert("회원가입 성공!");
-        router.push(ClientRoute.LOGIN as string);
+        router.push(ClientRoute.LOGIN);
       } else {
         alert(
           "회원가입 실패: " +

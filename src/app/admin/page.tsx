@@ -1,16 +1,18 @@
 "use client";
 
-import BasicBlock from "@app/intro/components/basicblock";
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { ClientRoute } from "@config/route";
-import EmptyBlock from "@app/intro/components/UI/empty-block";
-import { usePathname, useRouter } from "next/navigation";
-import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
 import HomeMenu from "@app/admin/components/home-menu";
+import BasicBlock from "@app/intro/components/basicblock";
+import EmptyBlock from "@app/intro/components/UI/empty-block";
+import { useTheme } from "@components/providers/theme-provider";
+import { ClientRoute } from "@config/route";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { postBlock } from "../../lib/post-block";
 import { adminApiInstance } from "../../utils/apis";
+import { twMerge } from "tailwind-merge";
 
 interface Block {
   id: number;
@@ -30,19 +32,21 @@ interface Block {
   dateUpdate: string | null;
 }
 
-export default function Admin() {
+function Admin() {
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
-    if (!token) {
-      // window.history.back();
-    }
-
     const setVisitor = async () => {
       const adminApis = await adminApiInstance;
+      if (!adminApis) {
+        alert("로그인이 필요합니다");
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+          return;
+        }
+      }
       const response = await adminApis.getVisitor();
       if (!response) return;
       if (!response.ok) {
+        sessionStorage.removeItem("token");
         alert("방문자 조회 실패");
       } else {
         const infor = await response.json();
@@ -51,8 +55,10 @@ export default function Admin() {
         setShowTotal(infor.data.total);
       }
     };
-    setVisitor();
-    getBlocks();
+    setVisitor()
+      .then()
+      .catch((e) => console.log(e));
+    getBlocks().then();
   }, []);
 
   const [showTotal, setShowTotal] = useState("0");
@@ -77,6 +83,7 @@ export default function Admin() {
       const { data } = await response.json();
       setBlocks(data);
     } else {
+      sessionStorage.removeItem("token");
       alert("블록 조회 실패");
     }
   }
@@ -115,22 +122,25 @@ export default function Admin() {
     });
   };
 
+  const { theme } = useTheme();
+
   return (
     <div>
-      <div className="relative mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+      <div
+        className={twMerge(
+          "relative mt-8 flex h-[200px] flex-col items-center justify-center border text-center",
+          theme === "light" ? "bg-slate-100" : "bg-gray-800",
+        )}
+      >
         {!isAdmin && <HomeMenu />}
-        <Image
-          src="/assets/icons/icon_profile.png"
-          alt="profile"
-          className="mt-10 cursor-pointer"
-          width={80}
-          height={20}
-        />
-        <Link
-          href={ClientRoute.MAIN as string}
-          className="mt-2 font-bold underline"
-        >
-          momomoc
+        <Link href={ClientRoute.PROFILE.DETAIL}>
+          <Image
+            src="/assets/icons/icon_profile.png"
+            alt="profile"
+            width={80}
+            height={20}
+          />
+          <span className="mt-2 font-bold underline">momomoc</span>
         </Link>
       </div>
       <br />
@@ -227,3 +237,5 @@ export default function Admin() {
     </div>
   );
 }
+
+export default Admin;

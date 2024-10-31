@@ -18,12 +18,12 @@ export default function FormInput({
       <div className="flex justify-between">
         <label className="title block" htmlFor={id}>
           {label}
-          {required && <span className="text-red-500">*</span>}
+          {required && <span className="text-warning">*</span>}
         </label>
         {maxLength && (
-          <div className="text-slate-400">
+          <div className="text-slate-444">
             {value ? (value as string)?.length : 0}
-            <span className="text-[12px] text-slate-600"> / {maxLength}</span>
+            <span className="text-[12px] text-slate-666"> / {maxLength}</span>
           </div>
         )}
       </div>
