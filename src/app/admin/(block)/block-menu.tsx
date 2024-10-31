@@ -33,9 +33,9 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
       <button
         type="button"
         onClick={() => setIsOpen(false)}
-        className="flex h-screen w-screen cursor-default items-center justify-center before:relative before:h-screen before:w-screen before:bg-black before:opacity-25"
+        className="flex h-screen w-screen cursor-default items-center justify-center before:relative before:h-screen before:w-screen before:bg-slate-333 before:opacity-25"
       ></button>
-      <div className="absolute left-1/2 top-1/2 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl bg-white p-6">
+      <div className="bg- absolute left-1/2 top-1/2 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl p-6">
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">블록 선택하기</h1>
           <button type="button" onClick={handleClose}>
@@ -47,7 +47,7 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
             />
           </button>
         </div>
-        <span className="text-lg text-gray-400">블록 타입</span>
+        <span className="text-stale-444 text-lg">블록 타입</span>
         <ul className="flex flex-col">
           {blockTypes.map((item, index) => {
             return (
@@ -65,12 +65,12 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
                       alt={item.title}
                       width={24}
                       height={24}
-                      className={`bg-white opacity-50 drop-shadow-2xl grayscale`}
+                      className={`bg-slate-eee opacity-50 drop-shadow-2xl grayscale`}
                     />
                   </div>
                   <div className="flex flex-col">
                     <h1 className="font-bold">{item.title}</h1>
-                    <span className="text-gray-500">{item.text}</span>
+                    <span className="text-slate-666">{item.text}</span>
                   </div>
                 </Link>
                 {index !== blockTypes.length - 1 && (

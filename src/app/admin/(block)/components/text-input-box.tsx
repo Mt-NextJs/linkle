@@ -33,12 +33,12 @@ const TextInputBox = ({
       <div className="flex justify-between gap-2">
         <div>
           {title}
-          {required && <span className="text-red-500">*</span>}
+          {required && <span className="text-warning">*</span>}
         </div>
         {limit && (
-          <div className="text-slate-400">
+          <div className="text-slate-444">
             {text.length}
-            <span className="text-[12px] text-slate-600"> / {limit}</span>
+            <span className="text-[12px] text-slate-666"> / {limit}</span>
           </div>
         )}
       </div>
@@ -47,7 +47,7 @@ const TextInputBox = ({
         placeholder={placeholder}
         value={text}
         onChange={handeChange}
-        className="text-slate-600"
+        className="text-slate-666"
         maxLength={limit}
       />
     </div>
