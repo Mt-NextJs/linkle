@@ -60,11 +60,26 @@ function Admin() {
       .catch((e) => console.log(e));
     getBlocks().then();
   }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrollTopVisible(window.scrollY > 200);
+    };
 
-  const [showTotal, setShowTotal] = useState("0");
-  const [showToday, setShowToday] = useState("0");
-  const [showRealTime, setShowRealTime] = useState("0");
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const [showTotal, setShowTotal] = useState(0);
+  const [showToday, setShowToday] = useState(0);
+  const [showRealTime, setShowRealTime] = useState(0);
+  const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
   const [isBlockMenuOn, setIsBlockMenuOn] = useState<boolean>(false);
 
   const [blocks, setBlocks] = useState<Block[]>([]);
@@ -233,6 +248,14 @@ function Admin() {
           </div>
           <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
         </>
+      )}
+      {isScrollTopVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-400"
+        >
+          ▲
+        </button>
       )}
     </div>
   );
