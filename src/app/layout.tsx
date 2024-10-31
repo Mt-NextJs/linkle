@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "@components/providers/theme-provider";
+import { ThemeToggle } from "@components/common/ui/theme-toggle";
 
 //styles
 import "@styles/global.css";
@@ -20,8 +22,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <div id="portal" />
-        <div className={"mx-auto max-w-screen-md"}>{children}</div>
+        <ThemeProvider>
+          <div id="portal" />
+          <div className={"mx-auto max-w-screen-md"}>{children}</div>
+          <ThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );

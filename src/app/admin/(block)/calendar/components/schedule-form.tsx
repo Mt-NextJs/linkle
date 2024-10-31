@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getSequence } from "lib/get-sequence";
 import ButtonBox from "../../components/buttons/button-box";
 import AddButton from "../../components/buttons/add-button";
@@ -56,9 +56,13 @@ export default function ScheduleForm({
       const endDateTime = new Date(initialData.dateEnd);
 
       setStartDate(startDateTime.toISOString().split("T")[0]);
-      setStartTime(startDateTime.toTimeString().slice(0, 5));
+      setStartTime(
+        `${startDateTime.getUTCHours().toString().padStart(2, "0")}:${startDateTime.getUTCMinutes().toString().padStart(2, "0")}`,
+      );
       setEndDate(endDateTime.toISOString().split("T")[0]);
-      setEndTime(endDateTime.toTimeString().slice(0, 5));
+      setEndTime(
+        `${endDateTime.getUTCHours().toString().padStart(2, "0")}:${endDateTime.getUTCMinutes().toString().padStart(2, "0")}`,
+      );
       setTitle(initialData.title);
       setUrl(initialData.url || "");
     }
@@ -164,6 +168,7 @@ export default function ScheduleForm({
       } else {
         // 새로운 캘린더 블록 생성 및 일정 추가
         const nextSequence = await getSequence(token);
+        if (!nextSequence) return;
         requestBody = {
           type: 7,
           sequence: nextSequence + 1,

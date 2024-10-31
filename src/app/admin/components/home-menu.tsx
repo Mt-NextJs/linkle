@@ -15,7 +15,7 @@ const HomeMenu = () => {
       document.cookie =
         "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-      router.push(ClientRoute.MAIN as string);
+      router.push(ClientRoute.MAIN);
       router.refresh();
     } catch (error) {
       console.error("로그아웃 중 오류 발생:", error);
@@ -34,7 +34,7 @@ const HomeMenu = () => {
       <div className="absolute right-4 top-4">
         <button
           onClick={() => setIsMenuOn((prev) => !prev)}
-          className="rounded-3xl border-2 bg-white p-2"
+          className="rounded-3xl border-2 bg-white p-2 shadow-inner"
         >
           <Image
             src="/assets/icons/icon_menu.png"
@@ -45,9 +45,13 @@ const HomeMenu = () => {
         </button>
         {isMenuOn && (
           <div className="relative right-0 top-1">
-            <ul className="absolute right-0 border-2 bg-white px-2">
+            <ul className="absolute right-0 w-max rounded-md border-2 bg-white px-2">
               <li className="p-2">
-                <Link href={ClientRoute.ADMIN as string}>Admin</Link>
+                <Link href={ClientRoute.ADMIN}>Admin</Link>
+              </li>
+              <Contour />
+              <li className="p-2">
+                <Link href={ClientRoute.PROFILE.DETAIL}>회원 정보 조회</Link>
               </li>
               <Contour />
               <li className="p-2">

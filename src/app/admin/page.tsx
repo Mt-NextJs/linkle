@@ -1,15 +1,18 @@
 "use client";
 
-import BasicBlock from "@app/intro/components/basicblock";
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { ClientRoute } from "@config/route";
-import EmptyBlock from "@app/intro/components/UI/empty-block";
-import { usePathname, useRouter } from "next/navigation";
-import { postBlock } from "../../lib/post-block";
 import BlockMenu from "@app/admin/(block)/block-menu";
 import HomeMenu from "@app/admin/components/home-menu";
+import BasicBlock from "@app/intro/components/basicblock";
+import EmptyBlock from "@app/intro/components/UI/empty-block";
+import { useTheme } from "@components/providers/theme-provider";
+import { ClientRoute } from "@config/route";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { postBlock } from "../../lib/post-block";
+import { adminApiInstance } from "../../utils/apis";
+import { twMerge } from "tailwind-merge";
 
 interface Block {
   id: number;
@@ -29,44 +32,54 @@ interface Block {
   dateUpdate: string | null;
 }
 
-export default function Admin() {
+function Admin() {
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
-    if (!token) {
-      // window.history.back();
-    }
     const setVisitor = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/user/visitor`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        if (!response.ok) {
-          alert("방문자 조회 실패");
-        } else {
-          const infor = await response.json();
-          setShowToday(infor.data.today);
-          setShowRealTime(infor.data.realTime);
-          setShowTotal(infor.data.total);
+      const adminApis = await adminApiInstance;
+      if (!adminApis) {
+        alert("로그인이 필요합니다");
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+          return;
         }
-      } catch (error) {
-        // alert("연결 실패");
+      }
+      const response = await adminApis.getVisitor();
+      if (!response) return;
+      if (!response.ok) {
+        sessionStorage.removeItem("token");
+        // alert("방문자 조회 실패");
+      } else {
+        const infor = await response.json();
+        setShowToday(infor.data.today);
+        setShowRealTime(infor.data.realTime);
+        setShowTotal(infor.data.total);
       }
     };
-    setVisitor();
-    getBlocks();
+    setVisitor()
+      .then()
+      .catch((e) => console.log(e));
+    getBlocks().then();
+  }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrollTopVisible(window.scrollY > 200);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const [showTotal, setShowTotal] = useState("0");
-  const [showToday, setShowToday] = useState("0");
-  const [showRealTime, setShowRealTime] = useState("0");
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
+  const [showTotal, setShowTotal] = useState(0);
+  const [showToday, setShowToday] = useState(0);
+  const [showRealTime, setShowRealTime] = useState(0);
+  const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
   const [isBlockMenuOn, setIsBlockMenuOn] = useState<boolean>(false);
 
   const [blocks, setBlocks] = useState<Block[]>([]);
@@ -78,26 +91,15 @@ export default function Admin() {
   const isAdmin = pathname === "/admin";
 
   async function getBlocks() {
-    const token = sessionStorage.getItem("token");
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!response.ok) {
-        alert("블록 조회 실패");
-      } else {
-        const infor = await response.json();
-        console.log(infor.data);
-        setBlocks(infor.data);
-      }
-    } catch (error) {
-      alert("연결 실패");
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.getBlocks();
+    if (!response) return;
+    if (response.ok) {
+      const { data } = await response.json();
+      setBlocks(data);
+    } else {
+      sessionStorage.removeItem("token");
+      // alert("블록 조회 실패");
     }
   }
 
@@ -128,29 +130,31 @@ export default function Admin() {
     };
     postBlock("/api/link/update/order", params, router).then((res) => {
       if (res) {
-        console.log(res);
         const { data } = res;
         setBlocks(data);
       }
     });
   };
 
+  const { theme } = useTheme();
+
   return (
     <div>
-      <div className="relative mt-8 flex h-[200px] flex-col items-center justify-center border bg-slate-100 text-center">
+      <div
+        className={twMerge(
+          "relative mt-8 flex h-[200px] flex-col items-center justify-center border text-center",
+          theme === "light" ? "bg-slate-100" : "bg-gray-800",
+        )}
+      >
         {!isAdmin && <HomeMenu />}
-        <Image
-          src="/assets/icons/icon_profile.png"
-          alt="profile"
-          className="mt-10 cursor-pointer"
-          width={80}
-          height={20}
-        />
-        <Link
-          href={ClientRoute.MAIN as string}
-          className="mt-2 font-bold underline"
-        >
-          momomoc
+        <Link href={ClientRoute.PROFILE.DETAIL}>
+          <Image
+            src="/assets/icons/icon_profile.png"
+            alt="profile"
+            width={80}
+            height={20}
+          />
+          <span className="mt-2 font-bold underline">momomoc</span>
         </Link>
       </div>
       <br />
@@ -244,6 +248,16 @@ export default function Admin() {
           <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
         </>
       )}
+      {isScrollTopVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-300"
+        >
+          ▲
+        </button>
+      )}
     </div>
   );
 }
+
+export default Admin;
