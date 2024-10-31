@@ -38,12 +38,9 @@ export default function DateTimeInput({
 
   const handleTimeChange = (date: Date | null) => {
     if (date) {
-      const formattedTime = date.toLocaleTimeString("ko-KR", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      });
-      onTimeChange(formattedTime);
+      const hours = date.getHours().toString().padStart(2, "0");
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      onTimeChange(`${hours}:${minutes}`);
     }
   };
 
