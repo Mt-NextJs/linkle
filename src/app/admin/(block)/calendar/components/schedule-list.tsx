@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { BsCalendarXFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
 import { BsCalendarXFill } from "react-icons/bs";
 
 interface Schedule {
