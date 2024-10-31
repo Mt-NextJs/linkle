@@ -5,9 +5,9 @@ import Layout from "@app/admin/(block)/components/layout";
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import ImageBox from "@app/admin/(block)/image/components/image-box";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import FormInput from "@app/admin/(block)/components/form-input";
-import { checkImage, checkUrl } from "../../../../lib/check-url";
+import { checkUrl } from "../../../../lib/check-url";
 import { adminApiInstance } from "../../../../utils/apis";
 
 const Page = () => {
@@ -16,6 +16,7 @@ const Page = () => {
   const [connectingUrl, setConnectingUrl] = useState<string>("");
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
   const router = useRouter();
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   const addImageBlock = async () => {
     const params = {
@@ -108,15 +109,15 @@ const Page = () => {
       alert("URL을 입력해주세요.");
       return;
     }
-    if (!checkImage(text) && text !== "") {
-      alert("이미지 URL을 입력해주세요.");
-      return;
-    }
     setSelectedImageUrl(text);
   };
 
   return (
-    <Layout title="이미지 블록" onSubmit={handleAddButtonClick}>
+    <Layout
+      title="이미지 블록"
+      onSubmit={handleAddButtonClick}
+      prevPath={prevPath}
+    >
       <FormInput
         label="이미지"
         id="image-url"

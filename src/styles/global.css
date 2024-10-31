@@ -16,8 +16,7 @@
 }
 
 :root {
-  /* 라이트 모드(기본) 컬러 변수들 */
-  --background: #ffffff;
+  --background: #eaeaea;
   --foreground: #333333;
   --primary: #ff5b1a;
   --primary-100: #fff3ef;

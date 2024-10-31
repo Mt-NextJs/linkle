@@ -28,6 +28,12 @@ export default function Login() {
     if (!response) return;
     if (response.ok) {
       alert("로그인 성공");
+      const infor = await response.json();
+      // 세션 스토리지에 토큰 저장
+      window.sessionStorage.setItem("token", infor.data.token);
+      // 쿠키에 토큰 저장
+      document.cookie = `token=${infor.data.token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+      router.push("/admin");
       router.push("/");
     } else await authApis.handleError(response);
   }

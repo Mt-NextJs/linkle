@@ -1,20 +1,19 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Admin from "@app/admin/page";
+import { withLogin } from "../utils/with-login";
 
-export default function Page() {
-  const router = useRouter();
+function Page() {
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
-    if (!token) {
-      console.log(token, "token");
-      router.push("/intro");
-    }
-    // return () => sessionStorage.removeItem("token");
+    // setIsLoggedIn(!!token);
   }, []);
 
   return <Admin />;
 }
+
+export default Page;

@@ -8,13 +8,13 @@ export default function StylePreview({
   selectedStyle,
   title,
   linkImg,
-  setIsImgUrlConnectionError,
+  setIsImgUrlConnectionErrorMsg,
   isValidUrl,
 }: {
   selectedStyle: string;
   title: string;
   linkImg: string;
-  setIsImgUrlConnectionError: Dispatch<SetStateAction<boolean>>;
+  setIsImgUrlConnectionErrorMsg: Dispatch<SetStateAction<boolean>>;
   isValidUrl: (url: string) => boolean;
 }) {
   const placeholderImage =
@@ -26,7 +26,7 @@ export default function StylePreview({
   useEffect(() => {
     if (selectedStyle === "배경" && linkImg && isValidUrl(linkImg)) {
       setHasImgError(false);
-      setIsImgUrlConnectionError(false);
+      setIsImgUrlConnectionErrorMsg(false);
 
       // 이미지 로드 비동기 처리(배경 이미지 일 때)
       const img = new window.Image();
@@ -38,19 +38,19 @@ export default function StylePreview({
 
       img.onerror = () => {
         setHasImgError(true); // 이미지 로드 실패시 메시지 표시
-        setIsImgUrlConnectionError(true);
+        setIsImgUrlConnectionErrorMsg(true);
       };
     } else if (!isValidUrl(linkImg)) {
       // URL이 유효하지 않으면 메시지 표시x
       setHasImgError(false);
-      setIsImgUrlConnectionError(false);
+      setIsImgUrlConnectionErrorMsg(false);
     }
-  }, [linkImg, selectedStyle, setIsImgUrlConnectionError, isValidUrl]);
+  }, [linkImg, selectedStyle, setIsImgUrlConnectionErrorMsg, isValidUrl]);
 
   // Image에서 error 발생시 오류 메시지 출력
   const imgErrorHandler = () => {
     setHasImgError(true);
-    setIsImgUrlConnectionError(true);
+    setIsImgUrlConnectionErrorMsg(true);
   };
 
   const imgUrl =
