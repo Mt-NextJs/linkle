@@ -168,6 +168,7 @@ export default function ScheduleForm({
       } else {
         // 새로운 캘린더 블록 생성 및 일정 추가
         const nextSequence = await getSequence(token);
+        if (!nextSequence) return;
         requestBody = {
           type: 7,
           sequence: nextSequence + 1,
