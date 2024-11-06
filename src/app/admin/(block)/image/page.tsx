@@ -137,6 +137,8 @@ const Page = () => {
       {/*/>*/}
       <ImageBox
         selectedImageUrl={selectedImageUrl}
+        connectingUrl={connectingUrl}
+        title={title}
         // handeInputImageClick={handeInputImageClick}
       />
       <FormInput

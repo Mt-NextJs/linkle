@@ -2,7 +2,7 @@ import React, { SetStateAction } from "react";
 import { blockTypes } from "@config/block_types";
 import Link from "next/link";
 import Image from "next/image";
-import Portal from "@app/components/Portal";
+import Portal from "@app/components/portal";
 import Contour from "@app/admin/(block)/components/contour";
 import { usePathname } from "next/navigation";
 
@@ -32,7 +32,7 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
     <Portal>
       <button
         type="button"
-        onClick={() => setIsOpen(false)}
+        onClick={handleClose}
         className="flex h-screen w-screen cursor-default items-center justify-center before:relative before:h-screen before:w-screen before:bg-slate-333 before:opacity-25"
       ></button>
       <div className="absolute left-1/2 top-1/2 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl bg-slate-333 p-6">

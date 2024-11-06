@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BsCalendarXFill } from "react-icons/bs";
 
-interface Schedule {
+export interface Schedule {
   id: number;
   title: string;
   url: string;
@@ -61,15 +61,17 @@ function EmptyState({ message }: { message: React.ReactNode }) {
   );
 }
 
-function ScheduleItem({
+export function ScheduleItem({
   schedule,
   onDelete,
 }: {
   schedule: Schedule;
-  onDelete: (id: number) => void;
+  onDelete?: (id: number) => void;
 }) {
   const router = useRouter();
   const status = getScheduleStatus(schedule);
+  const pathname = usePathname();
+  const isCalendarPage = pathname.includes("/admin/calendar");
 
   const handleEdit = () => {
     router.push(`/admin/calendar/manage?mode=edit&id=${schedule.id}`);
@@ -96,28 +98,30 @@ function ScheduleItem({
             }}
           />
         </div>
-        <div className="ml-4 flex-grow">
+        <div className="ml-4 flex flex-grow flex-col">
           <div className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
           </div>
           <div className="group mt-2 font-semibold">{schedule.title}</div>
         </div>
-        <div className="flex flex-col space-y-2">
-          <button
-            className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
-            onClick={handleEdit}
-          >
-            수정
-          </button>
-          <button
-            className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
-            onClick={() => onDelete(schedule.id)}
-          >
-            삭제
-          </button>
-        </div>
+        {isCalendarPage && (
+          <div className="flex flex-col space-y-2">
+            <button
+              className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
+              onClick={handleEdit}
+            >
+              수정
+            </button>
+            <button
+              className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
+              onClick={() => onDelete && onDelete(schedule.id)}
+            >
+              삭제
+            </button>
+          </div>
+        )}
       </div>
-      <hr className="my-4 border-t border-gray-200" />
+      {isCalendarPage && <hr className="my-4 border-t border-gray-200" />}
     </div>
   );
 }

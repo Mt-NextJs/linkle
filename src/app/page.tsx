@@ -1,16 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Admin from "@app/admin/page";
-import { withLogin } from "../utils/with-login";
+import ProfileBox from "@app/admin/components/profile-box";
 
 function Page() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
   }, []);
 
-  return <Admin />;
+  return (
+    <div>
+      <ProfileBox />
+    </div>
+  );
 }
 
 export default Page;
