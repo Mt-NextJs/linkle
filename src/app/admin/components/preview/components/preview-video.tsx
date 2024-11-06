@@ -7,9 +7,9 @@ interface Props {
 const PreviewVideo = ({ block }: Props) => {
   const { url: videoUrl } = block;
   return (
-    <div className="flex items-center justify-center overflow-hidden rounded-xl shadow-lg">
+    <div className="flex h-[24rem] items-center justify-center overflow-hidden rounded-xl shadow-lg">
       {videoUrl && (
-        <object type="text/html" data={videoUrl} width="500" height="230">
+        <object type="text/html" data={videoUrl} width="100%" height="100%">
           <div>동영상 주소를 확인해주세요</div>
         </object>
       )}

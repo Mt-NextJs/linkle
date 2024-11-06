@@ -14,7 +14,7 @@ import { postBlock } from "../../lib/post-block";
 import { adminApiInstance } from "../../utils/apis";
 import { twMerge } from "tailwind-merge";
 import ProfileBox from "@app/admin/components/profile-box";
-import Preview from "@app/admin/components/preview/preview";
+import PreviewModal from "@app/admin/components/preview/preview-modal";
 import CircleButton from "@app/admin/components/buttons/circle-button";
 
 export interface Block {
@@ -101,7 +101,6 @@ function Admin() {
     if (response.ok) {
       const { data } = await response.json();
       setBlocks(data);
-      console.log(data);
     } else {
       sessionStorage.removeItem("token");
       // alert("블록 조회 실패");
@@ -217,7 +216,11 @@ function Admin() {
           />
         ))
       )}
-      <Preview isOpen={isPreviewOn} setIsOpen={setIsPreviewOn} data={blocks} />
+      <PreviewModal
+        isOpen={isPreviewOn}
+        setIsOpen={setIsPreviewOn}
+        data={blocks}
+      />
       <CircleButton text={"미리보기"} onClick={handlePreviewOpen} />
       {isAdmin && (
         <>
