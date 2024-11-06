@@ -10,15 +10,12 @@ import PreviewCalendar from "@app/admin/components/preview/components/preview-ca
 import dynamic from "next/dynamic";
 const PreviewImage = dynamic(
   () => import("@app/admin/components/preview/components/preview-image"),
-  { ssr: false },
 );
 const PreviewVideo = dynamic(
   () => import("@app/admin/components/preview/components/preview-video"),
-  { ssr: false },
 );
 const PreviewDivider = dynamic(
   () => import("@app/admin/components/preview/components/preview-divider"),
-  { ssr: false },
 );
 
 interface Props {
