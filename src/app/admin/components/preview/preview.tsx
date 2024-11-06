@@ -1,15 +1,25 @@
-import React, { SetStateAction } from "react";
+import React, { SetStateAction, Suspense } from "react";
 import Portal from "@app/components/portal";
 import CircleButton from "@app/admin/components/buttons/circle-button";
 import ProfileBox from "@app/admin/components/profile-box";
 import { Block } from "@app/admin/page";
 import PreviewText from "@app/admin/components/preview/components/preview-text";
-import PreviewDivider from "@app/admin/components/preview/components/preview-divider";
-import PreviewVideo from "@app/admin/components/preview/components/preview-video";
-import PreviewImage from "@app/admin/components/preview/components/preview-image";
 import PreviewEvent from "@app/admin/components/preview/components/preview-event";
 import PreviewLink from "@app/admin/components/preview/components/preview-link";
 import PreviewCalendar from "@app/admin/components/preview/components/preview-calendar";
+import dynamic from "next/dynamic";
+const PreviewImage = dynamic(
+  () => import("@app/admin/components/preview/components/preview-image"),
+  { ssr: false },
+);
+const PreviewVideo = dynamic(
+  () => import("@app/admin/components/preview/components/preview-video"),
+  { ssr: false },
+);
+const PreviewDivider = dynamic(
+  () => import("@app/admin/components/preview/components/preview-divider"),
+  { ssr: false },
+);
 
 interface Props {
   isOpen: boolean;
@@ -28,7 +38,11 @@ const Preview = ({ isOpen, setIsOpen, data }: Props) => {
     const { type } = block;
     return {
       1: <PreviewDivider block={block} />,
-      2: <PreviewVideo block={block} />,
+      2: (
+        <Suspense fallback={<p>Loading video...</p>}>
+          <PreviewVideo block={block} />
+        </Suspense>
+      ),
       3: <PreviewLink block={block} />,
       4: <PreviewImage block={block} />,
       5: <PreviewEvent block={block} />,
