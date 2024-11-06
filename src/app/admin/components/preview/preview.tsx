@@ -4,9 +4,7 @@ import CircleButton from "@app/admin/components/buttons/circle-button";
 import ProfileBox from "@app/admin/components/profile-box";
 import { Block } from "@app/admin/page";
 import PreviewText from "@app/admin/components/preview/components/preview-text";
-import PreviewEvent from "@app/admin/components/preview/components/preview-event";
 import PreviewLink from "@app/admin/components/preview/components/preview-link";
-import PreviewCalendar from "@app/admin/components/preview/components/preview-calendar";
 import dynamic from "next/dynamic";
 const PreviewImage = dynamic(
   () => import("@app/admin/components/preview/components/preview-image"),
@@ -16,6 +14,12 @@ const PreviewVideo = dynamic(
 );
 const PreviewDivider = dynamic(
   () => import("@app/admin/components/preview/components/preview-divider"),
+);
+const PreviewCalendar = dynamic(
+  () => import("@app/admin/components/preview/components/preview-calendar"),
+);
+const PreviewEvent = dynamic(
+  () => import("@app/admin/components/preview/components/preview-event"),
 );
 
 interface Props {
