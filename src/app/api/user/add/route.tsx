@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db("linkle");
-    const check = await db.collection("userdata").findOne({ name: name });
+    const check = await db.collection("userdata").findOne({ userId: userId });
     if (!check) {
       await db.collection("userdata").insertOne({
         name,

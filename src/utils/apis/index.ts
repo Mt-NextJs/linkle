@@ -4,7 +4,7 @@ class Apis {
   readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
+    this.baseUrl = `http://localhost:3000`;
   }
   async handleError(response: Response) {
     const { status } = response;
