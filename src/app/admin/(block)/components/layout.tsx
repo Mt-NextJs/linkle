@@ -16,8 +16,6 @@ const Layout = ({
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 }>) => {
-  const router = useRouter();
-
   return (
     <div className="flex w-full flex-col gap-6 px-20 py-4">
       <div>

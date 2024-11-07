@@ -55,9 +55,9 @@ function Admin() {
         setShowTotal(infor.data.total);
       }
     };
-    setVisitor()
-      .then()
-      .catch((e) => console.log(e));
+    // setVisitor()
+    //   .then()
+    //   .catch((e) => console.log(e));
     getBlocks().then();
   }, []);
   useEffect(() => {
@@ -96,6 +96,7 @@ function Admin() {
     if (!response) return;
     if (response.ok) {
       const { data } = await response.json();
+      console.log(data[0]);
       setBlocks(data);
     } else {
       sessionStorage.removeItem("token");
@@ -198,7 +199,7 @@ function Admin() {
       </div>
 
       <br />
-      {blocks.length == 0 ? (
+      {blocks === undefined || blocks.length == 0 ? (
         <EmptyBlock />
       ) : (
         blocks.map((block, index) => (
