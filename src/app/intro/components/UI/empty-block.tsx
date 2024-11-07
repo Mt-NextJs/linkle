@@ -11,7 +11,7 @@ export default function EmptyBlock() {
           width={80}
           height={40}
         />
-        <p>지금 공개된 링크가 없다...</p>
+        <p>지금 공개된 링크가 없습니다...</p>
         <p>
           <strong className="cursor-pointer">소식받기</strong> 버튼을 눌러다오
         </p>
