@@ -1,12 +1,13 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import Layout from "../components/layout";
 import CalendarHeader from "./components/calendar-header";
 import ScheduleList from "./components/schedule-list";
 import StyleSetting from "./components/style-setting";
-import { useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
 
-export default function CalendarPage() {
+function CalendarPage() {
   const prevPath = useSearchParams().get("prevPath") || "/admin";
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,5 +20,13 @@ export default function CalendarPage() {
       <StyleSetting />
       <ScheduleList />
     </Layout>
+  );
+}
+
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CalendarPage />
+    </Suspense>
   );
 }

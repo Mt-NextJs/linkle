@@ -13,8 +13,11 @@ import { useEffect, useRef, useState } from "react";
 import { postBlock } from "../../lib/post-block";
 import { adminApiInstance } from "../../utils/apis";
 import { twMerge } from "tailwind-merge";
+import ProfileBox from "@app/admin/components/profile-box";
+import PreviewModal from "@app/admin/components/preview/preview-modal";
+import CircleButton from "@app/admin/components/buttons/circle-button";
 
-interface Block {
+export interface Block {
   id: number;
   type: number;
   sequence: number;
@@ -55,9 +58,9 @@ function Admin() {
         setShowTotal(infor.data.total);
       }
     };
-    setVisitor()
-      .then()
-      .catch((e) => console.log(e));
+    // setVisitor()
+    //   .then()
+    //   .catch((e) => console.log(e));
     getBlocks().then();
   }, []);
   useEffect(() => {
@@ -81,6 +84,7 @@ function Admin() {
   const [showRealTime, setShowRealTime] = useState(0);
   const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
   const [isBlockMenuOn, setIsBlockMenuOn] = useState<boolean>(false);
+  const [isPreviewOn, setIsPreviewOn] = useState<boolean>(false);
 
   const [blocks, setBlocks] = useState<Block[]>([]);
 
@@ -96,6 +100,7 @@ function Admin() {
     if (!response) return;
     if (response.ok) {
       const { data } = await response.json();
+      console.log(data[0]);
       setBlocks(data);
     } else {
       sessionStorage.removeItem("token");
@@ -135,28 +140,13 @@ function Admin() {
       }
     });
   };
-
-  const { theme } = useTheme();
+  const handlePreviewOpen = () => {
+    setIsPreviewOn(true);
+  };
 
   return (
     <div>
-      <div
-        className={twMerge(
-          "relative mt-8 flex h-[200px] flex-col items-center justify-center border text-center",
-          theme === "light" ? "bg-slate-100" : "bg-gray-800",
-        )}
-      >
-        {!isAdmin && <HomeMenu />}
-        <Link href={ClientRoute.PROFILE.DETAIL}>
-          <Image
-            src="/assets/icons/icon_profile.png"
-            alt="profile"
-            width={80}
-            height={20}
-          />
-          <span className="mt-2 font-bold underline">momomoc</span>
-        </Link>
-      </div>
+      <ProfileBox />
       <br />
       <div className="flex w-full rounded border">
         <div className="grid w-8/12 rounded-l border">
@@ -198,7 +188,7 @@ function Admin() {
       </div>
 
       <br />
-      {blocks.length == 0 ? (
+      {blocks === undefined || blocks.length == 0 ? (
         <EmptyBlock />
       ) : (
         blocks.map((block, index) => (
@@ -227,17 +217,17 @@ function Admin() {
           />
         ))
       )}
+      <PreviewModal
+        isOpen={isPreviewOn}
+        setIsOpen={setIsPreviewOn}
+        data={blocks}
+      />
+      <CircleButton text={"미리보기"} onClick={handlePreviewOpen} />
       {isAdmin && (
         <>
           <div className="mb-5 mt-9 flex w-full items-center justify-between">
-            <div className="flex flex-grow justify-center">
-              <button
-                onClick={updateBlockOrder}
-                className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800"
-              >
-                미리보기
-              </button>
-            </div>
+            <span className="h-12 w-12"></span>
+            <CircleButton text="순서 업데이트" onClick={updateBlockOrder} />
             <button
               onClick={() => setIsBlockMenuOn(true)}
               className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600"
