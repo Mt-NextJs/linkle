@@ -7,7 +7,7 @@ interface JwtPayload {
   userId: string;
 }
 
-interface scheduleType {
+interface ScheduleType {
   id: number;
   title: string;
   url: string;
@@ -26,7 +26,12 @@ interface NewData {
   subText02?: string;
   dateStart?: string;
   dateEnd?: string;
-  schedule?: scheduleType[];
+  schedule?: ScheduleType[];
+}
+
+interface UserDocument {
+  userId: string;
+  data: NewData[];
 }
 
 export async function POST(request: NextRequest) {
@@ -56,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db("linkle");
-    const collection = db.collection("userdata");
+    const collection = db.collection<UserDocument>("userdata");
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET as string,
@@ -77,9 +82,15 @@ export async function POST(request: NextRequest) {
       schedule,
     };
 
+    await collection.updateOne(
+      { userId },
+      { $setOnInsert: { data: [] } },
+      { upsert: true },
+    );
+
     const result = await collection.updateOne(
-      { userId }, // 조건
-      { $push: { data: newData as any } },
+      { userId },
+      { $push: { data: newData } },
       { upsert: true },
     );
 
