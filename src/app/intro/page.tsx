@@ -14,7 +14,7 @@ export default function Intro() {
           <p className="text-9xl font-black capitalize text-white">
             link at once!
           </p>
-          <p className="text-4xl text-text-ddd">
+          <p className="text-text-ddd text-4xl">
             Lorem ipsum dolor sit amet consectetur.
           </p>
         </div>

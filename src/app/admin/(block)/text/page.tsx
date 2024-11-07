@@ -5,10 +5,10 @@ import Layout from "../components/layout";
 import FormInput from "../components/form-input";
 import ButtonBox from "../components/buttons/button-box";
 import AddButton from "../components/buttons/add-button";
-import { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { adminApiInstance } from "../../../../utils/apis";
 
-export default function TextPage() {
+function TextPage() {
   const [title, setTitle] = useState("");
   const router = useRouter();
   const prevPath = useSearchParams().get("prevPath") || "/admin";
@@ -46,5 +46,13 @@ export default function TextPage() {
         </ButtonBox>
       </Layout>
     </>
+  );
+}
+
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TextPage />
+    </Suspense>
   );
 }

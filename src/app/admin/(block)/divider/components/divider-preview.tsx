@@ -10,21 +10,12 @@ interface DividerContentProps {
   type: DividerType;
 }
 
-const DividerContent = ({ type }: DividerContentProps) => {
+export const DividerContent = ({ type }: DividerContentProps) => {
   const commonClasses = "flex h-12 items-center justify-center";
 
   switch (type) {
     case "Space":
       return <div className={commonClasses} />;
-    case "Dashed":
-    case "Solid":
-      return (
-        <div className={commonClasses}>
-          <div
-            className={`w-full border-t ${type === "Dashed" ? "border-dashed" : "border-solid"}`}
-          />
-        </div>
-      );
     case "Point":
       return <div className={commonClasses}>· · ·</div>;
     case "Zigzag":
@@ -35,6 +26,15 @@ const DividerContent = ({ type }: DividerContentProps) => {
             alt="Zigzag"
             width={70}
             height={5}
+          />
+        </div>
+      );
+    case "Dashed":
+    case "Solid":
+      return (
+        <div className={commonClasses}>
+          <div
+            className={`w-full border-t ${type === "Dashed" ? "border-dashed" : "border-solid"}`}
           />
         </div>
       );

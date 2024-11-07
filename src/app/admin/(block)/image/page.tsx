@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, Suspense, useState } from "react";
 import Layout from "@app/admin/(block)/components/layout";
 
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
@@ -137,6 +137,8 @@ const Page = () => {
       {/*/>*/}
       <ImageBox
         selectedImageUrl={selectedImageUrl}
+        connectingUrl={connectingUrl}
+        title={title}
         // handeInputImageClick={handeInputImageClick}
       />
       <FormInput
@@ -166,4 +168,10 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Page />
+    </Suspense>
+  );
+}
