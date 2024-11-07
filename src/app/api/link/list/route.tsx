@@ -7,7 +7,7 @@ interface JwtPayload {
   userId: string;
 }
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const token = request.cookies.get("token")?.value;
     if (!token) {
@@ -16,30 +16,20 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
-    const { name, password, email } = await request.json();
+    const client = await clientPromise;
+    const db = client.db("linkle");
+    const collection = db.collection("userdata");
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET as string,
     ) as JwtPayload;
-    const baseUserId = decoded.userId;
-    const client = await clientPromise;
-    const db = client.db("linkle");
-    const collection = db.collection("userdata");
-    const result = await collection.updateOne(
-      { userId: baseUserId },
-      { $set: { name, password, email } },
+    const userId = decoded.userId;
+    const userData = await collection.find({ userId: userId }).toArray();
+    const data = userData.length > 0 ? userData[0].data : [];
+    return NextResponse.json(
+      { message: "Success to get blocks", data },
+      { status: 200 },
     );
-    if (result.modifiedCount > 0) {
-      return NextResponse.json(
-        { message: "User information updated successfully" },
-        { status: 200 },
-      );
-    } else {
-      return NextResponse.json(
-        { message: "No document matched or nothing to update" },
-        { status: 404 },
-      );
-    }
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";

@@ -16,27 +16,19 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
-    const { name, password, email } = await request.json();
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
-    ) as JwtPayload;
-    const baseUserId = decoded.userId;
+    const { userId } = await request.json();
     const client = await clientPromise;
     const db = client.db("linkle");
     const collection = db.collection("userdata");
-    const result = await collection.updateOne(
-      { userId: baseUserId },
-      { $set: { name, password, email } },
-    );
-    if (result.modifiedCount > 0) {
+    const result = await collection.deleteOne({ userId: userId });
+    if (result.deletedCount > 0) {
       return NextResponse.json(
-        { message: "User information updated successfully" },
+        { message: "User data deleted successfully" },
         { status: 200 },
       );
     } else {
       return NextResponse.json(
-        { message: "No document matched or nothing to update" },
+        { message: "No document matched the userId" },
         { status: 404 },
       );
     }
