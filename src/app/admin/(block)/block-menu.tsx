@@ -35,7 +35,7 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
         onClick={handleClose}
         className="flex h-screen w-screen cursor-default items-center justify-center before:relative before:h-screen before:w-screen before:bg-slate-333 before:opacity-25"
       ></button>
-      <div className="absolute left-1/2 top-1/2 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl bg-slate-333 p-6">
+      <div className="absolute left-1/2 top-1/2 z-20 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl bg-white p-6">
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">블록 선택하기</h1>
           <button type="button" onClick={handleClose}>
@@ -47,7 +47,7 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
             />
           </button>
         </div>
-        <span className="text-stale-444 text-lg">블록 타입</span>
+        <span className="text-stale-333 text-lg">블록 타입</span>
         <ul className="flex flex-col">
           {blockTypes.map((item, index) => {
             return (
