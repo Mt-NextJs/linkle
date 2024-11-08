@@ -78,8 +78,7 @@ export default function ProfileEdit() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const response = await fetch("/api/user/info", {
-          headers: {},
+        const response = await fetch(`$/api/user/info`, {
           credentials: "include",
         });
         const data = await response.json();
@@ -170,17 +169,17 @@ export default function ProfileEdit() {
     }
 
     try {
-      const response = await fetch("/api/user/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/update`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({
+            ...userData,
+            password,
+          }),
         },
-        body: JSON.stringify({
-          ...userData,
-          password,
-        }),
-        credentials: "include",
-      });
+      );
 
       if (response.ok) {
         alert("회원 정보가 성공적으로 수정되었습니다.");

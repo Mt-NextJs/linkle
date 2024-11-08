@@ -14,12 +14,13 @@ export default function ProfileDetail() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const response = await fetch("/api/user/info", {
+        const response = await fetch(`/api/user/info`, {
           credentials: "include",
         });
         const data = await response.json();
         if (response.ok) {
-          setUserData(data.user);
+          const { user } = data;
+          setUserData(user);
         } else {
           console.error("Failed to fetch user info:", data.message);
         }
@@ -29,7 +30,8 @@ export default function ProfileDetail() {
     }
     fetchUserInfo().then();
   }, []);
-  if (!userData) return <p>loading...</p>;
+
+  if (!userData) return <p>Loading...</p>;
 
   return (
     <div className="flex min-h-screen flex-col justify-center gap-16 px-20 py-4">
