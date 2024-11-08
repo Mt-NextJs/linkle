@@ -145,7 +145,7 @@ function Admin() {
   };
 
   return (
-    <div>
+    <div className={"fixed h-screen px-14"}>
       <ProfileBox />
       <br />
       <div className="flex w-full rounded border">
@@ -188,45 +188,46 @@ function Admin() {
       </div>
 
       <br />
-      {blocks === undefined || blocks.length == 0 ? (
-        <EmptyBlock />
-      ) : (
-        blocks.map((block, index) => (
-          <BasicBlock
-            key={block.id}
-            id={block.id}
-            type={block.type}
-            title={block.title || "제목 없음"}
-            sequence={block.sequence}
-            style={block.style}
-            subText01={block.subText01}
-            subText02={block.subText02}
-            url={block.url}
-            imgUrl={block.imgUrl}
-            dateStart={block.dateStart}
-            dateEnd={block.dateEnd}
-            openYn={block.openYn}
-            keepYn={block.keepYn}
-            dateCreate={block.dateCreate}
-            dateUpdate={block.dateUpdate}
-            index={index}
-            dragStart={dragStart}
-            dragEnter={dragEnter}
-            drop={drop}
-            isAdmin={isAdmin}
-          />
-        ))
-      )}
+      <div className={"h-[44rem] overflow-scroll"}>
+        {blocks === undefined || blocks.length == 0 ? (
+          <EmptyBlock />
+        ) : (
+          blocks.map((block, index) => (
+            <BasicBlock
+              key={block.id}
+              id={block.id}
+              type={block.type}
+              title={block.title || "제목 없음"}
+              sequence={block.sequence}
+              style={block.style}
+              subText01={block.subText01}
+              subText02={block.subText02}
+              url={block.url}
+              imgUrl={block.imgUrl}
+              dateStart={block.dateStart}
+              dateEnd={block.dateEnd}
+              openYn={block.openYn}
+              keepYn={block.keepYn}
+              dateCreate={block.dateCreate}
+              dateUpdate={block.dateUpdate}
+              index={index}
+              dragStart={dragStart}
+              dragEnter={dragEnter}
+              drop={drop}
+              isAdmin={isAdmin}
+            />
+          ))
+        )}
+      </div>
       <PreviewModal
         isOpen={isPreviewOn}
         setIsOpen={setIsPreviewOn}
         data={blocks}
       />
-      <CircleButton text={"미리보기"} onClick={handlePreviewOpen} />
       {isAdmin && (
         <>
-          <div className="mb-5 mt-9 flex w-full items-center justify-between">
-            <span className="h-12 w-12"></span>
+          <div className="mt-4 flex w-full items-center justify-between">
+            <CircleButton text={"미리보기"} onClick={handlePreviewOpen} />
             <CircleButton text="순서 업데이트" onClick={updateBlockOrder} />
             <button
               onClick={() => setIsBlockMenuOn(true)}
@@ -238,14 +239,14 @@ function Admin() {
           <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
         </>
       )}
-      {isScrollTopVisible && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-300"
-        >
-          ▲
-        </button>
-      )}
+      {/*{isScrollTopVisible && (*/}
+      {/*  <button*/}
+      {/*    onClick={scrollToTop}*/}
+      {/*    className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-300"*/}
+      {/*  >*/}
+      {/*    ▲*/}
+      {/*  </button>*/}
+      {/*)}*/}
     </div>
   );
 }
