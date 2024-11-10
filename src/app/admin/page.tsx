@@ -1,18 +1,14 @@
 "use client";
 
 import BlockMenu from "@app/admin/(block)/block-menu";
-import HomeMenu from "@app/admin/components/home-menu";
 import BasicBlock from "@app/intro/components/basicblock";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
-import { useTheme } from "@components/providers/theme-provider";
-import { ClientRoute } from "@config/route";
+
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { postBlock } from "../../lib/post-block";
 import { adminApiInstance } from "../../utils/apis";
-import { twMerge } from "tailwind-merge";
 import ProfileBox from "@app/admin/components/profile-box";
 import PreviewModal from "@app/admin/components/preview/preview-modal";
 import CircleButton from "@app/admin/components/buttons/circle-button";
@@ -144,7 +140,7 @@ function Admin() {
   };
 
   return (
-    <div className={"fixed max-h-screen w-full px-14"}>
+    <div className={"max-h-screen w-full px-14"}>
       <ProfileBox />
       <br />
       <div className="flex w-full rounded border">
@@ -187,7 +183,7 @@ function Admin() {
       </div>
 
       <br />
-      <div className={"max-h-[44rem] overflow-scroll"}>
+      <div className={"max-h-[40rem] overflow-scroll"}>
         {blocks === undefined || blocks.length == 0 ? (
           <EmptyBlock />
         ) : (

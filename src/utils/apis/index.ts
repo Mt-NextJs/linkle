@@ -1,11 +1,4 @@
-import { getSequence } from "../../lib/get-sequence";
-
 class Apis {
-  readonly baseUrl: string;
-
-  constructor() {
-    this.baseUrl = `http://localhost:3000`;
-  }
   async handleError(response: Response) {
     const { status } = response;
     const { message } = await response.json();
@@ -18,9 +11,8 @@ class adminApis extends Apis {
   sequence: number | undefined = undefined;
 
   async getVisitor() {
-    const { baseUrl } = this;
     try {
-      return await fetch(`${baseUrl}/api/user/visitor`, {
+      return await fetch(`/api/user/visitor`, {
         method: "GET",
         credentials: "include",
       });
@@ -30,18 +22,8 @@ class adminApis extends Apis {
   }
 
   async addBlock(params: { [index: string]: string | number | object | null }) {
-    const { baseUrl } = this;
-    // if (!this.sequence) {
-    //   const sequence = await getSequence();
-    //   if (!sequence) {
-    //     alert("시퀀스 조회 실패");
-    //     return;
-    //   }
-    //   this.sequence = sequence;
-    // } else params["sequence"] = this.sequence + 1;
-
     try {
-      const response = await fetch(`${baseUrl}/api/link/add`, {
+      const response = await fetch(`/api/link/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,9 +46,8 @@ class adminApis extends Apis {
   }
 
   async getBlocks() {
-    const { baseUrl } = this;
     try {
-      return await fetch(`${baseUrl}/api/link/list`, {
+      return await fetch(`/api/link/list`, {
         method: "GET",
         credentials: "include",
       });
@@ -79,7 +60,7 @@ class adminApis extends Apis {
 class AuthApis extends Apis {
   async login(userId: string, password: string) {
     try {
-      return await fetch(`${this.baseUrl}/api/login`, {
+      return await fetch(`/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
