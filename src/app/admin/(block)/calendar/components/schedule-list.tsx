@@ -144,19 +144,9 @@ export default function ScheduleList() {
   const fetchSchedules = async () => {
     setError(null);
     try {
-      const token = sessionStorage.getItem("token");
-      if (!token) {
-        throw new Error("로그인이 필요합니다.");
-      }
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await fetch(`/api/link/list`, {
+        credentials: "include",
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -196,11 +186,6 @@ export default function ScheduleList() {
         throw new Error("캘린더 블록을 찾을 수 없습니다.");
       }
 
-      const token = sessionStorage.getItem("token");
-      if (!token) {
-        throw new Error("로그인이 필요합니다.");
-      }
-
       const updatedSchedules = schedules.filter(
         (schedule) => schedule.id !== scheduleId,
       );
@@ -213,17 +198,14 @@ export default function ScheduleList() {
         schedule: updatedSchedules,
       };
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestBody),
+      const response = await fetch(`$/api/link/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify(requestBody),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
