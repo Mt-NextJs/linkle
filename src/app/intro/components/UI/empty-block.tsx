@@ -11,11 +11,11 @@ export default function EmptyBlock() {
           width={80}
           height={40}
         />
-        <p>지금 공개된 링크가 없습니다...</p>
+        <p>지금 공개된 링크가 없습니다</p>
         <p>
-          <strong className="cursor-pointer">소식받기</strong> 버튼을 눌러다오
+          <strong className="cursor-pointer">소식받기</strong> 버튼을 눌러주세요
         </p>
-        <p>새로운 링크가 생기면 알려줌.,..</p>
+        <p>새로운 링크가 생기면 알려드리겠습니다</p>
       </div>
     </>
   );
