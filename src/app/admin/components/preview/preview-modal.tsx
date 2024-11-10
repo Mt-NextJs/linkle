@@ -7,21 +7,6 @@ import PreviewText from "@app/admin/components/preview/components/preview-text";
 import PreviewLink from "@app/admin/components/preview/components/preview-link";
 import dynamic from "next/dynamic";
 import Preview from "@app/admin/components/preview/components/preview";
-const PreviewImage = dynamic(
-  () => import("@app/admin/components/preview/components/preview-image"),
-);
-const PreviewVideo = dynamic(
-  () => import("@app/admin/components/preview/components/preview-video"),
-);
-const PreviewDivider = dynamic(
-  () => import("@app/admin/components/preview/components/preview-divider"),
-);
-const PreviewCalendar = dynamic(
-  () => import("@app/admin/components/preview/components/preview-calendar"),
-);
-const PreviewEvent = dynamic(
-  () => import("@app/admin/components/preview/components/preview-event"),
-);
 
 interface Props {
   isOpen: boolean;

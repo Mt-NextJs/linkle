@@ -16,6 +16,7 @@ interface ScheduleType {
 }
 
 interface NewData {
+  id: number;
   type: number;
   sequence: number;
   url?: string;
@@ -43,6 +44,16 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
+    const client = await clientPromise;
+    const db = client.db("linkle");
+    const collection = db.collection<UserDocument>("userdata");
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string,
+    ) as JwtPayload;
+    const userId = decoded.userId;
+    const userDocument = await collection.findOne({ userId });
+    const newId = userDocument?.data.length ?? 0;
 
     const body = await request.json();
     const {
@@ -59,16 +70,8 @@ export async function POST(request: NextRequest) {
       schedule,
     } = body;
 
-    const client = await clientPromise;
-    const db = client.db("linkle");
-    const collection = db.collection<UserDocument>("userdata");
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
-    ) as JwtPayload;
-    const userId = decoded.userId;
-
     const newData: NewData = {
+      id: newId,
       type,
       sequence,
       url,
