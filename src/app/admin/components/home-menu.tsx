@@ -10,13 +10,14 @@ const HomeMenu = () => {
   const router = useRouter();
   async function handleLogout() {
     try {
-      // 인증 관련 데이터 제거
-      sessionStorage.removeItem("token");
-      document.cookie =
-        "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      const response = await fetch("api/logout", {
+        method: "GET",
+        credentials: "include",
+      });
 
-      router.push(ClientRoute.MAIN);
-      router.refresh();
+      if (response.ok) {
+        alert("로그아웃 성공");
+      }
     } catch (error) {
       console.error("로그아웃 중 오류 발생:", error);
     }
