@@ -12,29 +12,6 @@ interface UserDocument {
   data: Array<{ id: string }>;
 }
 
-interface ScheduleType {
-  id: number;
-  title: string;
-  url: string;
-  dateStart: string;
-  dateEnd: string;
-}
-
-interface NewData {
-  id: number;
-  type: number;
-  sequence: number;
-  url?: string;
-  style?: number;
-  title?: string;
-  imgUrl?: string;
-  subText01?: string;
-  subText02?: string;
-  dateStart?: string;
-  dateEnd?: string;
-  schedule?: ScheduleType[];
-}
-
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("token")?.value;
@@ -44,21 +21,8 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
-    const body = await request.json();
-    const {
-      id,
-      type,
-      sequence,
-      url,
-      style,
-      title,
-      imgUrl,
-      subText01,
-      subText02,
-      dateStart,
-      dateEnd,
-      schedule,
-    } = body;
+
+    const { id } = await request.json();
     const client = await clientPromise;
     const db = client.db("linkle");
     const collection: Collection<UserDocument> = db.collection("userdata");
@@ -69,33 +33,16 @@ export async function POST(request: NextRequest) {
     ) as JwtPayload;
     const userId = decoded.userId;
 
-    const newData: NewData = {
-      id,
-      type,
-      sequence,
-      url,
-      style,
-      title,
-      imgUrl,
-      subText01,
-      subText02,
-      dateStart,
-      dateEnd,
-      schedule,
-    };
-
     const result = await collection.updateOne(
-      { userId: userId, "data.id": id },
-      {
-        $set: {
-          "data.$": newData,
-        },
-      },
+      { userId: userId },
+      { $pull: { data: { id: id } } },
     );
-    return NextResponse.json(
-      { message: "Data successfully updated", result },
-      { status: 200 },
-    );
+
+    if (result.modifiedCount > 0) {
+      return NextResponse.json({ message: "Data deleted successfully" });
+    } else {
+      return NextResponse.json({ message: "Data not found" }, { status: 404 });
+    }
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
