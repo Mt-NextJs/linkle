@@ -100,7 +100,6 @@ function Admin() {
     if (!response) return;
     if (response.ok) {
       const { data } = await response.json();
-      console.log(data[0]);
       setBlocks(data);
     } else {
       sessionStorage.removeItem("token");
@@ -145,7 +144,7 @@ function Admin() {
   };
 
   return (
-    <div className={"fixed h-screen px-14"}>
+    <div className={"fixed max-h-screen w-full px-14"}>
       <ProfileBox />
       <br />
       <div className="flex w-full rounded border">
@@ -188,7 +187,7 @@ function Admin() {
       </div>
 
       <br />
-      <div className={"h-[44rem] overflow-scroll"}>
+      <div className={"max-h-[44rem] overflow-scroll"}>
         {blocks === undefined || blocks.length == 0 ? (
           <EmptyBlock />
         ) : (

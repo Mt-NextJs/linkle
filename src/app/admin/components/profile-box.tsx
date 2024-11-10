@@ -16,7 +16,7 @@ const ProfileBox = () => {
     <>
       <div
         className={twMerge(
-          "relative mt-8 flex h-[200px] flex-col items-center justify-center border text-center",
+          "relative mt-8 flex h-[200px] w-full flex-col items-center justify-center border text-center",
           theme === "light" ? "bg-slate-100" : "bg-gray-800",
         )}
       >
