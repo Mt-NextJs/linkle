@@ -33,30 +33,6 @@ export interface Block {
 
 function Admin() {
   useEffect(() => {
-    const setVisitor = async () => {
-      const adminApis = await adminApiInstance;
-      if (!adminApis) {
-        alert("로그인이 필요합니다");
-        if (typeof window !== "undefined") {
-          window.location.href = "/login";
-          return;
-        }
-      }
-      const response = await adminApis.getVisitor();
-      if (!response) return;
-      if (!response.ok) {
-        sessionStorage.removeItem("token");
-        // alert("방문자 조회 실패");
-      } else {
-        const infor = await response.json();
-        setShowToday(infor.data.today);
-        setShowRealTime(infor.data.realTime);
-        setShowTotal(infor.data.total);
-      }
-    };
-    // setVisitor()
-    //   .then()
-    //   .catch((e) => console.log(e));
     getBlocks().then();
   }, []);
   useEffect(() => {
@@ -187,31 +163,34 @@ function Admin() {
         {blocks === undefined || blocks.length == 0 ? (
           <EmptyBlock />
         ) : (
-          blocks.map((block, index) => (
-            <BasicBlock
-              key={block.id}
-              id={block.id}
-              type={block.type}
-              title={block.title || "제목 없음"}
-              sequence={block.sequence}
-              style={block.style}
-              subText01={block.subText01}
-              subText02={block.subText02}
-              url={block.url}
-              imgUrl={block.imgUrl}
-              dateStart={block.dateStart}
-              dateEnd={block.dateEnd}
-              openYn={block.openYn}
-              keepYn={block.keepYn}
-              dateCreate={block.dateCreate}
-              dateUpdate={block.dateUpdate}
-              index={index}
-              dragStart={dragStart}
-              dragEnter={dragEnter}
-              drop={drop}
-              isAdmin={isAdmin}
-            />
-          ))
+          blocks.map((block, index) => {
+            console.log(block);
+            return (
+              <BasicBlock
+                key={block.id}
+                id={block.id}
+                type={block.type}
+                title={block.title || "제목 없음"}
+                sequence={block.sequence}
+                style={block.style}
+                subText01={block.subText01}
+                subText02={block.subText02}
+                url={block.url}
+                imgUrl={block.imgUrl}
+                dateStart={block.dateStart}
+                dateEnd={block.dateEnd}
+                openYn={block.openYn}
+                keepYn={block.keepYn}
+                dateCreate={block.dateCreate}
+                dateUpdate={block.dateUpdate}
+                index={index}
+                dragStart={dragStart}
+                dragEnter={dragEnter}
+                drop={drop}
+                isAdmin={isAdmin}
+              />
+            );
+          })
         )}
       </div>
       <PreviewModal
