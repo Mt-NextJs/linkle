@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BsCalendarXFill } from "react-icons/bs";
 
-interface Schedule {
+export interface Schedule {
   id: number;
   title: string;
   url: string;
@@ -61,15 +61,17 @@ function EmptyState({ message }: { message: React.ReactNode }) {
   );
 }
 
-function ScheduleItem({
+export function ScheduleItem({
   schedule,
   onDelete,
 }: {
   schedule: Schedule;
-  onDelete: (id: number) => void;
+  onDelete?: (id: number) => void;
 }) {
   const router = useRouter();
   const status = getScheduleStatus(schedule);
+  const pathname = usePathname();
+  const isCalendarPage = pathname.includes("/admin/calendar");
 
   const handleEdit = () => {
     router.push(`/admin/calendar/manage?mode=edit&id=${schedule.id}`);
@@ -96,28 +98,30 @@ function ScheduleItem({
             }}
           />
         </div>
-        <div className="ml-4 flex-grow">
+        <div className="ml-4 flex flex-grow flex-col">
           <div className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
           </div>
           <div className="group mt-2 font-semibold">{schedule.title}</div>
         </div>
-        <div className="flex flex-col space-y-2">
-          <button
-            className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
-            onClick={handleEdit}
-          >
-            수정
-          </button>
-          <button
-            className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
-            onClick={() => onDelete(schedule.id)}
-          >
-            삭제
-          </button>
-        </div>
+        {isCalendarPage && (
+          <div className="flex flex-col space-y-2">
+            <button
+              className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
+              onClick={handleEdit}
+            >
+              수정
+            </button>
+            <button
+              className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
+              onClick={() => onDelete && onDelete(schedule.id)}
+            >
+              삭제
+            </button>
+          </div>
+        )}
       </div>
-      <hr className="my-4 border-t border-gray-200" />
+      {isCalendarPage && <hr className="my-4 border-t border-gray-200" />}
     </div>
   );
 }
@@ -140,19 +144,9 @@ export default function ScheduleList() {
   const fetchSchedules = async () => {
     setError(null);
     try {
-      const token = sessionStorage.getItem("token");
-      if (!token) {
-        throw new Error("로그인이 필요합니다.");
-      }
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await fetch(`/api/link/list`, {
+        credentials: "include",
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -192,11 +186,6 @@ export default function ScheduleList() {
         throw new Error("캘린더 블록을 찾을 수 없습니다.");
       }
 
-      const token = sessionStorage.getItem("token");
-      if (!token) {
-        throw new Error("로그인이 필요합니다.");
-      }
-
       const updatedSchedules = schedules.filter(
         (schedule) => schedule.id !== scheduleId,
       );
@@ -204,22 +193,18 @@ export default function ScheduleList() {
       const requestBody = {
         id: calendarBlock.id,
         type: 7,
-        sequence: calendarBlock.sequence,
         style: calendarBlock.style,
         schedule: updatedSchedules,
       };
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/update`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestBody),
+      const response = await fetch(`/api/link/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify(requestBody),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();

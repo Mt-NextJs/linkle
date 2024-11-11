@@ -39,16 +39,10 @@ export default function BasicBlock({
   sequence,
   style,
   title,
-  subText01,
-  subText02,
   url,
   imgUrl,
   dateStart,
   dateEnd,
-  openYn,
-  keepYn,
-  dateCreate,
-  dateUpdate,
   index,
   dragStart,
   dragEnter,
@@ -127,25 +121,18 @@ export default function BasicBlock({
   }
 
   async function deleteHandler() {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      alert("인증 토큰이 없습니다.");
-      return;
-    }
+    console.log(id);
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/delete`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: id,
-          }),
+      const response = await fetch(`/api/link/delete`, {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          id: id,
+        }),
+      });
       if (!response.ok) {
         alert("삭제 실패");
       } else {
@@ -221,7 +208,10 @@ export default function BasicBlock({
             {isAdmin ? (
               <div className="ml-auto flex items-center space-x-2">
                 <ToggleButton />
-                <button onClick={toggleMenu} className="hover:bg-slate-200">
+                <button
+                  onClick={toggleMenu}
+                  className="relative hover:bg-slate-200"
+                >
                   <Image
                     src="/assets/icons/icon_menu_dot.png"
                     alt="menu_dot"
@@ -230,7 +220,7 @@ export default function BasicBlock({
                     className="ml-1 mt-[6px]"
                   />
                   {isOpen && (
-                    <div className="absolute mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg">
+                    <div className="absolute mt-2 w-48 -translate-x-[90%] transform rounded-lg border border-gray-200 bg-white shadow-lg">
                       <ul className="py-1">
                         <li className="border-b px-4 py-2 font-bold hover:bg-slate-200">
                           상단에 고정

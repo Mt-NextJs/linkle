@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { twMerge } from "tailwind-merge";
+import { usePathname } from "next/navigation";
 
 export default function EventPreview({
   title,
@@ -24,6 +25,8 @@ export default function EventPreview({
   const [isTitleOverflowing, setIsTitleOverflowing] = useState<boolean>(false); // 타이틀 텍스트 넘침 여부
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLParagraphElement>(null);
+  const pathname = usePathname();
+  const isEvent = pathname.includes("event");
 
   const calculateTimeLeft = () => {
     if (endDate && endTime) {
@@ -88,7 +91,13 @@ export default function EventPreview({
     }
   };
   return (
-    <div className="flex w-full items-center justify-center rounded-sm bg-[#F6F6F6] py-[35px]">
+    <div
+      className={twMerge(
+        "flex w-full items-center justify-center bg-[#F6F6F6]",
+        isEvent && "py-[35px]",
+        isEvent ? "rounded-sm" : "rounded-xl",
+      )}
+    >
       <div
         className={twMerge(
           "flex w-[500px] flex-col items-center justify-between gap-5 overflow-hidden rounded-2xl bg-white drop-shadow-md transition-all duration-500",

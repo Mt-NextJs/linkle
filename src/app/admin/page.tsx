@@ -1,20 +1,19 @@
 "use client";
 
 import BlockMenu from "@app/admin/(block)/block-menu";
-import HomeMenu from "@app/admin/components/home-menu";
 import BasicBlock from "@app/intro/components/basicblock";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
-import { useTheme } from "@components/providers/theme-provider";
-import { ClientRoute } from "@config/route";
+
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { postBlock } from "../../lib/post-block";
 import { adminApiInstance } from "../../utils/apis";
-import { twMerge } from "tailwind-merge";
+import ProfileBox from "@app/admin/components/profile-box";
+import PreviewModal from "@app/admin/components/preview/preview-modal";
+import CircleButton from "@app/admin/components/buttons/circle-button";
 
-interface Block {
+export interface Block {
   id: number;
   type: number;
   sequence: number;
@@ -34,30 +33,6 @@ interface Block {
 
 function Admin() {
   useEffect(() => {
-    const setVisitor = async () => {
-      const adminApis = await adminApiInstance;
-      if (!adminApis) {
-        alert("로그인이 필요합니다");
-        if (typeof window !== "undefined") {
-          window.location.href = "/login";
-          return;
-        }
-      }
-      const response = await adminApis.getVisitor();
-      if (!response) return;
-      if (!response.ok) {
-        sessionStorage.removeItem("token");
-        // alert("방문자 조회 실패");
-      } else {
-        const infor = await response.json();
-        setShowToday(infor.data.today);
-        setShowRealTime(infor.data.realTime);
-        setShowTotal(infor.data.total);
-      }
-    };
-    setVisitor()
-      .then()
-      .catch((e) => console.log(e));
     getBlocks().then();
   }, []);
   useEffect(() => {
@@ -81,6 +56,7 @@ function Admin() {
   const [showRealTime, setShowRealTime] = useState(0);
   const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
   const [isBlockMenuOn, setIsBlockMenuOn] = useState<boolean>(false);
+  const [isPreviewOn, setIsPreviewOn] = useState<boolean>(false);
 
   const [blocks, setBlocks] = useState<Block[]>([]);
 
@@ -135,28 +111,13 @@ function Admin() {
       }
     });
   };
-
-  const { theme } = useTheme();
+  const handlePreviewOpen = () => {
+    setIsPreviewOn(true);
+  };
 
   return (
-    <div>
-      <div
-        className={twMerge(
-          "relative mt-8 flex h-[200px] flex-col items-center justify-center border text-center",
-          theme === "light" ? "bg-slate-100" : "bg-gray-800",
-        )}
-      >
-        {!isAdmin && <HomeMenu />}
-        <Link href={ClientRoute.PROFILE.DETAIL}>
-          <Image
-            src="/assets/icons/icon_profile.png"
-            alt="profile"
-            width={80}
-            height={20}
-          />
-          <span className="mt-2 font-bold underline">momomoc</span>
-        </Link>
-      </div>
+    <div className={"max-h-screen w-full px-14"}>
+      <ProfileBox />
       <br />
       <div className="flex w-full rounded border">
         <div className="grid w-8/12 rounded-l border">
@@ -198,46 +159,50 @@ function Admin() {
       </div>
 
       <br />
-      {blocks.length == 0 ? (
-        <EmptyBlock />
-      ) : (
-        blocks.map((block, index) => (
-          <BasicBlock
-            key={block.id}
-            id={block.id}
-            type={block.type}
-            title={block.title || "제목 없음"}
-            sequence={block.sequence}
-            style={block.style}
-            subText01={block.subText01}
-            subText02={block.subText02}
-            url={block.url}
-            imgUrl={block.imgUrl}
-            dateStart={block.dateStart}
-            dateEnd={block.dateEnd}
-            openYn={block.openYn}
-            keepYn={block.keepYn}
-            dateCreate={block.dateCreate}
-            dateUpdate={block.dateUpdate}
-            index={index}
-            dragStart={dragStart}
-            dragEnter={dragEnter}
-            drop={drop}
-            isAdmin={isAdmin}
-          />
-        ))
-      )}
+      <div className={"max-h-[40rem] overflow-scroll"}>
+        {blocks === undefined || blocks.length == 0 ? (
+          <EmptyBlock />
+        ) : (
+          blocks.map((block, index) => {
+            console.log(block);
+            return (
+              <BasicBlock
+                key={block.id}
+                id={block.id}
+                type={block.type}
+                title={block.title || "제목 없음"}
+                sequence={block.sequence}
+                style={block.style}
+                subText01={block.subText01}
+                subText02={block.subText02}
+                url={block.url}
+                imgUrl={block.imgUrl}
+                dateStart={block.dateStart}
+                dateEnd={block.dateEnd}
+                openYn={block.openYn}
+                keepYn={block.keepYn}
+                dateCreate={block.dateCreate}
+                dateUpdate={block.dateUpdate}
+                index={index}
+                dragStart={dragStart}
+                dragEnter={dragEnter}
+                drop={drop}
+                isAdmin={isAdmin}
+              />
+            );
+          })
+        )}
+      </div>
+      <PreviewModal
+        isOpen={isPreviewOn}
+        setIsOpen={setIsPreviewOn}
+        data={blocks}
+      />
       {isAdmin && (
         <>
-          <div className="mb-5 mt-9 flex w-full items-center justify-between">
-            <div className="flex flex-grow justify-center">
-              <button
-                onClick={updateBlockOrder}
-                className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800"
-              >
-                미리보기
-              </button>
-            </div>
+          <div className="mt-4 flex w-full items-center justify-between">
+            <CircleButton text={"미리보기"} onClick={handlePreviewOpen} />
+            <CircleButton text="순서 업데이트" onClick={updateBlockOrder} />
             <button
               onClick={() => setIsBlockMenuOn(true)}
               className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md hover:bg-orange-600"
@@ -248,14 +213,14 @@ function Admin() {
           <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />
         </>
       )}
-      {isScrollTopVisible && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-300"
-        >
-          ▲
-        </button>
-      )}
+      {/*{isScrollTopVisible && (*/}
+      {/*  <button*/}
+      {/*    onClick={scrollToTop}*/}
+      {/*    className="fixed bottom-5 right-5 rounded bg-orange-500 p-2 text-white shadow-md hover:bg-orange-300"*/}
+      {/*  >*/}
+      {/*    ▲*/}
+      {/*  </button>*/}
+      {/*)}*/}
     </div>
   );
 }

@@ -50,17 +50,10 @@ function ScheduleContent() {
         }
 
         try {
-          const token = sessionStorage.getItem("token");
-          if (!token) throw new Error("로그인이 필요합니다.");
-
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
+          const response = await fetch("/api/link/list", {
+            credentials: "include",
+            method: "POST",
+          });
 
           if (!response.ok)
             throw new Error("데이터를 불러오는데 실패했습니다.");

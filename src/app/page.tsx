@@ -1,16 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Admin from "@app/admin/page";
-import { withLogin } from "../utils/with-login";
+import Preview from "@app/admin/components/preview/components/preview";
 
 function Page() {
-  useEffect(() => {
-    const token = sessionStorage.getItem("token");
-  }, []);
-
-  return <Admin />;
+  return (
+    <div className={"px-14"}>
+      <Preview />
+    </div>
+  );
 }
 
 export default Page;

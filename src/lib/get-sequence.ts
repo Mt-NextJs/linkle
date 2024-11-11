@@ -1,4 +1,4 @@
-export async function getSequence(token: string): Promise<number | undefined> {
+export async function getSequence(): Promise<number | undefined> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
@@ -6,8 +6,8 @@ export async function getSequence(token: string): Promise<number | undefined> {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
       },
     );
 

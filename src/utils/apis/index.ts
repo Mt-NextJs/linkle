@@ -1,11 +1,4 @@
-import { getSequence } from "../../lib/get-sequence";
-
 class Apis {
-  readonly baseUrl: string;
-
-  constructor() {
-    this.baseUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
-  }
   async handleError(response: Response) {
     const { status } = response;
     const { message } = await response.json();
@@ -15,22 +8,11 @@ class Apis {
 }
 
 class adminApis extends Apis {
-  token: string | undefined = undefined;
-  sequence: number | undefined = undefined;
-
-  constructor(token: string) {
-    super();
-    this.token = token;
-  }
-
   async getVisitor() {
-    const { baseUrl, token } = this;
     try {
-      return await fetch(`${baseUrl}/api/user/visitor`, {
+      return await fetch(`/api/user/visitor`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
       });
     } catch (error) {
       console.log(error);
@@ -38,32 +20,17 @@ class adminApis extends Apis {
   }
 
   async addBlock(params: { [index: string]: string | number | object | null }) {
-    const { baseUrl, token } = this;
-    if (!token) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-    if (!this.sequence) {
-      const sequence = await getSequence(token);
-      if (!sequence) {
-        alert("시퀀스 조회 실패");
-        return;
-      }
-      this.sequence = sequence;
-    } else params["sequence"] = this.sequence + 1;
-
     try {
-      const response = await fetch(`${baseUrl}/api/link/add`, {
+      const response = await fetch(`/api/link/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
         body: JSON.stringify(params),
       });
 
       if (response.ok) {
-        this.sequence = this.sequence + 1;
         return response;
       } else {
         return response;
@@ -76,13 +43,10 @@ class adminApis extends Apis {
   }
 
   async getBlocks() {
-    const { baseUrl, token } = this;
     try {
-      return await fetch(`${baseUrl}/api/link/list`, {
+      return await fetch(`/api/link/list`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
       });
     } catch (error) {
       console.log(error);
@@ -93,7 +57,7 @@ class adminApis extends Apis {
 class AuthApis extends Apis {
   async login(userId: string, password: string) {
     try {
-      return await fetch(`${this.baseUrl}/api/login`, {
+      return await fetch(`/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -111,14 +75,7 @@ class AuthApis extends Apis {
 
 const getInstance = async (type?: string) => {
   if (!type) return new Apis();
-  if (type === "block") {
-    if (typeof window === "undefined") return;
-    const token = window.sessionStorage.getItem("token");
-    if (!token) {
-      return;
-    }
-    return new adminApis(token);
-  }
+  if (type === "block") return new adminApis();
   if (type === "auth") return new AuthApis();
 };
 

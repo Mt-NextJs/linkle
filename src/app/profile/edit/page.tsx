@@ -78,19 +78,13 @@ export default function ProfileEdit() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const token = getCookie("token"); // 쿠키에서 토큰 가져오기
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        const response = await fetch(`/api/user/info`, {
+          credentials: "include",
+        });
         const data = await response.json();
         if (response.ok) {
-          setUserData(data.data);
-          setOriginalData(data.data);
+          setUserData(data.user);
+          setOriginalData(data.user);
         } else {
           throw new Error("사용자 정보를 불러오는데 실패했습니다");
         }
@@ -175,15 +169,11 @@ export default function ProfileEdit() {
     }
 
     try {
-      const token = sessionStorage.getItem("token");
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/user/update`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          credentials: "include",
           body: JSON.stringify({
             ...userData,
             password,
