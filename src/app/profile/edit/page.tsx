@@ -78,7 +78,7 @@ export default function ProfileEdit() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const response = await fetch(`$/api/user/info`, {
+        const response = await fetch(`/api/user/info`, {
           credentials: "include",
         });
         const data = await response.json();
