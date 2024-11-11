@@ -7,7 +7,6 @@ import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import AnimatedText from "@components/common/ui/animated-text";
-import { getCookie } from "lib/get-cookie";
 
 type FormErrors = {
   name?: string;
