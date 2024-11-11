@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import Layout from "@app/admin/(block)/components/layout";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 import * as fabric from "fabric";
 
 const Page = () => {
@@ -15,7 +15,7 @@ const Page = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const layoutRef = useRef<HTMLDivElement>(null);
 
-  const prevPath = useSearchParams().get("prevPath") || "/admin";
+  // const prevPath = useSearchParams().get("prevPath") || "/admin";
 
   useLayoutEffect(() => {
     if (!layoutRef.current) return;
@@ -52,11 +52,7 @@ const Page = () => {
     e.preventDefault();
   };
   return (
-    <Layout
-      title="그림판 블록"
-      onSubmit={handleAddButtonClick}
-      prevPath={prevPath}
-    >
+    <Layout title="그림판 블록" onSubmit={handleAddButtonClick} prevPath="">
       <div className={"min-h-[24rem] w-full"} ref={layoutRef}>
         <canvas id="canvas" ref={canvasRef} className={"bg-white"} />
       </div>
