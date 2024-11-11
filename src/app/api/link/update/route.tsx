@@ -13,7 +13,7 @@ interface UserDocument {
 }
 
 interface ScheduleType {
-  id: number;
+  id?: number;
   title: string;
   url: string;
   dateStart: string;
