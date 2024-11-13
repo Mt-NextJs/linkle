@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
-import clientPromise from "../../../../lib/mongodb";
 import { Collection } from "mongodb";
+
+import clientPromise from "../../../../lib/mongodb";
 
 interface JwtPayload {
   userId: string;

@@ -1,6 +1,7 @@
 import React from "react";
-import { Block } from "@app/admin/page";
 import { usePathname } from "next/navigation";
+
+import { Block } from "@app/admin/page";
 import StylePreview from "@app/admin/(block)/link/components/style-preview";
 
 interface Props {

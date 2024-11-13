@@ -1,7 +1,8 @@
 "use client";
 
-import { useTheme } from "@components/providers/theme-provider";
 import { CiLight, CiDark } from "react-icons/ci";
+
+import { useTheme } from "@components/providers/theme-provider";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();

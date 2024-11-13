@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+
 import CalendarView from "./calendar-view";
 import ListView from "./list-view";
 import { Schedule } from "./types";

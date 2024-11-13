@@ -6,9 +6,10 @@ import React, {
   useRef,
   useState,
 } from "react";
+import * as fabric from "fabric";
+
 import Layout from "@app/admin/(block)/components/layout";
 // import { useSearchParams } from "next/navigation";
-import * as fabric from "fabric";
 
 const Page = () => {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>();

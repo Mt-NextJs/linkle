@@ -1,11 +1,12 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import HomeMenu from "@app/admin/components/home-menu";
 import Link from "next/link";
-import { ClientRoute } from "@config/route";
 import Image from "next/image";
-import { useTheme } from "@components/providers/theme-provider";
 import { usePathname } from "next/navigation";
+
+import HomeMenu from "@app/admin/components/home-menu";
+import { ClientRoute } from "@config/route";
+import { useTheme } from "@components/providers/theme-provider";
 
 const ProfileBox = () => {
   const { theme } = useTheme();
