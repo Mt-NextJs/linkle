@@ -50,11 +50,7 @@ const ProfileBox = () => {
           </span>
         </Link>
 
-        {!isAdmin && (
-          <nav aria-label="프로필 관련 메뉴">
-            <HomeMenu />
-          </nav>
-        )}
+        {!isAdmin && <HomeMenu />}
       </div>
     </>
   );
