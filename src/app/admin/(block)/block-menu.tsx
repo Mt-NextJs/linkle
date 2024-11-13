@@ -1,5 +1,5 @@
 import React, { SetStateAction } from "react";
-import { blockTypes } from "@config/block_types";
+import { blockTypes } from "@/types/block_types";
 import Link from "next/link";
 import Image from "next/image";
 import Portal from "@app/components/portal";

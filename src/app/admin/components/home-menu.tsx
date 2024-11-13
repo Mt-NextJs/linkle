@@ -11,13 +11,14 @@ const HomeMenu = () => {
 
   async function handleLogout() {
     try {
-      const response = await fetch("api/logout", {
-        method: "GET",
+      // 인증 관련 데이터 제거
+      const response = await fetch("/api/logout", {
         credentials: "include",
+        method: "POST",
       });
-
       if (response.ok) {
-        alert("로그아웃 성공");
+        alert("로그아웃 되었습니다.");
+        router.push(`/intro`);
       }
     } catch (error) {
       console.error("로그아웃 중 오류 발생:", error);
@@ -78,6 +79,9 @@ const HomeMenu = () => {
                 >
                   Logout
                 </button>
+              </li>
+              <li className="p-2">
+                <Link href={ClientRoute.LOGIN}>Login</Link>
               </li>
             </ul>
           </div>
