@@ -1,7 +1,5 @@
-"use client";
-import React, { FormEvent } from "react";
+import React, { FormEvent, Suspense } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import QuestionIcon from "@app/admin/(block)/components/question-icon";
 import Link from "next/link";
 
@@ -16,8 +14,6 @@ const Layout = ({
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   children: React.ReactNode;
 }>) => {
-  const router = useRouter();
-
   return (
     <div className="flex w-full flex-col gap-6 px-20 py-4">
       <div>

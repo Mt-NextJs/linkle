@@ -52,17 +52,10 @@ export default function StyleSetting() {
 
   const fetchSchedules = async () => {
     try {
-      const token = sessionStorage.getItem("token");
-      if (!token) {
-        throw new Error("로그인이 필요합니다.");
-      }
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          credentials: "include",
         },
       );
 

@@ -11,12 +11,14 @@ const HomeMenu = () => {
   async function handleLogout() {
     try {
       // 인증 관련 데이터 제거
-      sessionStorage.removeItem("token");
-      document.cookie =
-        "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-      router.push(ClientRoute.MAIN);
-      router.refresh();
+      const response = await fetch("/api/logout", {
+        credentials: "include",
+        method: "POST",
+      });
+      if (response.ok) {
+        alert("로그아웃 되었습니다.");
+        router.push(`/intro`);
+      }
     } catch (error) {
       console.error("로그아웃 중 오류 발생:", error);
     }
@@ -56,6 +58,9 @@ const HomeMenu = () => {
               <Contour />
               <li className="p-2">
                 <button onClick={handleLogout}>Logout</button>
+              </li>
+              <li className="p-2">
+                <Link href={ClientRoute.LOGIN}>Login</Link>
               </li>
             </ul>
           </div>
