@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { getSequence } from "lib/get-sequence";
-import ButtonBox from "../../components/buttons/button-box";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import AddButton from "../../components/buttons/add-button";
+import ButtonBox from "../../components/buttons/button-box";
 import FormInput from "../../components/form-input";
 import DateTimeInput from "./date-time-input";
 
@@ -74,19 +72,10 @@ export default function ScheduleForm({
       if (mode === "edit") return;
 
       try {
-        const token = sessionStorage.getItem("token");
-        if (!token) {
-          throw new Error("로그인이 필요합니다.");
-        }
-
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        const response = await fetch("/api/link/list", {
+          credentials: "include",
+          method: "GET",
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -121,17 +110,10 @@ export default function ScheduleForm({
     };
 
     try {
-      const token = sessionStorage.getItem("token");
-      if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
-
-      const listResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/list`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const listResponse = await fetch("/api/link/list", {
+        credentials: "include",
+        method: "GET",
+      });
 
       if (!listResponse.ok) {
         throw new Error("기존 일정을 불러오는데 실패했습니다.");
@@ -161,33 +143,23 @@ export default function ScheduleForm({
         requestBody = {
           id: blockId,
           type: 7,
-          sequence: existingCalendarBlock?.sequence || 1,
           style: existingCalendarBlock?.style || 1,
           schedule: updatedSchedules,
         };
       } else {
         // 새로운 캘린더 블록 생성 및 일정 추가
-        const nextSequence = await getSequence();
-        if (!nextSequence) return;
         requestBody = {
           type: 7,
-          sequence: nextSequence + 1,
           style: 1,
           schedule: [newSchedule],
         };
       }
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/${blockId ? "update" : "add"}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestBody),
-        },
-      );
+      const response = await fetch(`/api/link/${blockId ? "update" : "add"}`, {
+        credentials: "include",
+        method: "POST",
+        body: JSON.stringify(requestBody),
+      });
 
       if (!response.ok) {
         throw new Error(

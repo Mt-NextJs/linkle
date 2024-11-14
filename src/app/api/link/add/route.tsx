@@ -18,7 +18,6 @@ interface ScheduleType {
 interface NewData {
   id: number;
   type: number;
-  sequence: number;
   url?: string;
   style?: number;
   title?: string;
@@ -58,7 +57,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const {
       type,
-      sequence,
       url,
       style,
       title,
@@ -73,7 +71,6 @@ export async function POST(request: NextRequest) {
     const newData: NewData = {
       id: newId,
       type,
-      sequence,
       url,
       style,
       title,
@@ -82,14 +79,11 @@ export async function POST(request: NextRequest) {
       subText02,
       dateStart,
       dateEnd,
-      schedule,
+      schedule: schedule?.map((item: ScheduleType, index: number) => ({
+        ...item,
+        id: index,
+      })),
     };
-
-    await collection.updateOne(
-      { userId },
-      { $setOnInsert: { data: [] } },
-      { upsert: true },
-    );
 
     const result = await collection.updateOne(
       { userId },

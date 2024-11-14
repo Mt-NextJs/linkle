@@ -8,8 +8,6 @@ class Apis {
 }
 
 class adminApis extends Apis {
-  sequence: number | undefined = undefined;
-
   async getVisitor() {
     try {
       return await fetch(`/api/user/visitor`, {
@@ -33,7 +31,6 @@ class adminApis extends Apis {
       });
 
       if (response.ok) {
-        this.sequence = 0;
         return response;
       } else {
         return response;

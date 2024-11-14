@@ -193,12 +193,11 @@ export default function ScheduleList() {
       const requestBody = {
         id: calendarBlock.id,
         type: 7,
-        sequence: calendarBlock.sequence,
         style: calendarBlock.style,
         schedule: updatedSchedules,
       };
 
-      const response = await fetch(`$/api/link/update`, {
+      const response = await fetch(`/api/link/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

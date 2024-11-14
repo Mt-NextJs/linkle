@@ -7,7 +7,6 @@ import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import AnimatedText from "@components/common/ui/animated-text";
-import { getCookie } from "lib/get-cookie";
 
 type FormErrors = {
   name?: string;
@@ -78,7 +77,7 @@ export default function ProfileEdit() {
   useEffect(() => {
     async function fetchUserInfo() {
       try {
-        const response = await fetch(`$/api/user/info`, {
+        const response = await fetch(`/api/user/info`, {
           credentials: "include",
         });
         const data = await response.json();
