@@ -35,55 +35,78 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
         type="button"
         onClick={handleClose}
         className="flex h-screen w-screen cursor-default items-center justify-center before:relative before:h-screen before:w-screen before:bg-slate-333 before:opacity-25"
-      ></button>
-      <div className="absolute left-1/2 top-1/2 z-20 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl bg-white p-6">
-        <div className="flex w-full items-center justify-between">
-          <h1 className="text-2xl font-bold">블록 선택하기</h1>
-          <button type="button" onClick={handleClose}>
+        aria-label="모달 닫기"
+      />
+
+      <section
+        className="absolute left-1/2 top-1/2 z-20 flex w-[700px] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-xl bg-white p-6"
+        role="dialog"
+        aria-labelledby="block-select-title"
+        aria-hidden={!isOpen}
+        aria-modal="true"
+      >
+        <header
+          className="flex w-full items-center justify-between"
+          aria-label="블록 선택 모달 헤더"
+        >
+          <h1 id="block-select-title" className="text-2xl font-bold">
+            블록 선택하기
+          </h1>
+          <button type="button" onClick={handleClose} aria-label="모달 닫기">
             <Image
               src={"/assets/icons/icon_close.png"}
               width={24}
               height={24}
-              alt={"닫기 아이콘"}
+              alt="모달 닫기 버튼"
             />
           </button>
-        </div>
+        </header>
+
         <span className="text-stale-333 text-lg">블록 타입</span>
-        <ul className="flex flex-col">
-          {blockTypes.map((item, index) => {
-            return (
-              <li key={index}>
-                <Link
-                  href={{ pathname: item.path, query: { prevPath: pathname } }}
-                  as={item.path}
-                  className="flex items-center gap-4"
-                >
-                  <div
-                    className={`overflow-hidden rounded-lg ${colors[index]} p-3`}
+
+        <nav aria-label="블록 선택 메뉴">
+          <ul className="flex flex-col">
+            {blockTypes.map((item, index) => {
+              return (
+                <li key={index}>
+                  <Link
+                    href={{
+                      pathname: item.path,
+                      query: { prevPath: pathname },
+                    }}
+                    as={item.path}
+                    className="flex items-center gap-4"
+                    aria-label={`${item.title} 블록 선택`}
                   >
-                    <Image
-                      src={item.icon.src}
-                      alt={item.title}
-                      width={24}
-                      height={24}
-                      className={`bg-slate-eee opacity-50 drop-shadow-2xl grayscale`}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <h1 className="font-bold">{item.title}</h1>
-                    <span className="text-slate-666">{item.text}</span>
-                  </div>
-                </Link>
-                {index !== blockTypes.length - 1 && (
-                  <div className="my-6">
-                    <Contour />
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+                    <div
+                      className={`overflow-hidden rounded-lg ${colors[index]} p-3`}
+                      aria-hidden="true"
+                    >
+                      <Image
+                        src={item.icon.src}
+                        alt={item.title}
+                        width={24}
+                        height={24}
+                        className={`bg-slate-eee opacity-50 drop-shadow-2xl grayscale`}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <h2 className="font-bold">{item.title}</h2>
+                      <span className="text-slate-666">{item.text}</span>
+                    </div>
+                  </Link>
+
+                  {index !== blockTypes.length - 1 && (
+                    <div className="my-6">
+                      <Contour />
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </section>
     </Portal>
   );
 };
