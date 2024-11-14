@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     ) as JwtPayload;
     const userId = decoded.userId;
     const userDocument = await collection.findOne({ userId });
-    const newId = userDocument?.data.length ?? 0;
+    const newId = userDocument?.data?.length ?? 0;
 
     const body = await request.json();
     const {
@@ -102,6 +102,7 @@ export async function POST(request: NextRequest) {
       { status: 200 },
     );
   } catch (error: unknown) {
+    console.log(error);
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
