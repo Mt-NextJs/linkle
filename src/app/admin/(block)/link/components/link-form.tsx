@@ -138,8 +138,9 @@ export default function LinkForm() {
               required
             />
             {isLinkUrlErrorMsg && (
-              <div className="mt-1 h-5 text-xs text-red-500">
-                올바른 URL 형식을 입력해주세요
+              <div className="mt-1 h-5 text-xs text-warning">
+                URL 형식이 잘못되었습니다. http:// 또는 https://로 시작하는
+                유효한 URL을 입력해주세요.
               </div>
             )}
           </div>
@@ -167,12 +168,13 @@ export default function LinkForm() {
               required={selectedStyle !== "심플"}
             />
             {isImgUrlErrorMsg && (
-              <div className="mt-1 h-5 text-xs text-red-500">
-                {/* URL 형식이 잘못되었습니다. "http://" 또는 "https://"로 시작하는 유효한 URL을 입력해주세요. */}
+              <div className="mt-1 h-5 text-xs text-warning">
+                URL 형식이 잘못되었습니다. http:// 또는 https://로 시작하는
+                유효한 URL을 입력해주세요.
               </div>
             )}
             {isImgUrlConnectionErrorMsg && (
-              <div className="mt-1 h-5 text-xs text-red-500">
+              <div className="mt-1 h-5 text-xs text-warning">
                 이미지를 찾을 수 없습니다: URL을 확인해주세요.
               </div>
             )}
