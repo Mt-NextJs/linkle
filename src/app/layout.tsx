@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { ThemeProvider } from "@components/providers/theme-provider";
 import { ThemeToggle } from "@components/common/ui/theme-toggle";
 

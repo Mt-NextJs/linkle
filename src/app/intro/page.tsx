@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { ClientRoute } from "@config/route";
 
 export default function Intro() {

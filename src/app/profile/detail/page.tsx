@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User } from "@/types/user";
-import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+
+import { User } from "@/types/user";
+import FormInput from "@app/admin/(block)/components/form-input";
 
 export default function ProfileDetail() {
   const [userData, setUserData] = useState<User | null>(null);

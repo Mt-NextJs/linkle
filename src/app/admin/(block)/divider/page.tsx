@@ -1,14 +1,16 @@
 "use client";
 
 import React, { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
+import AddButton from "@app/admin/(block)/components/buttons/add-button";
+import { adminApiInstance } from "utils/apis";
+
 import Layout from "../components/layout";
 import DividerPreview from "./components/divider-preview";
 import DividerSelector from "./components/divider-selector";
 import { DividerType } from "./types";
-import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
-import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import { adminApiInstance } from "utils/apis";
-import { useRouter, useSearchParams } from "next/navigation";
 
 function DividerPage() {
   const router = useRouter();

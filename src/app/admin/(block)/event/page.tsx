@@ -1,5 +1,6 @@
-import EventForm from "./components/event-form";
 import React, { Suspense } from "react";
+
+import EventForm from "./components/event-form";
 
 function Page() {
   return <EventForm />;
