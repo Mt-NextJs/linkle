@@ -105,8 +105,8 @@ export default function LinkForm() {
       <div className="mt-6">
         {/* 스타일 */}
         <div className="w-full">
-          <h3 className="title mb-[10px]">
-            스타일 <span className="text-red-500">*</span>
+          <h3 className="title mb-[10px] after:text-warning after:content-['*']">
+            스타일
           </h3>
           <div className="flex gap-5">
             {styleItemNames.map((name, idx) => (
