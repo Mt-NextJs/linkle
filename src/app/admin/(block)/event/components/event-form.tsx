@@ -68,62 +68,83 @@ export default function EventForm() {
 
   return (
     <Layout title="이벤트 블록" onSubmit={handleSubmit} prevPath={prevPath}>
-      <EventPreview
-        title={title}
-        description={description}
-        startDate={startDate}
-        endDate={endDate}
-        startTime={startTime}
-        endTime={endTime}
-      />
-
-      <hr className="border-gray-105 my-8 border-t-2" />
-
-      <div className="flex flex-col gap-8">
-        <FormInput
-          label="이벤트 명"
-          id="evnet-title"
-          placeholder="이벤트를 잘 나타낼 수 있는 타이틀을 입력해주세요"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          maxLength={30}
-        />
-        <FormInput
-          label="이벤트 설명"
-          id="evnet-description"
-          placeholder="어떤 이벤트인지 설명을 입력해주세요"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          maxLength={100}
-        />
-        <FormInput
-          label="가이드 문구"
-          id="evnet-guide"
-          placeholder="이벤트의 응모 조건이나, 가이드를 작성해주세요"
-          value={eventGuide}
-          onChange={(e) => setEventGuide(e.target.value)}
-          maxLength={100}
-        />
-
-        <EventDatePicker
+      <div role="form" aria-label="이벤트 등록 폼">
+        <EventPreview
+          title={title}
+          description={description}
           startDate={startDate}
-          setStartDate={setStartDate}
           endDate={endDate}
-          setEndDate={setEndDate}
           startTime={startTime}
-          setStartTime={setStartTime}
           endTime={endTime}
-          setEndTime={setEndTime}
         />
 
-        <ButtonBox>
-          <AddButton
-            type={"submit"}
-            text="추가 완료"
-            disabled={summitButtonDisabled}
+        <hr aria-hidden="true" className="border-gray-105 my-8 border-t-2" />
+
+        <div className="flex flex-col gap-8">
+          <FormInput
+            label="이벤트 명"
+            id="event-title"
+            name="event-title"
+            placeholder="이벤트를 잘 나타낼 수 있는 타이틀을 입력해주세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            maxLength={30}
+            aria-required="true"
+            aria-describedby="title-help"
           />
-        </ButtonBox>
+          <span id="title-help" className="sr-only">
+            최대 30자까지 입력 가능합니다
+          </span>
+
+          <FormInput
+            label="이벤트 설명"
+            id="event-description"
+            name="event-description"
+            placeholder="어떤 이벤트인지 설명을 입력해주세요"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            maxLength={100}
+            aria-describedby="description-help"
+          />
+          <span id="description-help" className="sr-only">
+            최대 100자까지 입력 가능합니다
+          </span>
+
+          <FormInput
+            label="가이드 문구"
+            id="event-guide"
+            name="event-guide"
+            placeholder="이벤트의 응모 조건이나, 가이드를 작성해주세요"
+            value={eventGuide}
+            onChange={(e) => setEventGuide(e.target.value)}
+            maxLength={100}
+            aria-describedby="guide-help"
+          />
+          <span id="guide-help" className="sr-only">
+            최대 100자까지 입력 가능합니다
+          </span>
+
+          <EventDatePicker
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            endTime={endTime}
+            setEndTime={setEndTime}
+          />
+
+          <ButtonBox>
+            <AddButton
+              type="submit"
+              text="추가 완료"
+              disabled={summitButtonDisabled}
+              aria-disabled={summitButtonDisabled}
+            />
+          </ButtonBox>
+        </div>
       </div>
     </Layout>
   );
