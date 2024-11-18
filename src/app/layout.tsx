@@ -22,11 +22,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <ThemeProvider>
-          <div id="portal" />
-          <div className={"mx-auto max-w-screen-md"}>{children}</div>
-          <ThemeToggle />
-        </ThemeProvider>
+        <div id="portal" />
+        <div className={"mx-auto max-w-screen-md"}>{children}</div>
+        <ThemeToggle />
       </body>
     </html>
   );
