@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+
 import {
   CALENDAR_ICON,
   DIVIDE_ICON,

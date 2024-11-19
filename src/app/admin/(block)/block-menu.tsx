@@ -1,10 +1,11 @@
 import React, { SetStateAction } from "react";
-import { blockTypes } from "@/types/block_types";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+import { blockTypes } from "@/types/block_types";
 import Portal from "@app/components/portal";
 import Contour from "@app/admin/(block)/components/contour";
-import { usePathname } from "next/navigation";
 
 interface Props {
   isOpen: boolean;
