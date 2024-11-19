@@ -12,7 +12,6 @@ import PreviewModal from "@app/admin/components/preview/preview-modal";
 import ProfileBox from "@app/admin/components/profile-box";
 
 import { adminApiInstance } from "../../utils/apis";
-import { twMerge } from "tailwind-merge";
 
 export interface Block {
   id: number;

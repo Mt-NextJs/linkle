@@ -10,11 +10,9 @@ export default function Intro() {
         Link At Once! 소셜 프로필 링크 관리 서비스 in my link 입니다!
       </h1>
       <p className="sr-only">시작하기 버튼을 눌러 로그인을 진행해 주세요.</p>
-      <div className="flex h-full w-full flex-col justify-between border-black">
-        <div className="flex flex-col">
-          <p className="text-9xl font-black capitalize text-white">
-            link at once!
-          </p>
+      <div className="flex h-full w-full flex-col justify-between">
+        <div className="flex flex-col text-white">
+          <p className="text-9xl font-black capitalize">link at once!</p>
           <p className="text-text-ddd text-4xl">
             Lorem ipsum dolor sit amet consectetur.
           </p>
