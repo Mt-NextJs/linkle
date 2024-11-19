@@ -9,7 +9,6 @@ import { ClientRoute } from "@config/route";
 import { useTheme } from "@components/providers/theme-provider";
 
 const ProfileBox = () => {
-  const { theme } = useTheme();
   const pathname = usePathname();
   const isAdmin = pathname === "/admin";
 
@@ -18,7 +17,7 @@ const ProfileBox = () => {
       <div
         className={twMerge(
           "relative mt-8 flex h-[200px] w-full flex-col items-center justify-center border text-center",
-          theme === "light" ? "bg-slate-100" : "bg-gray-800",
+          "bg-gray-800",
         )}
         aria-labelledby="profile-name"
         role="region"
