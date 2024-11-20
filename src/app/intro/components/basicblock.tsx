@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import ToggleButton from "./UI/toggle-button";
 import { useState } from "react";
+
 import DivideBlock from "@app/admin/components/divide-block";
 import VideoBlock from "@app/admin/components/video-block";
 import LinkBlock from "@app/admin/components/link-block";
@@ -10,6 +10,8 @@ import ImageBlock from "@app/admin/components/image-block";
 import EventBlock from "@app/admin/components/event-block";
 import TextBlock from "@app/admin/components/text-block";
 import CalendarBlock from "@app/admin/components/calendar-block";
+
+import ToggleButton from "./UI/toggle-button";
 
 interface Block {
   id: number;

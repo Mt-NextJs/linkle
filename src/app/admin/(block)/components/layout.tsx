@@ -1,7 +1,8 @@
 import React, { FormEvent, Suspense } from "react";
 import Image from "next/image";
-import QuestionIcon from "@app/admin/(block)/components/question-icon";
 import Link from "next/link";
+
+import QuestionIcon from "@app/admin/(block)/components/question-icon";
 
 const Layout = ({
   title,

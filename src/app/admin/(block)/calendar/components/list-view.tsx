@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Schedule } from "./types";
 
 interface ListViewProps {

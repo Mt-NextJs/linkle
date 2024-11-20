@@ -1,14 +1,14 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import HomeMenu from "@app/admin/components/home-menu";
 import Link from "next/link";
-import { ClientRoute } from "@config/route";
 import Image from "next/image";
-import { useTheme } from "@components/providers/theme-provider";
 import { usePathname } from "next/navigation";
 
+import HomeMenu from "@app/admin/components/home-menu";
+import { ClientRoute } from "@config/route";
+import { useTheme } from "@components/providers/theme-provider";
+
 const ProfileBox = () => {
-  const { theme } = useTheme();
   const pathname = usePathname();
   const isAdmin = pathname === "/admin";
 
@@ -17,7 +17,7 @@ const ProfileBox = () => {
       <div
         className={twMerge(
           "relative mt-8 flex h-[200px] w-full flex-col items-center justify-center border text-center",
-          theme === "light" ? "bg-slate-100" : "bg-gray-800",
+          "bg-gray-800",
         )}
         aria-labelledby="profile-name"
         role="region"

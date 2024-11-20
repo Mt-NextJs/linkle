@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import TypeOne from "./link-block-sub/type-one";
 import TypeTwo from "./link-block-sub/type-two";
 import TypeThree from "./link-block-sub/type-three";

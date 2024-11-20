@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { User } from "@/types/user";
-import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+
+import { User } from "@/types/user";
+import FormInput from "@app/admin/(block)/components/form-input";
 import AnimatedText from "@components/common/ui/animated-text";
 
 type FormErrors = {

@@ -1,15 +1,17 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import EventDatePicker from "./event-date-picker";
-import EventPreview from "./event-preview";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import Layout from "../../components/layout";
+import EventPreview from "./event-preview";
 import ButtonBox from "../../components/buttons/button-box";
 import AddButton from "../../components/buttons/add-button";
 import FormInput from "../../components/form-input";
-import { useRouter, useSearchParams } from "next/navigation";
+
 import "react-datepicker/dist/react-datepicker.css";
 import { adminApiInstance } from "../../../../../utils/apis";
+import EventDatePicker from "./event-date-picker";
 
 export default function EventForm() {
   const [title, setTitle] = useState("");
