@@ -22,7 +22,13 @@ interface CalendarBlockData {
 
 export default function ScheduleManagementPage() {
   return (
-    <Suspense>
+    <Suspense
+      fallback={
+        <div role="status" aria-label="페이지 로딩 중...">
+          Loading...
+        </div>
+      }
+    >
       <ScheduleContent />
     </Suspense>
   );
