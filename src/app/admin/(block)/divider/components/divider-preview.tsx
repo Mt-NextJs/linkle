@@ -16,15 +16,29 @@ export const DividerContent = ({ type }: DividerContentProps) => {
 
   switch (type) {
     case "Space":
-      return <div className={commonClasses} />;
+      return (
+        <div
+          className={commonClasses}
+          role="separator"
+          aria-label="공백 구분선"
+        />
+      );
     case "Point":
-      return <div className={commonClasses}>· · ·</div>;
+      return (
+        <div className={commonClasses} role="separator" aria-label="점 구분선">
+          · · ·
+        </div>
+      );
     case "Zigzag":
       return (
-        <div className={commonClasses}>
+        <div
+          className={commonClasses}
+          role="separator"
+          aria-label="지그재그 구분선"
+        >
           <Image
             src="/assets/icons/item_zigzag.png"
-            alt="Zigzag"
+            alt="지그재그 모양 구분선"
             width={70}
             height={5}
           />
@@ -33,14 +47,18 @@ export const DividerContent = ({ type }: DividerContentProps) => {
     case "Dashed":
     case "Solid":
       return (
-        <div className={commonClasses}>
+        <div
+          className={commonClasses}
+          role="separator"
+          aria-label={`${type === "Dashed" ? "점선" : "실선"} 구분선`}
+        >
           <div
-            className={`w-full border-t ${type === "Dashed" ? "border-dashed" : "border-solid"}`}
+            className={`w-full border-t ${
+              type === "Dashed" ? "border-dashed" : "border-solid"
+            }`}
           />
         </div>
       );
-    default:
-      return <div className={commonClasses} />;
   }
 };
 
@@ -81,14 +99,17 @@ const DividerPreview = ({ selectedDivider }: DividerPreviewProps) => {
               <div className="relative ml-2 h-16 w-20 -translate-y-1">
                 <Image
                   src={"/assets/images/divider_preview_image.png"}
-                  alt="Profile"
+                  alt="미리보기 예시 프로필 이미지"
                   layout="fill"
                   objectFit="cover"
                   className="rounded-b-xl"
                 />
               </div>
               <div className="mt-0.5 flex flex-wrap justify-center">
-                <div className="mb-1 flex flex-wrap items-center gap-1">
+                <div
+                  className="mb-1 flex flex-wrap items-center gap-1"
+                  aria-label="미리보기 예시 태그 목록"
+                >
                   <Tag text="Last" bgColor="#E0D4C3" textColor="black" />
                   <Tag text="summer" bgColor="#BFD0A6" textColor="white" />
                   <Tag text="🌻" bgColor="#DEDEDE" />
