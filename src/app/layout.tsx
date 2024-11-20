@@ -13,6 +13,10 @@ export const metadata: Metadata = {
     default: "IN MY LINK",
   },
   description: "BOOMCO co.",
+  openGraph: {
+    images: ["/assets/images/og-image.png"],
+    type: "website",
+  },
 };
 
 export default function RootLayout({
