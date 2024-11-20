@@ -5,21 +5,24 @@ import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
-import { useTheme } from "@components/providers/theme-provider";
+// import { useTheme } from "@components/providers/theme-provider";
 
 export function ThemeToggle() {
-  const savedTheme = localStorage.getItem("theme") as Theme | null;
-  const [theme, setTheme] = useState<Theme | null>(savedTheme);
+  // const savedTheme = localStorage.getItem("theme") as Theme | null;
+  // const [theme, setTheme] = useState<Theme | null>(savedTheme);
+  const [theme, setTheme] = useState<Theme>("light"); // 기본값 설정
 
   useEffect(() => {
-    if (!theme) {
+    const savedTheme = localStorage.getItem("theme") as Theme | null;
+    if (!savedTheme) {
       document.documentElement.setAttribute("data-theme", "light");
       localStorage.setItem("theme", "light");
+      setTheme("light");
       return;
     }
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    setTheme(savedTheme);
+  }, []);
 
   // useEffect(() => {
   //   if (!savedTheme) return;
@@ -37,10 +40,17 @@ export function ThemeToggle() {
   //   return () => mediaQuery.removeEventListener("change", handleChange);
   // }, []);
 
+  // const handleThemeChange = () => {
+  //   const theme = document.documentElement.getAttribute("data-theme");
+  //   const isDark = theme === "dark";
+  //   setTheme(isDark ? "light" : "dark");
+  // };
+
   const handleThemeChange = () => {
-    const theme = document.documentElement.getAttribute("data-theme");
-    const isDark = theme === "dark";
-    setTheme(isDark ? "light" : "dark");
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   return (
