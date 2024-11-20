@@ -85,11 +85,15 @@ const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
 
   const CustomToolbar = () => {
     return (
-      <div className="flex items-center justify-center p-4">
-        <button onClick={handlePrevMonth} className="focus:outline-none">
+      <div
+        className="flex items-center justify-center p-4"
+        role="toolbar"
+        aria-label="캘린더 네비게이션"
+      >
+        <button onClick={handlePrevMonth} aria-label="이전 달로 이동">
           <Image
             src="/assets/icons/icon_prev_gray.png"
-            alt="Previous Month"
+            alt="이전 달"
             width={20}
             height={20}
           />
@@ -99,10 +103,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
             currentMonth.getMonth() + 1,
           ).padStart(2, "0")}`}
         </h2>
-        <button onClick={handleNextMonth} className="focus:outline-none">
+        <button onClick={handleNextMonth} aria-label="다음 달로 이동">
           <Image
             src="/assets/icons/icon_next_gray.png"
-            alt="Next Month"
+            alt="다음 달"
             width={20}
             height={20}
           />
@@ -120,9 +124,18 @@ const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
   };
 
   return (
-    <div className="mt-4 overflow-hidden rounded-lg border border-gray-200">
+    <section
+      aria-labelledby="schedule-calendar-view"
+      className="mt-4 overflow-hidden rounded-lg border border-gray-200"
+    >
+      <h2 id="schedule-calendar-view" className="sr-only">
+        일정 캘린더 뷰
+      </h2>
       <CustomToolbar />
-      <div className="calendar-container [&_.calendar-event]:flex [&_.calendar-event]:h-8 [&_.calendar-event]:items-center [&_.fc-col-header-cell]:border-0 [&_.fc-col-header-cell]:border-b [&_.fc-col-header-cell]:border-gray-200 [&_.fc-col-header-cell]:py-2 [&_.fc-col-header-cell]:text-center [&_.fc-col-header-cell]:text-[11px] [&_.fc-col-header-cell]:font-medium [&_.fc-col-header-cell]:text-gray-500 [&_.fc-day-other_.fc-daygrid-day-number]:text-gray-400 [&_.fc-daygrid-day-number]:flex [&_.fc-daygrid-day-number]:h-8 [&_.fc-daygrid-day-number]:w-full [&_.fc-daygrid-day-number]:items-center [&_.fc-daygrid-day-number]:justify-center [&_.fc-daygrid-day-number]:text-[11px] [&_.fc-daygrid-event]:mx-1 [&_.fc-daygrid-event]:rounded-md [&_.fc-event-title]:overflow-hidden [&_.fc-scrollgrid-section>td]:!border-b-0 [&_.fc-scrollgrid-section>td]:!border-r-0 [&_.fc-scrollgrid-section>th]:!border-r-0 [&_.fc-scrollgrid]:border-0 [&_.fc-scrollgrid]:!border-l-0 [&_td]:!border-b-0 [&_td]:!border-r-0">
+      <div
+        className="calendar-container [&_.calendar-event]:flex [&_.calendar-event]:h-8 [&_.calendar-event]:items-center [&_.fc-col-header-cell]:border-0 [&_.fc-col-header-cell]:border-b [&_.fc-col-header-cell]:border-gray-200 [&_.fc-col-header-cell]:py-2 [&_.fc-col-header-cell]:text-center [&_.fc-col-header-cell]:text-[11px] [&_.fc-col-header-cell]:font-medium [&_.fc-col-header-cell]:text-gray-500 [&_.fc-day-other_.fc-daygrid-day-number]:text-gray-400 [&_.fc-daygrid-day-number]:flex [&_.fc-daygrid-day-number]:h-8 [&_.fc-daygrid-day-number]:w-full [&_.fc-daygrid-day-number]:items-center [&_.fc-daygrid-day-number]:justify-center [&_.fc-daygrid-day-number]:text-[11px] [&_.fc-daygrid-event]:mx-1 [&_.fc-daygrid-event]:rounded-md [&_.fc-event-title]:overflow-hidden [&_.fc-scrollgrid-section>td]:!border-b-0 [&_.fc-scrollgrid-section>td]:!border-r-0 [&_.fc-scrollgrid-section>th]:!border-r-0 [&_.fc-scrollgrid]:border-0 [&_.fc-scrollgrid]:!border-l-0 [&_td]:!border-b-0 [&_td]:!border-r-0"
+        aria-label="캘린더"
+      >
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -145,9 +158,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
             const days = ["일", "월", "화", "수", "목", "금", "토"];
             return days[date.getDay()];
           }}
+          aria-label="일정 캘린더"
         />
       </div>
-    </div>
+    </section>
   );
 };
 
