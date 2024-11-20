@@ -113,7 +113,10 @@ function ScheduleContent() {
         {mode === "edit" ? "일정 수정하기" : "일정 추가하기"}
       </h1>
 
-      <p className="text-gray-700" aria-label="일정 자동 정렬 안내">
+      <p
+        className="text-gray-700 dark:text-gray-300"
+        aria-label="일정 자동 정렬 안내"
+      >
         입력하는 진행기간에 따라
         <br />
         전체 일정이 최근 날짜 순서로 자동 정렬됩니다.

@@ -11,7 +11,7 @@ export default function CalendarHeader() {
 
   return (
     <>
-      <p className="text-gray-700">
+      <p className="text-gray-700 dark:text-gray-300">
         진행/예정된 일정이 1개 이상이어야
         <br />
         캘린더 블록을 공개할 수 있습니다
