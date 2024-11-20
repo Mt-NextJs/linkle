@@ -50,6 +50,7 @@ export default function DividerSelector({
           alt="Zigzag"
           width={60}
           height={5}
+          className="dark:invert"
         />
       ),
       ariaLabel: "지그재그 구분선 선택하기",
@@ -72,8 +73,10 @@ export default function DividerSelector({
         {dividers.map((divider) => (
           <div key={divider.name} className="flex flex-col items-center">
             <button
-              className={`flex h-16 w-16 items-center justify-center rounded-xl border ${
-                selected === divider.name ? "border-black" : "border-gray-300"
+              className={`flex h-16 w-16 items-center justify-center rounded-xl border transition-all ${
+                selected === divider.name
+                  ? "border-[var(--foreground)] shadow-[0_0_0_1px_var(--foreground)]"
+                  : "border-gray-600 hover:border-gray-400"
               }`}
               onClick={(e) => {
                 e.preventDefault();
