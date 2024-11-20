@@ -51,7 +51,11 @@ function DividerPage() {
         selected={selectedDivider}
       />
       <ButtonBox>
-        <AddButton text="추가 완료" onClick={handleAddDivider} />
+        <AddButton
+          text="추가 완료"
+          onClick={handleAddDivider}
+          aria-label="구분선 블록 추가하기"
+        />
       </ButtonBox>
     </Layout>
   );
