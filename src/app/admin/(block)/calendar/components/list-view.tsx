@@ -67,9 +67,12 @@ const getScheduleStatus = (schedule: Schedule, index: number) => {
 const ListView: React.FC<ListViewProps> = ({ schedules }) => {
   return (
     <section
-      aria-labelledby="schedule-list"
+      aria-labelledby="schedule-list-view"
       className="relative mt-4 space-y-0 rounded-lg bg-white p-4 shadow"
     >
+      <h2 id="schedule-list-view" className="sr-only">
+        일정 리스트 뷰
+      </h2>
       <div
         className="relative max-h-[400px] overflow-y-auto"
         role="region"
