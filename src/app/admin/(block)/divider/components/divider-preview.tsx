@@ -41,6 +41,7 @@ export const DividerContent = ({ type }: DividerContentProps) => {
             alt="지그재그 모양 구분선"
             width={70}
             height={5}
+            className="dark:invert"
           />
         </div>
       );
@@ -85,13 +86,13 @@ const DividerPreview = ({ selectedDivider }: DividerPreviewProps) => {
     <div className="mb-4 space-y-2">
       <h3 className="text-[14px]">
         미리보기
-        <span className="text-[12px] font-normal text-gray-700">
+        <span className="text-[12px] font-normal text-gray-700 dark:text-gray-400">
           (예시 블록입니다)
         </span>
       </h3>
-      <div className="bg-gray-100 p-5">
-        <div className="mx-auto max-w-[370px] rounded-t-3xl bg-white pl-3 pr-3 pt-3">
-          <div className="overflow-hidden rounded-t-3xl border-l border-r border-t pl-3 pr-3">
+      <div className="bg-gray-100 p-5 dark:bg-gray-800">
+        <div className="mx-auto max-w-[370px] rounded-t-3xl bg-white pl-3 pr-3 pt-3 dark:bg-gray-900">
+          <div className="overflow-hidden rounded-t-3xl border-l border-r border-t pl-3 pr-3 dark:border-gray-700">
             <div
               className="flex items-start space-x-3 rounded-b-xl pb-1"
               style={{ boxShadow: "0 4px 6px rgba(150, 150, 150, 0.1)" }}
@@ -114,12 +115,14 @@ const DividerPreview = ({ selectedDivider }: DividerPreviewProps) => {
                   <Tag text="summer" bgColor="#BFD0A6" textColor="white" />
                   <Tag text="🌻" bgColor="#DEDEDE" />
                 </div>
-                <p className="text-sm text-gray-800">♥ 러브의 의류 마켓 ♥</p>
+                <p className="text-sm text-gray-800 dark:text-gray-200">
+                  ♥ 러브의 의류 마켓 ♥
+                </p>
               </div>
             </div>
             <DividerContent type={selectedDivider} />
             <p
-              className="flex flex-wrap justify-center rounded-t-xl pt-7 text-sm text-gray-600"
+              className="flex flex-wrap justify-center rounded-t-xl pt-7 text-sm text-gray-600 dark:text-gray-400"
               style={{ boxShadow: "0 -4px 6px rgba(150, 150, 150, 0.1)" }}
             >
               [vlog] 여름 휴가 in 제주도🌴 | LOOK BOOK
