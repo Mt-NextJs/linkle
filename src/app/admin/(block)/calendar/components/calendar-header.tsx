@@ -19,17 +19,19 @@ export default function CalendarHeader() {
       <button
         onClick={handleAddScheduleClick}
         className="button color flex w-auto flex-row items-center justify-center rounded-lg text-white"
+        aria-label="일정 추가 페이지로 이동"
       >
         <Image
           src="/assets/icons/icon_plus.png"
-          alt="Plus"
+          alt=""
           width={20}
           height={20}
           className="mr-2"
+          aria-hidden="true"
         />
         <span>캘린더에 일정을 추가하세요</span>
       </button>
-      <hr className="border-gray-105 -mt-2 border-t-8" />
+      <hr className="border-gray-105 -mt-2 border-t-8" aria-hidden="true" />
     </>
   );
 }
