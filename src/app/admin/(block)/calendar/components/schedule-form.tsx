@@ -207,7 +207,7 @@ export default function ScheduleForm({
       aria-label={ariaLabel}
       role="form"
     >
-      <div role="group" aria-label="일정 시간 설정">
+      <div role="group" aria-label="일정 시간 설정" className="space-y-8">
         <DateTimeInput
           label="오픈 일시"
           dateValue={startDate}
@@ -227,7 +227,7 @@ export default function ScheduleForm({
         />
       </div>
 
-      <div role="group" aria-label="일정 정보 입력">
+      <div role="group" aria-label="일정 정보 입력" className="space-y-8">
         <FormInput
           label="일정 이름"
           id="title"
