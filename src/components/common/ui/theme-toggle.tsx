@@ -27,7 +27,6 @@ export function ThemeToggle({ cookieTheme }: Props) {
   }, []);
 
   const handleThemeChange = () => {
-    console.log(document.cookie.includes("theme"));
     const newTheme = document.cookie.includes("theme=light") ? "dark" : "light";
     document.cookie = `theme=${newTheme}; path=/`;
     setTheme(newTheme);
