@@ -1,9 +1,5 @@
 "use client";
 
-import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
-import Layout from "@app/admin/(block)/components/layout";
-import { checkUrl } from "lib/check-url";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ChangeEvent,
@@ -12,6 +8,12 @@ import {
   useEffect,
   useState,
 } from "react";
+
+import AddButton from "@app/admin/(block)/components/buttons/add-button";
+import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
+import Layout from "@app/admin/(block)/components/layout";
+import { checkUrl } from "lib/check-url";
+
 import { adminApiInstance } from "../../../../../utils/apis";
 import FormInput from "../../components/form-input";
 import StylePreview from "./style-preview";
@@ -30,11 +32,6 @@ export default function LinkForm() {
     useState(false);
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
-  // const isValidUrl = useCallback(
-  //   (url: string) => /^https?:\/\/.+\..+/.test(url),
-  //   [],
-  // );
-
   const isValidUrl = useCallback((url: string) => checkUrl(url), []);
 
   const router = useRouter();
@@ -48,6 +45,7 @@ export default function LinkForm() {
       imgUrl: linkImg.trim(),
     };
 
+    console.log(linkImg.trim());
     const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(postData);
     if (!response) return;
@@ -112,7 +110,7 @@ export default function LinkForm() {
           <h3 className="title mb-[10px]">
             스타일 <span className="text-red-500">*</span>
           </h3>
-          <div className="flex gap-5">
+          <div className="flex gap-5" aria-label={"스타일 선택 영역"}>
             {styleItemNames.map((name, idx) => (
               <StyleType
                 key={name}
@@ -130,7 +128,7 @@ export default function LinkForm() {
         <hr className="border-gray-105 my-8 border-t-2" />
 
         {/* Info */}
-        <section className="flex flex-col gap-3">
+        <section className="flex flex-col gap-3" aria-label={"링크 입력 섹션"}>
           <div className="h-[104px]">
             <FormInput
               label="연결할 주소"
@@ -140,6 +138,7 @@ export default function LinkForm() {
               onChange={handleLinkUrlChange}
               placeholder="연결할 주소 url을 입력해주세요"
               required
+              aria-label={"연결할 URL 입력"}
             />
             {isLinkUrlErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
@@ -157,6 +156,7 @@ export default function LinkForm() {
               placeholder="타이틀을 입력해주세요"
               required
               maxLength={30}
+              aria-label={"타이틀 입력"}
             />
           </div>
           <div className="h-[104px]">
@@ -169,6 +169,7 @@ export default function LinkForm() {
               placeholder="이미지 url을 입력해주세요"
               disabled={selectedStyle === "심플"}
               required={selectedStyle !== "심플"}
+              aria-label={"이미지 URL 입력"}
             />
             {isImgUrlErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
@@ -189,6 +190,8 @@ export default function LinkForm() {
             type={"submit"}
             text="추가 완료"
             disabled={summitButtonDisabled}
+            role={"button"}
+            aria-label={"링크 블록 추가 버튼"}
           />
         </ButtonBox>
       </div>

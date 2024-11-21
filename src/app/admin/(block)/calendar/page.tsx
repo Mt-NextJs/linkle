@@ -1,11 +1,12 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
+
 import Layout from "../components/layout";
 import CalendarHeader from "./components/calendar-header";
 import ScheduleList from "./components/schedule-list";
 import StyleSetting from "./components/style-setting";
-import React, { Suspense } from "react";
 
 function CalendarPage() {
   const prevPath = useSearchParams().get("prevPath") || "/admin";

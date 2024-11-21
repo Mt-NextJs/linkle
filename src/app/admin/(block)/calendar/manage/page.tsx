@@ -3,6 +3,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+
 import ScheduleForm from "../components/schedule-form";
 
 interface Schedule {

@@ -1,7 +1,10 @@
-import React from "react";
-import { Block } from "@app/admin/page";
+import React, { useCallback } from "react";
 import { usePathname } from "next/navigation";
+
+import { Block } from "@app/admin/page";
 import StylePreview from "@app/admin/(block)/link/components/style-preview";
+
+import { checkUrl } from "../../../../../lib/check-url";
 
 interface Props {
   block: Block;
@@ -16,6 +19,7 @@ const PreviewLink = ({ block }: Props) => {
   const imgUrl = image as string;
   const type = style as number;
   const selectedStyle = styleItemNames[type - 1];
+  const isValidUrl = useCallback((url: string) => checkUrl(url), []);
 
   return (
     <StylePreview
@@ -23,6 +27,7 @@ const PreviewLink = ({ block }: Props) => {
       linkImg={imgUrl}
       selectedStyle={selectedStyle}
       url={url}
+      isValidUrl={isValidUrl}
     />
   );
 };

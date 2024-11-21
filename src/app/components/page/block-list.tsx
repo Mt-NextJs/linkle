@@ -1,11 +1,14 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Block } from "@app/admin/page";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+
+import { Block } from "@app/admin/page";
 import PreviewLink from "@app/admin/components/preview/components/preview-link";
 import PreviewText from "@app/admin/components/preview/components/preview-text";
 import CircleButton from "@app/admin/components/buttons/circle-button";
 import EmptyBlock from "@app/intro/components/UI/empty-block";
-import { usePathname } from "next/navigation";
+import { Block } from "@/types/apis";
+
 import { adminApiInstance } from "../../../utils/apis";
 const PreviewImage = dynamic(
   () => import("@app/admin/components/preview/components/preview-image"),

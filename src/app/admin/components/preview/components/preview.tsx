@@ -1,6 +1,6 @@
 import React, { SetStateAction } from "react";
-import ProfileBox from "@app/admin/components/profile-box";
 
+import ProfileBox from "@app/admin/components/profile-box";
 import BlockList from "@app/components/page/block-list";
 
 interface Props {

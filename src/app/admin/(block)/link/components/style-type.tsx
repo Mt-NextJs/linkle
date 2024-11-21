@@ -33,6 +33,7 @@ export default function StyleType({
       key={name}
       className="flex w-[185px] cursor-pointer flex-col items-center"
       onClick={clickHandler}
+      aria-label={isSelected ? `${name} 선택됨` : `${name} 선택`}
     >
       <input type="radio" value={name} id={name} className="hidden" />
       <div
@@ -48,6 +49,7 @@ export default function StyleType({
           width={70}
           height={70}
           style={{ objectFit: "contain" }}
+          aria-label={`${name} 이미지`}
         />
         {isSelected && (
           <Image
@@ -56,6 +58,7 @@ export default function StyleType({
             width={24}
             height={24}
             className="absolute bottom-1 right-1"
+            aria-label={`선택된 ${name} 이미지`}
           />
         )}
       </div>
@@ -64,6 +67,7 @@ export default function StyleType({
           "mt-2 text-base font-normal",
           isSelected ? "text-gray-600" : "text-gray-300",
         )}
+        aria-label={`${name} 이름`}
       >
         {name}
       </p>
