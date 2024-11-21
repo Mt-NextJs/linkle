@@ -2,7 +2,6 @@ import React, { Suspense, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 
-import { Block } from "@app/admin/page";
 import PreviewLink from "@app/admin/components/preview/components/preview-link";
 import PreviewText from "@app/admin/components/preview/components/preview-text";
 import CircleButton from "@app/admin/components/buttons/circle-button";
