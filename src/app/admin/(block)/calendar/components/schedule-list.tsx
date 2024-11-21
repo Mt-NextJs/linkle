@@ -41,21 +41,34 @@ const getScheduleStatus = (schedule: Schedule) => {
     return {
       text: `D-${diffDays}`,
       color: "bg-gray-200 text-[var(--primary)]",
+      description: `일정까지 ${diffDays}일 남았습니다.`,
     };
   } else if (now >= startDate && now <= endDate) {
     return {
       text: "OPEN",
       color: "bg-[var(--primary)] text-white",
+      description: "진행 중인 일정입니다.",
     };
   } else {
-    return { text: "CLOSED", color: "bg-[#BABABA] text-[#eae9e9]" };
+    return {
+      text: "CLOSED",
+      color: "bg-[#BABABA] text-[#eae9e9]",
+      description: "종료된 일정입니다.",
+    };
   }
 };
 
 function EmptyState({ message }: { message: React.ReactNode }) {
   return (
-    <div className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32">
-      <BsCalendarXFill className="mb-4 text-4xl text-gray-300" />
+    <div
+      className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32"
+      role="status"
+      aria-label="일정 없음"
+    >
+      <BsCalendarXFill
+        className="mb-4 text-4xl text-gray-300"
+        aria-hidden="true"
+      />
       <p className="text-center text-gray-500">{message}</p>
     </div>
   );
@@ -83,6 +96,8 @@ export function ScheduleItem({
         <div className="z-10 flex w-28 flex-shrink-0">
           <div
             className={`flex h-7 w-16 items-center justify-center rounded-l-md rounded-r-sm ${status.color}`}
+            role="status"
+            aria-label={status.description}
           >
             <span className="relative z-10 ml-2 text-xs font-semibold">
               {status.text}
@@ -99,9 +114,9 @@ export function ScheduleItem({
           />
         </div>
         <div className="ml-4 flex flex-grow flex-col">
-          <div className="text-sm text-gray-500">
+          <time dateTime={schedule.dateStart} className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
-          </div>
+          </time>
           <div className="group mt-2 font-semibold">{schedule.title}</div>
         </div>
         {isCalendarPage && (
@@ -109,19 +124,23 @@ export function ScheduleItem({
             <button
               className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
               onClick={handleEdit}
+              aria-label={`${schedule.title} 일정 수정`}
             >
               수정
             </button>
             <button
               className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
               onClick={() => onDelete && onDelete(schedule.id)}
+              aria-label={`${schedule.title} 일정 삭제`}
             >
               삭제
             </button>
           </div>
         )}
       </div>
-      {isCalendarPage && <hr className="my-4 border-t border-gray-200" />}
+      {isCalendarPage && (
+        <hr className="my-4 border-t border-gray-200" aria-hidden="true" />
+      )}
     </div>
   );
 }
@@ -245,10 +264,17 @@ export default function ScheduleList() {
   });
 
   return (
-    <>
+    <section aria-labelledby="schedule-list-heading">
       <div className="mt-4 flex items-center justify-between p-4">
-        <h2 className="text-lg font-semibold">추가한 모든 일정</h2>
-        <button onClick={toggleOpen} className="cursor-pointer">
+        <h2 id="schedule-list-heading" className="text-lg font-semibold">
+          추가한 모든 일정
+        </h2>
+        <button
+          onClick={toggleOpen}
+          className="cursor-pointer"
+          aria-expanded={isOpen}
+          aria-label={isOpen ? "일정 목록 접기" : "일정 목록 펼치기"}
+        >
           <Image
             src={
               isOpen
@@ -259,13 +285,21 @@ export default function ScheduleList() {
             width={20}
             height={20}
             layout="fixed"
+            aria-hidden="true"
           />
         </button>
       </div>
       {isOpen && (
         <div className="p-4">
-          <div className="mb-4 flex border-b">
+          <div
+            className="mb-4 flex border-b"
+            role="tablist"
+            aria-label="일정 상태별 보기"
+          >
             <button
+              role="tab"
+              aria-selected={activeTab === "current"}
+              aria-controls="current-schedules"
               className={`mx-4 py-2 ${
                 activeTab === "current"
                   ? "border-b-2 border-[var(--primary)] font-semibold text-[var(--primary)]"
@@ -276,6 +310,9 @@ export default function ScheduleList() {
               진행/예정된
             </button>
             <button
+              role="tab"
+              aria-selected={activeTab === "past"}
+              aria-controls="past-schedules"
               className={`mx-4 py-2 ${
                 activeTab === "past"
                   ? "border-b-2 border-[var(--primary)] font-semibold text-[var(--primary)]"
@@ -286,15 +323,21 @@ export default function ScheduleList() {
               지난
             </button>
           </div>
-          <div className="space-y-4">
+          <div
+            id={`${activeTab}-schedules`}
+            role="tabpanel"
+            className="space-y-4"
+          >
             {filteredSchedules.length > 0 ? (
-              filteredSchedules.map((schedule) => (
-                <ScheduleItem
-                  key={schedule.id}
-                  schedule={schedule}
-                  onDelete={handleDelete}
-                />
-              ))
+              <div role="list">
+                {filteredSchedules.map((schedule) => (
+                  <ScheduleItem
+                    key={schedule.id}
+                    schedule={schedule}
+                    onDelete={handleDelete}
+                  />
+                ))}
+              </div>
             ) : (
               <EmptyState
                 message={
@@ -317,6 +360,6 @@ export default function ScheduleList() {
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }

@@ -186,11 +186,22 @@ export default function DateTimeInput({
       `}</style>
 
       <div className="flex flex-col space-y-2">
-        <label className="flex items-center">
+        <label
+          className="flex items-center"
+          aria-label={`${label}${required ? " (필수)" : ""}`}
+        >
           <span>{label}</span>
-          {required && <span className="text-red-500">*</span>}
+          {required && (
+            <span className="text-red-500" aria-label="필수 입력">
+              *
+            </span>
+          )}
         </label>
-        <div className="flex gap-2">
+        <div
+          className="flex gap-2"
+          role="group"
+          aria-label={`${label} 날짜 및 시간 선택`}
+        >
           <div className="calendar-block-datepicker relative flex w-1/2">
             <DatePicker
               selected={selectedDate}
@@ -217,8 +228,12 @@ export default function DateTimeInput({
 
                 return "";
               }}
+              aria-label={`${label} 날짜 선택`}
             />
-            <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
+            <div
+              className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2"
+              aria-hidden="true"
+            >
               <FaRegCalendar />
             </div>
           </div>
@@ -238,12 +253,16 @@ export default function DateTimeInput({
               }`}
               placeholderText=""
               wrapperClassName="w-full"
+              aria-label={`${label} 시간 선택`}
             />
             {!timeValue && (
-              <div className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-gray-400">
+              <div
+                className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-gray-400"
+                aria-hidden="true"
+              >
                 <Image
                   src="/assets/icons/icon_clock.png"
-                  alt="Clock Icon"
+                  alt=""
                   width={16}
                   height={16}
                   className="mr-1"
@@ -251,10 +270,13 @@ export default function DateTimeInput({
                 <span>시간</span>
               </div>
             )}
-            <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
+            <div
+              className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2"
+              aria-hidden="true"
+            >
               <Image
                 src="/assets/icons/icon_open.png"
-                alt="Open"
+                alt=""
                 width={13}
                 height={13}
               />

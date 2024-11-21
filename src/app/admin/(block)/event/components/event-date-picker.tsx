@@ -33,9 +33,14 @@ export default function EventDatePicker({
   return (
     <div className="flex flex-col gap-2">
       <label className="title mb-[10px] block">
-        이벤트 일정 <span className="text-red-500">*</span>
+        이벤트 일정{" "}
+        <span aria-label="필수 입력" className="text-red-500">
+          *
+        </span>
       </label>
       <div
+        role="group"
+        aria-label="이벤트 일정 선택"
         className={twMerge(
           "relative flex flex-col items-start gap-5 bg-[#F6F6F6] px-3 py-5 transition-all duration-1000 ease-in-out",
           isStartCalendarOpen ? "h-[490px] justify-between" : "",
@@ -43,7 +48,11 @@ export default function EventDatePicker({
         )}
       >
         {/* 시작 날짜 및 시간 선택 */}
-        <div className="flex w-full items-center gap-4">
+        <div
+          role="group"
+          aria-label="이벤트 시작 일시"
+          className="flex w-full items-center gap-4"
+        >
           <label className="text-sm">시작</label>
           <DatePicker
             selected={startDate}
@@ -56,6 +65,9 @@ export default function EventDatePicker({
             onCalendarOpen={() => setIsStartCalendarOpen(true)}
             onCalendarClose={() => setIsStartCalendarOpen(false)}
             popperPlacement="bottom-start"
+            aria-labelledby="start-date-label"
+            aria-required="true"
+            aria-expanded={isStartCalendarOpen}
             dayClassName={(
               date, // 주말은 빨간색, 평일은 회색인데 적용 안됨
             ) =>
@@ -72,14 +84,16 @@ export default function EventDatePicker({
                   <button
                     onClick={decreaseMonth}
                     className="text-lg text-primary-200 hover:text-primary-450"
+                    aria-label="이전 달로 이동"
                   >
-                    <IoIosArrowBack />
+                    <IoIosArrowBack aria-hidden="true" />
                   </button>
                   <button
                     onClick={increaseMonth}
                     className="text-lg text-primary-200 hover:text-primary-450"
+                    aria-label="다음 달로 이동"
                   >
-                    <IoIosArrowForward />
+                    <IoIosArrowForward aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -97,11 +111,17 @@ export default function EventDatePicker({
               dateFormat="HH:mm"
               placeholderText="시간 선택"
               className="w-full max-w-[150px] rounded-lg border-2 px-3 py-2 focus:border-black focus:placeholder:text-black"
+              aria-label="시작 시간"
+              aria-required="true"
             />
           </div>
         </div>
         {/* 종료 날짜 및 시간 선택 */}
-        <div className="flex w-full items-center gap-4">
+        <div
+          role="group"
+          aria-label="이벤트 종료 일시"
+          className="flex w-full items-center gap-4"
+        >
           <label className="text-sm">종료</label>
           <DatePicker
             selected={endDate}
@@ -115,6 +135,9 @@ export default function EventDatePicker({
             popperClassName="end-datepicker-popper"
             onCalendarOpen={() => setIsEndCalendarOpen(true)}
             onCalendarClose={() => setIsEndCalendarOpen(false)}
+            aria-labelledby="end-date-label"
+            aria-required="true"
+            aria-expanded={isEndCalendarOpen}
             renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
               <div className="mb-2 flex items-center justify-between px-[14px] pt-[3px]">
                 <span className="text-base font-semibold">
@@ -124,14 +147,16 @@ export default function EventDatePicker({
                   <button
                     onClick={decreaseMonth}
                     className="text-lg text-primary-200 hover:text-primary-450"
+                    aria-label="이전 달로 이동"
                   >
-                    <IoIosArrowBack />
+                    <IoIosArrowBack aria-hidden="true" />
                   </button>
                   <button
                     onClick={increaseMonth}
                     className="text-lg text-primary-200 hover:text-primary-450"
+                    aria-label="다음 달로 이동"
                   >
-                    <IoIosArrowForward />
+                    <IoIosArrowForward aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -149,6 +174,8 @@ export default function EventDatePicker({
               dateFormat="HH:mm"
               placeholderText="시간 선택"
               className="w-full max-w-[150px] rounded-lg border-2 px-3 py-2 focus:border-black focus:placeholder:text-black"
+              aria-label="종료 시간"
+              aria-required="true"
             />
           </div>
         </div>

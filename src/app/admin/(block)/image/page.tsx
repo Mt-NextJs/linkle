@@ -127,6 +127,7 @@ const Page = () => {
         value={selectedImageUrl}
         onChange={(e) => setImageText(e.currentTarget.value)}
         required
+        aria-label="이미지 URL을 입력하세요"
       />
       {/*<input*/}
       {/*  id="file"*/}
@@ -149,6 +150,7 @@ const Page = () => {
         value={title}
         onChange={(e) => setTitle(e.currentTarget.value)}
         maxLength={30}
+        aria-label="이미지 제목을 입력하세요"
       />
       <FormInput
         label="연결할 주소"
@@ -157,12 +159,14 @@ const Page = () => {
         placeholder="이미지를 통해 이동시키고 싶은 링크가 있나요?"
         value={connectingUrl}
         onChange={(e) => setConnectingUrl(e.currentTarget.value)}
+        aria-label="연결할 URL을 입력하세요"
       />
       <ButtonBox>
         <AddButton
           type={"submit"}
           text="추가 완료"
           disabled={!selectedImageUrl}
+          aria-disabled={!selectedImageUrl}
         />
       </ButtonBox>
     </Layout>
