@@ -51,7 +51,11 @@ function DividerPage() {
         selected={selectedDivider}
       />
       <ButtonBox>
-        <AddButton text="추가 완료" onClick={handleAddDivider} />
+        <AddButton
+          text="추가 완료"
+          onClick={handleAddDivider}
+          aria-label="구분선 블록 추가하기"
+        />
       </ButtonBox>
     </Layout>
   );
@@ -59,7 +63,13 @@ function DividerPage() {
 
 export default function PageWithSuspense() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div role="status" aria-label="페이지 로딩 중...">
+          Loading...
+        </div>
+      }
+    >
       <DividerPage />
     </Suspense>
   );
