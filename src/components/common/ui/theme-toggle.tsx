@@ -19,11 +19,11 @@ export function ThemeToggle({ cookieTheme }: Props) {
 
     if (typeof window === "undefined") return;
     const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const newTheme = isDark ? "dark" : "light";
+    const osTheme = isDark ? "dark" : "light";
 
-    document.cookie = `theme=${newTheme}; path=/`;
-    document.documentElement.setAttribute("data-theme", newTheme);
-    setTheme(newTheme);
+    document.cookie = `theme=${osTheme}; path=/`;
+    document.documentElement.setAttribute("data-theme", osTheme);
+    setTheme(osTheme);
   }, []);
 
   const handleThemeChange = () => {
