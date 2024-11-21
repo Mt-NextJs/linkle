@@ -69,15 +69,24 @@ export default function StylePreview({
       : { backgroundImage: `url(${placeholderImage})` };
 
   return (
-    <Link href={url || ""} className={!url ? "cursor-default" : ""}>
+    <Link
+      href={url || ""}
+      className={!url ? "cursor-default" : ""}
+      role={"navigation"}
+      aria-label={"링크가 있으면 해당 링크로 이동"}
+    >
       <div
         className={twMerge(
           "flex h-32 w-full items-center justify-center rounded-sm bg-[#F6F6F6] transition-all duration-700 ease-in-out",
           selectedStyle === "카드" && "h-[580px]",
         )}
+        aria-label={"선택된 링크 블록 미리보기"}
       >
         {selectedStyle === "썸네일" && (
-          <div className="flex h-[86px] w-[530px] items-center rounded-lg bg-white shadow-md">
+          <div
+            className="flex h-[86px] w-[530px] items-center rounded-lg bg-white shadow-md"
+            aria-label={"썸네일이 있는 블록 스타일"}
+          >
             <div className="flex w-full items-center">
               <div className="ml-[6px] flex w-1/5 justify-start">
                 <Image
@@ -87,6 +96,7 @@ export default function StylePreview({
                   height={75}
                   className="h-[75px] w-[75px] rounded-lg bg-gray-300 object-cover"
                   onError={imgErrorHandler}
+                  aria-label={"썸네일 이미지"}
                 />
               </div>
               <div className="flex w-4/5 items-center justify-center pr-[27px]">
@@ -97,13 +107,19 @@ export default function StylePreview({
         )}
 
         {selectedStyle === "심플" && (
-          <div className="flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-white shadow-md">
+          <div
+            className="flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-white shadow-md"
+            aria-label={"심플한 텍스트 블록 스타일"}
+          >
             <p>{title || "타이틀을 입력해주세요"}</p>
           </div>
         )}
 
         {selectedStyle === "카드" && (
-          <div className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-4 rounded-xl bg-white drop-shadow-md">
+          <div
+            className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-4 rounded-xl bg-white drop-shadow-md"
+            aria-label={"카드형식의 이미지가 있는 블록 스타일"}
+          >
             <div className="relative h-[450px] w-full overflow-hidden rounded-t-xl bg-gray-300">
               <Image
                 src={imgUrl}
@@ -112,6 +128,7 @@ export default function StylePreview({
                 style={{ objectFit: "cover" }}
                 className="rounded-t-xl"
                 onError={imgErrorHandler}
+                aria-label={"카드 이미지"}
               />
             </div>
             <p>{title || "타이틀을 입력해주세요"}</p>
@@ -122,6 +139,7 @@ export default function StylePreview({
           <div
             className={`relative flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-gray-300 bg-cover bg-center`}
             style={backgroundStyle}
+            aria-label={"배경이 있는 블록 스타일"}
           >
             {!hasImgError && isValidUrl && isValidUrl(linkImg) && (
               <div className="absolute inset-0 rounded-lg bg-black opacity-50"></div>
