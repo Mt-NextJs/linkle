@@ -13,7 +13,6 @@ export function ThemeToggle({ cookieTheme }: Props) {
 
   useEffect(() => {
     const isCookieTheme = document.cookie.includes("theme");
-    console.log(isCookieTheme);
     if (isCookieTheme) {
       const cookieTheme = document.cookie.includes("theme=light")
         ? "light"
