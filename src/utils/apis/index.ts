@@ -1,3 +1,5 @@
+import { Block } from "@/types/apis";
+
 class Apis {
   async handleError(response: Response) {
     const { status } = response;
@@ -29,6 +31,33 @@ class adminApis extends Apis {
         credentials: "include",
         body: JSON.stringify(params),
       });
+
+      if (response.ok) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (error) {
+      throw new Error(
+        error instanceof Error ? error.message : "알 수 없는 에러",
+      );
+    }
+  }
+
+  async orderBlock(params: { data: Block[] }) {
+    try {
+      const response = await fetch(
+        `/api/link/list/update
+`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(params),
+        },
+      );
 
       if (response.ok) {
         return response;
