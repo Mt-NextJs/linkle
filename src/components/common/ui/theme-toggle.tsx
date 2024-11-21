@@ -5,27 +5,41 @@ import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
-export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light"); // 기본값 설정
+interface Props {
+  cookieTheme: Theme | undefined;
+}
+export function ThemeToggle({ cookieTheme }: Props) {
+  const [theme, setTheme] = useState<Theme | undefined>(cookieTheme); // 기본값 설정
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    if (!savedTheme) {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-      setTheme("light");
+    const isCookieTheme = document.cookie.includes("theme");
+    console.log(isCookieTheme);
+    if (isCookieTheme) {
+      const cookieTheme = document.cookie.includes("theme=light")
+        ? "light"
+        : "dark";
+      document.documentElement.setAttribute("data-theme", cookieTheme);
+      setTheme(cookieTheme as Theme);
       return;
     }
-    document.documentElement.setAttribute("data-theme", savedTheme);
-    setTheme(savedTheme);
+
+    if (typeof window === "undefined") return;
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const newTheme = isDark ? "dark" : "light";
+
+    document.cookie = `theme=${newTheme}; path=/`;
+    document.documentElement.setAttribute("data-theme", newTheme);
+    setTheme(newTheme);
   }, []);
 
   const handleThemeChange = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
+    console.log(document.cookie.includes("theme"));
+    const newTheme = document.cookie.includes("theme=light") ? "dark" : "light";
+    document.cookie = `theme=${newTheme}; path=/`;
     setTheme(newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
   };
+  if (!theme) return;
 
   return (
     <button

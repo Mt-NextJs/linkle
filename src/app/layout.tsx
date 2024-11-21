@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 
-import { ThemeProvider } from "@components/providers/theme-provider";
 import { ThemeToggle } from "@components/common/ui/theme-toggle";
 
 //styles
@@ -37,18 +37,20 @@ export const metadata: Metadata = {
     },
   },
 };
+type Theme = "light" | "dark" | undefined;
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = cookies().get("theme")?.value as Theme;
   return (
-    <html lang="ko">
+    <html lang="ko" data-theme={theme || ""}>
       <body>
         <div id="portal" />
         <div className={"mx-auto max-w-screen-md"}>{children}</div>
-        <ThemeToggle />
+        <ThemeToggle cookieTheme={theme} />
       </body>
     </html>
   );
