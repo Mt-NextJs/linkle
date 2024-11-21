@@ -4,45 +4,45 @@
 @layer components {
   /* ------------------ BUTTON ------------------*/
   .button {
-    @apply mb-10 mt-10 flex h-14 w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-primary font-bold text-white;
+    @apply mb-10 mt-10 flex h-14 w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-primary font-bold text-white transition-colors duration-200;
   }
 
   /* 메인색상 버튼 */
   .button.color {
-    @apply bg-primary;
+    @apply bg-primary dark:bg-primary-400;
   }
   .button.color:hover {
-    @apply bg-primary-450;
+    @apply bg-primary-450 dark:bg-primary-350;
   }
   .button.color.disable {
-    @apply bg-primary-100 text-primary-200;
+    @apply bg-primary-100 text-primary-200 dark:bg-primary-100 dark:text-primary-200;
   }
 
   /* 회색색상 버튼 */
   .button.gray {
-    @apply bg-neutral-200 text-neutral-700;
+    @apply bg-neutral-200 text-neutral-700 dark:bg-neutral-700 dark:text-neutral-200;
   }
   .button.gray:hover {
-    @apply bg-neutral-300;
+    @apply bg-neutral-300 dark:bg-neutral-600;
   }
 
-  /* 다크 모드를 위한 조정 */
-
   /* ------------------ INPUT ------------------*/
+
   input {
-    @apply p-3;
+    @apply p-3 transition-colors duration-200;
   }
 
   input.inserted {
-    @apply border-input-line bg-input-bg;
+    @apply border-input-line bg-input-bg dark:border-primary-300 dark:bg-primary-100;
   }
 
   /* ------------------ TEXT ------------------*/
+
   .pageName {
-    @apply text-3xl font-semibold text-gray-700;
+    @apply text-3xl font-semibold text-gray-700 dark:text-gray-200;
   }
 
   .title {
-    @apply text-base font-normal text-gray-600;
+    @apply text-base font-normal text-gray-600 dark:text-gray-400;
   }
 }

@@ -75,15 +75,34 @@ const config: Config = {
         },
         slate: {
           333: "var(--foreground)",
-          444: "#444444",
-          666: "#666666",
-          999: "#999999",
-          ddd: "#dddddd",
-          ccc: "#cccccc",
-          eee: "#eaeaea",
+          444: {
+            DEFAULT: "#444444",
+            dark: "#BBBBBB",
+          },
+          666: {
+            DEFAULT: "#666666",
+            dark: "#999999",
+          },
+          999: {
+            DEFAULT: "#999999",
+            dark: "#666666",
+          },
+          ddd: {
+            DEFAULT: "#dddddd",
+            dark: "#444444",
+          },
+          ccc: {
+            DEFAULT: "#cccccc",
+            dark: "#333333",
+          },
+          eee: {
+            DEFAULT: "#eaeaea",
+            dark: "#222222",
+          },
         },
         warning: {
           DEFAULT: "#FF5B1A",
+          dark: "#FF6B31",
         },
       },
     },
