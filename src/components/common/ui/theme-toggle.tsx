@@ -12,12 +12,7 @@ export function ThemeToggle({ cookieTheme }: Props) {
   const [theme, setTheme] = useState<Theme | undefined>(cookieTheme); // 기본값 설정
 
   useEffect(() => {
-    const isCookieTheme = document.cookie.includes("theme");
-    if (isCookieTheme) {
-      const cookieTheme = document.cookie.includes("theme=light")
-        ? "light"
-        : "dark";
-      document.documentElement.setAttribute("data-theme", cookieTheme);
+    if (cookieTheme) {
       setTheme(cookieTheme as Theme);
       return;
     }
