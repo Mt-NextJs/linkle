@@ -1,5 +1,6 @@
-import { Divider, DividerType } from "../types";
 import Image from "next/image";
+
+import { Divider, DividerType } from "../types";
 
 interface DividerSelectorProps {
   onSelect: (divider: DividerType) => void;

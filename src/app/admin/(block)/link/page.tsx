@@ -1,5 +1,6 @@
-import LinkForm from "./components/link-form";
 import React, { Suspense } from "react";
+
+import LinkForm from "./components/link-form";
 
 function LinkPage() {
   return <LinkForm />;

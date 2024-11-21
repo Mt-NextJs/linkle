@@ -1,9 +1,5 @@
 "use client";
 
-import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
-import Layout from "@app/admin/(block)/components/layout";
-import { checkUrl } from "lib/check-url";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   ChangeEvent,
@@ -12,6 +8,12 @@ import {
   useEffect,
   useState,
 } from "react";
+
+import AddButton from "@app/admin/(block)/components/buttons/add-button";
+import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
+import Layout from "@app/admin/(block)/components/layout";
+import { checkUrl } from "lib/check-url";
+
 import { adminApiInstance } from "../../../../../utils/apis";
 import FormInput from "../../components/form-input";
 import StylePreview from "./style-preview";
@@ -30,11 +32,6 @@ export default function LinkForm() {
     useState(false);
   const prevPath = useSearchParams().get("prevPath") || "/admin";
 
-  // const isValidUrl = useCallback(
-  //   (url: string) => /^https?:\/\/.+\..+/.test(url),
-  //   [],
-  // );
-
   const isValidUrl = useCallback((url: string) => checkUrl(url), []);
 
   const router = useRouter();
@@ -48,6 +45,7 @@ export default function LinkForm() {
       imgUrl: linkImg.trim(),
     };
 
+    console.log(linkImg.trim());
     const blockApis = await adminApiInstance;
     const response = await blockApis.addBlock(postData);
     if (!response) return;

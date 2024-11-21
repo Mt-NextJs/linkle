@@ -1,12 +1,14 @@
 "use client";
 
-import FormInput from "@app/admin/(block)/components/form-input";
-import { ClientRoute } from "@config/route";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+
+import { ClientRoute } from "@config/route";
+import FormInput from "@app/admin/(block)/components/form-input";
+
 import { authApiInstance } from "../../utils/apis";
 
 export default function Login() {
