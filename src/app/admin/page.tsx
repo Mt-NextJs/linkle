@@ -50,10 +50,19 @@ function Admin() {
     }
   }
 
-  const updateBlockOrder = () => {
+  const updateBlockOrder = async () => {
     const params = {
-      order: blocks,
+      data: blocks,
     };
+
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.orderBlock(params);
+    if (!response) return;
+    if (response.ok) {
+      alert("블록 순서 업데이트 성공");
+    } else {
+      alert("블록 순서 업데이트 실패");
+    }
   };
   const handlePreviewOpen = () => {
     setIsPreviewOn(true);
