@@ -1,5 +1,3 @@
-"use client";
-
 import Preview from "@app/admin/components/preview/components/preview";
 
 function Page() {
