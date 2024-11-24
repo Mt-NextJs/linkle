@@ -27,8 +27,9 @@ const ImageBox = ({ selectedImageUrl, connectingUrl, title }: Props) => {
         {/*  />*/}
         {/*</button>*/}
         <Link
-          href={connectingUrl || ""}
+          href={connectingUrl || "#"}
           className={`${!connectingUrl && "cursor-default"}`}
+          aria-disabled={!connectingUrl}
         >
           <div className="relative h-[20rem] w-full">
             <Image
@@ -37,14 +38,19 @@ const ImageBox = ({ selectedImageUrl, connectingUrl, title }: Props) => {
                   ? selectedImageUrl
                   : "/assets/images/image_block_default.png"
               }
-              alt="이미지 URL을 확인해주세요"
+              alt={title ? `${title} 이미지` : "기본 이미지"}
               fill
             />
           </div>
         </Link>
       </div>
       {title && (
-        <div className={"flex items-center justify-center py-2"}>{title}</div>
+        <div
+          className={"flex items-center justify-center py-2"}
+          aria-label={`이미지 제목: ${title}`}
+        >
+          {title}
+        </div>
       )}
     </div>
   );

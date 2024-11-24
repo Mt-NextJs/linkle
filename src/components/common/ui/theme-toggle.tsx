@@ -5,43 +5,34 @@ import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
-import { useTheme } from "@components/providers/theme-provider";
-
-export function ThemeToggle() {
-  const savedTheme = localStorage.getItem("theme") as Theme | null;
-  const [theme, setTheme] = useState<Theme | null>(savedTheme);
+interface Props {
+  cookieTheme: Theme | undefined;
+}
+export function ThemeToggle({ cookieTheme }: Props) {
+  const [theme, setTheme] = useState<Theme | undefined>(cookieTheme); // 기본값 설정
 
   useEffect(() => {
-    if (!theme) {
-      document.documentElement.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
+    if (cookieTheme) {
+      setTheme(cookieTheme as Theme);
       return;
     }
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
-  // useEffect(() => {
-  //   if (!savedTheme) return;
-  //   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  //   const handleChange = (e: MediaQueryListEvent) => {
-  //     const newTheme = e.matches ? "dark" : "light";
-  //     // 사용자가 수동으로 설정한 테마가 없을 때만 시스템 테마 따르기
-  //     if (!savedTheme) {
-  //       document.documentElement.setAttribute("data-theme", newTheme);
-  //       setTheme(newTheme);
-  //     }
-  //   };
-  //
-  //   mediaQuery.addEventListener("change", handleChange);
-  //   return () => mediaQuery.removeEventListener("change", handleChange);
-  // }, []);
+    if (typeof window === "undefined") return;
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const osTheme = isDark ? "dark" : "light";
+
+    document.cookie = `theme=${osTheme}; path=/`;
+    document.documentElement.setAttribute("data-theme", osTheme);
+    setTheme(osTheme);
+  }, []);
 
   const handleThemeChange = () => {
-    const theme = document.documentElement.getAttribute("data-theme");
-    const isDark = theme === "dark";
-    setTheme(isDark ? "light" : "dark");
+    const newTheme = document.cookie.includes("theme=light") ? "dark" : "light";
+    document.cookie = `theme=${newTheme}; path=/`;
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
   };
+  if (!theme) return;
 
   return (
     <button

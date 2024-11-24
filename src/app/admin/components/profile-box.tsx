@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 import HomeMenu from "@app/admin/components/home-menu";
 import { ClientRoute } from "@config/route";
-import { useTheme } from "@components/providers/theme-provider";
 
 const ProfileBox = () => {
   const pathname = usePathname();
@@ -17,7 +16,7 @@ const ProfileBox = () => {
       <div
         className={twMerge(
           "relative mt-8 flex h-[200px] w-full flex-col items-center justify-center border text-center",
-          "bg-gray-800",
+          "border-[var(--input-color-line)] bg-[var(--background)] text-[var(--foreground)]",
         )}
         aria-labelledby="profile-name"
         role="region"
