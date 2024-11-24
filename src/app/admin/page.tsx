@@ -75,7 +75,6 @@ function Admin() {
       setBlocks(data);
     } else {
       sessionStorage.removeItem("token");
-      // alert("블록 조회 실패");
     }
   }
 

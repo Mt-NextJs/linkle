@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { ThemeProvider } from "@components/providers/theme-provider";
 import { ThemeToggle } from "@components/common/ui/theme-toggle";
-
+import ReactQueryProvider from "@components/providers/React-Query-Provider";
 //styles
 import "@styles/global.css";
 import "@styles/common.css";
@@ -23,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <div id="portal" />
-        <div className={"mx-auto max-w-screen-md"}>{children}</div>
-        <ThemeToggle />
+        <ReactQueryProvider>
+          <div id="portal" />
+          <div className={"mx-auto max-w-screen-md"}>{children}</div>
+          <ThemeToggle />
+        </ReactQueryProvider>
       </body>
     </html>
   );
