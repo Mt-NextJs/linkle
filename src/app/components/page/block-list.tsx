@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Suspense, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";

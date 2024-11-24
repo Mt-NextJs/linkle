@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
@@ -48,7 +49,6 @@ const ProfileBox = () => {
             momomoc
           </span>
         </Link>
-
         {!isAdmin && <HomeMenu />}
       </div>
     </>

@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
 import Image from "next/image";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import Link from "next/link";
 
 import EmptyBlock from "@app/intro/components/UI/empty-block";
 import BasicBlock from "@app/intro/components/basicblock";
-import { Block } from "@app/admin/page";
+import { Block } from "@/types/apis";
 
 interface Props {
   blocks: Block[];
@@ -36,26 +38,31 @@ const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
   };
   return (
     <section className="mt-4" aria-labelledby="block-list-title">
-      <div className="flex gap-1">
-        <h2 id="block-list-title" className="font-bold">
-          블록 리스트
-        </h2>
-        <div className="group relative inline-block">
-          <Image
-            src="/assets/icons/icon_help.png"
-            alt="블록 관리 도움말 아이콘"
-            width={20}
-            height={20}
-            aria-describedby="block-help-tooltip"
-          />
-          <div
-            id="block-help-tooltip"
-            role="tooltip"
-            className="absolute left-full top-1/2 w-max -translate-y-1/2 translate-x-2 transform rounded bg-slate-400 px-2 py-1 text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          >
-            블록을 편집하거나 배치 순서를 변경할 수 있습니다
+      <div className="flex justify-between gap-1">
+        <div className="flex gap-1">
+          <h2 id="block-list-title" className="font-bold">
+            블록 리스트
+          </h2>
+          <div className="group relative inline-block">
+            <Image
+              src="/assets/icons/icon_help.png"
+              alt="블록 관리 도움말 아이콘"
+              width={20}
+              height={20}
+              aria-describedby="block-help-tooltip"
+            />
+            <div
+              id="block-help-tooltip"
+              role="tooltip"
+              className="absolute left-full top-1/2 w-max -translate-y-1/2 translate-x-2 transform rounded bg-slate-400 px-2 py-1 text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            >
+              블록을 편집하거나 배치 순서를 변경할 수 있습니다
+            </div>
           </div>
         </div>
+        <Link href={"/admin/calendar"}>
+          <FaRegCalendarAlt size={28} />
+        </Link>
       </div>
 
       <div className="mt-4 max-h-[40rem] overflow-scroll">

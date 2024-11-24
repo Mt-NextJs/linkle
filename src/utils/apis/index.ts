@@ -10,17 +10,6 @@ class Apis {
 }
 
 class adminApis extends Apis {
-  async getVisitor() {
-    try {
-      return await fetch(`/api/user/visitor`, {
-        method: "GET",
-        credentials: "include",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async addBlock(params: { [index: string]: string | number | object | null }) {
     try {
       const response = await fetch(`/api/link/add`, {
@@ -46,18 +35,14 @@ class adminApis extends Apis {
 
   async orderBlock(params: { data: Block[] }) {
     try {
-      const response = await fetch(
-        `/api/link/list/update
-`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(params),
+      const response = await fetch(`/api/link/list/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        credentials: "include",
+        body: JSON.stringify(params),
+      });
 
       if (response.ok) {
         return response;
