@@ -1,7 +1,6 @@
-import { StaticImageData } from "next/image";
+import { z } from "zod";
 
 import {
-  CALENDAR_ICON,
   DIVIDE_ICON,
   EVENT_ICON,
   IMAGE_ICON,
@@ -10,12 +9,25 @@ import {
   VIDEO_ICON,
 } from "../../public/assets/icons";
 
-interface BlockType {
-  title: string;
-  text: string;
-  icon: StaticImageData;
-  path: string;
-}
+// StaticImageData 스키마 정의
+const StaticImageDataSchema = z.object({
+  src: z.string(),
+  height: z.number(),
+  width: z.number(),
+  blurDataURL: z.string().optional(),
+  blurWidth: z.number().optional(),
+  blurHeight: z.number().optional(),
+});
+
+const BlockTypeSchema = z.object({
+  title: z.string(),
+  text: z.string(),
+  icon: StaticImageDataSchema,
+  path: z.string(),
+});
+
+export type BlockType = z.infer<typeof BlockTypeSchema>;
+
 export const blockTypes: BlockType[] = [
   {
     title: "링크",

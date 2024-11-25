@@ -3,20 +3,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BsCalendarXFill } from "react-icons/bs";
 
+import { adminApiInstance } from "../../../../../utils/apis";
+
 export interface Schedule {
   id: number;
   title: string;
   url: string;
   dateStart: string;
   dateEnd: string;
-}
-
-interface CalendarBlock {
-  id: number;
-  type: number;
-  sequence: number;
-  style: number;
-  schedule: Schedule[];
 }
 
 const formatDate = (dateString: string) => {
@@ -149,9 +143,6 @@ export default function ScheduleList() {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
   const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [calendarBlock, setCalendarBlock] = useState<CalendarBlock | null>(
-    null,
-  );
   const [error, setError] = useState<string | null>(null);
 
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -162,97 +153,17 @@ export default function ScheduleList() {
 
   const fetchSchedules = async () => {
     setError(null);
-    try {
-      const response = await fetch(`/api/link/list`, {
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.code === 200 && Array.isArray(data.data)) {
-        const foundCalendarBlock = data.data.find(
-          (item: CalendarBlock) => item.type === 7,
-        );
-
-        if (foundCalendarBlock) {
-          setCalendarBlock(foundCalendarBlock);
-          if (Array.isArray(foundCalendarBlock.schedule)) {
-            setSchedules(foundCalendarBlock.schedule);
-          } else {
-            setSchedules([]);
-          }
-        } else {
-          setSchedules([]);
-        }
-      } else {
-        throw new Error(`Unexpected data structure: ${JSON.stringify(data)}`);
-      }
-    } catch (err) {
-      console.error("Error fetching schedules:", err);
-      setError(
-        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다.",
-      );
-    }
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.getSchedules();
+    if (!response) return;
+    if (response.ok) {
+      const { result } = await response.json();
+      console.log(result, "result");
+      setSchedules(result);
+    } else await blockApis.handleError(response);
   };
 
-  const handleDelete = async (scheduleId: number) => {
-    try {
-      if (!calendarBlock) {
-        throw new Error("캘린더 블록을 찾을 수 없습니다.");
-      }
-
-      const updatedSchedules = schedules.filter(
-        (schedule) => schedule.id !== scheduleId,
-      );
-
-      const requestBody = {
-        id: calendarBlock.id,
-        type: 7,
-        style: calendarBlock.style,
-        schedule: updatedSchedules,
-      };
-
-      const response = await fetch(`/api/link/update`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `Failed to delete schedule: ${JSON.stringify(errorData)}`,
-        );
-      }
-
-      const responseData = await response.json();
-
-      if (responseData.code === 200) {
-        setSchedules(updatedSchedules);
-        alert("일정이 성공적으로 삭제되었습니다.");
-
-        window.location.reload();
-      } else {
-        throw new Error(
-          `Failed to delete schedule. Server response: ${JSON.stringify(responseData)}`,
-        );
-      }
-    } catch (error) {
-      console.error("Error deleting schedule:", error);
-      alert(
-        error instanceof Error
-          ? error.message
-          : "일정 삭제 중 오류가 발생했습니다.",
-      );
-    }
-  };
+  const handleDelete = async (scheduleId: number) => {};
 
   const currentDate = new Date();
 

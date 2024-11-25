@@ -42,6 +42,7 @@ function Admin() {
     const response = await blockApis.getBlocks();
     if (!response) return;
     if (response.ok) {
+      console.log(response);
       const { data } = await response.json();
       setBlocks(data);
     } else {

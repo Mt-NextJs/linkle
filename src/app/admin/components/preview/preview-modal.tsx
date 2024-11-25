@@ -10,7 +10,7 @@ interface Props {
   data: Block[];
 }
 
-const PreviewModal = ({ isOpen, setIsOpen, data }: Props) => {
+const PreviewModal = ({ isOpen, setIsOpen }: Props) => {
   if (!isOpen) return null;
 
   const handleClose = () => {

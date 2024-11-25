@@ -4,17 +4,19 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
 import { User } from "@/types/user";
 import FormInput from "@app/admin/(block)/components/form-input";
 import AnimatedText from "@components/common/ui/animated-text";
 
-type FormErrors = {
-  name?: string;
-  email?: string;
-  password?: string;
-  passwordConfirm?: string;
-};
+const FormErrorsSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().optional(),
+  password: z.string().optional(),
+  passwordConfirm: z.string().optional(),
+});
+type FormErrors = z.infer<typeof FormErrorsSchema>;
 
 export default function ProfileEdit() {
   const [userData, setUserData] = useState<User | null>(null);
