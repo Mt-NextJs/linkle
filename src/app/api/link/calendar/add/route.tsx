@@ -27,9 +27,20 @@ export async function POST(request: NextRequest) {
     ) as JwtPayload;
     const userId = decoded.userId;
 
+    const user = await collection.findOne(
+      { userId },
+      { projection: { calendar: 1 } },
+    );
+    const calendarLength = user?.calendar?.length || 0;
+
+    const newSchedule = {
+      id: calendarLength + 1,
+      ...schedule,
+    };
+
     const result = await collection.updateOne(
       { userId },
-      { $push: { calendar: schedule } },
+      { $push: { calendar: newSchedule } },
     );
     if (result.modifiedCount === 0) {
       return NextResponse.json(
