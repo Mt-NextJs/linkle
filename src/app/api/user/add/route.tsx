@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
         password,
         email,
         dateCreate: new Date(),
-        callender: [],
+        calender: [],
       });
       return NextResponse.json(
         { message: "Sign up successfully" },

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import { ThemeToggle } from "@components/common/ui/theme-toggle";
-
+import ReactQueryProvider from "@components/providers/React-Query-Provider";
 //styles
 import "@styles/global.css";
 import "@styles/common.css";
@@ -48,9 +48,13 @@ export default function RootLayout({
   return (
     <html lang="ko" data-theme={theme || ""}>
       <body>
-        <div id="portal" />
-        <div className={"mx-auto max-w-screen-md"}>{children}</div>
-        <ThemeToggle cookieTheme={theme} />
+        <ReactQueryProvider>
+          <div id="portal" />
+          <div className={"mx-auto max-w-screen-md"}>{children}</div>
+          <div id="portal" />
+          <div className={"mx-auto max-w-screen-md"}>{children}</div>
+          <ThemeToggle cookieTheme={theme} />
+        </ReactQueryProvider>
       </body>
     </html>
   );
