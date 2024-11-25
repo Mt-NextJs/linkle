@@ -33,7 +33,7 @@ const Page = () => {
     if (response.ok) {
       alert("이미지 블록 추가 완료");
       router.push("/admin");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   };
 
   // const addImageBlock = async () => {

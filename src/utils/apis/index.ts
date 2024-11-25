@@ -1,12 +1,26 @@
-import { Block } from "@/types/apis";
-import { Schedule } from "@/types/user";
+import { z } from "zod";
+
+import { ApisResponse, Block } from "@/types/apis";
+import {
+  Schedule,
+  ScheduleResponse,
+  ScheduleResponseSchema,
+} from "@/types/user";
 
 class Apis {
-  async handleError(response: Response) {
+  async handleResponseError(response: Response) {
     const { status } = response;
     const { message } = await response.json();
-    alert(message);
-    console.log(`Error: ${status}, Message: ${message || "Unknown error"}`);
+    alert(`Error: ${status}, Message: ${message || "Unknown error"}`);
+  }
+  handleCatchError(error: unknown) {
+    if (error instanceof Error) console.error(error.message);
+    else console.error(String(error));
+  }
+  validateResponse<T extends z.ZodType, K>(schema: T, responseData: K) {
+    const validation = schema.safeParse(responseData);
+    if (!validation.success) console.error(validation.error);
+    return validation?.data || responseData;
   }
 }
 
@@ -28,9 +42,7 @@ class adminApis extends Apis {
         return response;
       }
     } catch (error) {
-      throw new Error(
-        error instanceof Error ? error.message : "알 수 없는 에러",
-      );
+      this.handleCatchError(error);
     }
   }
 
@@ -53,20 +65,29 @@ class adminApis extends Apis {
         return response;
       }
     } catch (error) {
-      throw new Error(
-        error instanceof Error ? error.message : "알 수 없는 에러",
-      );
+      this.handleCatchError(error);
     }
   }
 
-  async getSchedules() {
+  async getSchedules(): Promise<ApisResponse<ScheduleResponse> | void> {
     try {
-      return await fetch(`/api/link/calendar/list`, {
+      const response = await fetch(`/api/link/calendar/list`, {
         method: "GET",
         credentials: "include",
       });
+      if (response.ok) {
+        const {
+          result: { calendar },
+        } = await response.json();
+        const validationData = this.validateResponse<
+          typeof ScheduleResponseSchema,
+          ScheduleResponse
+        >(ScheduleResponseSchema, calendar);
+        return { response, data: validationData };
+      }
+      return { response, data: [] };
     } catch (error) {
-      console.log(error);
+      this.handleCatchError(error);
     }
   }
 
@@ -87,9 +108,7 @@ class adminApis extends Apis {
         return response;
       }
     } catch (error) {
-      throw new Error(
-        error instanceof Error ? error.message : "알 수 없는 에러",
-      );
+      this.handleCatchError(error);
     }
   }
 
@@ -100,7 +119,7 @@ class adminApis extends Apis {
         credentials: "include",
       });
     } catch (error) {
-      console.log(error);
+      this.handleCatchError(error);
     }
   }
 }
@@ -119,7 +138,7 @@ class AuthApis extends Apis {
         }),
       });
     } catch (error) {
-      console.log(error);
+      this.handleCatchError(error);
     }
   }
 }

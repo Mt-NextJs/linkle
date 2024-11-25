@@ -21,15 +21,12 @@ function CalendarPage() {
 
   const fetchSchedules = async () => {
     const blockApis = await adminApiInstance;
-    const response = await blockApis.getSchedules();
-    if (!response) return;
+    const result = await blockApis.getSchedules();
+    if (!result) return;
+    const { response, data } = result;
     if (response.ok) {
-      const {
-        result: { calendar },
-      } = await response.json();
-      console.log(calendar);
-      setSchedules(calendar as Schedule[]);
-    } else await blockApis.handleError(response);
+      setSchedules(data);
+    } else await blockApis.handleResponseError(response);
   };
 
   useEffect(() => {

@@ -31,7 +31,7 @@ export default function Login() {
     if (response.ok) {
       alert("로그인 성공");
       router.push("/");
-    } else await authApis.handleError(response);
+    } else await authApis.handleResponseError(response);
   }
 
   return (

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const UserSchema = z.object({
+export const UserSchema = z.object({
   userId: z.string(),
   name: z.string(),
   email: z.string().nullable(),
@@ -10,7 +10,7 @@ const UserSchema = z.object({
 });
 export type User = z.infer<typeof UserSchema>;
 
-const ScheduleSchema = z.object({
+export const ScheduleSchema = z.object({
   id: z.number().optional(),
   title: z.string(),
   url: z.string().optional(),
@@ -18,7 +18,10 @@ const ScheduleSchema = z.object({
   dateEnd: z.string(),
 });
 
-const ScheduleFormPropsSchema = z.object({
+export const ScheduleResponseSchema = z.array(ScheduleSchema);
+export type ScheduleResponse = z.infer<typeof ScheduleResponseSchema>;
+
+export const ScheduleFormPropsSchema = z.object({
   mode: z.enum(["add", "edit"]),
   initialData: ScheduleSchema.nullable().optional(),
   calendarBlockId: z.number().nullable().optional(),

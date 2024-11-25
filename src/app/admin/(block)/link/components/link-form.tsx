@@ -52,7 +52,7 @@ export default function LinkForm() {
     if (response.ok) {
       alert("링크 블록이 성공적으로 추가되었습니다🥰");
       router.push("/admin");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   }
 
   useEffect(() => {
