@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import React, { SetStateAction, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -13,6 +13,18 @@ interface Props {
 }
 const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleClose = () => {
@@ -25,7 +37,6 @@ const BlockMenu = ({ isOpen, setIsOpen }: Props) => {
     "bg-block-image",
     "bg-block-divide",
     "bg-block-video",
-    "bg-block-calendar",
     "bg-block-event",
   ];
 
