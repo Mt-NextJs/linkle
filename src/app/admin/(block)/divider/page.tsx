@@ -29,7 +29,7 @@ function DividerPage() {
     if (response.ok) {
       alert("구분선 블록 추가 완료");
       router.push("/admin");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   };
 
   const getDividerStyle = (dividerType: DividerType): number => {

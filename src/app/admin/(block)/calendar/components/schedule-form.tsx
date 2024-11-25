@@ -57,7 +57,7 @@ export default function ScheduleForm({
     if (!response) return;
     if (response.ok) {
       alert("스케줄 추가 완료");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   };
 
   const timeOptions = Array.from(

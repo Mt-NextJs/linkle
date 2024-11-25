@@ -1,25 +1,43 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
+
+import { Schedule } from "@/types/user";
 
 import Layout from "../components/layout";
 import CalendarHeader from "./components/calendar-header";
 import ScheduleList from "./components/schedule-list";
 import StyleSetting from "./components/style-setting";
+import { adminApiInstance } from "../../../../utils/apis";
 
 function CalendarPage() {
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
   const prevPath = useSearchParams().get("prevPath") || "/admin";
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     return false;
   };
 
+  const fetchSchedules = async () => {
+    const blockApis = await adminApiInstance;
+    const result = await blockApis.getSchedules();
+    if (!result) return;
+    const { response, data } = result;
+    if (response.ok) {
+      setSchedules(data);
+    } else await blockApis.handleResponseError(response);
+  };
+
+  useEffect(() => {
+    fetchSchedules().then();
+  }, []);
+
   return (
     <Layout title="캘린더 블록" onSubmit={handleSubmit} prevPath={prevPath}>
       <CalendarHeader />
-      <StyleSetting />
-      <ScheduleList />
+      <StyleSetting schedules={schedules} />
+      <ScheduleList schedules={schedules} />
     </Layout>
   );
 }

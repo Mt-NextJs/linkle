@@ -27,7 +27,7 @@ function TextPage() {
     if (response.ok) {
       alert("텍스트 블록 추가 완료");
       router.push("/admin");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   };
   return (
     <>

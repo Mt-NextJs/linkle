@@ -3,15 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BsCalendarXFill } from "react-icons/bs";
 
-import { adminApiInstance } from "../../../../../utils/apis";
-
-export interface Schedule {
-  id: number;
-  title: string;
-  url: string;
-  dateStart: string;
-  dateEnd: string;
-}
+import { Schedule } from "@/types/user";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -124,7 +116,7 @@ export function ScheduleItem({
             </button>
             <button
               className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
-              onClick={() => onDelete && onDelete(schedule.id)}
+              onClick={() => onDelete && onDelete(schedule.id as number)}
               aria-label={`${schedule.title} 일정 삭제`}
             >
               삭제
@@ -139,29 +131,15 @@ export function ScheduleItem({
   );
 }
 
-export default function ScheduleList() {
+interface Props {
+  schedules: Schedule[];
+}
+export default function ScheduleList({ schedules }: Props) {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const toggleOpen = () => setIsOpen(!isOpen);
-
-  useEffect(() => {
-    fetchSchedules();
-  }, []);
-
-  const fetchSchedules = async () => {
-    setError(null);
-    const blockApis = await adminApiInstance;
-    const response = await blockApis.getSchedules();
-    if (!response) return;
-    if (response.ok) {
-      const { result } = await response.json();
-      console.log(result, "result");
-      setSchedules(result);
-    } else await blockApis.handleError(response);
-  };
 
   const handleDelete = async (scheduleId: number) => {};
 
