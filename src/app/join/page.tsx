@@ -96,8 +96,8 @@ export default function Join() {
             className="h-auto w-[24px] sm:w-[34px]"
           />
         </button>
-        <p className="pageName text-2xl sm:text-3xl">IN MY LINK 회원가입</p>
-        <p className="text-xs text-gray-500 sm:text-sm">
+        <p className="pageName">IN MY LINK 회원가입</p>
+        <p className="text-gray-500">
           이미 가입하셨나요?
           <Link href={ClientRoute.LOGIN} className="ml-1 text-primary">
             로그인 하기
@@ -269,7 +269,7 @@ export default function Join() {
               ? "pointer-events-none cursor-not-allowed opacity-50"
               : "animate-insideout opacity-100",
           )}
-          aria-disabled={isDisabled} // 접근성용 속성
+          aria-disabled={isDisabled}
         >
           IN MY LINK 가입완료
         </button>

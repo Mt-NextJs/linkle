@@ -57,7 +57,7 @@ export default function Login() {
             className="h-auto w-[24px] sm:w-[34px]"
           />
         </button>
-        <p className="pageName text-2xl sm:text-3xl">로그인</p>
+        <p className="pageName">로그인</p>
       </div>
 
       <form
@@ -100,14 +100,14 @@ export default function Login() {
           <button
             type="submit"
             className={twMerge(
-              "button color mb-3 text-base sm:mb-4",
+              "button color mb-3 sm:mb-4",
               isDisabled && "disable",
             )}
             disabled={isDisabled}
           >
             IN MY LINK 로그인
           </button>
-          <Link href={ClientRoute.JOIN} className="button gray mt-0 text-base">
+          <Link href={ClientRoute.JOIN} className="button gray mt-0">
             IN MY LINK 무료 회원가입
           </Link>
         </div>
