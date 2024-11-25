@@ -21,6 +21,13 @@
     -webkit-text-fill-color: var(--foreground);
     -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
     transition: all 0.3s ease-in-out;
+    border-color: var(--primary-300);
+  }
+
+  [data-theme="dark"] input:-webkit-autofill,
+  [data-theme="dark"] input:-webkit-autofill:hover,
+  [data-theme="dark"] input:-webkit-autofill:focus {
+    border-color: var(--primary-300);
   }
 }
 
