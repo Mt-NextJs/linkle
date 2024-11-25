@@ -100,17 +100,14 @@ export default function Login() {
           <button
             type="submit"
             className={twMerge(
-              "button color mb-3 text-base sm:mb-4 sm:text-lg md:text-xl",
+              "button color mb-3 text-base sm:mb-4",
               isDisabled && "disable",
             )}
             disabled={isDisabled}
           >
             IN MY LINK 로그인
           </button>
-          <Link
-            href={ClientRoute.JOIN}
-            className="button gray mt-0 text-base sm:text-lg md:text-xl"
-          >
+          <Link href={ClientRoute.JOIN} className="button gray mt-0 text-base">
             IN MY LINK 무료 회원가입
           </Link>
         </div>

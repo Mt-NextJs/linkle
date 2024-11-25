@@ -264,7 +264,7 @@ export default function Join() {
         <button
           type="submit"
           className={twMerge(
-            "button color mt-8 text-base transition-opacity duration-500 sm:mt-16 sm:text-lg md:text-xl",
+            "button color mt-8 text-base transition-opacity duration-500 sm:mt-16",
             isDisabled
               ? "pointer-events-none cursor-not-allowed opacity-50"
               : "animate-insideout opacity-100",
