@@ -51,8 +51,6 @@ export default function RootLayout({
         <ReactQueryProvider>
           <div id="portal" />
           <div className={"mx-auto max-w-screen-md"}>{children}</div>
-          <div id="portal" />
-          <div className={"mx-auto max-w-screen-md"}>{children}</div>
           <ThemeToggle cookieTheme={theme} />
         </ReactQueryProvider>
       </body>
