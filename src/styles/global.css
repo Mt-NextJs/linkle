@@ -13,6 +13,22 @@
   [role="button"] {
     cursor: default;
   }
+
+  /* 자동완성 스타일 처리 */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
+    transition: all 0.3s ease-in-out;
+    border-color: var(--primary-300);
+  }
+
+  [data-theme="dark"] input:-webkit-autofill,
+  [data-theme="dark"] input:-webkit-autofill:hover,
+  [data-theme="dark"] input:-webkit-autofill:focus {
+    border-color: var(--primary-300);
+  }
 }
 
 :root {
@@ -81,10 +97,12 @@ body {
 
 input {
   @apply h-12 w-full rounded-lg border-1 border-neutral-200 bg-white text-neutral-900 transition-all duration-200 ease-in-out dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100;
+  transition: all 0.3s ease-in-out;
 }
 
 input:focus {
   @apply border-primary outline-none ring-1 ring-primary ring-opacity-30 dark:border-primary-400 dark:ring-primary-400 dark:ring-opacity-30;
+  transition: all 0.3s ease-in-out;
 }
 
 a {
