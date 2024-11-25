@@ -39,37 +39,34 @@ const ViewToggleButton = ({
   onClick: () => void;
   label: string;
 }) => (
-  console.log(label, isActive),
-  (
-    <button
-      className="flex cursor-pointer items-center"
-      role="button"
-      tabIndex={0}
-      onClick={onClick}
-      aria-pressed={isActive ? "true" : "false"}
-      aria-label={label}
+  <button
+    className="flex cursor-pointer items-center"
+    role="button"
+    tabIndex={0}
+    onClick={onClick}
+    aria-pressed={isActive ? "true" : "false"}
+    aria-label={label}
+  >
+    <div
+      className="relative mr-2 flex h-6 w-6 items-center justify-center rounded-full border-[3px] transition-all duration-200 ease-in-out hover:opacity-80"
+      style={{
+        borderColor: isActive ? "var(--primary)" : "#cacccf",
+      }}
     >
-      <div
-        className="relative mr-2 flex h-6 w-6 items-center justify-center rounded-full border-[3px] transition-all duration-200 ease-in-out hover:opacity-80"
-        style={{
-          borderColor: isActive ? "var(--primary)" : "#cacccf",
-        }}
-      >
-        {isActive && (
-          <div
-            className={`aspect-square h-3 w-3 transform rounded-full transition-all duration-200 ease-in-out ${
-              isActive ? "animate-scaleIn" : "animate-scaleOut"
-            }`}
-            style={{
-              backgroundColor: "var(--primary)",
-              opacity: isActive ? 1 : 0,
-            }}
-          />
-        )}
-      </div>
-      <span>{label}</span>
-    </button>
-  )
+      {isActive && (
+        <div
+          className={`aspect-square h-3 w-3 transform rounded-full transition-all duration-200 ease-in-out ${
+            isActive ? "animate-scaleIn" : "animate-scaleOut"
+          }`}
+          style={{
+            backgroundColor: "var(--primary)",
+            opacity: isActive ? 1 : 0,
+          }}
+        />
+      )}
+    </div>
+    <span>{label}</span>
+  </button>
 );
 
 export default function StyleSetting({ schedules }: Props) {
@@ -78,15 +75,12 @@ export default function StyleSetting({ schedules }: Props) {
   const [hasUserSchedules, setHasUserSchedules] = useState(false);
 
   useEffect(() => {
-    console.log(activeView);
-  }, [activeView]);
-
-  useEffect(() => {
-    if (schedules) setHasUserSchedules(true);
+    if (schedules.length !== 0) setHasUserSchedules(true);
     else setHasUserSchedules(false);
   }, [schedules]);
 
   const toggleOpen = () => setIsOpen(!isOpen);
+  console.log(schedules, "schedules");
 
   const currentSchedules = hasUserSchedules ? schedules : sampleSchedules;
 
