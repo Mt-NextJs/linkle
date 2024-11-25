@@ -2,7 +2,7 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
 
-import { Block } from "@app/admin/page";
+import { Block } from "@/types/apis";
 
 interface Props {
   block: Block;

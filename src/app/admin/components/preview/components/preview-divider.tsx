@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Block } from "@app/admin/page";
+import { Block } from "@/types/apis";
 import { DividerType } from "@app/admin/(block)/divider/types";
 import { DividerContent } from "@app/admin/(block)/divider/components/divider-preview";
 
