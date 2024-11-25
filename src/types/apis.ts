@@ -1,17 +1,20 @@
-export interface Block {
-  id: number;
-  type: number;
-  sequence: number;
-  style: number | null;
-  title: string | null;
-  subText01: string | null;
-  subText02: string | null;
-  url: string;
-  imgUrl: string | null;
-  dateStart: string | null;
-  dateEnd: string | null;
-  openYn: "Y" | "N";
-  keepYn: "Y" | "N";
-  dateCreate: string;
-  dateUpdate: string | null;
-}
+import { z } from "zod";
+
+const BlockSchema = z.object({
+  id: z.number(),
+  type: z.number(),
+  sequence: z.number(),
+  style: z.number().nullable(),
+  title: z.string().nullable(),
+  subText01: z.string().nullable(),
+  subText02: z.string().nullable(),
+  url: z.string(),
+  imgUrl: z.string().nullable(),
+  dateStart: z.string().nullable(),
+  dateEnd: z.string().nullable(),
+  openYn: z.enum(["Y", "N"]),
+  keepYn: z.enum(["Y", "N"]),
+  dateCreate: z.string(),
+  dateUpdate: z.string().nullable(),
+});
+export type Block = z.infer<typeof BlockSchema>;

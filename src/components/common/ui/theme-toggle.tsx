@@ -3,7 +3,7 @@
 import { CiLight, CiDark } from "react-icons/ci";
 import { useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+import { Theme } from "@/types/theme";
 
 interface Props {
   cookieTheme: Theme | undefined;

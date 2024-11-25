@@ -1,4 +1,5 @@
 import { Block } from "@/types/apis";
+import { Schedule } from "@/types/user";
 
 class Apis {
   async handleError(response: Response) {
@@ -30,6 +31,42 @@ class adminApis extends Apis {
       throw new Error(
         error instanceof Error ? error.message : "알 수 없는 에러",
       );
+    }
+  }
+
+  async addSchedule(params: Schedule) {
+    try {
+      const response = await fetch(`/api/link/calendar/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          schedule: params,
+        }),
+      });
+
+      if (response.ok) {
+        return response;
+      } else {
+        return response;
+      }
+    } catch (error) {
+      throw new Error(
+        error instanceof Error ? error.message : "알 수 없는 에러",
+      );
+    }
+  }
+
+  async getSchedules() {
+    try {
+      return await fetch(`/api/link/calendar/list`, {
+        method: "GET",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 
