@@ -48,12 +48,6 @@ export const blockTypes: BlockType[] = [
     path: "/admin/video",
   },
   {
-    title: "캘린더",
-    text: "다가오는 중요한 이벤트의 일정을 알리세요",
-    icon: CALENDAR_ICON,
-    path: "/admin/calendar",
-  },
-  {
     title: "이벤트",
     text: "이벤트 응모부터, 추첨까지 진행해보세요",
     icon: EVENT_ICON,
