@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { usePathname } from "next/navigation";
 
-import { Block } from "@app/admin/page";
+import { Block } from "@/types/apis";
 import StylePreview from "@app/admin/(block)/link/components/style-preview";
 
 import { checkUrl } from "../../../../../lib/check-url";

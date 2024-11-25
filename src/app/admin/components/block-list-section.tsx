@@ -66,7 +66,7 @@ const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
       </div>
 
       <div className="mt-4 max-h-[40rem] overflow-scroll">
-        {blocks === undefined || blocks.length == 0 ? (
+        {blocks === null || blocks.length == 0 ? (
           <EmptyBlock />
         ) : (
           <ul className="space-y-2">
