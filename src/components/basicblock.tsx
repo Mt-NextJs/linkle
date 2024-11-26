@@ -10,8 +10,7 @@ import EventBlock from "@app/admin/components/event-block";
 import TextBlock from "@app/admin/components/text-block";
 import CalendarBlock from "@app/admin/components/calendar-block";
 import LinkBlock from "@app/admin/components/link-block";
-
-import ToggleButton from "./UI/toggle-button";
+import ToggleButton from "@components/UI/toggle-button";
 
 interface Block {
   id: number;

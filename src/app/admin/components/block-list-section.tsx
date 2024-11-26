@@ -3,8 +3,8 @@ import Image from "next/image";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import Link from "next/link";
 
-import EmptyBlock from "@app/intro/components/UI/empty-block";
-import BasicBlock from "@app/intro/components/basicblock";
+import EmptyBlock from "@components/UI/empty-block";
+import BasicBlock from "@components/basicblock";
 import { Block } from "@/types/apis";
 
 interface Props {

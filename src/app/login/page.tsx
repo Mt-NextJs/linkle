@@ -30,7 +30,7 @@ export default function Login() {
     if (!response) return;
     if (response.ok) {
       alert("로그인 성공");
-      router.push("/");
+      router.push("/profile/test");
     } else await authApis.handleResponseError(response);
   }
 

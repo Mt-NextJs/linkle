@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import PreviewLink from "@app/admin/components/preview/components/preview-link";
 import PreviewText from "@app/admin/components/preview/components/preview-text";
 import CircleButton from "@app/admin/components/buttons/circle-button";
-import EmptyBlock from "@app/intro/components/UI/empty-block";
+import EmptyBlock from "@components/UI/empty-block";
 import { Block } from "@/types/apis";
 
 import { adminApiInstance } from "../../../utils/apis";
@@ -20,9 +20,6 @@ const PreviewVideo = dynamic(
 const PreviewDivider = dynamic(
   () => import("@app/admin/components/preview/components/preview-divider"),
 );
-const PreviewCalendar = dynamic(
-  () => import("@app/admin/components/preview/components/preview-calendar"),
-);
 const PreviewEvent = dynamic(
   () => import("@app/admin/components/preview/components/preview-event"),
 );
@@ -32,6 +29,7 @@ interface Props {
 }
 const BlockList = ({ setIsOpen }: Props) => {
   const pathname = usePathname();
+  const userId = pathname.split("/")[pathname.length - 1];
   const isAdmin = pathname.includes("admin");
   const [blocks, setBlocks] = useState<Block[]>([]);
 
@@ -41,7 +39,9 @@ const BlockList = ({ setIsOpen }: Props) => {
 
   async function getBlocks() {
     const blockApis = await adminApiInstance;
-    const response = await blockApis.getBlocks();
+    const response = userId
+      ? await blockApis.getProfileBlocks(userId)
+      : await blockApis.getBlocks();
     if (!response) return;
     if (response.ok) {
       const { data } = await response.json();
@@ -67,7 +67,6 @@ const BlockList = ({ setIsOpen }: Props) => {
       4: <PreviewImage block={block} />,
       5: <PreviewEvent block={block} />,
       6: <PreviewText block={block} />,
-      7: <PreviewCalendar block={block} />,
     }[type];
   };
   return (
