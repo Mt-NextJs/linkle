@@ -24,7 +24,7 @@ export function ThemeToggle({ cookieTheme }: Props) {
     document.cookie = `theme=${osTheme}; path=/`;
     document.documentElement.setAttribute("data-theme", osTheme);
     setTheme(osTheme);
-  }, []);
+  }, [cookieTheme]);
 
   const handleThemeChange = () => {
     const newTheme = document.cookie.includes("theme=light") ? "dark" : "light";
@@ -37,7 +37,7 @@ export function ThemeToggle({ cookieTheme }: Props) {
   return (
     <button
       onClick={() => handleThemeChange()}
-      className="fixed bottom-4 left-4 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+      className="fixed bottom-4 left-4 rounded-lg p-2 hover:bg-[var(--primary-200)]"
       aria-label="Toggle theme"
     >
       {theme === "light" ? (

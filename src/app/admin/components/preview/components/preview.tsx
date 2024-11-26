@@ -8,11 +8,10 @@ interface Props {
 }
 const Preview = ({ setIsOpen }: Props) => {
   return (
-    // <div className="absolute left-1/2 top-[45%] flex h-3/4 w-[30rem] -translate-x-1/2 -translate-y-1/2 transform flex-col gap-4 rounded-3xl bg-slate-333 p-6">
-    <>
+    <div className="mx-auto max-w-2xl">
       <ProfileBox />
       <BlockList setIsOpen={setIsOpen} />
-    </>
+    </div>
   );
 };
 

@@ -28,7 +28,7 @@ const PreviewDivider = ({ block }: Props) => {
     return styles[type] || "Space";
   };
   return (
-    <div>
+    <div className="w-full px-4 sm:px-0">
       <DividerContent type={selectedDivider} />
     </div>
   );

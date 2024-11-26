@@ -7,7 +7,7 @@ import ProfileBox from "@app/admin/components/profile-box";
 import PreviewModal from "@app/admin/components/preview/preview-modal";
 import VisitSection from "@app/admin/components/visit-section";
 import BlockListSection from "@app/admin/components/block-list-section";
-import AdminManu from "@app/admin/components/admin-manu";
+import AdminMenu from "@app/admin/components/admin-menu";
 import { Block } from "@/types/apis";
 
 import { adminApiInstance } from "../../utils/apis";
@@ -82,7 +82,7 @@ function Admin() {
         isAdmin={isAdmin}
       />
       {isAdmin && (
-        <AdminManu
+        <AdminMenu
           handlePreviewOpen={handlePreviewOpen}
           isBlockMenuOn={isBlockMenuOn}
           setIsBlockMenuOn={setIsBlockMenuOn}

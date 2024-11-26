@@ -22,13 +22,15 @@ const PreviewLink = ({ block }: Props) => {
   const isValidUrl = useCallback((url: string) => checkUrl(url), []);
 
   return (
-    <StylePreview
-      title={title}
-      linkImg={imgUrl}
-      selectedStyle={selectedStyle}
-      url={url}
-      isValidUrl={isValidUrl}
-    />
+    <div className="w-full">
+      <StylePreview
+        title={title}
+        linkImg={imgUrl}
+        selectedStyle={selectedStyle}
+        url={url}
+        isValidUrl={isValidUrl}
+      />
+    </div>
   );
 };
 

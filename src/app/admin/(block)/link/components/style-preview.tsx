@@ -77,14 +77,16 @@ export default function StylePreview({
     >
       <div
         className={twMerge(
-          "flex h-32 w-full items-center justify-center rounded-sm bg-[#F6F6F6] transition-all duration-700 ease-in-out",
-          selectedStyle === "카드" && "h-[580px]",
+          "flex w-full items-center justify-center rounded-lg",
+          "transition-all duration-700 ease-in-out",
+          "min-h-[6rem] sm:min-h-[8rem]",
+          selectedStyle === "카드" && "min-h-[400px] sm:min-h-[580px]",
         )}
         aria-label={"선택된 링크 블록 미리보기"}
       >
         {selectedStyle === "썸네일" && (
           <div
-            className="flex h-[86px] w-[530px] items-center rounded-lg bg-white shadow-md"
+            className="flex w-full items-center rounded-lg bg-[var(--primary-100)] py-2 text-[var(--foreground)] shadow-md"
             aria-label={"썸네일이 있는 블록 스타일"}
           >
             <div className="flex w-full items-center">
@@ -94,13 +96,15 @@ export default function StylePreview({
                   alt={`${selectedStyle} 미리보기`}
                   width={75}
                   height={75}
-                  className="h-[75px] w-[75px] rounded-lg bg-gray-300 object-cover"
+                  className="h-[60px] w-[60px] rounded-lg bg-gray-300 object-cover sm:h-[75px] sm:w-[75px]"
                   onError={imgErrorHandler}
                   aria-label={"썸네일 이미지"}
                 />
               </div>
               <div className="flex w-4/5 items-center justify-center pr-[27px]">
-                <p>{title || "타이틀을 입력해주세요"}</p>
+                <p className="text-sm sm:text-base">
+                  {title || "타이틀을 입력해주세요"}
+                </p>
               </div>
             </div>
           </div>
@@ -108,19 +112,21 @@ export default function StylePreview({
 
         {selectedStyle === "심플" && (
           <div
-            className="flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-white shadow-md"
+            className="flex h-[70px] w-full items-center justify-center rounded-lg bg-[var(--primary-100)] text-[var(--foreground)] shadow-md sm:h-[86px]"
             aria-label={"심플한 텍스트 블록 스타일"}
           >
-            <p>{title || "타이틀을 입력해주세요"}</p>
+            <p className="px-4 text-center text-sm">
+              {title || "타이틀을 입력해주세요"}
+            </p>
           </div>
         )}
 
         {selectedStyle === "카드" && (
           <div
-            className="flex h-[500px] w-[500px] flex-col items-center justify-start gap-4 rounded-xl bg-white drop-shadow-md"
+            className="flex h-[350px] w-full flex-col items-center justify-start gap-3 rounded-xl bg-[var(--primary-100)] text-[var(--foreground)] drop-shadow-md sm:h-[420px] md:h-[500px]"
             aria-label={"카드형식의 이미지가 있는 블록 스타일"}
           >
-            <div className="relative h-[450px] w-full overflow-hidden rounded-t-xl bg-gray-300">
+            <div className="relative h-[300px] w-full overflow-hidden rounded-t-xl bg-gray-300 sm:h-[370px] md:h-[450px]">
               <Image
                 src={imgUrl}
                 alt={`${selectedStyle} 미리보기`}
@@ -131,13 +137,15 @@ export default function StylePreview({
                 aria-label={"카드 이미지"}
               />
             </div>
-            <p>{title || "타이틀을 입력해주세요"}</p>
+            <p className="px-4 text-center text-sm">
+              {title || "타이틀을 입력해주세요"}
+            </p>
           </div>
         )}
 
         {selectedStyle === "배경" && (
           <div
-            className={`relative flex h-[86px] w-[530px] items-center justify-center rounded-lg bg-gray-300 bg-cover bg-center`}
+            className={`relative flex h-[70px] w-full items-center justify-center rounded-lg bg-slate-333 bg-cover bg-center text-[var(--background)] sm:h-[86px]`}
             style={backgroundStyle}
             aria-label={"배경이 있는 블록 스타일"}
           >
@@ -146,7 +154,7 @@ export default function StylePreview({
             )}
             <p
               className={twMerge(
-                "relative",
+                "relative px-4 text-center text-sm sm:text-base",
                 !hasImgError &&
                   isValidUrl &&
                   isValidUrl(linkImg) &&

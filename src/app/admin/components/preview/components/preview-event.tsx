@@ -14,14 +14,16 @@ const PreviewEvent = ({ block }: Props) => {
   const dateEnd = new Date(end as string);
 
   return (
-    <EventPreview
-      title={title}
-      description={description}
-      startDate={dateStart}
-      endDate={dateEnd}
-      startTime={dateStart}
-      endTime={dateEnd}
-    />
+    <div className="w-full px-4 sm:px-0">
+      <EventPreview
+        title={title}
+        description={description}
+        startDate={dateStart}
+        endDate={dateEnd}
+        startTime={dateStart}
+        endTime={dateEnd}
+      />
+    </div>
   );
 };
 

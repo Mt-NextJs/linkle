@@ -9,7 +9,7 @@ interface Props {
   setIsBlockMenuOn: React.Dispatch<React.SetStateAction<boolean>>;
   isBlockMenuOn: boolean;
 }
-const AdminManu = ({
+const AdminMenu = ({
   handlePreviewOpen,
   updateBlockOrder,
   setIsBlockMenuOn,
@@ -46,4 +46,4 @@ const AdminManu = ({
   );
 };
 
-export default AdminManu;
+export default AdminMenu;
