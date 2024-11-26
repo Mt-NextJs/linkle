@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
+import { Collection } from "mongodb";
+
+import { User } from "@/types/user";
 
 import clientPromise from "../../../../../lib/mongodb";
 
 interface JwtPayload {
   userId: string;
+}
+interface UserDocument {
+  userId: string;
+  data: Array<{ id: string }>;
+  calendar: { id: string }[];
 }
 
 export async function POST(request: NextRequest) {
@@ -17,10 +25,10 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
-    const { schedule } = await request.json();
+    const { id } = await request.json();
     const client = await clientPromise;
     const db = client.db("linkle");
-    const collection = db.collection("userdata");
+    const collection: Collection<UserDocument> = db.collection("userdata");
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET as string,
@@ -29,16 +37,16 @@ export async function POST(request: NextRequest) {
 
     const result = await collection.updateOne(
       { userId },
-      { $push: { calendar: schedule } },
+      { $pull: { calendar: { id: id } } },
     );
     if (result.modifiedCount === 0) {
       return NextResponse.json(
-        { message: "Failed to add schedule" },
+        { message: "Failed to delete schedule" },
         { status: 500 },
       );
     }
     return NextResponse.json(
-      { message: "Schedule added successfully" },
+      { message: "Schedule deleted successfully" },
       { status: 200 },
     );
   } catch (error: unknown) {
