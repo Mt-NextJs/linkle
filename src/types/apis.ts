@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const BlockSchema = z.object({
+export const BlockSchema = z.object({
   id: z.number(),
   type: z.number(),
   sequence: z.number(),
@@ -18,3 +18,5 @@ const BlockSchema = z.object({
   dateUpdate: z.string().nullable(),
 });
 export type Block = z.infer<typeof BlockSchema>;
+
+export type ApisResponse<T> = { response: Response; data: T };

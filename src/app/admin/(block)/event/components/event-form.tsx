@@ -56,7 +56,7 @@ export default function EventForm() {
     if (response.ok) {
       alert("이벤트 블록이 성공적으로 추가되었습니다🥰");
       router.push("/admin");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

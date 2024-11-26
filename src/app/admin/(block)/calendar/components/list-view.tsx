@@ -1,10 +1,6 @@
 import React from "react";
 
-import { Schedule } from "./types";
-
-interface ListViewProps {
-  schedules: Schedule[];
-}
+import { Schedule } from "@/types/user";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -36,8 +32,8 @@ const getScheduleStatus = (schedule: Schedule, index: number) => {
     }
   }
 
-  const startDate = new Date(schedule.startDate);
-  const endDate = new Date(schedule.endDate);
+  const startDate = new Date(schedule.dateStart);
+  const endDate = new Date(schedule.dateEnd);
   const now = new Date();
 
   if (now < startDate) {
@@ -63,6 +59,10 @@ const getScheduleStatus = (schedule: Schedule, index: number) => {
     };
   }
 };
+
+interface ListViewProps {
+  schedules: Schedule[];
+}
 
 const ListView: React.FC<ListViewProps> = ({ schedules }) => {
   return (
@@ -111,8 +111,8 @@ const ListView: React.FC<ListViewProps> = ({ schedules }) => {
                   <div className="absolute -left-[1.2rem] top-[0.8rem] h-16 w-1 bg-gray-200"></div>
                   <div className="absolute -left-[1.25rem] top-2 h-1.5 w-1.5 rounded-full bg-orange-500"></div>
                   <p className="mb-1 text-sm text-gray-500">
-                    {formatDate(schedule.startDate)} ~{" "}
-                    {formatDate(schedule.endDate)}
+                    {formatDate(schedule.dateStart)} ~{" "}
+                    {formatDate(schedule.dateEnd)}
                   </p>
                   <p
                     className="text-sm font-semibold"

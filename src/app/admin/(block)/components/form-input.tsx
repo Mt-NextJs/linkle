@@ -14,20 +14,26 @@ export default function FormInput({
 }: FormInputProps) {
   const { required, maxLength, value } = inputProps;
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex justify-between">
-        <label className="title block" htmlFor={id}>
+    <div className="flex flex-col gap-1.5 sm:gap-2">
+      <div className="flex items-center justify-between">
+        <label className="title block text-sm sm:text-base" htmlFor={id}>
           {label}
           {required && <span className="text-warning">*</span>}
         </label>
         {maxLength && (
-          <div className="text-slate-444">
+          <div className="text-sm text-slate-444 dark:text-slate-444-dark sm:text-base">
             {value ? (value as string)?.length : 0}
-            <span className="text-[12px] text-slate-666"> / {maxLength}</span>
+            <span className="text-[11px] text-slate-666 dark:text-slate-666-dark sm:text-[12px]">
+              / {maxLength}
+            </span>
           </div>
         )}
       </div>
-      <input id={id} {...inputProps} />
+      <input
+        id={id}
+        {...inputProps}
+        className={`${inputProps.className || ""} text-sm sm:text-base`}
+      />
     </div>
   );
 }
