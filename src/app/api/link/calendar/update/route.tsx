@@ -8,6 +8,18 @@ interface JwtPayload {
   userId: string;
 }
 
+interface ScheduleType {
+  id: number;
+  title: string;
+  url: string;
+  dateStart: string;
+  dateEnd: string;
+}
+interface NewData {
+  id: number;
+  schedule: ScheduleType[];
+}
+
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("token")?.value;
@@ -20,6 +32,11 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const { id, schedule } = body;
+    const newData: NewData = {
+      id,
+      schedule,
+    };
+
     const client = await clientPromise;
     const db = client.db("linkle");
     const collection = db.collection("userdata");
@@ -31,7 +48,7 @@ export async function POST(request: NextRequest) {
 
     const result = await collection.updateOne(
       { userId: userId, "calendar.id": id },
-      { $set: { "calendar.$": body } },
+      { $set: { "calendar.$": newData } },
     );
     return NextResponse.json(
       { message: "Data successfully updated", result },
