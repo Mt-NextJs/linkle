@@ -6,6 +6,7 @@ import { BsCalendarXFill } from "react-icons/bs";
 import { Schedule } from "@/types/user";
 
 const formatDate = (dateString: string) => {
+  console.log(dateString);
   const date = new Date(dateString);
   const month = date.getUTCMonth() + 1;
   const day = date.getUTCDate();
@@ -71,6 +72,7 @@ export function ScheduleItem({
   const status = getScheduleStatus(schedule);
   const pathname = usePathname();
   const isCalendarPage = pathname.includes("/admin/calendar");
+  console.log(schedule, "sdnaslkdnslk");
 
   const handleEdit = () => {
     router.push(`/admin/calendar/manage?mode=edit&id=${schedule.id}`);

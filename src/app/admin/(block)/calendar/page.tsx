@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
 
-import { Schedule } from "@/types/user";
+import { Schedule, ScheduleResponse } from "@/types/user";
 
 import Layout from "../components/layout";
 import CalendarHeader from "./components/calendar-header";
@@ -12,7 +12,7 @@ import StyleSetting from "./components/style-setting";
 import { adminApiInstance } from "../../../../utils/apis";
 
 function CalendarPage() {
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [schedules, setSchedules] = useState<ScheduleResponse>([]);
   const prevPath = useSearchParams().get("prevPath") || "/admin";
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +31,7 @@ function CalendarPage() {
 
   useEffect(() => {
     fetchSchedules().then();
+    console.log(schedules);
   }, []);
 
   return (
