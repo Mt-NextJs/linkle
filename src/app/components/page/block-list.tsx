@@ -72,11 +72,16 @@ const BlockList = ({ setIsOpen }: Props) => {
   return (
     <>
       <ul
-        className={`flex h-full flex-col overflow-scroll ${isAdmin ? "gap-2 p-2" : "gap-4 pt-4"}`}
+        className={`flex h-full flex-col overflow-scroll ${
+          isAdmin ? "gap-2 p-2" : "gap-3 pt-3 sm:gap-4 sm:pt-4"
+        } bg-background dark:bg-background`}
       >
         {blocks.map((block, index) => {
           return (
-            <li key={`${block.title}${index}`} className="text-slate-666">
+            <li
+              key={`${block.title}${index}`}
+              className="text-[var(--foreground)]"
+            >
               {setComponentType(block)}
             </li>
           );

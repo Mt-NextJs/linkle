@@ -16,21 +16,26 @@ const ProfileBox = () => {
     <>
       <div
         className={twMerge(
-          "relative mt-8 flex h-[200px] w-full flex-col items-center justify-center border text-center",
-          "border-[var(--input-color-line)] bg-[var(--background)] text-[var(--foreground)]",
+          "relative mt-4 sm:mt-6 md:mt-8",
+          "flex h-[160px] w-full sm:h-[180px] md:h-[200px]",
+          "flex-col items-center justify-center",
+          "border border-[var(--input-color-line)]",
+          "bg-[var(--background)] text-[var(--foreground)]",
+          "text-center",
+          "transition-colors duration-200",
         )}
         aria-labelledby="profile-name"
         role="region"
       >
         <div
-          className="absolute left-3 top-4 h-12 w-12 rounded-[40px] border-2 border-slate-333"
+          className="absolute left-2 top-3 h-8 w-8 rounded-full border-2 sm:left-3 sm:top-4 sm:h-10 sm:w-10 md:h-12 md:w-12"
           aria-hidden="true"
         >
           <Image
             src={"/assets/icons/icon_share.png"}
             alt="프로필 공유 아이콘"
             fill
-            className="p-2"
+            className="p-1.5 sm:p-2"
           />
         </div>
         <Link
@@ -44,8 +49,12 @@ const ProfileBox = () => {
             alt="momomoc 프로필 이미지"
             width={80}
             height={80}
+            className="object-contain"
           />
-          <span className="mt-2 font-bold underline" id="profile-name">
+          <span
+            className="mt-2 text-base font-bold underline sm:text-lg"
+            id="profile-name"
+          >
             momomoc
           </span>
         </Link>
