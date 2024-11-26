@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,9 +8,23 @@ import { usePathname } from "next/navigation";
 import HomeMenu from "@app/admin/components/home-menu";
 import { ClientRoute } from "@config/route";
 
-const ProfileBox = () => {
+import { copyText } from "../../../lib/copy";
+
+interface Props {
+  userId: string;
+}
+const ProfileBox = ({ userId }: Props) => {
   const pathname = usePathname();
   const isAdmin = pathname === "/admin";
+  const shareUrl = `https://linkle-nine.vercel.app/profile/${userId}`;
+
+  // 카카오 로직은 도메인 주소가 필요..
+  // const handleShearToKakao = () => {
+  //   const { Kakao, location } = window;
+  //   Kakao.Share.sendScrap({
+  //     requestUrl: location.href,
+  //   });
+  // };
 
   return (
     <>
@@ -27,7 +41,9 @@ const ProfileBox = () => {
         aria-labelledby="profile-name"
         role="region"
       >
-        <div
+        <button
+          type={"button"}
+          onClick={() => copyText(shareUrl)}
           className="absolute left-2 top-3 h-8 w-8 rounded-full border-2 sm:left-3 sm:top-4 sm:h-10 sm:w-10 md:h-12 md:w-12"
           aria-hidden="true"
         >
@@ -37,7 +53,7 @@ const ProfileBox = () => {
             fill
             className="p-1.5 sm:p-2"
           />
-        </div>
+        </button>
         <Link
           href={ClientRoute.PROFILE.DETAIL}
           aria-label="momomoc 프로필 페이지로 이동"
@@ -55,7 +71,7 @@ const ProfileBox = () => {
             className="mt-2 text-base font-bold underline sm:text-lg"
             id="profile-name"
           >
-            momomoc
+            {userId}
           </span>
         </Link>
         {!isAdmin && <HomeMenu />}
