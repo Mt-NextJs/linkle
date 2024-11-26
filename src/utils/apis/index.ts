@@ -114,9 +114,19 @@ class adminApis extends Apis {
 
   async getBlocks() {
     try {
-      return await fetch(`/api/link/list`, {
+      return await fetch(`/api/link/list/`, {
         method: "GET",
         credentials: "include",
+      });
+    } catch (error) {
+      this.handleCatchError(error);
+    }
+  }
+
+  async getProfileBlocks(userId: string) {
+    try {
+      return await fetch(`/api/link/list/${userId}`, {
+        method: "GET",
       });
     } catch (error) {
       this.handleCatchError(error);
