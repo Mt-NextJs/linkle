@@ -42,10 +42,10 @@ const ProfileBox = ({ userId }: Props) => {
         role="region"
       >
         <button
+          id={"kakaotalk-sharing-btn"}
           type={"button"}
           onClick={() => copyText(shareUrl)}
           className="absolute left-2 top-3 h-8 w-8 rounded-full border-2 sm:left-3 sm:top-4 sm:h-10 sm:w-10 md:h-12 md:w-12"
-          aria-hidden="true"
         >
           <Image
             src={"/assets/icons/icon_share.png"}
