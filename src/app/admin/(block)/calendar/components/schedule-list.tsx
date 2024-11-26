@@ -158,8 +158,8 @@ export default function ScheduleList() {
     if (!response) return;
     if (response.ok) {
       const { result } = await response.json();
-      console.log(result, "result");
-      setSchedules(result);
+      console.log(result.calendar);
+      setSchedules(result.calendar);
     } else await blockApis.handleError(response);
   };
 
