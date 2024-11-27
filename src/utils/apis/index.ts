@@ -22,6 +22,16 @@ class Apis {
     if (!validation.success) console.error(validation.error);
     return validation?.data || responseData;
   }
+
+  async getAllUsers({ limit, offset = 0 }: { offset?: number; limit: number }) {
+    try {
+      return await fetch(`/api/user/userlist?offset=${offset}&limit=${limit}`, {
+        method: "GET",
+      });
+    } catch (error) {
+      this.handleCatchError(error);
+    }
+  }
 }
 
 class adminApis extends Apis {
@@ -159,7 +169,8 @@ const getInstance = async (type?: string) => {
   if (type === "auth") return new AuthApis();
 };
 
+const mainApiInstance = getInstance() as Promise<Apis>;
 const adminApiInstance = getInstance("block") as Promise<adminApis>;
 const authApiInstance = getInstance("auth") as Promise<AuthApis>;
 
-export { adminApiInstance, authApiInstance };
+export { adminApiInstance, authApiInstance, mainApiInstance };
