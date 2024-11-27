@@ -36,74 +36,11 @@ const Page = () => {
     } else await blockApis.handleResponseError(response);
   };
 
-  // const addImageBlock = async () => {
-  //   const token = sessionStorage.getItem("token");
-  //   if (!token) {
-  //     router.push("/login");
-  //     return;
-  //   }
-  //   const nowSequence = await getSequence(token);
-  //
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify(params),
-  //       },
-  //     );
-  //     if (response.ok) {
-  //       alert("이미지 블록 추가 완료");
-  //       router.push("/admin");
-  //     } else {
-  //       const { status } = response;
-  //       console.log(status);
-  //       if (status === 500) {
-  //         alert("서버 에러");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleAddButtonClick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedImageUrl) return;
     addImageBlock();
   };
-
-  // const handeInputImageClick = () => {
-  //   inputImageRef.current?.click();
-  // };
-
-  // const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (!file) {
-  //     return;
-  //   }
-  //   const reader = new FileReader();
-  //   reader.onload = (e) => {
-  //     const dataUrl = e.target?.result;
-  //     if (typeof dataUrl !== "string") {
-  //       return;
-  //     }
-  //     setPreviewImageUrl(dataUrl);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-
-  // const handleAddButtonClick = () => {
-  //   if (!checkImageUrl(imageUrl)) {
-  //     alert("이미지 URL을 확인해주세요.");
-  //     return;
-  //   }
-  //   setSelectedImageUrl(imageUrl || previewImageUrl);
-  // };
 
   const setImageText = (text: string) => {
     if (!checkUrl(text) && text !== "") {
@@ -129,14 +66,6 @@ const Page = () => {
         required
         aria-label="이미지 URL을 입력하세요"
       />
-      {/*<input*/}
-      {/*  id="file"*/}
-      {/*  ref={inputImageRef}*/}
-      {/*  type="file"*/}
-      {/*  accept="image/*"*/}
-      {/*  style={{ display: "none" }}*/}
-      {/*  onChange={selectFile}*/}
-      {/*/>*/}
       <ImageBox
         selectedImageUrl={selectedImageUrl}
         connectingUrl={connectingUrl}
