@@ -25,13 +25,18 @@ const PreviewEvent = dynamic(
 );
 
 interface Props {
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const BlockList = ({ setIsOpen }: Props) => {
+const BlockList = ({ setIsOpen, setUserId }: Props) => {
   const pathname = usePathname();
-  const userId = pathname.split("/")[pathname.length - 1];
+  const splitPathName = pathname.split("/");
+  const userId = splitPathName[splitPathName.length - 1];
   const isAdmin = pathname.includes("admin");
   const [blocks, setBlocks] = useState<Block[]>([]);
+  useEffect(() => {
+    setUserId(userId);
+  }, [pathname]);
 
   useEffect(() => {
     getBlocks().then();
@@ -39,6 +44,8 @@ const BlockList = ({ setIsOpen }: Props) => {
 
   async function getBlocks() {
     const blockApis = await adminApiInstance;
+    if (!isAdmin && !userId) return;
+    console.log(userId);
     const response = userId
       ? await blockApis.getProfileBlocks(userId)
       : await blockApis.getBlocks();
