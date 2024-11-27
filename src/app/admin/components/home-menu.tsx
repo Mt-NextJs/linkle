@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 import UserMenu from "@app/admin/components/user-menu";
@@ -17,22 +17,23 @@ const HomeMenu = () => {
       )}
       <nav
         aria-label="프로필 관련 메뉴"
-        className="absolute right-3 top-3 sm:right-4 sm:top-4"
+        className="absolute right-2 top-3 sm:right-3 sm:top-4"
       >
         <button
           onClick={() => setIsMenuOn((prev) => !prev)}
-          className="rounded-3xl border-2 border-gray-200 bg-white p-1.5 shadow-inner transition-colors duration-200 dark:bg-[var(--background)] sm:p-2"
+          className="h-10 w-10 rounded-full border-2 border-[var(--input-color-line)] bg-[var(--background)] transition-all duration-200 hover:border-[var(--primary-300)] hover:bg-[var(--primary-100)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--background)] active:scale-95"
           aria-expanded={isMenuOn}
           aria-controls="user-menu"
           aria-label="프로필 메뉴 열기/닫기"
         >
-          <Image
-            src="/assets/icons/icon_menu.png"
-            alt=""
-            width={20}
-            height={20}
-            className="h-4 w-4 sm:h-5 sm:w-5"
-          />
+          <div className="relative h-full w-full">
+            <Image
+              src="/assets/icons/icon_menu.png"
+              alt=""
+              fill
+              className="p-2 transition-opacity duration-200 group-hover:opacity-80 dark:opacity-90 dark:invert"
+            />
+          </div>
         </button>
         {isMenuOn && <UserMenu />}
       </nav>

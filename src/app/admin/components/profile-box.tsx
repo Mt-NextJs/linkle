@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 
 import HomeMenu from "@app/admin/components/home-menu";
 import { ClientRoute } from "@config/route";
@@ -11,11 +11,11 @@ import { ClientRoute } from "@config/route";
 import { copyText } from "../../../lib/copy";
 
 interface Props {
-  userId: string;
+  userId?: string;
 }
 const ProfileBox = ({ userId }: Props) => {
-  const pathname = usePathname();
-  const isAdmin = pathname === "/admin";
+  // const pathname = usePathname();
+  // const isAdmin = pathname === "/admin";
   const shareUrl = `https://linkle-nine.vercel.app/profile/${userId}`;
 
   // 카카오 로직은 도메인 주소가 필요..
@@ -45,14 +45,16 @@ const ProfileBox = ({ userId }: Props) => {
           id={"kakaotalk-sharing-btn"}
           type={"button"}
           onClick={() => copyText(shareUrl)}
-          className="absolute left-2 top-3 h-8 w-8 rounded-full border-2 sm:left-3 sm:top-4 sm:h-10 sm:w-10 md:h-12 md:w-12"
+          className="absolute left-3 top-3 h-10 w-10 rounded-full border-2 border-[var(--input-color-line)] bg-[var(--background)] transition-all duration-200 hover:border-[var(--primary-300)] hover:bg-[var(--primary-100)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--background)] active:scale-95 sm:left-4 sm:top-4"
         >
-          <Image
-            src={"/assets/icons/icon_share.png"}
-            alt="프로필 공유 아이콘"
-            fill
-            className="p-1.5 sm:p-2"
-          />
+          <div className="relative h-full w-full">
+            <Image
+              src={"/assets/icons/icon_share.png"}
+              alt="프로필 공유 아이콘"
+              fill
+              className="p-2 transition-opacity duration-200 group-hover:opacity-80 dark:opacity-90 dark:invert"
+            />
+          </div>
         </button>
         <Link
           href={ClientRoute.PROFILE.DETAIL}
