@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 import UserMenu from "@app/admin/components/user-menu";
+import { buttonStyles } from "@styles/common";
 
 const HomeMenu = () => {
   const [isMenuOn, setIsMenuOn] = useState<boolean>(false);
+
   return (
     <>
       {isMenuOn && (
@@ -21,7 +24,7 @@ const HomeMenu = () => {
       >
         <button
           onClick={() => setIsMenuOn((prev) => !prev)}
-          className="h-10 w-10 rounded-full border-2 border-[var(--input-color-line)] bg-[var(--background)] transition-all duration-200 hover:border-[var(--primary-300)] hover:bg-[var(--primary-100)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--background)] active:scale-95"
+          className={twMerge(buttonStyles.base, buttonStyles.interactive)}
           aria-expanded={isMenuOn}
           aria-controls="user-menu"
           aria-label="프로필 메뉴 열기/닫기"
@@ -31,7 +34,7 @@ const HomeMenu = () => {
               src="/assets/icons/icon_menu.png"
               alt=""
               fill
-              className="p-2 transition-opacity duration-200 group-hover:opacity-80 dark:opacity-90 dark:invert"
+              className={twMerge(buttonStyles.icon)}
             />
           </div>
         </button>
