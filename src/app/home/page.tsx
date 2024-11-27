@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 
 import { User } from "@/types/user";
 import { PostCard } from "@app/home/components/post-card";
