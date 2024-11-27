@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import DivideBlock from "@app/admin/components/divide-block";
 import VideoBlock from "@app/admin/components/video-block";
@@ -11,45 +11,29 @@ import TextBlock from "@app/admin/components/text-block";
 import CalendarBlock from "@app/admin/components/calendar-block";
 import LinkBlock from "@app/admin/components/link-block";
 import ToggleButton from "@components/UI/toggle-button";
+import { Block } from "@/types/apis";
 
-interface Block {
-  id: number;
-  type: number;
-  sequence: number;
-  style: number | null;
-  title: string | null;
-  subText01: string | null;
-  subText02: string | null;
-  url: string;
-  imgUrl: string | null;
-  dateStart: string | null;
-  dateEnd: string | null;
-  openYn: "Y" | "N";
-  keepYn: "Y" | "N";
-  dateCreate: string;
-  dateUpdate: string | null;
+interface Props {
+  block: Block;
   index: number;
-  dragStart: (position: number) => void;
-  dragEnter: (position: number) => void;
+  dragStart: (index: number) => void;
+  dragEnter: (index: number) => void;
   drop: () => void;
   isAdmin: boolean;
+  setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
 }
+
 export default function BasicBlock({
-  id,
-  type,
-  sequence,
-  style,
-  title,
-  url,
-  imgUrl,
-  dateStart,
-  dateEnd,
+  block,
   index,
   dragStart,
   dragEnter,
   drop,
   isAdmin,
-}: Block) {
+  setBlocks,
+}: Props) {
+  const { id, type, sequence, style, title, url, imgUrl, dateStart, dateEnd } =
+    block;
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleMenu() {
@@ -122,7 +106,6 @@ export default function BasicBlock({
   }
 
   async function deleteHandler() {
-    console.log(id);
     try {
       const response = await fetch(`/api/link/delete`, {
         credentials: "include",
@@ -137,6 +120,7 @@ export default function BasicBlock({
       if (!response.ok) {
         alert("삭제 실패");
       } else {
+        setBlocks((prev) => prev.filter((block) => block.id !== id));
         alert("삭제 성공");
       }
     } catch (error) {

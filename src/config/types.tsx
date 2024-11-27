@@ -7,6 +7,7 @@ const ClientRouteTypeSchema = z.object({
   ADMIN: z.string(),
   MY: z.string(),
   PROFILE: z.object({
+    DEFAULT: z.string(),
     DETAIL: z.string(),
     EDIT: z.string(),
   }),

@@ -74,7 +74,7 @@ const ProfileBox = ({ userId }: Props) => {
             {userId}
           </span>
         </Link>
-        {!isAdmin && <HomeMenu />}
+        <HomeMenu />
       </div>
     </>
   );
