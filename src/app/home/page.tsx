@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 
 import { User } from "@/types/user";
+import { PostCard } from "@app/home/components/post-card";
+import Header from "@app/home/components/header";
 
 import { mainApiInstance } from "../../utils/apis";
 
-const Page = () => {
+export default function Home() {
   const [userList, setUserList] = useState<User[]>();
   const getAllUsers = async () => {
     const mainApis = await mainApiInstance;
@@ -26,33 +26,15 @@ const Page = () => {
   }, []);
   if (!userList) return <div>Loading..</div>;
   return (
-    <section>
-      <nav className={"flex h-12 items-center py-4"}>
-        <h1 className={"text-2xl"}>linkle</h1>
-      </nav>
-      <ul className={"grid grid-cols-3 gap-4"}>
-        {userList.map((user, index) => {
-          return (
-            <li key={user.userId} className={"bg-gray-500"}>
-              <Link href={`/profile/${user.userId}`}>
-                <div className={"relative h-[120px] w-full"}>
-                  <Image
-                    src={"/assets/images/home-default.jpg"}
-                    fill={true}
-                    alt={"home 기본 이미지"}
-                  />
-                </div>
-                <div className={"p-4"}>
-                  <h1>{user.name}</h1>
-                  <p>{user.email}</p>
-                </div>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
+    <div className="bg-background min-h-screen">
+      <Header />
+      <main className="container px-4 py-8">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {userList.map((post, index) => (
+            <PostCard key={index} {...post} />
+          ))}
+        </div>
+      </main>
+    </div>
   );
-};
-
-export default Page;
+}

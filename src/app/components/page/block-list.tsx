@@ -27,37 +27,17 @@ const PreviewEvent = dynamic(
 interface Props {
   setUserId: React.Dispatch<React.SetStateAction<string>>;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  blocks: Block[];
 }
-const BlockList = ({ setIsOpen, setUserId }: Props) => {
+const BlockList = ({ setIsOpen, setUserId, blocks }: Props) => {
   const pathname = usePathname();
   const splitPathName = pathname.split("/");
   const userId = splitPathName[splitPathName.length - 1];
   const isAdmin = pathname.includes("admin");
-  const [blocks, setBlocks] = useState<Block[]>([]);
+
   useEffect(() => {
     setUserId(userId);
   }, [pathname]);
-
-  useEffect(() => {
-    getBlocks().then();
-  }, []);
-
-  async function getBlocks() {
-    const blockApis = await adminApiInstance;
-    if (!isAdmin && !userId) return;
-    console.log(userId);
-    const response = userId
-      ? await blockApis.getProfileBlocks(userId)
-      : await blockApis.getBlocks();
-    if (!response) return;
-    if (response.ok) {
-      const { data } = await response.json();
-      setBlocks(data);
-    } else {
-      sessionStorage.removeItem("token");
-      // alert("블록 조회 실패");
-    }
-  }
 
   if (!blocks || blocks.length === 0) return <EmptyBlock />;
 
