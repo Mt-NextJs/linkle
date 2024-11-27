@@ -49,18 +49,17 @@
 [data-theme="dark"] {
   --background: #121212;
   --foreground: #f5f5f5;
-  /* Primary Colors - 다크 모드 수정 */
-  --primary: #ff6b31; /* 다크모드에서 더 선명하게 */
-  --primary-100: #1a0c04; /* 더 어둡게 조정 */
-  --primary-200: #331808; /* 더 어둡게 조정 */
-  --primary-250: #662410; /* 조정 */
-  --primary-300: #993618; /* 조정 */
-  --primary-350: #cc4820; /* 조정 */
-  --primary-400: #ff5b1a; /* 유지 */
-  --primary-450: #ff6b31; /* 유지 */
-  /* Input Colors - 다크 모드 수정 */
-  --input-color-line: #993618; /* 더 밝게 조정 */
-  --input-color-bg: #1a0c04; /* 더 어둡게 조정 */
+  /* Primary Colors - 다크 모드 */
+  --primary: #ff6b31;
+  --primary-100: #1a0c04;
+  --primary-200: #331808;
+  --primary-250: #662410;
+  --primary-300: #993618;
+  --primary-350: #cc4820;
+  --primary-400: #ff5b1a;
+  --primary-450: #ff6b31;
+  --input-color-line: #993618;
+  --input-color-bg: #1a0c04;
 }
 
 /* 시스템 설정에 맞춘 다크 모드 테마 적용 */
