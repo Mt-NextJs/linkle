@@ -77,26 +77,13 @@ const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
               >
                 <BasicBlock
                   key={block.id}
-                  id={block.id}
-                  type={block.type}
-                  title={block.title || "제목 없음"}
-                  sequence={block.sequence}
-                  style={block.style}
-                  subText01={block.subText01}
-                  subText02={block.subText02}
-                  url={block.url}
-                  imgUrl={block.imgUrl}
-                  dateStart={block.dateStart}
-                  dateEnd={block.dateEnd}
-                  openYn={block.openYn}
-                  keepYn={block.keepYn}
-                  dateCreate={block.dateCreate}
-                  dateUpdate={block.dateUpdate}
                   index={index}
                   dragStart={dragStart}
                   dragEnter={dragEnter}
                   drop={drop}
                   isAdmin={isAdmin}
+                  setBlocks={setBlocks}
+                  block={block}
                 />
               </li>
             ))}
