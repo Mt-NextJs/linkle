@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 import ProfileBox from "@app/admin/components/profile-box";
 import PreviewModal from "@app/admin/components/preview/preview-modal";
-import VisitSection from "@app/admin/components/visit-section";
 import BlockListSection from "@app/admin/components/block-list-section";
 import AdminMenu from "@app/admin/components/admin-menu";
 import { Block } from "@/types/apis";
@@ -25,9 +24,6 @@ function Admin() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const [showTotal, setShowTotal] = useState(0);
-  const [showToday, setShowToday] = useState(0);
-  const [showRealTime, setShowRealTime] = useState(0);
   const [isScrollTopVisible, setIsScrollTopVisible] = useState(false);
   const [isBlockMenuOn, setIsBlockMenuOn] = useState<boolean>(false);
   const [isPreviewOn, setIsPreviewOn] = useState<boolean>(false);
@@ -69,13 +65,11 @@ function Admin() {
   };
 
   return (
-    <main className="max-h-screen w-full px-14" aria-label="관리자 대시보드">
+    <main
+      className="mx-auto max-h-screen max-w-2xl"
+      aria-label="관리자 대시보드"
+    >
       <ProfileBox />
-      <VisitSection
-        showRealTime={showRealTime}
-        showToday={showToday}
-        showTotal={showTotal}
-      />
       <BlockListSection
         blocks={blocks}
         setBlocks={setBlocks}

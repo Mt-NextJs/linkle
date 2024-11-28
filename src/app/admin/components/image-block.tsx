@@ -1,15 +1,26 @@
 import Image from "next/image";
+import { ImageIcon } from "lucide-react";
+
+import { BlockType, TypeBlock } from "@/types/block_types";
+import Icons from "@app/profile/[userId]/components/icons";
 
 interface ImageBlockProps {
+  type: TypeBlock;
   url: string;
   imgUrl: string | null;
   title: string | null;
 }
 
-export default function ImageBlock({ url, imgUrl, title }: ImageBlockProps) {
+export default function ImageBlock({
+  type,
+  url,
+  imgUrl,
+  title,
+}: ImageBlockProps) {
   return (
-    <>
-      <div className="flex">
+    <div className={"flex items-center"}>
+      <Icons type={type} />
+      <div className="flex flex-1 items-center gap-3">
         <div className="relative ml-6 h-[86px] w-[86px]">
           <Image
             src={imgUrl == null ? "없음" : imgUrl}
@@ -19,8 +30,8 @@ export default function ImageBlock({ url, imgUrl, title }: ImageBlockProps) {
             className="rounded border"
           />
         </div>
-        <div className="ml-10 mt-7 font-bold">{title}</div>
+        <p className="text-sm font-medium">{title}</p>
       </div>
-    </>
+    </div>
   );
 }

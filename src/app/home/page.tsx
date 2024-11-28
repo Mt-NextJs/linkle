@@ -26,7 +26,7 @@ export default function Home() {
   }, []);
   if (!userList) return <div>Loading..</div>;
   return (
-    <div className="bg-background min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <main className="container px-4 py-8">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

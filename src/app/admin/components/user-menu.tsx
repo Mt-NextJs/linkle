@@ -26,8 +26,8 @@ const UserMenu = () => {
     }
   }
   return (
-    <div id="user-menu" className="relative right-0 top-1">
-      <ul className="absolute right-0 w-max rounded-md border-1 border-[var(--input-color-line)] bg-[var(--background)] px-2 text-sm text-[var(--foreground)] sm:text-base">
+    <div id="user-menu" className="top-30 absolute right-8 z-20">
+      <ul className="right-0 w-max rounded-md border-1 border-gray-200 bg-white px-2 text-sm dark:bg-[var(--background)] dark:text-[var(--foreground)] sm:text-base">
         <li className="p-1.5 sm:p-2">
           <Link
             href={isAdmin ? "" : ClientRoute.ADMIN}

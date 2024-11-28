@@ -19,6 +19,7 @@
     ],
     "baseUrl": "./src",
     "paths": {
+      "@/*": ["./*"],
       "@app/*": ["app/*"],
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
