@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Link, Menu } from "lucide-react";
 
@@ -10,6 +10,7 @@ import Contour from "../(block)/components/contour";
 
 const HomeMenu = () => {
   const [isMenuOn, setIsMenuOn] = useState<boolean>(false);
+
   return (
     <>
       <nav aria-label="프로필 관련 메뉴" className="sm:right-4 sm:top-4">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import Image from "next/image";
@@ -26,11 +26,11 @@ import { ScrollArea } from "@/components/UI/scroll-area";
 import { copyText } from "../../../lib/copy";
 
 interface Props {
-  userId: string;
+  userId?: string;
 }
 const ProfileBox = ({ userId }: Props) => {
-  const pathname = usePathname();
-  const isAdmin = pathname === "/admin";
+  // const pathname = usePathname();
+  // const isAdmin = pathname === "/admin";
   const shareUrl = `https://linkle-nine.vercel.app/profile/${userId}`;
 
   // 카카오 로직은 도메인 주소가 필요..
