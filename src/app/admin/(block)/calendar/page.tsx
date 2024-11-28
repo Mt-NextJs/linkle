@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
 
-import { Schedule, ScheduleResponse } from "@/types/user";
+import { ScheduleResponse } from "@/types/user";
 
 import Layout from "../components/layout";
 import CalendarHeader from "./components/calendar-header";
@@ -31,7 +31,6 @@ function CalendarPage() {
 
   useEffect(() => {
     fetchSchedules().then();
-    console.log(schedules);
   }, []);
 
   return (

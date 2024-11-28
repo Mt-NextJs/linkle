@@ -33,7 +33,7 @@ const Preview = ({ setIsOpen }: Props) => {
   }
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-h-screen max-w-2xl">
       <ProfileBox userId={userId} />
       <BlockList setIsOpen={setIsOpen} setUserId={setUserId} blocks={blocks} />
     </div>

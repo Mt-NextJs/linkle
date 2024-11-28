@@ -1,10 +1,13 @@
+import Icons from "@app/profile/[userId]/components/icons";
+import { TypeBlock } from "@/types/block_types";
+
 import Gap from "./divide-block-sub/gap";
 import Dot from "./divide-block-sub/dot";
 import Line from "./divide-block-sub/line";
 import ZigZag from "./divide-block-sub/zigzag";
 import Point from "./divide-block-sub/point";
 interface DivideBlockProps {
-  type: number;
+  type: TypeBlock;
   sequence: number;
   style: number | null;
 }
@@ -26,7 +29,12 @@ export default function DivideBlock({ type, style }: DivideBlockProps) {
         return <></>;
     }
   }
-  return <>{style != null && renderComponent(style)}</>;
+  return (
+    <div className={"flex w-full items-center"}>
+      <Icons type={type} />
+      {style != null && renderComponent(style)}
+    </div>
+  );
 }
 
 // 공백: 1,

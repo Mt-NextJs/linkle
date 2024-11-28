@@ -1,9 +1,12 @@
+import { TypeBlock } from "@/types/block_types";
+
 import TypeOne from "./link-block-sub/type-one";
 import TypeTwo from "./link-block-sub/type-two";
 import TypeThree from "./link-block-sub/type-three";
 import TypeFour from "./link-block-sub/type-four";
 
 interface LinkBlockProps {
+  type: TypeBlock;
   url: string;
   style: number | null;
   imgUrl: string | null;
@@ -11,6 +14,7 @@ interface LinkBlockProps {
 }
 
 export default function LinkBlock({
+  type,
   url,
   style,
   imgUrl,
@@ -20,19 +24,43 @@ export default function LinkBlock({
     switch (style) {
       case 1:
         return (
-          <TypeOne url={url} style={style} imgUrl={imgUrl} title={title} />
+          <TypeOne
+            url={url}
+            type={type}
+            style={style}
+            imgUrl={imgUrl}
+            title={title}
+          />
         );
       case 2:
         return (
-          <TypeTwo url={url} style={style} imgUrl={imgUrl} title={title} />
+          <TypeTwo
+            url={url}
+            type={type}
+            style={style}
+            imgUrl={imgUrl}
+            title={title}
+          />
         );
       case 3:
         return (
-          <TypeThree url={url} style={style} imgUrl={imgUrl} title={title} />
+          <TypeThree
+            url={url}
+            type={type}
+            style={style}
+            imgUrl={imgUrl}
+            title={title}
+          />
         );
       case 4:
         return (
-          <TypeFour url={url} style={style} imgUrl={imgUrl} title={title} />
+          <TypeFour
+            url={url}
+            type={type}
+            style={style}
+            imgUrl={imgUrl}
+            title={title}
+          />
         );
       default:
         return <></>;

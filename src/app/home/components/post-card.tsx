@@ -16,11 +16,13 @@ export function PostCard({ userId, name, email }: User) {
           alt={"유저 대표 이미지"}
           width={400}
           height={209}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
       </div>
       <div className="p-4">
-        <h2 className="mb-2 text-xl font-bold tracking-tight">{name}</h2>
+        <h2 className="mb-2 text-xl font-bold tracking-tight text-gray-700">
+          {name}
+        </h2>
         <p className="mb-4 line-clamp-2 text-sm text-gray-600">{email}</p>
         <div className="flex items-center justify-between text-sm text-gray-500">
           <span>{userId}</span>

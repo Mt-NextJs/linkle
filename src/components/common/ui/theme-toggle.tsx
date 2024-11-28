@@ -37,7 +37,7 @@ export function ThemeToggle({ cookieTheme }: Props) {
   return (
     <button
       onClick={() => handleThemeChange()}
-      className="fixed bottom-4 left-4 rounded-lg p-2 hover:bg-[var(--primary-200)]"
+      className="fixed bottom-4 left-4 z-20 rounded-lg bg-gray-400 bg-opacity-30 p-2 hover:bg-[var(--primary-200)]"
       aria-label="Toggle theme"
     >
       {theme === "light" ? (

@@ -92,7 +92,7 @@ export default function StyleSetting({ schedules }: Props) {
         </h2>
         <button
           onClick={toggleOpen}
-          className="cursor-pointer rounded bg-orange-600"
+          className="cursor-pointer rounded"
           aria-expanded={isOpen ? "true" : "false"}
           aria-controls="schedule-section"
           aria-label={isOpen ? "일정 숨기기" : "일정 보기"}

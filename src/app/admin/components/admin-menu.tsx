@@ -1,4 +1,5 @@
 import React from "react";
+import { Plus } from "lucide-react";
 
 import CircleButton from "@app/admin/components/buttons/circle-button";
 import BlockMenu from "@app/admin/(block)/block-menu";
@@ -38,7 +39,7 @@ const AdminMenu = ({
           className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-md transition-colors hover:bg-orange-600"
           aria-label="새 블록 추가"
         >
-          +
+          <Plus className="h-6 w-6" />
         </button>
       </div>
       <BlockMenu setIsOpen={setIsBlockMenuOn} isOpen={isBlockMenuOn} />

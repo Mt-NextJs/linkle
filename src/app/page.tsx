@@ -7,7 +7,7 @@ import { ClientRoute } from "@config/route";
 
 export default function Intro() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-primary-450 dark:from-primary-350 dark:to-primary-450">
+    <div className="min-h-screen bg-primary-450 bg-gradient-to-br from-primary to-primary-450 dark:from-primary-350 dark:to-primary-450">
       {/* 스크린 리더 전용 텍스트*/}
       <h1 className="sr-only">
         Link At Once! 소셜 프로필 링크 관리 서비스 in my link 입니다!
@@ -42,7 +42,7 @@ export default function Intro() {
         >
           <Link
             href={ClientRoute.LOGIN}
-            className="button hover:bg-foreground mb-6 mt-6 bg-white px-8 text-xl text-primary shadow transition duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 sm:text-2xl md:mb-10 md:mt-10 md:text-3xl"
+            className="button mb-6 mt-6 bg-white px-8 text-xl text-[#121212] shadow transition duration-300 hover:bg-primary-200 focus:outline-none focus:ring-2 focus:ring-white/50 sm:text-2xl md:mb-10 md:mt-10 md:text-3xl"
             aria-label="시작하기 - Link At Once 서비스 시작하기"
           >
             START!

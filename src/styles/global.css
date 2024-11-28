@@ -47,7 +47,7 @@
 }
 /* 다크 모드 컬러 변수들 */
 [data-theme="dark"] {
-  --background: #121212;
+  --background: #121212 !important;
   --foreground: #f5f5f5;
   /* Primary Colors - 다크 모드 */
   --primary: #ff6b31;

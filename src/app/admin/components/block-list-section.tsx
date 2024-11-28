@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import Link from "next/link";
+import { Calendar } from "lucide-react";
 
 import EmptyBlock from "@components/UI/empty-block";
 import BasicBlock from "@components/basicblock";
@@ -38,7 +39,7 @@ const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
   };
   return (
     <section className="mt-4" aria-labelledby="block-list-title">
-      <div className="flex justify-between gap-1">
+      <div className="mx-4 flex justify-between gap-1">
         <div className="flex gap-1">
           <h2 id="block-list-title" className="font-bold">
             블록 리스트
@@ -60,8 +61,8 @@ const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
             </div>
           </div>
         </div>
-        <Link href={"/admin/calendar"}>
-          <FaRegCalendarAlt size={28} />
+        <Link href={"/admin/calendar"} className={"text-gray-700"}>
+          <Calendar className="h-[28px] w-[28px]" />
         </Link>
       </div>
 
