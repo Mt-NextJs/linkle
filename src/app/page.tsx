@@ -42,7 +42,7 @@ export default function Intro() {
         >
           <Link
             href={ClientRoute.LOGIN}
-            className="button hover:bg-foreground mb-6 mt-6 bg-white px-8 text-xl text-primary shadow transition duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 sm:text-2xl md:mb-10 md:mt-10 md:text-3xl"
+            className="button mb-6 mt-6 bg-white px-8 text-xl text-primary shadow transition duration-300 hover:bg-foreground focus:outline-none focus:ring-2 focus:ring-white/50 sm:text-2xl md:mb-10 md:mt-10 md:text-3xl"
             aria-label="시작하기 - Link At Once 서비스 시작하기"
           >
             START!

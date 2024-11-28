@@ -7,7 +7,6 @@ import ReactQueryProvider from "@components/providers/React-Query-Provider";
 //styles
 import "@styles/global.css";
 import "@styles/common.css";
-import Script from "next/script";
 import React from "react";
 
 import KakaoScript from "../utils/kakao-script";

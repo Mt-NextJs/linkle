@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { EventContentArg } from "@fullcalendar/core";
 
-import { Schedule } from "./types";
+import { Schedule } from "@/types/user";
 
 interface CalendarViewProps {
   schedules: Schedule[];
@@ -32,8 +32,8 @@ const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
 
   const getBackgroundColor = (schedule: Schedule, index: number) => {
     if (["1", "2", "3"].includes(String(schedule.id))) {
-      const startDay = new Date(schedule.startDate).getDate();
-      const endDay = new Date(schedule.endDate).getDate();
+      const startDay = new Date(schedule.dateStart).getDate();
+      const endDay = new Date(schedule.dateEnd).getDate();
 
       if (startDay >= 2 && endDay <= 6) {
         return "#575757";
@@ -49,10 +49,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({ schedules }) => {
 
   const getEvents = useCallback(() => {
     return schedules.map((schedule, index) => ({
-      id: schedule.id,
+      id: `${schedule.id}`,
       title: schedule.title,
-      start: schedule.startDate,
-      end: schedule.endDate,
+      start: schedule.dateStart,
+      end: schedule.dateEnd,
       backgroundColor: getBackgroundColor(schedule, index),
       borderColor: "transparent",
       classNames: ["calendar-event"],

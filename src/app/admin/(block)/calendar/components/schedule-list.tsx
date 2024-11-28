@@ -72,7 +72,6 @@ export function ScheduleItem({
   const status = getScheduleStatus(schedule);
   const pathname = usePathname();
   const isCalendarPage = pathname.includes("/admin/calendar");
-  console.log(schedule, "sdnaslkdnslk");
 
   const handleEdit = () => {
     router.push(`/admin/calendar/manage?mode=edit&id=${schedule.id}`);

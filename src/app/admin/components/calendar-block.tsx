@@ -1,12 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 
+import { TypeBlock } from "@/types/block_types";
+import Icons from "@app/profile/[userId]/components/icons";
+
 interface CalendarProps {
+  type: TypeBlock;
   dateStart: string | null;
   dateEnd: string | null;
 }
 
-export default function CalendarBlock({ dateStart, dateEnd }: CalendarProps) {
+export default function CalendarBlock({
+  type,
+  dateStart,
+  dateEnd,
+}: CalendarProps) {
   useEffect(() => {
     const checked = dateChecker();
     console.log(checked);
@@ -40,7 +48,8 @@ export default function CalendarBlock({ dateStart, dateEnd }: CalendarProps) {
   }
 
   return (
-    <>
+    <div className={"flex w-full items-center gap-4"}>
+      <Icons type={type} />
       <div className="flex">
         <div className="ml-3">
           <div className="font-bold uppercase text-red-500">open</div>
@@ -53,6 +62,6 @@ export default function CalendarBlock({ dateStart, dateEnd }: CalendarProps) {
           <div className="font-bold">{closed}개</div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
