@@ -15,10 +15,6 @@ jobs:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       JWT_SECRET: ${{secrets.JWT_SECRET}}
 
-    env:
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}
-      JWT_SECRET: ${{secrets.JWT_SECRET}}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
