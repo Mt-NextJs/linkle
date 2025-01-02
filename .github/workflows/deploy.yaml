@@ -3,7 +3,7 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - home
+      - main
 
 permissions:
   contents: write
