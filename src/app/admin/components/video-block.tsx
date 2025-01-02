@@ -1,12 +1,30 @@
 import Image from "next/image";
+import React from "react";
 
-export default function VideoBlock() {
+import Icons from "@app/profile/[userId]/components/icons";
+import { TypeBlock } from "@/types/block_types";
+interface VideoBlockProps {
+  type: TypeBlock;
+  title: string | null;
+  url: string | null;
+}
+export default function VideoBlock({ type, title, url }: VideoBlockProps) {
   return (
-    <>
-      <div className="ml-[180px] flex h-[84px] w-[320px] flex-col items-center justify-start gap-[14px] rounded-xl bg-white drop-shadow-md">
-        <div className="relative h-[63px] w-full flex-grow-[3] overflow-hidden rounded-t-xl bg-gray-300"></div>
-        <p className="flex-grow-[1] font-bold"></p>
+    <div className="flex w-full items-center gap-4">
+      <Icons type={type} />
+
+      <div className={"flex w-full flex-col items-center"}>
+        <div className="shadow-lg">
+          {url && (
+            <object type="text/html" data={url} width="300" height="200">
+              <div>동영상 주소를 확인해주세요</div>
+            </object>
+          )}
+        </div>
+        <div className="flex w-4/5 items-center justify-center">
+          <p className="text-xl font-bold">{title}</p>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

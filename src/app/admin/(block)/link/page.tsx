@@ -1,8 +1,15 @@
-import Link from "next/link";
-import LinkForm from "./components/link-form";
-import Image from "next/image";
-import Layout from "@app/admin/(block)/components/layout";
+import React, { Suspense } from "react";
 
-export default function LinkPage() {
+import LinkForm from "./components/link-form";
+
+function LinkPage() {
   return <LinkForm />;
+}
+
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LinkPage />
+    </Suspense>
+  );
 }

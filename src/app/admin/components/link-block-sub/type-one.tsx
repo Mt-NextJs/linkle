@@ -1,17 +1,30 @@
+import { Link2 } from "lucide-react";
+
+import Icons from "@app/profile/[userId]/components/icons";
+import { TypeBlock } from "@/types/block_types";
+
 interface LinkBlockProps {
+  type: TypeBlock;
   url: string;
   style: number | null;
   imgUrl: string | null;
   title: string | null;
 }
 
-export default function TypeOne({ url, style, imgUrl, title }: LinkBlockProps) {
+export default function TypeOne({
+  url,
+  style,
+  imgUrl,
+  title,
+  type,
+}: LinkBlockProps) {
   return (
-    <>
-      <div className="ml-[85px] flex h-[86px] w-[530px] cursor-pointer items-center justify-center rounded-lg border bg-white shadow-md">
-        <p className="text-2xl font-bold">{title}</p>
+    <div className={"flex items-center gap-4"}>
+      <Icons type={type} />
+      <div className="flex-1">
+        <p className="text-sm font-medium">{title}</p>
       </div>
-    </>
+    </div>
   );
 }
 //simple

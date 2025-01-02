@@ -1,6 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
+
+import { TypeBlock } from "@/types/block_types";
+import Icons from "@app/profile/[userId]/components/icons";
 
 interface LinkBlockProps {
+  type: TypeBlock;
   url: string;
   style: number | null;
   imgUrl: string | null;
@@ -8,15 +13,17 @@ interface LinkBlockProps {
 }
 
 export default function TypeThree({
+  type,
   url,
   style,
   imgUrl,
   title,
 }: LinkBlockProps) {
   return (
-    <>
-      <div className="ml-[180px] flex h-[84px] w-[320px] flex-col items-center justify-start gap-[14px] rounded-xl bg-white drop-shadow-md">
-        <div className="relative h-[63px] w-full flex-grow-[3] overflow-hidden rounded-t-xl bg-gray-300">
+    <div className={"flex items-center gap-4"}>
+      <Icons type={type} />
+      <Link href={url} className={"flex w-full flex-col items-center"}>
+        <div className="relative h-[100px] w-full flex-grow-[3] rounded-t-xl bg-gray-300">
           <Image
             src={imgUrl == null ? "없음" : imgUrl}
             alt={`미리보기`}
@@ -26,8 +33,8 @@ export default function TypeThree({
           />
         </div>
         <p className="flex-grow-[1] font-bold">{title}</p>
-      </div>
-    </>
+      </Link>
+    </div>
   );
 }
 

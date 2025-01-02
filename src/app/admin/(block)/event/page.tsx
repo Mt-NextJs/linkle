@@ -1,11 +1,21 @@
-import Link from "next/link";
-import Image from "next/image";
+import React, { Suspense } from "react";
+
 import EventForm from "./components/event-form";
 
-export default function page() {
+function Page() {
+  return <EventForm />;
+}
+
+export default function PageWithSuspense() {
   return (
-    <>
-      <EventForm />
-    </>
+    <Suspense
+      fallback={
+        <div role="status" aria-label="페이지 로딩 중...">
+          Loading...
+        </div>
+      }
+    >
+      <Page />
+    </Suspense>
   );
 }

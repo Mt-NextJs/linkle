@@ -1,20 +1,23 @@
 "use client";
 
-import React, {
+import { useRouter, useSearchParams } from "next/navigation";
+import {
   ChangeEvent,
   FormEvent,
   useCallback,
   useEffect,
   useState,
 } from "react";
-import StylePreview from "./style-preview";
-import StyleType from "./style-type";
-import FormInput from "../../components/form-input";
-import { getSequence } from "lib/get-sequence";
+
 import AddButton from "@app/admin/(block)/components/buttons/add-button";
 import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
 import Layout from "@app/admin/(block)/components/layout";
-import { useRouter } from "next/navigation";
+import { checkUrl } from "lib/check-url";
+
+import { adminApiInstance } from "../../../../../utils/apis";
+import FormInput from "../../components/form-input";
+import StylePreview from "./style-preview";
+import StyleType from "./style-type";
 
 const styleItemNames = ["썸네일", "심플", "카드", "배경"];
 
@@ -23,65 +26,37 @@ export default function LinkForm() {
   const [title, setTitle] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
   const [linkImg, setLinkImg] = useState("");
-  const [isLinkUrlError, setIsLinkUrlError] = useState(false);
-  const [isImgUrlError, setIsImgUrlError] = useState(false);
-  const [isImgUrlConnectionError, setIsImgUrlConnectionError] = useState(false);
+  const [isLinkUrlErrorMsg, setIsLinkUrlErrorMsg] = useState(false);
+  const [isImgUrlErrorMsg, setIsImgUrlErrorMsg] = useState(false);
+  const [isImgUrlConnectionErrorMsg, setIsImgUrlConnectionErrorMsg] =
+    useState(false);
+  const prevPath = useSearchParams().get("prevPath") || "/admin";
 
-  const isValidUrl = useCallback(
-    (url: string) => /^https?:\/\/.+\..+/.test(url),
-    [],
-  );
+  const isValidUrl = useCallback((url: string) => checkUrl(url), []);
+
   const router = useRouter();
 
   async function postLink() {
-    const token = sessionStorage.getItem("token");
-    if (!token) throw new Error("인증 토큰이 없습니다. 다시 로그인해주세요.");
-    const prevSequence = await getSequence(token);
-
     const postData = {
       type: 3,
-      sequence: prevSequence + 1,
       style: styleItemNames.indexOf(selectedStyle) + 1,
       title,
       url: linkUrl.trim(),
       imgUrl: linkImg.trim(),
     };
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/link/add`,
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(postData),
-        },
-      );
-
-      if (!response.ok) {
-        const errorResponse = await response.json(); // 서버에서 반환한 오류 메시지를 파싱
-        throw new Error(
-          `Error: ${response.status}, Message: ${errorResponse.message || "Unknown error"}`,
-        );
-      }
-
+    console.log(linkImg.trim());
+    const blockApis = await adminApiInstance;
+    const response = await blockApis.addBlock(postData);
+    if (!response) return;
+    if (response.ok) {
       alert("링크 블록이 성공적으로 추가되었습니다🥰");
       router.push("/admin");
-
-      // const responseData = await response.json();
-      // console.log(responseData);
-    } catch (error) {
-      throw new Error(
-        error instanceof Error ? error.message : "An error occurred",
-      );
-    }
+    } else await blockApis.handleResponseError(response);
   }
 
   useEffect(() => {
-    if (linkImg) setIsImgUrlConnectionError(false);
+    if (linkImg) setIsImgUrlConnectionErrorMsg(false);
   }, [linkImg]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -97,35 +72,35 @@ export default function LinkForm() {
     const newUrl = e.target.value;
     setLinkUrl(newUrl);
     if (newUrl.trim() === "") {
-      setIsLinkUrlError(false);
+      setIsLinkUrlErrorMsg(false);
     } else {
-      setIsLinkUrlError(!isValidUrl(newUrl));
+      setIsLinkUrlErrorMsg(!isValidUrl(newUrl));
     }
   };
   const handleImgUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newUrl = e.target.value;
     setLinkImg(newUrl);
     if (newUrl.trim() === "") {
-      setIsImgUrlError(false);
+      setIsImgUrlErrorMsg(false);
     } else {
-      setIsImgUrlError(!isValidUrl(newUrl));
+      setIsImgUrlErrorMsg(!isValidUrl(newUrl));
     }
   };
 
   const summitButtonDisabled =
-    isLinkUrlError ||
-    isImgUrlError ||
-    isImgUrlConnectionError ||
+    isLinkUrlErrorMsg ||
+    isImgUrlErrorMsg ||
+    isImgUrlConnectionErrorMsg ||
     (selectedStyle === "심플" && (!linkUrl || !title)) ||
     (selectedStyle !== "심플" && (!linkUrl || !title || !linkImg));
 
   return (
-    <Layout title="링크 블록" onSubmit={handleSubmit}>
+    <Layout title="링크 블록" onSubmit={handleSubmit} prevPath={prevPath}>
       <StylePreview
         selectedStyle={selectedStyle}
         title={title}
         linkImg={linkImg}
-        setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+        setIsImgUrlConnectionErrorMsg={setIsImgUrlConnectionErrorMsg}
         isValidUrl={isValidUrl}
       />
 
@@ -135,7 +110,7 @@ export default function LinkForm() {
           <h3 className="title mb-[10px]">
             스타일 <span className="text-red-500">*</span>
           </h3>
-          <div className="flex gap-5">
+          <div className="flex gap-5" aria-label={"스타일 선택 영역"}>
             {styleItemNames.map((name, idx) => (
               <StyleType
                 key={name}
@@ -144,7 +119,7 @@ export default function LinkForm() {
                 selectedStyle={selectedStyle}
                 onSelect={setSelectedStyle}
                 setLinkImg={setLinkImg}
-                setIsImgUrlConnectionError={setIsImgUrlConnectionError}
+                setIsImgUrlConnectionErrorMsg={setIsImgUrlConnectionErrorMsg}
               />
             ))}
           </div>
@@ -153,7 +128,7 @@ export default function LinkForm() {
         <hr className="border-gray-105 my-8 border-t-2" />
 
         {/* Info */}
-        <section className="flex flex-col gap-3">
+        <section className="flex flex-col gap-3" aria-label={"링크 입력 섹션"}>
           <div className="h-[104px]">
             <FormInput
               label="연결할 주소"
@@ -163,8 +138,9 @@ export default function LinkForm() {
               onChange={handleLinkUrlChange}
               placeholder="연결할 주소 url을 입력해주세요"
               required
+              aria-label={"연결할 URL 입력"}
             />
-            {isLinkUrlError && (
+            {isLinkUrlErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
                 올바른 URL 형식을 입력해주세요
               </div>
@@ -180,6 +156,7 @@ export default function LinkForm() {
               placeholder="타이틀을 입력해주세요"
               required
               maxLength={30}
+              aria-label={"타이틀 입력"}
             />
           </div>
           <div className="h-[104px]">
@@ -192,15 +169,16 @@ export default function LinkForm() {
               placeholder="이미지 url을 입력해주세요"
               disabled={selectedStyle === "심플"}
               required={selectedStyle !== "심플"}
+              aria-label={"이미지 URL 입력"}
             />
-            {isImgUrlError && (
+            {isImgUrlErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
-                올바른 URL 형식을 입력해주세요
+                {/* URL 형식이 잘못되었습니다. "http://" 또는 "https://"로 시작하는 유효한 URL을 입력해주세요. */}
               </div>
             )}
-            {isImgUrlConnectionError && (
+            {isImgUrlConnectionErrorMsg && (
               <div className="mt-1 h-5 text-xs text-red-500">
-                잘못된 이미지 경로입니다
+                이미지를 찾을 수 없습니다: URL을 확인해주세요.
               </div>
             )}
           </div>
@@ -212,6 +190,8 @@ export default function LinkForm() {
             type={"submit"}
             text="추가 완료"
             disabled={summitButtonDisabled}
+            role={"button"}
+            aria-label={"링크 블록 추가 버튼"}
           />
         </ButtonBox>
       </div>

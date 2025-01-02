@@ -1,19 +1,41 @@
-export default function EventBlock() {
-  return (
-    <>
-      <div className="flex">
-        <div className="ml-3">
-          <div className="font-bold uppercase text-gray-400">이벤트 명</div>
+import Icons from "@app/profile/[userId]/components/icons";
+import { TypeBlock } from "@/types/block_types";
 
-          <div className="font-bold uppercase text-gray-400">일정</div>
-        </div>
-        <div className="ml-10">
-          <div className="font-bold tracking-wide">10월 이벤트</div>
-          <div className="font-bold tracking-wide">
-            24.10.04 10:00 ~ 24.10.11 18:00
-          </div>
-        </div>
+interface EventBlockProps {
+  type: TypeBlock;
+  title: string | null;
+  dateStart: string | null;
+  dateEnd: string | null;
+}
+
+export default function EventBlock({
+  type,
+  title,
+  dateStart,
+  dateEnd,
+}: EventBlockProps) {
+  const dateStarted = new Date(dateStart as string);
+  const startedYear = dateStarted.getFullYear();
+  const startedMonth = (dateStarted.getMonth() + 1).toString().padStart(2, "0");
+  const startedDay = dateStarted.getDate().toString().padStart(2, "0");
+
+  const dateEnded = new Date(dateEnd as string);
+  const endedYear = dateEnded.getFullYear();
+  const endedMonth = (dateEnded.getMonth() + 1).toString().padStart(2, "0");
+  const endedDay = dateEnded.getDate().toString().padStart(2, "0");
+
+  return (
+    <div className="flex w-full gap-4">
+      <Icons type={type} />
+
+      <div className="ml-3">
+        <div className="font-bold uppercase text-gray-400">이벤트 명</div>
+        <div className="font-bold uppercase text-gray-400">일정</div>
       </div>
-    </>
+      <div className="ml-10">
+        <div className="font-bold tracking-wide">{title}</div>
+        <div className="font-bold tracking-wide">{`${startedYear}-${startedMonth}-${startedDay} ~ ${endedYear}-${endedMonth}-${endedDay}`}</div>
+      </div>
+    </div>
   );
 }
