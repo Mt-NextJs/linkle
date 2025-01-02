@@ -3,6 +3,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+
 import ScheduleForm from "../components/schedule-form";
 
 interface Schedule {
@@ -21,7 +22,13 @@ interface CalendarBlockData {
 
 export default function ScheduleManagementPage() {
   return (
-    <Suspense>
+    <Suspense
+      fallback={
+        <div role="status" aria-label="페이지 로딩 중...">
+          Loading...
+        </div>
+      }
+    >
       <ScheduleContent />
     </Suspense>
   );
@@ -87,12 +94,17 @@ function ScheduleContent() {
   return (
     <div className="flex w-full flex-col gap-6 px-20 py-4">
       <div>
-        <button type="button" onClick={handleClose}>
+        <button
+          type="button"
+          onClick={handleClose}
+          aria-label="이전 페이지로 돌아가기"
+        >
           <Image
             src="/assets/icons/icon_close.png"
-            alt="닫기 아이콘"
+            alt=""
             width={34}
             height={34}
+            aria-hidden="true"
           />
         </button>
       </div>
@@ -101,15 +113,20 @@ function ScheduleContent() {
         {mode === "edit" ? "일정 수정하기" : "일정 추가하기"}
       </h1>
 
-      <p className="text-gray-700">
+      <p
+        className="text-gray-700 dark:text-gray-300"
+        aria-label="일정 자동 정렬 안내"
+      >
         입력하는 진행기간에 따라
         <br />
         전체 일정이 최근 날짜 순서로 자동 정렬됩니다.
       </p>
+
       <ScheduleForm
         mode={mode as "add" | "edit"}
         initialData={schedule}
         calendarBlockId={calendarBlockId}
+        aria-label={`일정 ${mode === "edit" ? "수정" : "추가"} 폼`}
       />
     </div>
   );

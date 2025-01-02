@@ -1,5 +1,6 @@
 import React from "react";
-import { Block } from "@app/admin/page";
+
+import { Block } from "@/types/apis";
 import EventPreview from "@app/admin/(block)/event/components/event-preview";
 
 interface Props {
@@ -13,14 +14,16 @@ const PreviewEvent = ({ block }: Props) => {
   const dateEnd = new Date(end as string);
 
   return (
-    <EventPreview
-      title={title}
-      description={description}
-      startDate={dateStart}
-      endDate={dateEnd}
-      startTime={dateStart}
-      endTime={dateEnd}
-    />
+    <div className="w-full px-4 sm:px-0">
+      <EventPreview
+        title={title}
+        description={description}
+        startDate={dateStart}
+        endDate={dateEnd}
+        startTime={dateStart}
+        endTime={dateEnd}
+      />
+    </div>
   );
 };
 

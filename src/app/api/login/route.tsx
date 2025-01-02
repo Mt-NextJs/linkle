@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import clientPromise from "../../../lib/mongodb";
 import jwt from "jsonwebtoken";
 import type { NextRequest } from "next/server";
 import type { MongoClient, Db, Collection } from "mongodb";
+
+import clientPromise from "../../../lib/mongodb";
 
 interface User {
   userId: string;
@@ -26,9 +27,16 @@ export async function POST(request: NextRequest) {
       const token = jwt.sign({ userId }, process.env.JWT_SECRET as string, {
         expiresIn: "1h",
       });
+      const client = await clientPromise;
+      const db = client.db("linkle");
+      const collection = db.collection("userdata");
+      const user = await collection.findOne(
+        { userId },
+        { projection: { name: 1, userId: 1, email: 1, dateCreate: 1 } },
+      );
 
       const response = NextResponse.json(
-        { message: "Login Successfully" },
+        { message: "Login Successfully", user },
         { status: 200 },
       );
       response.cookies.set("token", token, {

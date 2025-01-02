@@ -3,23 +3,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BsCalendarXFill } from "react-icons/bs";
 
-export interface Schedule {
-  id: number;
-  title: string;
-  url: string;
-  dateStart: string;
-  dateEnd: string;
-}
-
-interface CalendarBlock {
-  id: number;
-  type: number;
-  sequence: number;
-  style: number;
-  schedule: Schedule[];
-}
+import { Schedule } from "@/types/user";
 
 const formatDate = (dateString: string) => {
+  console.log(dateString);
   const date = new Date(dateString);
   const month = date.getUTCMonth() + 1;
   const day = date.getUTCDate();
@@ -41,21 +28,34 @@ const getScheduleStatus = (schedule: Schedule) => {
     return {
       text: `D-${diffDays}`,
       color: "bg-gray-200 text-[var(--primary)]",
+      description: `일정까지 ${diffDays}일 남았습니다.`,
     };
   } else if (now >= startDate && now <= endDate) {
     return {
       text: "OPEN",
       color: "bg-[var(--primary)] text-white",
+      description: "진행 중인 일정입니다.",
     };
   } else {
-    return { text: "CLOSED", color: "bg-[#BABABA] text-[#eae9e9]" };
+    return {
+      text: "CLOSED",
+      color: "bg-[#BABABA] text-[#eae9e9]",
+      description: "종료된 일정입니다.",
+    };
   }
 };
 
 function EmptyState({ message }: { message: React.ReactNode }) {
   return (
-    <div className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32">
-      <BsCalendarXFill className="mb-4 text-4xl text-gray-300" />
+    <div
+      className="mx-4 my-8 flex flex-col items-center justify-center rounded-lg bg-gray-100 py-32"
+      role="status"
+      aria-label="일정 없음"
+    >
+      <BsCalendarXFill
+        className="mb-4 text-4xl text-gray-300"
+        aria-hidden="true"
+      />
       <p className="text-center text-gray-500">{message}</p>
     </div>
   );
@@ -83,6 +83,8 @@ export function ScheduleItem({
         <div className="z-10 flex w-28 flex-shrink-0">
           <div
             className={`flex h-7 w-16 items-center justify-center rounded-l-md rounded-r-sm ${status.color}`}
+            role="status"
+            aria-label={status.description}
           >
             <span className="relative z-10 ml-2 text-xs font-semibold">
               {status.text}
@@ -99,9 +101,9 @@ export function ScheduleItem({
           />
         </div>
         <div className="ml-4 flex flex-grow flex-col">
-          <div className="text-sm text-gray-500">
+          <time dateTime={schedule.dateStart} className="text-sm text-gray-500">
             {formatDate(schedule.dateStart)} ~ {formatDate(schedule.dateEnd)}
-          </div>
+          </time>
           <div className="group mt-2 font-semibold">{schedule.title}</div>
         </div>
         {isCalendarPage && (
@@ -109,131 +111,38 @@ export function ScheduleItem({
             <button
               className="rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold"
               onClick={handleEdit}
+              aria-label={`${schedule.title} 일정 수정`}
             >
               수정
             </button>
             <button
               className="rounded-lg bg-[var(--primary-100)] px-3 py-2 text-sm font-semibold text-[var(--primary)]"
-              onClick={() => onDelete && onDelete(schedule.id)}
+              onClick={() => onDelete && onDelete(schedule.id as number)}
+              aria-label={`${schedule.title} 일정 삭제`}
             >
               삭제
             </button>
           </div>
         )}
       </div>
-      {isCalendarPage && <hr className="my-4 border-t border-gray-200" />}
+      {isCalendarPage && (
+        <hr className="my-4 border-t border-gray-200" aria-hidden="true" />
+      )}
     </div>
   );
 }
 
-export default function ScheduleList() {
+interface Props {
+  schedules: Schedule[];
+}
+export default function ScheduleList({ schedules }: Props) {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [calendarBlock, setCalendarBlock] = useState<CalendarBlock | null>(
-    null,
-  );
   const [error, setError] = useState<string | null>(null);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  useEffect(() => {
-    fetchSchedules();
-  }, []);
-
-  const fetchSchedules = async () => {
-    setError(null);
-    try {
-      const response = await fetch(`/api/link/list`, {
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.code === 200 && Array.isArray(data.data)) {
-        const foundCalendarBlock = data.data.find(
-          (item: CalendarBlock) => item.type === 7,
-        );
-
-        if (foundCalendarBlock) {
-          setCalendarBlock(foundCalendarBlock);
-          if (Array.isArray(foundCalendarBlock.schedule)) {
-            setSchedules(foundCalendarBlock.schedule);
-          } else {
-            setSchedules([]);
-          }
-        } else {
-          setSchedules([]);
-        }
-      } else {
-        throw new Error(`Unexpected data structure: ${JSON.stringify(data)}`);
-      }
-    } catch (err) {
-      console.error("Error fetching schedules:", err);
-      setError(
-        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다.",
-      );
-    }
-  };
-
-  const handleDelete = async (scheduleId: number) => {
-    try {
-      if (!calendarBlock) {
-        throw new Error("캘린더 블록을 찾을 수 없습니다.");
-      }
-
-      const updatedSchedules = schedules.filter(
-        (schedule) => schedule.id !== scheduleId,
-      );
-
-      const requestBody = {
-        id: calendarBlock.id,
-        type: 7,
-        style: calendarBlock.style,
-        schedule: updatedSchedules,
-      };
-
-      const response = await fetch(`/api/link/update`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `Failed to delete schedule: ${JSON.stringify(errorData)}`,
-        );
-      }
-
-      const responseData = await response.json();
-
-      if (responseData.code === 200) {
-        setSchedules(updatedSchedules);
-        alert("일정이 성공적으로 삭제되었습니다.");
-
-        window.location.reload();
-      } else {
-        throw new Error(
-          `Failed to delete schedule. Server response: ${JSON.stringify(responseData)}`,
-        );
-      }
-    } catch (error) {
-      console.error("Error deleting schedule:", error);
-      alert(
-        error instanceof Error
-          ? error.message
-          : "일정 삭제 중 오류가 발생했습니다.",
-      );
-    }
-  };
+  const handleDelete = async (scheduleId: number) => {};
 
   const currentDate = new Date();
 
@@ -245,10 +154,17 @@ export default function ScheduleList() {
   });
 
   return (
-    <>
+    <section aria-labelledby="schedule-list-heading">
       <div className="mt-4 flex items-center justify-between p-4">
-        <h2 className="text-lg font-semibold">추가한 모든 일정</h2>
-        <button onClick={toggleOpen} className="cursor-pointer">
+        <h2 id="schedule-list-heading" className="text-lg font-semibold">
+          추가한 모든 일정
+        </h2>
+        <button
+          onClick={toggleOpen}
+          className="cursor-pointer"
+          aria-expanded={isOpen}
+          aria-label={isOpen ? "일정 목록 접기" : "일정 목록 펼치기"}
+        >
           <Image
             src={
               isOpen
@@ -259,13 +175,21 @@ export default function ScheduleList() {
             width={20}
             height={20}
             layout="fixed"
+            aria-hidden="true"
           />
         </button>
       </div>
       {isOpen && (
         <div className="p-4">
-          <div className="mb-4 flex border-b">
+          <div
+            className="mb-4 flex border-b"
+            role="tablist"
+            aria-label="일정 상태별 보기"
+          >
             <button
+              role="tab"
+              aria-selected={activeTab === "current"}
+              aria-controls="current-schedules"
               className={`mx-4 py-2 ${
                 activeTab === "current"
                   ? "border-b-2 border-[var(--primary)] font-semibold text-[var(--primary)]"
@@ -276,6 +200,9 @@ export default function ScheduleList() {
               진행/예정된
             </button>
             <button
+              role="tab"
+              aria-selected={activeTab === "past"}
+              aria-controls="past-schedules"
               className={`mx-4 py-2 ${
                 activeTab === "past"
                   ? "border-b-2 border-[var(--primary)] font-semibold text-[var(--primary)]"
@@ -286,15 +213,21 @@ export default function ScheduleList() {
               지난
             </button>
           </div>
-          <div className="space-y-4">
+          <div
+            id={`${activeTab}-schedules`}
+            role="tabpanel"
+            className="space-y-4"
+          >
             {filteredSchedules.length > 0 ? (
-              filteredSchedules.map((schedule) => (
-                <ScheduleItem
-                  key={schedule.id}
-                  schedule={schedule}
-                  onDelete={handleDelete}
-                />
-              ))
+              <div role="list">
+                {filteredSchedules.map((schedule) => (
+                  <ScheduleItem
+                    key={schedule.id}
+                    schedule={schedule}
+                    onDelete={handleDelete}
+                  />
+                ))}
+              </div>
             ) : (
               <EmptyState
                 message={
@@ -317,6 +250,6 @@ export default function ScheduleList() {
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }

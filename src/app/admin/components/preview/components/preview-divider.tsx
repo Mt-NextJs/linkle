@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Block } from "@app/admin/page";
+
+import { Block } from "@/types/apis";
 import { DividerType } from "@app/admin/(block)/divider/types";
 import { DividerContent } from "@app/admin/(block)/divider/components/divider-preview";
 
@@ -27,7 +28,7 @@ const PreviewDivider = ({ block }: Props) => {
     return styles[type] || "Space";
   };
   return (
-    <div>
+    <div className="w-full px-4 sm:px-0">
       <DividerContent type={selectedDivider} />
     </div>
   );

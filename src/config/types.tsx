@@ -1,12 +1,15 @@
-export type ClientRouteType = {
-  MAIN: string;
-  INTRO: string;
-  LOGIN: string;
-  JOIN: string;
-  ADMIN: string;
-  MY: string;
-  PROFILE: {
-    DETAIL: string;
-    EDIT: string;
-  };
-};
+import { z } from "zod";
+const ClientRouteTypeSchema = z.object({
+  MAIN: z.string(),
+  INTRO: z.string(),
+  LOGIN: z.string(),
+  JOIN: z.string(),
+  ADMIN: z.string(),
+  MY: z.string(),
+  PROFILE: z.object({
+    DEFAULT: z.string(),
+    DETAIL: z.string(),
+    EDIT: z.string(),
+  }),
+});
+export type ClientRouteType = z.infer<typeof ClientRouteTypeSchema>;

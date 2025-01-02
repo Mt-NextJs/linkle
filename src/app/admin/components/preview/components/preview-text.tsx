@@ -1,6 +1,7 @@
 import React from "react";
-import { Block } from "@app/admin/page";
 import { twMerge } from "tailwind-merge";
+
+import { Block } from "@/types/apis";
 
 interface Props {
   block: Block;
@@ -10,7 +11,9 @@ const PreviewText = ({ block }: Props) => {
   return (
     <div
       className={twMerge(
-        "flex w-full items-center justify-center rounded-sm bg-[#F6F6F6] py-2",
+        "flex w-full items-center justify-center rounded-lg bg-[var(--primary-100)]",
+        "px-3 py-1.5 sm:px-4 sm:py-2",
+        "text-sm sm:text-base",
       )}
     >
       {title}

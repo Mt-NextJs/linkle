@@ -13,10 +13,26 @@
   [role="button"] {
     cursor: default;
   }
+
+  /* 자동완성 스타일 처리 */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
+    transition: all 0.3s ease-in-out;
+    border-color: var(--primary-300);
+  }
+
+  [data-theme="dark"] input:-webkit-autofill,
+  [data-theme="dark"] input:-webkit-autofill:hover,
+  [data-theme="dark"] input:-webkit-autofill:focus {
+    border-color: var(--primary-300);
+  }
 }
 
 :root {
-  --background: #eaeaea;
+  --background: #f5f5f5;
   --foreground: #333333;
   --primary: #ff5b1a;
   --primary-100: #fff3ef;
@@ -31,27 +47,26 @@
 }
 /* 다크 모드 컬러 변수들 */
 [data-theme="dark"] {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  /* 다크 모드에 맞춘 primary colors - 접근성 대비를 위한 조정 */
+  --background: #121212 !important;
+  --foreground: #f5f5f5;
+  /* Primary Colors - 다크 모드 */
   --primary: #ff6b31;
-  --primary-100: #331208;
-  --primary-200: #662410;
-  --primary-250: #8c3215;
-  --primary-300: #b33f1b;
-  --primary-350: #d94c20;
+  --primary-100: #1a0c04;
+  --primary-200: #331808;
+  --primary-250: #662410;
+  --primary-300: #993618;
+  --primary-350: #cc4820;
   --primary-400: #ff5b1a;
   --primary-450: #ff6b31;
-  /* 다크 모드에 맞춘 input colors */
-  --input-color-line: #662410;
-  --input-color-bg: #331208;
+  --input-color-line: #993618;
+  --input-color-bg: #1a0c04;
 }
 
 /* 시스템 설정에 맞춘 다크 모드 테마 적용 */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #121212;
+    --foreground: #f5f5f5;
     --primary: #ff6b31;
     --primary-100: #331208;
     --primary-200: #662410;
@@ -71,17 +86,22 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -ms-overflow-style: none;
   @apply tracking-tight;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 ::-webkit-scrollbar {
   display: none;
 }
 
 input {
-  @apply h-12 w-full rounded-lg border-1 border-gray-200;
+  @apply h-12 w-full rounded-lg border-1 border-neutral-200 bg-white text-neutral-900 transition-all duration-200 ease-in-out dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100;
+  transition: all 0.3s ease-in-out;
 }
 
 input:focus {
-  @apply border-primary-200 outline-none;
+  @apply border-primary outline-none ring-1 ring-primary ring-opacity-30 dark:border-primary-400 dark:ring-primary-400 dark:ring-opacity-30;
+  transition: all 0.3s ease-in-out;
 }
 
 a {

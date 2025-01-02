@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 //components
-import Navigation from "@app/intro/components/navigation";
+import Navigation from "@components/navigation";
 
 //styles
 

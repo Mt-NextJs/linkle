@@ -1,11 +1,15 @@
+"use client";
+
 import React, { Suspense, useEffect, useState } from "react";
-import { Block } from "@app/admin/page";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+
 import PreviewLink from "@app/admin/components/preview/components/preview-link";
 import PreviewText from "@app/admin/components/preview/components/preview-text";
 import CircleButton from "@app/admin/components/buttons/circle-button";
-import EmptyBlock from "@app/intro/components/UI/empty-block";
-import { usePathname } from "next/navigation";
+import EmptyBlock from "@components/UI/empty-block";
+import { Block } from "@/types/apis";
+
 import { adminApiInstance } from "../../../utils/apis";
 const PreviewImage = dynamic(
   () => import("@app/admin/components/preview/components/preview-image"),
@@ -16,37 +20,24 @@ const PreviewVideo = dynamic(
 const PreviewDivider = dynamic(
   () => import("@app/admin/components/preview/components/preview-divider"),
 );
-const PreviewCalendar = dynamic(
-  () => import("@app/admin/components/preview/components/preview-calendar"),
-);
 const PreviewEvent = dynamic(
   () => import("@app/admin/components/preview/components/preview-event"),
 );
 
 interface Props {
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  blocks: Block[];
 }
-const BlockList = ({ setIsOpen }: Props) => {
+const BlockList = ({ setIsOpen, setUserId, blocks }: Props) => {
   const pathname = usePathname();
+  const splitPathName = pathname.split("/");
+  const userId = splitPathName[splitPathName.length - 1];
   const isAdmin = pathname.includes("admin");
-  const [blocks, setBlocks] = useState<Block[]>([]);
 
   useEffect(() => {
-    getBlocks().then();
-  }, []);
-
-  async function getBlocks() {
-    const blockApis = await adminApiInstance;
-    const response = await blockApis.getBlocks();
-    if (!response) return;
-    if (response.ok) {
-      const { data } = await response.json();
-      setBlocks(data);
-    } else {
-      sessionStorage.removeItem("token");
-      // alert("블록 조회 실패");
-    }
-  }
+    setUserId(userId);
+  }, [pathname]);
 
   if (!blocks || blocks.length === 0) return <EmptyBlock />;
 
@@ -63,17 +54,21 @@ const BlockList = ({ setIsOpen }: Props) => {
       4: <PreviewImage block={block} />,
       5: <PreviewEvent block={block} />,
       6: <PreviewText block={block} />,
-      7: <PreviewCalendar block={block} />,
     }[type];
   };
   return (
     <>
       <ul
-        className={`flex h-full flex-col overflow-scroll ${isAdmin ? "gap-2 p-2" : "gap-4 pt-4"}`}
+        className={`flex h-full flex-col overflow-scroll ${
+          isAdmin ? "gap-2 p-2" : "gap-3 pt-3 sm:gap-4 sm:pt-4"
+        } bg-background dark:bg-background`}
       >
         {blocks.map((block, index) => {
           return (
-            <li key={`${block.title}${index}`} className="text-slate-666">
+            <li
+              key={`${block.title}${index}`}
+              className="text-[var(--foreground)]"
+            >
               {setComponentType(block)}
             </li>
           );

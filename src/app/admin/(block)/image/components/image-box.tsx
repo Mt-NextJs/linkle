@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
-import ErrorBoundary from "@app/intro/components/error-boundary";
 import Link from "next/link";
 
+import ErrorBoundary from "@components/error-boundary";
+
 interface Props {
-  // handeInputImageClick: () => void;
   selectedImageUrl: string;
   connectingUrl?: string;
   title: string | null;
@@ -12,38 +12,37 @@ interface Props {
 
 const ImageBox = ({ selectedImageUrl, connectingUrl, title }: Props) => {
   return (
-    <div className={"overflow-hidden rounded shadow-lg"}>
+    <div className="overflow-hidden rounded-lg shadow-lg">
       <div>
-        {/*<button*/}
-        {/*  onClick={handeInputImageClick}*/}
-        {/*  className="absolute right-2 top-2 rounded-3xl bg-orange-600 p-2"*/}
-        {/*>*/}
-        {/*  <Image*/}
-        {/*    src="/assets/icons/icon_pencil.png"*/}
-        {/*    alt="연필 아이콘"*/}
-        {/*    width={24}*/}
-        {/*    height={24}*/}
-        {/*  />*/}
-        {/*</button>*/}
         <Link
-          href={connectingUrl || ""}
+          href={connectingUrl || "#"}
           className={`${!connectingUrl && "cursor-default"}`}
+          aria-disabled={!connectingUrl}
         >
-          <div className="relative h-[20rem] w-full">
+          <div className="relative aspect-[16/9] w-full bg-neutral-200 dark:bg-neutral-800">
             <Image
               src={
                 selectedImageUrl
                   ? selectedImageUrl
                   : "/assets/images/image_block_default.png"
               }
-              alt="이미지 URL을 확인해주세요"
+              alt={title ? `${title} 이미지` : "기본 이미지"}
               fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw,
+                   (max-width: 768px) 90vw,
+                   80vw"
             />
           </div>
         </Link>
       </div>
       {title && (
-        <div className={"flex items-center justify-center py-2"}>{title}</div>
+        <div
+          className="flex items-center justify-center border-t border-neutral-200 px-3 py-2 text-center dark:border-neutral-700"
+          aria-label={`이미지 제목: ${title}`}
+        >
+          {title}
+        </div>
       )}
     </div>
   );

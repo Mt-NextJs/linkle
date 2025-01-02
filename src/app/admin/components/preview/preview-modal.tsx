@@ -1,6 +1,7 @@
 import React, { SetStateAction } from "react";
+
 import Portal from "@app/components/portal";
-import { Block } from "@app/admin/page";
+import { Block } from "@/types/apis";
 import Preview from "@app/admin/components/preview/components/preview";
 
 interface Props {
@@ -9,14 +10,13 @@ interface Props {
   data: Block[];
 }
 
-const PreviewModal = ({ isOpen, setIsOpen, data }: Props) => {
+const PreviewModal = ({ isOpen, setIsOpen }: Props) => {
   if (!isOpen) return null;
 
   const handleClose = () => {
     setIsOpen(false);
   };
 
-  console.log(data[data.length - 1]);
   return (
     <Portal>
       <button

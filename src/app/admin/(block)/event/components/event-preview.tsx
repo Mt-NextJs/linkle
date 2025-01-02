@@ -92,6 +92,7 @@ export default function EventPreview({
   };
   return (
     <div
+      aria-label="이벤트 미리보기"
       className={twMerge(
         "flex w-full items-center justify-center bg-[#F6F6F6]",
         isEvent && "py-[35px]",
@@ -106,7 +107,7 @@ export default function EventPreview({
       >
         <div className="w-full">
           <div className="flex w-full justify-start">
-            <p className="pl-5 pt-2 text-sm text-gray-300">event</p>
+            <span className="pl-5 pt-2 text-sm text-gray-300">event</span>
           </div>
           <div
             className={twMerge(
@@ -114,7 +115,7 @@ export default function EventPreview({
               isExpanded && "gap-1",
             )}
           >
-            <p
+            <h2
               ref={titleRef}
               className={twMerge(
                 "text-center text-base font-semibold transition-all duration-500",
@@ -122,7 +123,7 @@ export default function EventPreview({
               )}
             >
               {title || "타이틀을 입력해주세요"}
-            </p>
+            </h2>
             <p
               ref={descriptionRef}
               className={twMerge(
@@ -135,15 +136,23 @@ export default function EventPreview({
             </p>
           </div>
         </div>
-        <div className="flex h-8 w-full items-center justify-between rounded-b-2xl bg-[#F6F6F6] px-4 text-xs text-gray-400">
+        <div
+          aria-label="이벤트 기간 정보"
+          className="flex h-8 w-full items-center justify-between rounded-b-2xl bg-[#F6F6F6] px-4 text-xs text-gray-400"
+        >
           <p>
             {startDate && startTime && endDate && endTime
               ? `${formatDateTime(startDate, startTime)} ~ ${formatDateTime(endDate, endTime)}`
               : "날짜와 시간을 선택해주세요"}
           </p>
           <div className="flex items-center gap-1">
-            <p>{timeLeft}</p>
-            <IoIosArrowDown
+            <p aria-live="polite">{timeLeft}</p>
+            <button
+              type="button"
+              onClick={handleExpandToggle}
+              aria-label={`설명 ${isExpanded ? "접기" : "펼치기"}`}
+              aria-expanded={isExpanded}
+              disabled={!isDescriptionOverflowing && !isTitleOverflowing}
               className={twMerge(
                 "transform text-sm text-gray-500 transition-transform duration-500",
                 isDescriptionOverflowing || isTitleOverflowing
@@ -151,8 +160,9 @@ export default function EventPreview({
                   : "cursor-default",
                 isExpanded ? "rotate-180" : "",
               )}
-              onClick={handleExpandToggle}
-            />
+            >
+              <IoIosArrowDown aria-hidden="true" />
+            </button>
           </div>
         </div>
       </div>

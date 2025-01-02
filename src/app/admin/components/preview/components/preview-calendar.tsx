@@ -1,6 +1,8 @@
 import React from "react";
-import { Block } from "@app/admin/page";
+
+import { Block } from "@/types/apis";
 import { ScheduleItem } from "@app/admin/(block)/calendar/components/schedule-list";
+import { Schedule } from "@/types/user";
 
 // interface Schedule {
 //   id: number;
@@ -11,14 +13,9 @@ import { ScheduleItem } from "@app/admin/(block)/calendar/components/schedule-li
 // }
 
 interface Props {
-  block: Block;
+  schedule: Schedule;
 }
-const PreviewCalendar = ({ block }: Props) => {
-  const { id, title: subject, url, dateStart: start, dateEnd: end } = block;
-  const title = subject as string;
-  const dateStart = start as string;
-  const dateEnd = end as string;
-  const schedule = { id, title, url, dateStart, dateEnd };
+const PreviewCalendar = ({ schedule }: Props) => {
   return (
     <div className={"shadow-xl"}>
       <ScheduleItem schedule={schedule} />

@@ -1,11 +1,12 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import React, { Suspense, useState } from "react";
+
 import Layout from "../components/layout";
 import FormInput from "../components/form-input";
 import ButtonBox from "../components/buttons/button-box";
 import AddButton from "../components/buttons/add-button";
-import React, { Suspense, useState } from "react";
 import { adminApiInstance } from "../../../../utils/apis";
 
 function TextPage() {
@@ -26,7 +27,7 @@ function TextPage() {
     if (response.ok) {
       alert("텍스트 블록 추가 완료");
       router.push("/admin");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   };
   return (
     <>

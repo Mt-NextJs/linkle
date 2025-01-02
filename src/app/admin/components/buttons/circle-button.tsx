@@ -9,7 +9,7 @@ const CircleButton = ({ text, onClick }: Props) => {
     <div className="flex flex-grow justify-center">
       <button
         onClick={onClick}
-        className="rounded-full border bg-white px-6 py-2 font-bold text-gray-600 shadow-xl hover:bg-gray-100 hover:text-gray-800"
+        className="rounded-full border bg-white px-4 py-1.5 text-sm font-bold text-gray-600 shadow-xl transition-all duration-200 hover:bg-gray-100 hover:text-gray-800 sm:px-6 sm:py-2 sm:text-base"
       >
         {text}
       </button>

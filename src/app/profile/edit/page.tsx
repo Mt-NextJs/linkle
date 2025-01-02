@@ -2,18 +2,21 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { User } from "@/types/user";
-import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+import { z } from "zod";
+
+import { User } from "@/types/user";
+import FormInput from "@app/admin/(block)/components/form-input";
 import AnimatedText from "@components/common/ui/animated-text";
 
-type FormErrors = {
-  name?: string;
-  email?: string;
-  password?: string;
-  passwordConfirm?: string;
-};
+const FormErrorsSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().optional(),
+  password: z.string().optional(),
+  passwordConfirm: z.string().optional(),
+});
+type FormErrors = z.infer<typeof FormErrorsSchema>;
 
 export default function ProfileEdit() {
   const [userData, setUserData] = useState<User | null>(null);
@@ -195,28 +198,33 @@ export default function ProfileEdit() {
 
   const isSubmitDisabled = !isChanged || Object.values(errors).some((e) => e);
 
-  if (!userData) return <p>Loading...</p>;
+  if (!userData) return <p className="p-4 text-center">Loading...</p>;
 
   return (
-    <div className="flex min-h-screen flex-col justify-center gap-16 px-20 py-4">
+    <div className="flex min-h-screen flex-col justify-center gap-8 px-4 py-4 sm:gap-12 sm:px-8 md:gap-16 md:px-20">
       <div className="sr-only">
         <h1>IN MY LINK 회원 정보 수정 페이지입니다!</h1>
         <p>회원님의 정보를 수정하세요.</p>
       </div>
 
-      <div className="flex flex-col gap-6">
-        <button type="button" onClick={() => router.back()}>
+      <div className="flex flex-col gap-4 sm:gap-6">
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="w-8 sm:w-auto"
+        >
           <Image
             src="/assets/icons/icon_back.png"
             alt="뒤로가기 아이콘"
             width={34}
             height={34}
+            className="h-auto w-[24px] sm:w-[34px]"
           />
         </button>
         <p className="pageName">IN MY LINK 회원 정보 수정</p>
       </div>
 
-      <div className="flex w-full flex-col gap-4">
+      <div className="flex w-full flex-col gap-3 sm:gap-4">
         <FormInput
           label="아이디"
           id="userId"
@@ -233,7 +241,7 @@ export default function ProfileEdit() {
           value={userData.name}
           onChange={handleChange}
           onBlur={(e) => handleBlur("name", e.target.value)}
-          className="border p-3"
+          className="border p-2 sm:p-3"
         />
         <AnimatedText isVisible={touched.name && !!errors.name}>
           {errors.name || ""}
@@ -248,7 +256,7 @@ export default function ProfileEdit() {
           value={userData.email || ""}
           onChange={handleChange}
           onBlur={(e) => handleBlur("email", e.target.value)}
-          className="border p-3"
+          className="border p-2 sm:p-3"
         />
         <AnimatedText isVisible={touched.email && !!errors.email}>
           {errors.email || ""}
@@ -262,7 +270,7 @@ export default function ProfileEdit() {
           value={password}
           onChange={handlePasswordChange}
           onBlur={(e) => handleBlur("password", e.target.value)}
-          className="border p-3"
+          className="border p-2 sm:p-3"
         />
         <AnimatedText isVisible={touched.password && !!errors.password}>
           {errors.password || ""}
@@ -278,7 +286,7 @@ export default function ProfileEdit() {
           onBlur={() =>
             setTouched((prev) => ({ ...prev, passwordConfirm: true }))
           }
-          className="border p-3"
+          className="border p-2 sm:p-3"
         />
         <AnimatedText
           isVisible={touched.passwordConfirm && !!errors.passwordConfirm}
@@ -289,7 +297,7 @@ export default function ProfileEdit() {
         <button
           onClick={handleUpdate}
           className={twMerge(
-            "button color mt-16 transition-opacity duration-500",
+            "button color mt-8 transition-opacity duration-500 sm:mt-16",
             isSubmitDisabled
               ? "pointer-events-none cursor-not-allowed opacity-50"
               : "animate-insideout opacity-100",

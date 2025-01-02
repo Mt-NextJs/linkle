@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User } from "@/types/user";
-import FormInput from "@app/admin/(block)/components/form-input";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
+
+import { User } from "@/types/user";
+import FormInput from "@app/admin/(block)/components/form-input";
 
 export default function ProfileDetail() {
   const [userData, setUserData] = useState<User | null>(null);
@@ -31,29 +32,33 @@ export default function ProfileDetail() {
     fetchUserInfo().then();
   }, []);
 
-  if (!userData) return <p>Loading...</p>;
+  if (!userData) return <p className="p-4 text-center">Loading...</p>;
 
   return (
-    <div className="flex min-h-screen flex-col justify-center gap-16 px-20 py-4">
+    <div className="flex min-h-screen flex-col justify-center gap-8 px-4 py-4 sm:gap-12 sm:px-8 md:gap-16 md:px-20">
       <div className="sr-only">
         <h1>IN MY LINK 회원 정보 페이지입니다!</h1>
         <p>회원님의 정보를 확인하세요.</p>
       </div>
 
-      <div className="flex flex-col gap-6">
-        <button type="button" onClick={() => router.back()}>
+      <div className="flex flex-col gap-4 sm:gap-6">
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="w-8 sm:w-auto"
+        >
           <Image
             src="/assets/icons/icon_back.png"
             alt="뒤로가기 아이콘"
             width={34}
             height={34}
+            className="h-auto w-[24px] sm:w-[34px]"
           />
         </button>
         <p className="pageName">IN MY LINK 회원 정보</p>
       </div>
 
-      {/* 유저 정보 조회 폼 */}
-      <div className="flex w-full flex-col gap-4">
+      <div className="flex w-full flex-col gap-3 sm:gap-4">
         {/* 아이디 필드 */}
         <FormInput
           label="아이디"
@@ -84,7 +89,7 @@ export default function ProfileDetail() {
         {/* 회원 정보 수정 버튼 */}
         <button
           type="button"
-          className={twMerge("button color mt-16")}
+          className={twMerge("button color mt-8 text-base sm:mt-16")}
           onClick={() => router.push(`/profile/edit`)}
         >
           회원 정보 수정

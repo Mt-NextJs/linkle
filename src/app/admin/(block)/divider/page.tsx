@@ -1,14 +1,16 @@
 "use client";
 
 import React, { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
+import AddButton from "@app/admin/(block)/components/buttons/add-button";
+import { adminApiInstance } from "utils/apis";
+
 import Layout from "../components/layout";
 import DividerPreview from "./components/divider-preview";
 import DividerSelector from "./components/divider-selector";
 import { DividerType } from "./types";
-import ButtonBox from "@app/admin/(block)/components/buttons/button-box";
-import AddButton from "@app/admin/(block)/components/buttons/add-button";
-import { adminApiInstance } from "utils/apis";
-import { useRouter, useSearchParams } from "next/navigation";
 
 function DividerPage() {
   const router = useRouter();
@@ -27,7 +29,7 @@ function DividerPage() {
     if (response.ok) {
       alert("구분선 블록 추가 완료");
       router.push("/admin");
-    } else await blockApis.handleError(response);
+    } else await blockApis.handleResponseError(response);
   };
 
   const getDividerStyle = (dividerType: DividerType): number => {
@@ -49,7 +51,11 @@ function DividerPage() {
         selected={selectedDivider}
       />
       <ButtonBox>
-        <AddButton text="추가 완료" onClick={handleAddDivider} />
+        <AddButton
+          text="추가 완료"
+          onClick={handleAddDivider}
+          aria-label="구분선 블록 추가하기"
+        />
       </ButtonBox>
     </Layout>
   );
@@ -57,7 +63,13 @@ function DividerPage() {
 
 export default function PageWithSuspense() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div role="status" aria-label="페이지 로딩 중...">
+          Loading...
+        </div>
+      }
+    >
       <DividerPage />
     </Suspense>
   );

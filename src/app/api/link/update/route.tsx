@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
-import clientPromise from "../../../../lib/mongodb";
 import { Collection } from "mongodb";
+
+import clientPromise from "../../../../lib/mongodb";
 
 interface JwtPayload {
   userId: string;
@@ -10,14 +11,6 @@ interface JwtPayload {
 interface UserDocument {
   userId: string;
   data: Array<{ id: string }>;
-}
-
-interface ScheduleType {
-  id?: number;
-  title: string;
-  url: string;
-  dateStart: string;
-  dateEnd: string;
 }
 
 interface NewData {
@@ -32,7 +25,6 @@ interface NewData {
   subText02?: string;
   dateStart?: string;
   dateEnd?: string;
-  schedule?: ScheduleType[];
 }
 
 export async function POST(request: NextRequest) {
@@ -57,7 +49,6 @@ export async function POST(request: NextRequest) {
       subText02,
       dateStart,
       dateEnd,
-      schedule,
     } = body;
     const client = await clientPromise;
     const db = client.db("linkle");
@@ -81,7 +72,6 @@ export async function POST(request: NextRequest) {
       subText02,
       dateStart,
       dateEnd,
-      schedule,
     };
 
     const result = await collection.updateOne(
