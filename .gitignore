@@ -39,3 +39,5 @@ next-env.d.ts
 .idea
 package-lock.json
 .env
+
+.md/*
