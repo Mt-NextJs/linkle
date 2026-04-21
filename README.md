@@ -38,6 +38,8 @@ npm run dev
 개발 서버가 실행되면, 아래 주소에서 확인할 수 있습니다:
 http://localhost:3000
 
+추가로 코드 품질 점검은 아래 명령어로 실행할 수 있습니다: `npm run lint`
+
 ## 🗂️ Project Structure
 
 ```bash
