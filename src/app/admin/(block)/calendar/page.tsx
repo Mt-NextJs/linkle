@@ -25,7 +25,7 @@ function CalendarPage() {
     if (!result) return;
     const { response, data } = result;
     if (response.ok) {
-      setSchedules(data);
+      setSchedules(Array.isArray(data) ? data : []);
     } else await blockApis.handleResponseError(response);
   };
 
