@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     ) as JwtPayload;
     const userId = decoded.userId;
     const userData = await collection.find({ userId: userId }).toArray();
-    const data = userData.length > 0 ? userData[0].data : [];
+    const data = Array.isArray(userData[0]?.data) ? userData[0].data : [];
     return NextResponse.json(
       { message: "Success to get blocks", data },
       { status: 200 },

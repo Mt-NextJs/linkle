@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import Image from "next/image";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 
@@ -16,6 +15,7 @@ interface Props {
 const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
+  const blockList = Array.isArray(blocks) ? blocks : [];
 
   const dragStart = (position: number) => {
     dragItem.current = position; // position -> index (드래그 선택 아이템의 인덱스)
@@ -26,7 +26,9 @@ const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
   };
 
   const drop = () => {
-    const copyListItems = [...blocks];
+    if (dragItem.current === null || dragOverItem.current === null) return;
+
+    const copyListItems = [...blockList];
     const dragItemContent = copyListItems[dragItem.current as number]; // 리스트에서 드래그 선택 아이템
     copyListItems.splice(dragItem.current as number, 1); // 리스트에서 드래그 선택 아이템 삭제하여 리스트에서 제거
     copyListItems.splice(dragOverItem.current as number, 0, dragItemContent); // 리스트에서 드래그 오버 아이템의 위치에 드래그 선택 아이템 추가
@@ -67,11 +69,11 @@ const BlockListSection = ({ blocks, isAdmin, setBlocks }: Props) => {
       </div>
 
       <div className="mt-4 max-h-[40rem] overflow-scroll">
-        {blocks === null || blocks.length == 0 ? (
+        {blockList.length === 0 ? (
           <EmptyBlock />
         ) : (
           <ul className="space-y-2">
-            {blocks.map((block, index) => (
+            {blockList.map((block, index) => (
               <li
                 key={block.id}
                 aria-label={`${block.title || "제목 없음"} 블록`}

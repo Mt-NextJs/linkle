@@ -40,7 +40,7 @@ function Admin() {
     if (response.ok) {
       console.log(response);
       const { data } = await response.json();
-      setBlocks(data);
+      setBlocks(Array.isArray(data) ? data : []);
     } else {
       sessionStorage.removeItem("token");
     }
