@@ -30,8 +30,9 @@ export async function GET(request: NextRequest) {
       { userId },
       { projection: { calendar: 1, _id: 0 } },
     );
+    const calendar = Array.isArray(result?.calendar) ? result.calendar : [];
     return NextResponse.json(
-      { message: "Success to get blocks", result },
+      { message: "Success to get blocks", result: { calendar } },
       { status: 200 },
     );
   } catch (error: unknown) {

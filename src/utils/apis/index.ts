@@ -86,14 +86,18 @@ class adminApis extends Apis {
         credentials: "include",
       });
       if (response.ok) {
-        const {
-          result: { calendar },
-        } = await response.json();
+        const payload = await response.json();
+        const calendar = Array.isArray(payload?.result?.calendar)
+          ? payload.result.calendar
+          : [];
         const validationData = this.validateResponse<
           typeof ScheduleResponseSchema,
           ScheduleResponse
         >(ScheduleResponseSchema, calendar);
-        return { response, data: validationData };
+        return {
+          response,
+          data: Array.isArray(validationData) ? validationData : [],
+        };
       }
       return { response, data: [] };
     } catch (error) {

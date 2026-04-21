@@ -139,6 +139,7 @@ export default function ScheduleList({ schedules }: Props) {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"current" | "past">("current");
   const [error, setError] = useState<string | null>(null);
+  const scheduleList = Array.isArray(schedules) ? schedules : [];
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
@@ -146,7 +147,7 @@ export default function ScheduleList({ schedules }: Props) {
 
   const currentDate = new Date();
 
-  const filteredSchedules = schedules.filter((schedule) => {
+  const filteredSchedules = scheduleList.filter((schedule) => {
     const endDate = new Date(schedule.dateEnd);
     return activeTab === "current"
       ? endDate >= currentDate
